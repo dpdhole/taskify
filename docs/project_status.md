@@ -632,6 +632,103 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-014 | 2026-10-06 | Calendar | Calendar uses explicit Event and Task layers. Events render Start→End; Tasks are projected by remembered Tasks-by Start/Due/End selection, with distinct visual representation and in-calendar summary before Task Detail. | Earlier generic Calendar projection |
 | DEC-015 | 2026-10-06 | Event Lifecycle | Events use Draft → Scheduled → Completed, with Cancelled as terminal alternative. Passing End time does not auto-complete an Event. | — |
 | DEC-016 | 2026-10-06 | Navigation | Adopted Gmail-inspired responsive navigation: desktop sidebar/mobile drawer, global Search, prominent Create, and bounded My View shortcuts under Tasks. | Earlier six-peer primary-navigation presentation |
+| DEC-017 | 2026-10-06 | MVP Scope | Approved individual-first MVP classification: core individual tasking is MVP Required; Events/Calendar/recurrence, Saved Views/View Builder, location/Nearby, external-link attachments, registered-user collaboration, and human conversations are MVP Reduced; binary file/image uploads and external secure-link participation are Post-MVP. | — |
+| DEC-018 | 2026-10-06 | Implementation Sequencing | Frozen implementation sequence: Core Individual Tasking → Personal Productivity → Saved Views → Location → Events & Time → Registered Collaboration, followed by Post-MVP capabilities. External-link attachments are in Personal Productivity. | — |
+
+## MVP Scope
+
+**Status:** Approved
+
+MVP scope is defined around coherent end-to-end user workflows, with individual task management prioritized before family/friends collaboration. MVP product scope is distinct from implementation sequencing.
+
+### MVP Required
+
+- Authentication/profile.
+- Create/manage Task.
+- Task lifecycle/business actions.
+- Categories, priority, and dates.
+- Subtasks.
+- Home / Eisenhower matrix.
+- Tasks workspace.
+- Preset Views.
+- Per-user DOW/TOD/Important/Urgent preferences.
+- Reminders.
+- Snooze / `hidden_until`.
+- Basic Search, initially focused on title/description retrieval.
+- System Changes activity.
+- Archive/delete/restore behavior needed for a coherent lifecycle.
+
+### MVP Reduced
+
+- Event type.
+- Calendar.
+- Recurrence.
+- Saved Views.
+- View Builder / Advanced Search.
+- Structured location.
+- Nearby.
+- External-link attachments.
+- Registered-user collaboration.
+- Human comments/conversations.
+
+Reduced MVP capabilities retain the approved underlying product/data semantics and must not be implemented using incompatible shortcuts that would require redesign when expanded.
+
+### Post-MVP
+
+- Binary file/image uploads.
+- External secure-link participation.
+- Richer versions of capabilities intentionally reduced for MVP.
+
+### Approved Implementation Sequencing
+
+Implementation sequencing is frozen separately from MVP product classification:
+
+1. **Milestone 1 — Core Individual Tasking**
+   - Authentication/profile.
+   - Task CRUD and core fields.
+   - Lifecycle/business actions.
+   - Categories.
+   - Subtasks.
+   - System Changes.
+   - Archive/delete/restore.
+
+2. **Milestone 2 — Personal Productivity**
+   - Home / Eisenhower matrix.
+   - Tasks workspace + preset views.
+   - DOW/TOD/Important/Urgent.
+   - Reminders.
+   - Snooze.
+   - Basic Search.
+   - External-link attachments.
+
+3. **Milestone 3 — Saved Views**
+   - Saved Views.
+   - View Builder.
+   - Advanced Search integration.
+
+4. **Milestone 4 — Location**
+   - Structured task/event location.
+   - Saved locations.
+   - Google Maps/Places integration required for location workflows.
+   - Nearby.
+
+5. **Milestone 5 — Events & Time**
+   - Event type.
+   - Calendar.
+   - Recurrence.
+
+6. **Milestone 6 — Registered Collaboration**
+   - Assigned To.
+   - Helpers / Following.
+   - Permission enforcement.
+   - Shared-task retrieval.
+   - Conversations/comments.
+   - Collaboration notifications.
+
+7. **Post-MVP**
+   - File/image uploads.
+   - External secure-link participation.
+   - Richer versions of intentionally reduced MVP capabilities.
 
 ## Open Questions
 
@@ -654,6 +751,8 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-06 | Approved individual-first MVP scope classification and Post-MVP boundaries. | Approved |
+| 2026-10-06 | Frozen implementation sequence: Core Individual Tasking, Personal Productivity, Saved Views, Location, Events & Time, Registered Collaboration; external-link attachments placed in Personal Productivity. | Approved |
 | 2026-10-06 | Consolidated approved UX Navigation: Gmail-inspired responsive navigation, Home Eisenhower matrix, Tasks workspace/View Builder, Task Detail, Calendar layers, Nearby map, Search, Settings, and creation UX. | Approved |
 | 2026-10-06 | Superseded parent-only subtask browsing: subtasks are independently browsable Tasks with parent linkage. | Approved |
 | 2026-10-06 | Added Task Type: Task = actionable work; Event = scheduled occurrence; Todo anticipated but deferred. | Approved |
@@ -672,6 +771,6 @@ None formally recorded yet.
 
 ## Next Actions
 
-- Define MVP Scope. **Status:** Next design stage after approval of this consolidated candidate.
+- Define Firebase / System Architecture aligned to the approved MVP scope and frozen implementation sequencing. **Status:** Next design stage.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
