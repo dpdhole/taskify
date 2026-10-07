@@ -5,14 +5,21 @@ import { ApiError } from "../shared/errors.js";
 import { normalizeTaskDate } from "./task-dates.js";
 
 export async function createTask(input: CreateTaskRequest, actorEmail: string): Promise<TaskMutationResponse> {
-  const title = input.title.trim();
-  if (!title || !input.category_id.trim() || typeof input.description_md !== "string") {
+  if (!input || typeof input !== "object" || Array.isArray(input) ||
+      typeof input.title !== "string" || typeof input.category_id !== "string" ||
+      typeof input.description_md !== "string" ||
+      (input.priority !== undefined && typeof input.priority !== "boolean")) {
     throw new ApiError("INVALID_ARGUMENT");
   }
 
-  const start = input.start ? normalizeTaskDate(input.start) : null;
-  const due = input.due ? normalizeTaskDate(input.due) : null;
-  const end = input.end ? normalizeTaskDate(input.end) : null;
+  const title = input.title.trim();
+  if (!title || !input.category_id.trim() || input.category_id.includes("/")) {
+    throw new ApiError("INVALID_ARGUMENT");
+  }
+
+  const start = input.start === undefined ? null : normalizeTaskDate(input.start);
+  const due = input.due === undefined ? null : normalizeTaskDate(input.due);
+  const end = input.end === undefined ? null : normalizeTaskDate(input.end);
 
   const taskRef = db.collection("tasks").doc();
   const categoryRef = db.collection("categories").doc(input.category_id);

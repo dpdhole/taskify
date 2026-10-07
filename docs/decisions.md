@@ -75,6 +75,7 @@
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Expanded `createTask` verification, reported runtime-validation defects, and implemented the owner-approved correction without new dependencies. All 39 unit and 25 Firestore-emulator integration tests passed. Exact commands, environment, tested scope, historical failures, and remaining limits are recorded in `docs/project_status.md`. Earlier verification evidence remains historical; no architecture decision is superseded. | Correction Approved; Implemented; Verified within recorded scope; documentation and publication Approved |
 | 2026-10-07 | Recorded successful execution of the existing TaskDate unit suite (4 tests) and `createTask` Firestore-emulator integration suite (3 tests) against commit `c22e4d143c15797338520233b294f633efaf3cfc`. Verification scope, environment, commands, and limitations are authoritative in `docs/project_status.md`. Callable authentication/transport, transaction failure/retry behavior, Security Rules, indexes, deployment, and client behavior remain outside this verification. Reconciled stale project-status statements about backend and client implementation. No new architecture decision or supersession. | Verified within recorded scope; documentation update Approved |
 | 2026-10-07 | Approved the initial `apps/api` runtime dependency set for Firebase callables/Firestore and IANA timezone normalization. | Approved |
 | 2026-10-07 | Decoupled public API timestamp transport from Firebase/Firestore using canonical ISO-8601 UTC strings. | Approved |

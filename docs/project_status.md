@@ -63,7 +63,7 @@ Material state transitions require explicit project-owner approval.
 
 - Architecture and product design are approved through **DEC-064**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
-- API contracts and the initial backend structure are implemented. The `createTask` operation is verified within the existing unit and Firestore-emulator test scope recorded below; its callable adapter/authentication remain implemented but unverified. No client feature implementation is formally recorded as implemented or verified.
+- API contracts and the initial backend structure are implemented. The `createTask` operation and callable handler are verified within the expanded unit and Firestore-emulator scope recorded below, including runtime validation, canonical identity, public error translation, rollback, and retry behavior. Callable HTTP transport remains unverified. No client feature implementation is formally recorded as implemented or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
 - Repository architecture is approved as a single workspace/monorepo with `apps/api`, one responsive browser client at `apps/app`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, shared `docs`, and repository-wide `tooling`. DEC-058 supersedes DEC-055's initial separate `apps/mobile`/`apps/web` split. The workspace skeleton and package boundaries are now implemented.
 - The API-contract boundary is approved: `api-contracts` defines the client/API protocol, `client-sdk` implements the official client abstraction, and backend domain/business logic remains private to `apps/api`.
@@ -83,9 +83,9 @@ Material state transitions require explicit project-owner approval.
 
 ## Implementation Status
 
-Repository/workspace bootstrap, API contracts, and the initial backend structure are implemented. The `createTask` vertical slice includes a callable adapter, authenticated canonical email extraction, Firestore transaction, active-category validation, canonical Task initialization, TaskDate normalization, and deterministic System Changes thread creation. Verification is limited to the executed suites below; the callable adapter/authentication are not covered. No client feature implementation is formally recorded as implemented or verified.
+Repository/workspace bootstrap, API contracts, and the initial backend structure are implemented. The `createTask` vertical slice includes a callable adapter, authenticated canonical email extraction, Firestore transaction, active-category validation, canonical Task initialization, TaskDate normalization, and deterministic System Changes thread creation. The approved runtime-validation correction is implemented and verified within the expanded suites below. No client feature implementation is formally recorded as implemented or verified.
 
-### Verification Evidence — 2026-10-07
+### Initial Verification Evidence — 2026-10-07
 
 **Status:** Verified within the recorded test scope; project-owner approval obtained to record this evidence.
 
@@ -99,7 +99,7 @@ Repository/workspace bootstrap, API contracts, and the initial backend structure
 - Integration coverage: canonical root Task and deterministic System Changes thread creation, response/persisted `updated_at` agreement, and rejection of foreign-owned or archived categories without Task creation.
 - Environment blockers resolved without repository changes: system Node.js 20 was replaced only for the verification process by portable Node.js 22; Vitest's sandbox `spawn EPERM` was resolved by running outside the sandbox; Firebase CLI's rejection of Java 8 was resolved using portable JDK 21. A Temurin download failed DNS resolution; the Oracle JDK download succeeded. No implementation/test failure remained in the executed suites.
 
-**Verification limits**
+**Limits of the initial run (expanded coverage is recorded below)**
 
 - Integration tests invoke the backend operation directly using the Firebase Admin SDK. They do not exercise the callable transport, authentication/canonical-email extraction, or public error translation.
 - Passing creation assertions confirm the resulting Task/thread state; the suite does not inject transaction failures or exercise concurrency/retry behavior to independently verify atomicity under failure.
@@ -107,13 +107,36 @@ Repository/workspace bootstrap, API contracts, and the initial backend structure
 - Firestore Security Rules were neither implemented nor verified by this run. No Rules file is configured, and the emulator defaults to allowing reads/writes; Admin SDK integration tests do not verify Rules regardless.
 - Firestore indexes and query plans were not verified. Deployment and client behavior were not verified.
 
+### Expanded Verification and Validation Correction — 2026-10-07
+
+**Status:** Implemented and Verified within the recorded scope; project-owner approval obtained for the correction, documentation update, commit, and push.
+
+- Tested the approved working-tree changes based on `6d1df4e2a9c3a3e66cb401ada62dee25dbf74ec3`. The correction and expanded tests are committed together with this record. The test environment and resolved dependency versions are unchanged from the initial run.
+- Expanded tests initially exposed 11 failing cases: malformed required fields returned `INTERNAL`; invalid priority/date values could be accepted and written; and missing/null/numeric `has_time` values were accepted. These failures were reported before the project owner approved production-code corrections.
+- Correction: validate request object shape and required string fields before trimming; require boolean priority when supplied; require category IDs rather than nested paths; validate supplied TaskDate objects and field types; explicitly validate timezone identifiers; persist only canonical date fields. Malformed inputs return `INVALID_ARGUMENT` before transaction writes. No new dependency or architecture decision was introduced.
+- Omitted creation dates remain absent intent and persist as null. Explicit null creation-date inputs are rejected according to `CreateTaskRequest`; `updateTaskDates` retains its separate explicit-null clearing contract.
+- Unit command: `corepack pnpm@10.34.6 --filter @taskify/api test --exclude '**/*.integration.test.ts'`. **Result:** 2 files, 39 tests passed; exit code 0; duration 2.18 seconds.
+- Integration command: `corepack pnpm@10.34.6 exec firebase emulators:exec --project taskify-local --only firestore 'corepack pnpm@10.34.6 --filter @taskify/api test:integration'`. **Result:** 1 file, 25 tests passed; exit code 0; duration 5.88 seconds. The emulator shut down successfully. **Total:** 64 tests passed, no failures.
+- Callable-handler unit coverage uses the actual handler with a mocked operation: missing/unusable authentication denial, authenticated email trimming/lowercasing, trusted actor selection, authoritative response passthrough, stable public error mapping, and unexpected-error detail protection.
+- TaskDate unit coverage includes malformed field types, date/time validity, timezone validity, canonical-field persistence, date-only semantics, winter/summer offsets, valid local times around the spring DST transition, and rejection of nonexistent spring-gap times.
+- Integration coverage uses real Firestore-emulator transactions and the Admin SDK: canonical Task/thread creation, owned active/missing/foreign/archived category behavior, timed Start/Due/End persistence and scalar projections, matching timestamps, real callable-handler invocation with canonical authenticated identity, protected-field spoof resistance, and malformed-request rejection with no Task/thread writes.
+- Failure/retry coverage: a deliberately pre-created thread causes a real commit-time create-precondition failure and rolls back the queued Task write; an injected retryable `ABORTED` error after the first callback's queued writes exercises the actual SDK retry path, reuses the Task ID, and produces exactly one Task and one thread.
+- Integration setup requires the configured local emulator (`127.0.0.1:8080`); recursive fixture cleanup includes orphan subcollections. Unit execution explicitly excludes integration files. `git diff --check` passed.
+
+**Remaining verification limits**
+
+- Callable handlers are invoked via `.run`; HTTP callable transport, Firebase token verification, deployed-function behavior, and client SDK behavior are not exercised.
+- The retry test injects a retryable error; it does not establish behavior under every real concurrent-write race or contention scenario.
+- Ambiguous local times during the autumn DST overlap were not tested or assigned a new disambiguation policy.
+- Security Rules remain a separate pending workstream. Admin SDK tests do not verify Rules; no Rules file is configured. Index/query-plan validation, deployment, and client behavior remain unverified.
+
 ## Known Issues / Technical Debt
 
 None formally recorded yet.
 
 ## Next Actions
 
-- Existing TaskDate unit and `createTask` Firestore integration verification is complete within the scope recorded above. Further coverage for callable authentication/transport, malformed inputs, and transaction failure/retry behavior remains a proposed follow-up requiring project-owner approval before repository changes.
+- Expanded TaskDate, callable-handler, and `createTask` Firestore integration verification is complete within the scope recorded above. Callable HTTP transport, deployed behavior, and additional concurrency scenarios remain outside that verification; further work requires project-owner approval.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification; implementation actions require project-owner authorization. Security Rules verification is a separate workstream using the approved Rules implementation/test matrix.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.

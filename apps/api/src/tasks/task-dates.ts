@@ -15,6 +15,13 @@ const DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const TIME = /^(\d{2}):(\d{2})$/;
 
 export function normalizeTaskDate(input: TaskDateInput): StoredTaskDate {
+  if (!input || typeof input !== "object" || Array.isArray(input) ||
+      typeof input.date !== "string" || typeof input.has_time !== "boolean" ||
+      (input.time !== null && typeof input.time !== "string") ||
+      (input.timezone !== null && typeof input.timezone !== "string")) {
+    throw new ApiError("INVALID_ARGUMENT", "Invalid TaskDate input");
+  }
+
   const dateMatch = DATE.exec(input.date);
   if (!dateMatch) throw new ApiError("INVALID_ARGUMENT", "Invalid date");
 
@@ -30,7 +37,7 @@ export function normalizeTaskDate(input: TaskDateInput): StoredTaskDate {
     if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
       throw new ApiError("INVALID_ARGUMENT", "Invalid date");
     }
-    return { ...input, instant: null };
+    return { date: input.date, has_time: false, time: null, timezone: null, instant: null };
   }
 
   const timeMatch = input.time ? TIME.exec(input.time) : null;
@@ -44,6 +51,9 @@ export function normalizeTaskDate(input: TaskDateInput): StoredTaskDate {
 
   let local: TZDate;
   try {
+    // Intl validates timezone identifiers before TZDate's lazy getters are used.
+    if (/^[+-]/.test(input.timezone)) throw new RangeError("Expected an IANA timezone");
+    new Intl.DateTimeFormat("en-US", { timeZone: input.timezone });
     local = new TZDate(year, month - 1, day, hour, minute, input.timezone);
   } catch {
     throw new ApiError("INVALID_ARGUMENT", "Invalid timezone");
@@ -54,5 +64,6 @@ export function normalizeTaskDate(input: TaskDateInput): StoredTaskDate {
     throw new ApiError("INVALID_ARGUMENT", "Invalid or nonexistent local date/time");
   }
 
-  return { ...input, instant: Timestamp.fromMillis(local.getTime()) };
+  return { date: input.date, has_time: true, time: input.time, timezone: input.timezone,
+    instant: Timestamp.fromMillis(local.getTime()) };
 }
