@@ -30,20 +30,58 @@ setCategoryArchived({
 ```
 
 ```text
-resetCategoriesToDefaults()
+resetCategoryOrder({})
 ```
+
+**Reset contract (DEC-074)**
+- DEC-077 replaces the earlier `resetCategoriesToDefaults` endpoint specification with `resetCategoryOrder({})`. This is an order-only operation, not default restoration. The old endpoint was never implemented; source API-contract changes remain pending implementation.
+- Resolve the owner server-side and use the current Category set in one atomic transaction. The request contains no client-supplied Category IDs or per-Category `expected_updated_at` tokens. Re-read/retry material state as required; this does not weaken concurrency checks on individual rename/archive operations.
+- Return all owned Categories, including archived ones, in resulting alphabetical order using this Firebase-independent response shape:
+  ```text
+  {
+    changed_count: number,
+    categories: [
+      {
+        category_id: string,
+        display_order: number,
+        updated_at: ApiTimestamp
+      }
+    ]
+  }
+  ```
+- `changed_count` counts Categories whose persisted numeric order changed. Unchanged entries retain their timestamps. Empty/already-correct sets succeed with `changed_count = 0`. Do not add a synthetic collection-level timestamp.
+- Resolve the authenticated canonical email server-side and atomically read/reorder all owned Categories, including custom and archived entries, according to the Category order-reset contract in `docs/data_model.md`.
+- Preserve archive state, identity, names, default provenance, creation timestamps, uniqueness guards, and Task references. Only changed numeric `display_order` values and their server-time `updated_at` may be written.
+- An already-correct effective alphabetical order causes no writes, including when existing numeric order values have gaps. Repeated Reset remains idempotent.
+- Default provisioning is separate; Reset must not create missing defaults or reactivate Categories.
 
 **Normalization and uniqueness**
 - Clients submit user-facing `name`; `normalized_name` is derived only by trusted backend code.
+- Trim the submitted name, normalize its display form to Unicode NFC, preserve display casing/internal whitespace/accents/punctuation, and enforce a non-empty maximum of 15 characters. Derive the uniqueness key using locale-independent lowercasing (DEC-075).
 - Category-name uniqueness is scoped per owner as `owner_email + normalized_name`.
 - A transactional uniqueness guard is maintained separately from the canonical Category document so concurrent create/rename/reactivate operations cannot race.
 - Canonical Category identity remains `category_id`; the uniqueness guard is derived/non-authoritative metadata.
-- Create, rename, archive/reactivate, reset, and their uniqueness-guard updates execute atomically where required.
+- Create, rename, archive/reactivate, and default provisioning maintain uniqueness guards atomically where required. Order Reset is atomic but does not mutate names or guards.
 
 **Field ownership**
 - Backend-controlled: `owner_email`, `normalized_name`, `is_default`, `archived_at`, `created_at`.
 - User-facing category name changes use backend callables.
 - `updated_at` uses server time for all category mutations.
+- Default names and archive state are protected; only custom Categories may change those fields. Both default/custom Categories may be reordered. No-op operations preserve every timestamp under the DEC-076 mutation contract.
+
+**Category mutation semantics (DEC-076)**
+- Unauthenticated callers receive `UNAUTHENTICATED`. Malformed inputs and missing/foreign Category targets receive `INVALID_ARGUMENT`; do not disclose foreign Category existence.
+- Create/rename collisions with another owned Category's normalized name receive `DUPLICATE_ARGUMENT`, whether the existing Category is active or archived. Do not implicitly reactivate or reuse it. A rename retaining its own normalized key is not a duplicate.
+- Reject an actual default name/archive change with `INVALID_ARGUMENT`.
+- Rename/archive requests retain `expected_updated_at`. Re-read material state transactionally and return `CONFLICT` for a stale token, even when the requested value already matches current state.
+- After ownership, validation and concurrency checks, an unchanged request succeeds with the existing timestamp and performs no writes. Default protection forbids changes; it does not turn an unchanged matching-state request into a mutation.
+- Valid custom changes are atomic, set Category `updated_at` to server time, preserve Category identity and Task references, and maintain any affected uniqueness guards. A display-casing-only rename changes the name/timestamp but retains its normalized key.
+- `DUPLICATE_ARGUMENT` is an approved generic domain error code. Its API-contract enum/transport mapping must be implemented and verified during the separately approved Category implementation; no Category-specific missing/duplicate codes are introduced.
+
+**Registration provisioning / new custom ordering (DEC-075)**
+- Trusted account-registration work provisions the 13 alphabetically ordered defaults defined in `docs/data_model.md`. The implementation mechanism and registration-failure coordination remain to be reviewed; no new trigger or callable is selected by this requirement alone.
+- New custom Categories are placed after the last existing owned Category, including archived entries. Ordering/uniqueness must be safe under concurrent creation without introducing an unapproved global uniqueness/contiguity invariant for display order.
+- Registration provisioning adds defaults; order Reset preserves existing Category data and never performs provisioning.
 
 **Reordering**
 - Category reorder may remain a direct Firestore batched write.
@@ -266,6 +304,7 @@ Use Firebase 2nd-generation callable functions as the client-facing trusted back
 - `TASK_NOT_FOUND`
 - `NOT_AUTHORIZED`
 - `INVALID_ARGUMENT`
+- `DUPLICATE_ARGUMENT` (Approved by DEC-076; implementation pending)
 - `INVALID_TRANSITION`
 - `REASON_REQUIRED`
 - `TASK_DELETED`

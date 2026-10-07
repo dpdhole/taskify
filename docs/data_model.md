@@ -280,11 +280,11 @@ Canonical document shape:
 
 **Invariants**
 - `owner_email` is required, canonical, immutable, and equals the authenticated user's canonical email at creation.
-- `name` is required and non-empty after product-level trim/normalization.
-- `normalized_name` is derived deterministically from `name` and is used for per-user uniqueness.
-- Active and archived categories for one user may not create ambiguous duplicate normalized names; create/rename/reset logic must preserve one canonical category identity per normalized name.
-- `display_order` is required and user-controlled for ordering categories.
-- `is_default` identifies categories originating from the product default set; it is not a permission flag.
+- `name` is required, non-empty, and at most 15 characters after trimming leading/trailing whitespace and applying Unicode NFC. Preserve display casing, internal whitespace, accents and punctuation.
+- `normalized_name` is derived from that display name using locale-independent lowercasing and is used for per-user case-insensitive uniqueness (DEC-075). No compatibility folding, accent stripping, or internal-whitespace collapse is introduced.
+- Active and archived categories for one user may not create ambiguous duplicate normalized names; create/rename/default-provisioning logic must preserve one canonical category identity per normalized name. Order reset does not change names or uniqueness guards.
+- `display_order` is required and user-controlled for ordering categories. New custom Categories are appended after the last existing owned Category, including archived Categories (DEC-075); no global contiguous-order invariant is introduced.
+- `is_default` identifies Categories from the product default set and also protects their names/archive state: defaults cannot be renamed or archived, but may be reordered. User-added Categories remain renameable, archiveable/reactivateable, and reorderable under normal owner permissions (DEC-075).
 - `archived_at == null` means active; non-null means archived.
 - `created_at` and `updated_at` are server timestamps.
 
@@ -292,18 +292,24 @@ Canonical document shape:
 - Tasks may retain references to archived categories.
 - New assignment to an archived category is not allowed.
 - A referenced category is archived rather than destructively deleted.
-- Category IDs remain stable when a default category is restored/reactivated.
+- Category IDs remain stable when custom Categories are archived/reactivated. Defaults are protected from archive/name mutation; Reset never recreates or reactivates them.
 
-**Default reset behavior**
-- Reset-to-default reconciles against the current product-defined default category set.
-- For each default normalized name:
-  - reactivate the existing matching category if archived;
-  - otherwise create it if absent;
-  - mark it `is_default = true`;
-  - restore the product default display order/name as defined by the current default set.
-- User-created non-default categories are not deleted by reset.
-- Reset does not rewrite existing Task category references.
-- Because reset may touch multiple category documents and uniqueness invariants, implement it as a trusted backend operation rather than an uncoordinated multi-document client sequence.
+**Default catalogue and provisioning (DEC-075)**
+- Provision the owner's default Categories at account registration through trusted backend work. The exact trigger/registration coordination mechanism remains an implementation design to review; this requirement does not silently select an Auth or Firestore trigger.
+- The 13 unique defaults, initially ordered alphabetically, are: Family, Finance, Friends, Growth, Hobbies, Household, Leisure, Partner, Self, Social, Spirituality, Wellness, Work. The repeated Growth input is represented once to preserve uniqueness.
+- Default provisioning is separate from order Reset. Repeated provisioning must not duplicate Categories or overwrite existing Category state/Task references; failure/retry coordination must be designed before implementation.
+- Repeated unchanged Category operations succeed without writes/timestamp changes after ownership/validation and a matching concurrency token. Stale tokens return CONFLICT even for matching-state requests. Duplicate normalized names across active/archived Categories return DUPLICATE_ARGUMENT without implicit reactivation (DEC-076).
+
+**Category order reset (DEC-074)**
+- Reset reorders all Categories owned by the authenticated user, including default, custom, and archived Categories, into one alphabetical order. Archived Categories are not a separate ordering group.
+- Sort by `normalized_name` ascending, with Category ID as a deterministic tie-breaker. The exact Unicode normalization/collation policy remains part of the separate Category-contract reconciliation; Reset does not redefine it.
+- Determine current effective order by `display_order` ascending, then Category ID. If it already matches the alphabetical Category-ID sequence, Reset is a no-op: retain existing numeric order values and every timestamp, even if values contain gaps.
+- Otherwise assign sequential `display_order` values starting at zero across the alphabetical sequence. Write only Categories whose numeric `display_order` changes; only those Categories receive server-time `updated_at`.
+- Preserve Category IDs, names, normalized names, owner identity, `is_default`, `archived_at`, and `created_at`. Archived Categories stay archived. Task references and Task timestamps are unchanged.
+- Reset neither creates/deletes Categories nor restores names, reactivates archived Categories, promotes custom Categories to defaults, or changes uniqueness guards. Adding missing defaults is a separate provisioning operation whose entry point remains unresolved.
+- Empty and already-alphabetically-ordered collections are no-ops. Repeating Reset after a successful reset is also a no-op.
+- The approved API is `resetCategoryOrder({})` (DEC-077), operating on current server state without client-supplied per-Category concurrency tokens. Its response includes `changed_count` and all resulting Category IDs/order values/individual timestamps; no collection-level timestamp is introduced. The authoritative wire shape is in `docs/backend_architecture.md`.
+- Perform the read/validation/order writes atomically through a trusted backend operation; no partial reordered state may be committed. Implementation must preserve this contract under retries/concurrent mutation, or surface a limitation for owner review.
 
 **Field ownership and access**
 - Only the category owner may read/write the document in Milestones 1–3.

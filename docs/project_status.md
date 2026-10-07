@@ -61,7 +61,7 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-073**.
+- Architecture and product design are approved through **DEC-077**.
 - Firestore Security Rules and the client-SDK emulator test matrix are Implemented and Verified within the executed scope, with project-owner approval to record and publish that status. All 174 Rules tests passed. The approved list exception, remembered-view capability matrix, and profile-timezone validation limit are recorded in DEC-065–DEC-068.
 - API contracts and the initial backend structure are implemented. The `createTask` operation and callable handler retain their recorded verification scope. Local Node 22 ESM build/package preparation and callable HTTP transport are Implemented and Verified within the recorded scope; all 15 transport tests and existing regressions passed, with owner approval to record and publish that status. Production token signatures, real providers, cloud runtime/deployment, and client features remain unverified.
 - The approved eight composite indexes and DEC-069 preference single-field collection-group override are Implemented and Verified within the executed local-test/development-service planning scope, with owner approval to record and publish that status. All definitions became READY and matched the manifest; all 13 real-service plan-only query variants selected the intended indexes. Production workload/performance verification remains pending.
@@ -77,6 +77,7 @@ Material state transitions require explicit project-owner approval.
 ## Open Questions
 
 - Exact Nearby coarse-proximity distance bands/resolution/query implementation remains deferred to Firebase Architecture.
+- Category normalization/default catalogue/protection, registration-time provisioning, custom append ordering and the 15-character limit are approved by DEC-075; mutation semantics and generic DUPLICATE_ARGUMENT are approved by DEC-076; resetCategoryOrder request/response is approved by DEC-077. Registration coordination and Unicode character-count/collation implementation details must be made concrete before coding; no trigger or new dependency is implicitly approved. Source API contracts still contain the old reset request and omit DUPLICATE_ARGUMENT; aligning them belongs to pending implementation, not this specification-only phase.
 - Exact autosave-versus-unsaved-change warning behavior remains a detailed interaction-design decision.
 - Search implementation details beyond the approved baseline (fuzzy/semantic search, stemming, ranking technology) remain deferred to Firebase Architecture.
 - Todo field, lifecycle, and date semantics remain deferred.
@@ -152,6 +153,8 @@ Repository/workspace bootstrap, API contracts, and the initial backend structure
 - Remaining limits: Firebase token verification is mocked; deployed behavior, client features, exact IANA existence for profile timezones, production index plans/Query Explain, and callable HTTP transport were not verified. Recursive list grants apply to ordinary collection queries too, as explicitly approved in DEC-067.
 
 ## Next Actions
+
+- Category behavior and Reset API are Approved, not Implemented (DEC-074–DEC-077): atomically alphabetize all owned Categories, including custom and archived, preserve archive state, and avoid writes/timestamp updates when effective order is unchanged. Review remaining registration/counting/collation implementation details before coding; no Category backend code or cloud change is authorized by this specification update alone.
 
 - Local API build/package and callable HTTP work is complete and owner-approved as Verified within the executed scope: contract/API production builds passed, the standalone runtime artifact loaded with dependencies resolving inside it, an unchanged rebuild preserved its lockfile, standard Corepack selected pnpm 10.34.6, and all five test suites passed (292 tests). The owner-approved ApiError message annotation fixed nine compile errors without runtime/public-contract changes. Exact commands, versions, durations and limits are recorded in [callable-verification.md](../infrastructure/firebase/callable-verification.md). Commit/push is owner-approved; cloud deployment remains a separate decision.
 - Rules implementation and emulator verification are complete within the recorded scope. Production deployment, real authentication/provider validation, and client workflows remain separate work requiring project-owner authorization.

@@ -20,7 +20,9 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - Category documents are readable/writable only by their owner.
 - `owner_email` is immutable after creation and must equal the authenticated user's canonical email.
 - Create/update validates category name/normalized-name shape and approved category fields.
+- Trusted create/rename handlers enforce DEC-075 normalization, length and uniqueness. Default Categories cannot change name/archive state; custom Categories retain those mutation permissions. Ordinary direct reorder remains permitted for both defaults and custom Categories, under the existing owner/server-timestamp boundary.
 - Referenced categories are archived rather than client-deleted when product semantics require preservation; destructive delete is not part of the normal client contract.
+- Category order Reset is a trusted backend operation scoped to the authenticated owner's Categories. It may change only ordering and server update timestamps for changed entries; it preserves archive state and all protected identity/name/default fields (DEC-074). Ordinary client reorder permissions are unchanged by this specification update.
 
 **Task reads**
 - Milestones 1–3 are individual-first. A Task is readable by its Owner; registered shared-task access is added in Milestone 6.
