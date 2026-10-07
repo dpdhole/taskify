@@ -61,7 +61,7 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-061**.
+- Architecture and product design are approved through **DEC-062**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
@@ -91,7 +91,8 @@ None formally recorded yet.
 
 ## Next Actions
 
-- Complete the Firebase-independent public `packages/api-contracts` callable DTO baseline, then implement the first backend callable. **Status:** In progress.
+- `createTask` first backend vertical slice is implemented: callable adapter, authenticated canonical email extraction, Firestore transaction, active-category validation, Task initialization, TaskDate normalization, and deterministic System Changes thread creation. **Status:** Implemented, not Verified.
+- Add emulator/integration coverage and establish the test/tooling baseline before marking `createTask` Verified. **Status:** Next implementation stage.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
