@@ -69,8 +69,9 @@ Participants may be connected family members or external participants/consultant
 
 #### Identity & Access
 
-- Register/login via social authentication or email OTP.
+- Register/login via social authentication or Firebase email-link authentication.
 - Maintain a single user profile.
+- User profile supports an optional `profile_picture_url`; it is populated only from supported social-login provider data in the current scope.
 - Do not maintain family/member relationships at identity level.
 - Task participation and access are established by assigning an email address to a task role.
 - Personal tasks remain private unless another participant is explicitly added.
@@ -512,9 +513,12 @@ The idea is intentionally deferred because it could be misused to model project-
 
 The shared Task definition contains task-global data including title, markdown description, category, priority, lifecycle state, start/due/end date-time values, location, recurrence linkage, hierarchy fields, ownership/execution fields, participation email arrays, and created/updated/completion metadata.
 
-- Every task has start, due, and end dates; time components are optional.
-- Date/time values retain sufficient timezone context for human interpretation and recurrence behavior.
-- Event-like tasks use the same date fields; semantics differ by use case rather than by entity type.
+- For **Task**, Start, Due, and End are all optional. A Task with no Due date represents a **Someday / no commitment date** task.
+- Start may be populated automatically when execution begins if absent; End may be populated automatically when the task reaches an appropriate terminal state if absent. Explicitly entered Start/End values are not overwritten automatically.
+- Date/time values retain sufficient timezone context for human interpretation and later recurrence behavior.
+- Firestore Task documents maintain scalar query fields `start_date`, `due_date`, and `end_date` (nullable `YYYY-MM-DD`) corresponding to the richer date values.
+- Task `priority` is a boolean task-global Owner-controlled field and remains distinct from per-user Important/Urgent preferences.
+- Event-specific date semantics are deferred to **Milestone 5 — Events & Time** and are not part of the current Task architecture pass.
 
 #### Category
 
@@ -525,13 +529,15 @@ The shared Task definition contains task-global data including title, markdown d
 
 #### User-Task Data Separation Rule
 
-All User ↔ Task-specific values are stored separately from the shared Task document in top-level, user-owned documents. They are not embedded in the Task document and are not modeled as Task subcollections.
+User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
 
-Logical separation:
+Canonical logical/physical separation:
 
-- **UserTaskPreference** — user-managed system-tag preferences such as DOW, TOD, Important, and Urgent.
-- **UserTaskState** — system-managed per-user state such as snooze / `hidden_until` and future user-specific system state.
-- **Reminder** — separate per-user, per-task documents; multiple reminders per user/task are allowed.
+- `/tasks/{taskId}/preferences/{userId}` — **UserTaskPreference** for user-managed system-tag preferences such as DOW, TOD, Important, and Urgent.
+- `/tasks/{taskId}/states/{userId}` — **UserTaskState** for system-managed per-user state such as snooze / `hidden_until` and future user-specific system state.
+- `/tasks/{taskId}/reminders/{reminderId}` — **Reminder** documents; multiple reminders per user/task are allowed.
+
+Cross-task query projections/indexes may be introduced as derived, non-authoritative structures during Firebase Architecture when required by Home, Tasks, Saved Views, or collaboration.
 
 #### Reminders and Snooze
 
@@ -550,11 +556,12 @@ Logical separation:
 
 #### Activity and Threads
 
-- Activity/conversation data is modeled as collection/subcollection structures rather than embedded arrays on Task.
-- An activity thread contains a task reference, subject, thread type, creator, and timestamps.
+- Activity/conversation data is stored under the containing Task: `/tasks/{taskId}/threads/{threadId}/entries/{entryId}`.
+- An activity thread contains subject, thread type, creator, and timestamps; task containment is established by the Firestore path.
 - Activity entries contain actor email, timestamp, entry type, content, and structured system-change payload where applicable.
 - Every task has a default `System Changes` thread.
 - Structured system-change data is canonical; human-readable rendering is derived from it.
+- Firestore Security Rules v2 is used from the outset so later collection-group queries remain available.
 
 #### Attachments and File Content
 
@@ -634,6 +641,12 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-016 | 2026-10-06 | Navigation | Adopted Gmail-inspired responsive navigation: desktop sidebar/mobile drawer, global Search, prominent Create, and bounded My View shortcuts under Tasks. | Earlier six-peer primary-navigation presentation |
 | DEC-017 | 2026-10-06 | MVP Scope | Approved individual-first MVP classification: core individual tasking is MVP Required; Events/Calendar/recurrence, Saved Views/View Builder, location/Nearby, external-link attachments, registered-user collaboration, and human conversations are MVP Reduced; binary file/image uploads and external secure-link participation are Post-MVP. | — |
 | DEC-018 | 2026-10-06 | Implementation Sequencing | Frozen implementation sequence: Core Individual Tasking → Personal Productivity → Saved Views → Location → Events & Time → Registered Collaboration, followed by Post-MVP capabilities. External-link attachments are in Personal Productivity. | — |
+| DEC-019 | 2026-10-07 | Identity Architecture | Use Firebase email-link authentication alongside social login. User profile includes optional `profile_picture_url`, populated only from supported social-provider identity data in the current scope. | DEC-005 email OTP wording |
+| DEC-020 | 2026-10-07 | Task Date / Priority Architecture | For Task, Start/Due/End are optional; no Due means Someday. Start/End may be auto-populated by lifecycle actions when absent. Task priority is boolean. Scalar nullable `start_date`/`due_date`/`end_date` query fields mirror richer date values. Event date semantics are deferred to Milestone 5. | DEC-009 requirement that every Task has Start/Due/End |
+| DEC-021 | 2026-10-07 | Firestore Task Containment | Store user-task preferences, user-task state, reminders, and activity threads/entries as subcollections under Task. Rules v2 is the baseline. Derived cross-task query projections may be added later but are non-authoritative. | DEC-009 top-level User↔Task document placement |
+| DEC-022 | 2026-10-07 | Task Write Boundary | Use a hybrid write model: approved ordinary Task fields may be edited directly under Security Rules; lifecycle, archive/delete, hierarchy/governance, and audit-relevant business actions execute through trusted backend transactions that also write System Changes. | — |
+| DEC-023 | 2026-10-07 | Task Creation Lifecycle | Normal user-created Tasks start at `Upcoming:Planned`. `Upcoming:Draft` is reserved for future trusted-backend/import creation such as email forwarding. | — |
+| DEC-024 | 2026-10-07 | Milestone 1 Lifecycle Contract | Milestone 1 uses explicit business-action transitions. Completion is valid only from In Progress; Waiting/Blocked/On Hold must Resume first. Planned/Ready tasks may be cancelled directly. Due dates never transition lifecycle automatically. | — |
 
 ## MVP Scope
 
@@ -751,6 +764,8 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Revised Firebase architecture: Task-scoped preference/state/reminder subcollections, Task-contained activity threads, Rules v2 baseline, and scalar date query fields. | Approved |
+| 2026-10-07 | Approved email-link authentication, social-provider profile picture URL, hybrid Task write boundary, Task-only optional date semantics, boolean priority, Planned creation default, and Milestone 1 lifecycle transition constraints. | Approved |
 | 2026-10-06 | Approved individual-first MVP scope classification and Post-MVP boundaries. | Approved |
 | 2026-10-06 | Frozen implementation sequence: Core Individual Tasking, Personal Productivity, Saved Views, Location, Events & Time, Registered Collaboration; external-link attachments placed in Personal Productivity. | Approved |
 | 2026-10-06 | Consolidated approved UX Navigation: Gmail-inspired responsive navigation, Home Eisenhower matrix, Tasks workspace/View Builder, Task Detail, Calendar layers, Nearby map, Search, Settings, and creation UX. | Approved |
