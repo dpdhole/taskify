@@ -6,7 +6,7 @@
 
 Security Rules v2 is the baseline. Rules enforce authorization and document-shape invariants; trusted backend code is responsible for lifecycle/business-action validation, atomic System Changes writes, archive/delete/restore semantics, hierarchy operations, reminders, and other backend-owned state transitions.
 
-Authentication helpers should resolve the authenticated user's canonical email from Firebase Auth and compare normalized/canonical values consistently with stored domain email fields.
+Authentication helpers resolve the authenticated user's canonical domain email as the lowercased Firebase Auth email. Stored canonical domain email fields used for authorization comparisons use the same lowercased representation.
 
 **Users**
 - `/users/{uid}`: an authenticated user may read and update only their own profile document.
@@ -101,6 +101,37 @@ Authentication helpers should resolve the authenticated user's canonical email f
 **Collection-group rules**
 - Collection-group queries for `preferences` and `states` must be authorized using document-level identity fields (`user_email == me`) because the parent Task path is not sufficient to authorize an arbitrary collection-group query.
 - Rules for collection-group reads must remain compatible with the approved query predicates; the client must issue identity-constrained queries rather than relying on Rules to discard other users' documents.
+
+**Concrete Rules-v2 validation design**
+
+- Canonical domain email authorization comparisons use the lowercased Firebase Auth email.
+- Root Task and subtask direct client creation are denied; trusted `createTask` / `createSubtask` operations create them.
+- Direct Task updates use an explicit changed-field allowlist: `title`, `description_md`, `category_id`, `priority`, and `updated_at`. Any mixed update containing a protected field is denied.
+- A changed `category_id` must reference an active Category owned by the Task owner. An unchanged reference may continue pointing to a Category that was archived after assignment.
+- Direct Category writes are limited to `display_order` plus server-time `updated_at`; all Category identity/name/archive/default mutations remain trusted-backend operations.
+- Preference writes validate the complete `system_tags` map, including exact supported keys, Importance/Urgency enums, DOW/TOD enums, maximum cardinality, and no duplicate DOW/TOD values.
+- Task state and Reminder documents are client-readable only under their approved owner/task-access constraints and are direct-client-write denied.
+- System Changes thread and entries are readable with Task access and direct-client-write denied.
+- View preference writes validate schema version, complete snapshot shape, `0 < near_days < medium_days < far_days` when thresholds are present, and the capability matrix of the specific product-defined preset. Unsupported filter/sort/staleness/threshold combinations are denied rather than accepted by a generic schema validator.
+- Collection-group reads for `preferences` and `states` require identity-constrained queries compatible with `user_email == me`.
+- All unmatched document paths and mutations are denied.
+
+**Emulator test matrix**
+
+The mandatory Rules emulator suite is organized by authorization boundary:
+- authentication/profile: unauthenticated denial, own access, foreign access denial, editable-field success, identity mutation denial, and delete denial;
+- Categories: ownership isolation, reorder success, protected mutation/create/delete denial, and server timestamp enforcement;
+- Task reads/writes: owner-only reads, direct create/delete denial, each approved ordinary field, mixed protected-field mutation denial, and server timestamp enforcement;
+- protected Task state: explicit denial tests for date/scalar-date, lifecycle, availability, identity/participation, hierarchy, archive/delete/recovery/completion, and creation metadata mutations;
+- Category assignment: active-owned success; archived, foreign, and nonexistent assignment denial; unchanged archived reference acceptance;
+- preferences: own CRUD, cross-user isolation, identity immutability, exact system-tag enum/cardinality/duplicate validation, and parent Task access;
+- states: own reads, cross-user denial, collection-group identity isolation, and all direct writes denied;
+- reminders: owner reads, foreign reads denied, and all direct client mutations/delivery-state forgery denied;
+- view preferences: own CRUD, cross-user isolation, schema-version/shape validation, threshold ordering, and per-preset capability validation;
+- System Changes: authorized reads and create/update/delete denial at both thread and entry levels;
+- collection-group/default-deny: required identity predicate behavior and denial of unknown root/subcollection paths.
+
+Every protected Task field receives an explicit mutation-denial test so future schema changes cannot silently widen the direct-write boundary.
 
 **Default-deny and testing**
 - Any document/path/field mutation not explicitly allowed is denied.
