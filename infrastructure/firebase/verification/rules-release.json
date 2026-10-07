@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-07T11:53:57.869Z",
+  "project": "taskify-dev-dpdhole",
+  "action": "rules-release",
+  "status": 404,
+  "result": {
+    "error": {
+      "code": 404,
+      "message": "Requested entity was not found.",
+      "status": "NOT_FOUND"
+    }
+  }
+}

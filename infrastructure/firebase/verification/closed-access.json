@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-07T11:53:59.898Z",
+  "project": "taskify-dev-dpdhole",
+  "action": "unauthenticated-read",
+  "status": 403,
+  "result": {
+    "error": {
+      "code": 403,
+      "message": "Missing or insufficient permissions.",
+      "status": "PERMISSION_DENIED"
+    }
+  }
+}

@@ -56,7 +56,7 @@ Chat history is not authoritative unless a decision or change is explicitly appr
 
 The workspace, initial API structure, and `createTask` backend slice are implemented. See `docs/project_status.md` for recorded verification scope and evidence. No client feature implementation is formally recorded.
 
-Firestore Security Rules and client-SDK emulator tests are implemented and verified within the recorded local test scope. The minimum intended composite-index set remains approved and awaits implementation/verification.
+Firestore Security Rules and client-SDK emulator tests are implemented and verified within the recorded local test scope. Index configuration is deployed to the approved development database with successful real-service Query Explain evidence. Development client Rules remain closed; Taskify's Rules and application features have not been deployed.
 
 ## Development Setup
 
@@ -74,6 +74,7 @@ After installing declared dependencies with pnpm, run:
 pnpm --filter @taskify/api test --exclude '**/*.integration.test.ts'
 pnpm run test:api:integration
 pnpm run test:firestore:rules
+pnpm run test:firestore:queries
 ```
 
 ## Project Governance

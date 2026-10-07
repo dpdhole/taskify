@@ -1,0 +1,222 @@
+{
+  "observedAt": "2026-10-07T12:01:06.345Z",
+  "project": "taskify-dev-dpdhole",
+  "action": "indexes",
+  "status": 200,
+  "result": {
+    "indexes": [
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/states/indexes/CICAgNiav4AK",
+        "queryScope": "COLLECTION_GROUP",
+        "fields": [
+          {
+            "fieldPath": "user_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "hidden_until",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgJim14AK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "lifecycle.macro",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "due_date",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "created_at",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "DESCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgOjXh4EK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "lifecycle.macro",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "due_date",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgJj7z4EK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "lifecycle.macro",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "completed_at",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "DESCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgJjF9oIK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "lifecycle.macro",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "updated_at",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "DESCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgJiUpoMK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "lifecycle.micro",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgNi47oMK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "archived_at",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "DESCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      },
+      {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/tasks/indexes/CICAgOi3kJAK",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owner_email",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "availability",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "deleted_at",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "purge_after",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "state": "READY",
+        "density": "SPARSE_ALL"
+      }
+    ]
+  }
+}

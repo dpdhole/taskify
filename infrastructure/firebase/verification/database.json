@@ -1,0 +1,25 @@
+{
+  "observedAt": "2026-10-07T11:54:02.533Z",
+  "project": "taskify-dev-dpdhole",
+  "action": "database",
+  "status": 200,
+  "result": {
+    "name": "projects/taskify-dev-dpdhole/databases/(default)",
+    "uid": "3e90c621-fe4e-477f-991d-21378e7ee975",
+    "createTime": "2026-10-07T11:52:40.655937Z",
+    "updateTime": "2026-10-07T11:52:40.655937Z",
+    "locationId": "asia-south1",
+    "type": "FIRESTORE_NATIVE",
+    "concurrencyMode": "PESSIMISTIC",
+    "versionRetentionPeriod": "3600s",
+    "earliestVersionTime": "2026-10-07T11:52:40.655937Z",
+    "appEngineIntegrationMode": "DISABLED",
+    "keyPrefix": "j",
+    "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+    "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+    "databaseEdition": "STANDARD",
+    "freeTier": true,
+    "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+    "etag": "IPut3Kvsp5cDMNHew4fsp5cD"
+  }
+}

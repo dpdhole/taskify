@@ -1,0 +1,626 @@
+{
+  "project": "taskify-dev-dpdhole",
+  "database": "(default)",
+  "analyze": false,
+  "parameters": {
+    "ownerEmail": "dpdhole@gmail.com",
+    "today": "2026-10-07",
+    "now": "2026-10-07T12:01:44.000Z",
+    "farDays": 15,
+    "staleDays": 60,
+    "horizonDays": 30
+  },
+  "generatedAt": "2026-10-07T12:03:22.336Z",
+  "queries": [
+    {
+      "name": "focus",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "in",
+          [
+            "upcoming",
+            "active"
+          ]
+        ],
+        [
+          "due_date",
+          "<=",
+          "2026-11-06"
+        ]
+      ],
+      "orderBy": [
+        [
+          "due_date",
+          "asc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            },
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "resolve",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.micro",
+          "in",
+          [
+            "waiting",
+            "blocked",
+            "on_hold"
+          ]
+        ]
+      ],
+      "orderBy": [],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.micro ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            },
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.micro ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            },
+            {
+              "query_scope": "Collection",
+              "properties": "(owner_email ASC, availability ASC, lifecycle.micro ASC, __name__ ASC)"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "prioritize-dated",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "in",
+          [
+            "upcoming",
+            "active"
+          ]
+        ],
+        [
+          "due_date",
+          "<=",
+          "2026-11-06"
+        ]
+      ],
+      "orderBy": [
+        [
+          "due_date",
+          "asc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "query_scope": "Collection",
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, __name__ ASC)"
+            },
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "prioritize-unspecified",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "in",
+          [
+            "upcoming",
+            "active"
+          ]
+        ],
+        [
+          "due_date",
+          "==",
+          null
+        ]
+      ],
+      "orderBy": [],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            },
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "plan",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "in",
+          [
+            "upcoming",
+            "active"
+          ]
+        ],
+        [
+          "due_date",
+          "==",
+          null
+        ],
+        [
+          "created_at",
+          ">=",
+          {
+            "_seconds": 1788782504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [
+        [
+          "created_at",
+          "desc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, created_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            },
+            {
+              "query_scope": "Collection",
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, due_date ASC, created_at DESC, __name__ DESC)"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "follow-up",
+      "collection": "states",
+      "scope": "COLLECTION_GROUP",
+      "filters": [
+        [
+          "user_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "hidden_until",
+          ">",
+          {
+            "_seconds": 1791374504,
+            "_nanoseconds": 0
+          }
+        ],
+        [
+          "hidden_until",
+          "<=",
+          {
+            "_seconds": 1793966504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [
+        [
+          "hidden_until",
+          "asc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "query_scope": "Collection group",
+              "properties": "(user_email ASC, hidden_until ASC, __name__ ASC)"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "all-active",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "in",
+          [
+            "upcoming",
+            "active"
+          ]
+        ],
+        [
+          "updated_at",
+          ">=",
+          {
+            "_seconds": 1786190504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [
+        [
+          "updated_at",
+          "desc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, updated_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            },
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, updated_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "all-active-include-stale",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "in",
+          [
+            "upcoming",
+            "active"
+          ]
+        ]
+      ],
+      "orderBy": [
+        [
+          "updated_at",
+          "desc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, updated_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            },
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, updated_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "recently-closed",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "working"
+        ],
+        [
+          "lifecycle.macro",
+          "==",
+          "completed"
+        ],
+        [
+          "completed_at",
+          ">=",
+          {
+            "_seconds": 1788782504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [
+        [
+          "completed_at",
+          "desc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, lifecycle.macro ASC, completed_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "unarchive",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "archived"
+        ],
+        [
+          "archived_at",
+          ">=",
+          {
+            "_seconds": 1788782504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [
+        [
+          "archived_at",
+          "desc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, archived_at DESC, __name__ DESC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "recover",
+      "collection": "tasks",
+      "scope": "COLLECTION",
+      "filters": [
+        [
+          "owner_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "availability",
+          "==",
+          "deleted"
+        ],
+        [
+          "deleted_at",
+          ">=",
+          {
+            "_seconds": 1788782504,
+            "_nanoseconds": 0
+          }
+        ],
+        [
+          "purge_after",
+          ">",
+          {
+            "_seconds": 1791374504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [
+        [
+          "deleted_at",
+          "desc"
+        ],
+        [
+          "purge_after",
+          "asc"
+        ]
+      ],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(owner_email ASC, availability ASC, deleted_at DESC, purge_after ASC, __name__ ASC)",
+              "query_scope": "Collection"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "preferences",
+      "collection": "preferences",
+      "scope": "COLLECTION_GROUP",
+      "filters": [
+        [
+          "user_email",
+          "==",
+          "dpdhole@gmail.com"
+        ]
+      ],
+      "orderBy": [],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(user_email ASC, __name__ ASC)",
+              "query_scope": "Collection group"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    },
+    {
+      "name": "active-hidden-state",
+      "collection": "states",
+      "scope": "COLLECTION_GROUP",
+      "filters": [
+        [
+          "user_email",
+          "==",
+          "dpdhole@gmail.com"
+        ],
+        [
+          "hidden_until",
+          ">",
+          {
+            "_seconds": 1791374504,
+            "_nanoseconds": 0
+          }
+        ]
+      ],
+      "orderBy": [],
+      "status": "explained",
+      "metrics": {
+        "planSummary": {
+          "indexesUsed": [
+            {
+              "properties": "(user_email ASC, hidden_until ASC, __name__ ASC)",
+              "query_scope": "Collection group"
+            }
+          ]
+        },
+        "executionStats": null
+      }
+    }
+  ]
+}

@@ -435,12 +435,12 @@ Initial composite-index contract:
 - Tasks: `owner_email, availability, archived_at DESC` — Unarchive.
 - Tasks: `owner_email, availability, deleted_at DESC, purge_after ASC` — Recover.
 - Collection group `states`: `user_email, hidden_until ASC` — Follow Up and active Hide-until lookup.
-- Collection group `preferences`: collection-group-scoped index on `user_email` — per-user preference enrichment.
+- Collection group `preferences`: explicit ascending single-field collection-group index on `user_email` — per-user preference enrichment (DEC-069).
 
 Index policy:
 - The minimum intended explicit composite-index set is frozen as: Tasks `owner_email, availability, lifecycle.macro, due_date ASC`; Tasks `owner_email, availability, lifecycle.micro`; Tasks `owner_email, availability, lifecycle.macro, due_date, created_at DESC`; Tasks `owner_email, availability, lifecycle.macro, updated_at DESC`; Tasks `owner_email, availability, lifecycle.macro, completed_at DESC`; Tasks `owner_email, availability, archived_at DESC`; Tasks `owner_email, availability, deleted_at DESC, purge_after ASC`; and collection-group `states` `user_email, hidden_until ASC`.
 - Do not add a separate Prioritize null-Due composite index initially: the frozen `owner_email, availability, lifecycle.macro, due_date ASC` index is intended to serve both the dated and null-Due branches unless operational validation proves otherwise.
-- Do not add an explicit composite index for collection-group `preferences.user_email` initially; the single equality predicate is intended to use Firestore automatic single-field indexing.
+- Do not add an explicit composite index for collection-group `preferences.user_email`. DEC-069 enables an ascending single-field `COLLECTION_GROUP` index through a field override, preserving existing collection-scope defaults. Automatic single-field indexing has collection scope by default and does not supply this group-scoped index.
 - Create indexes for preset-defining retrieval, not for every Category/Status/Priority/custom-sort combination.
 - Final view grouping and user-selected sort remain client-side over the bounded candidate set.
 - Validate the exact generated index set with emulator/integration tests and Firestore Query Explain before treating index ordering as operationally final. In particular, validate the Recover query's multiple inequality fields (`deleted_at` and `purge_after`) against the actual SDK query and index plan. Operational field-order/redundancy adjustments that preserve the frozen query semantics do not require a product-semantic change.

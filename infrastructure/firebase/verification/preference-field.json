@@ -1,0 +1,54 @@
+{
+  "observedAt": "2026-10-07T12:01:06.348Z",
+  "project": "taskify-dev-dpdhole",
+  "action": "preference-field",
+  "status": 200,
+  "result": {
+    "name": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/preferences/fields/user_email",
+    "indexConfig": {
+      "indexes": [
+        {
+          "queryScope": "COLLECTION",
+          "fields": [
+            {
+              "fieldPath": "user_email",
+              "order": "ASCENDING"
+            }
+          ],
+          "state": "READY"
+        },
+        {
+          "queryScope": "COLLECTION",
+          "fields": [
+            {
+              "fieldPath": "user_email",
+              "order": "DESCENDING"
+            }
+          ],
+          "state": "READY"
+        },
+        {
+          "queryScope": "COLLECTION",
+          "fields": [
+            {
+              "fieldPath": "user_email",
+              "arrayConfig": "CONTAINS"
+            }
+          ],
+          "state": "READY"
+        },
+        {
+          "queryScope": "COLLECTION_GROUP",
+          "fields": [
+            {
+              "fieldPath": "user_email",
+              "order": "ASCENDING"
+            }
+          ],
+          "state": "READY"
+        }
+      ],
+      "ancestorField": "projects/taskify-dev-dpdhole/databases/(default)/collectionGroups/__default__/fields/*"
+    }
+  }
+}
