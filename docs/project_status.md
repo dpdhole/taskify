@@ -524,6 +524,165 @@ The shared Task definition contains task-global data including title, markdown d
 - Task `priority` is a boolean task-global Owner-controlled field and remains distinct from per-user Important/Urgent preferences.
 - Event-specific date semantics are deferred to **Milestone 5 — Events & Time** and are not part of the current Task architecture pass.
 
+#### Physical Task Document Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/tasks/{taskId}
+```
+
+Canonical document shape:
+
+```text
+{
+  type: "task",
+
+  title: string,
+  description_md: string,
+  category_id: string,
+  priority: boolean,
+
+  lifecycle: {
+    macro: "upcoming" | "active" | "completed",
+    micro:
+      "draft" | "planned" | "ready" |
+      "in_progress" | "waiting" | "blocked" | "on_hold" | "review" |
+      "done" | "cancelled" | "unable_to_complete"
+  },
+
+  availability: "working" | "archived" | "deleted",
+
+  start: TaskDate | null,
+  due: TaskDate | null,
+  end: TaskDate | null,
+
+  start_date: string | null,
+  due_date: string | null,
+  end_date: string | null,
+
+  owner_email: string,
+  executor_email: string,
+  created_by_email: string,
+  consultant_emails: string[],
+  informed_emails: string[],
+
+  parent_task_id: string | null,
+  root_task_id: string | null,
+
+  archived_at: Timestamp | null,
+  deleted_at: Timestamp | null,
+  purge_after: Timestamp | null,
+  completed_at: Timestamp | null,
+
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+`TaskDate` shape:
+
+```text
+{
+  date: "YYYY-MM-DD",
+  has_time: boolean,
+  time: "HH:mm" | null,
+  timezone: string | null,
+  instant: Timestamp | null
+}
+```
+
+**Required and nullable fields**
+- Every field in the canonical Task document shape is present.
+- Optional concepts are represented by explicit `null`, not by omitting the field, for `start`, `due`, `end`, their scalar date projections, archive/delete/recovery/completion timestamps, and hierarchy IDs.
+- `description_md` is required but may be an empty string.
+- `consultant_emails` and `informed_emails` are required arrays and may be empty.
+- `priority` is required and defaults to `false` on ordinary creation unless explicitly set.
+- `title` must be a non-empty string after product-level normalization/trim validation.
+- Exact title/description maximum sizes remain an implementation/operational decision and are not frozen here.
+
+**Lifecycle invariants**
+- Valid macro/micro pairs are:
+  - `upcoming`: `draft`, `planned`, `ready`
+  - `active`: `in_progress`, `waiting`, `blocked`, `on_hold`, `review`
+  - `completed`: `done`, `cancelled`, `unable_to_complete`
+- Normal user-created Tasks start `upcoming/planned`.
+- `draft` remains reserved for trusted backend/import creation.
+- Lifecycle is backend-controlled after creation and follows the approved action contract.
+
+**Availability invariants**
+- `deleted_at != null` implies `availability == "deleted"`.
+- Otherwise `archived_at != null` implies `availability == "archived"`.
+- Otherwise `availability == "working"`.
+- `availability == "working"` requires `deleted_at == null` and `archived_at == null`.
+- `availability == "archived"` requires `archived_at != null` and `deleted_at == null`.
+- `availability == "deleted"` requires `deleted_at != null`.
+- A deleted Task may retain `archived_at`; restore-delete recalculates availability from that preserved archive state.
+- `purge_after` is non-null only while the Task is soft-deleted and recoverable; restoring the Task clears `deleted_at` and `purge_after`.
+
+**TaskDate invariants**
+- `date` is required whenever a `TaskDate` exists and uses canonical `YYYY-MM-DD`.
+- If `has_time == false`: `time == null`, `timezone == null`, and `instant == null`.
+- If `has_time == true`: `time`, `timezone`, and `instant` are all non-null.
+- `time` uses canonical 24-hour `HH:mm`.
+- `timezone` is an IANA timezone identifier.
+- `instant` is the UTC instant derived from `date + time + timezone`; it is a query/execution projection, not independent user input.
+- Scalar projections are exact:
+  - `start == null` iff `start_date == null`; otherwise `start_date == start.date`
+  - `due == null` iff `due_date == null`; otherwise `due_date == due.date`
+  - `end == null` iff `end_date == null`; otherwise `end_date == end.date`
+- Date-only TaskDates preserve human-local date semantics and do not synthesize midnight instants.
+- Explicit user-entered Start/End values are not overwritten by automatic lifecycle behavior.
+
+**Identity and participation invariants**
+- Email fields store canonical normalized domain email values.
+- `owner_email`, `executor_email`, and `created_by_email` are required and non-empty.
+- In the Milestone 1–3 individual flow, ordinary root creation requires all three direct identity fields to equal the authenticated user's canonical email.
+- `consultant_emails` and `informed_emails` contain no duplicate entries within each array.
+- Milestone 1–3 ordinary creation uses empty participant arrays; collaboration mutations are deferred to Milestone 6.
+- Cross-role duplicate/overlap semantics beyond the current individual flow remain deferred to the collaboration design stage.
+
+**Category invariant**
+- `category_id` is required.
+- It must reference a valid category owned by the Task Owner under the approved category rules.
+- Archived-category assignment semantics are governed by the Category schema; existing Tasks may retain references to archived categories.
+
+**Hierarchy invariants**
+- Root Task: `parent_task_id == null` and `root_task_id == null`.
+- First-level subtask: `parent_task_id == parent Task ID` and `root_task_id == parent Task ID`.
+- Milestones 1–3 prohibit creating a child beneath an existing subtask.
+- Hierarchy fields are backend-controlled and immutable through ordinary client updates.
+
+**Completion/archive/delete timestamps**
+- `completed_at` is non-null exactly when the current lifecycle macro is `completed`.
+- Reopen clears `completed_at`.
+- `archived_at` records current archive state; archive sets it, restore archive clears it unless the Task is currently deleted and preserved archive state must survive restore-delete semantics.
+- `deleted_at` records current soft-delete state.
+- `purge_after > deleted_at` whenever both are set.
+- Archive/delete timestamps do not independently alter lifecycle.
+
+**Creation/update timestamps**
+- `created_at` is server-generated and immutable.
+- `updated_at` is server time for every Task mutation that changes the shared Task document.
+- Private user-state changes such as Hide Until and personal reminders do not update the Task's `updated_at`.
+- `updated_at` is the optimistic-concurrency token for trusted Task business actions.
+
+**Field ownership**
+- Direct client-editable after creation: `title`, `description_md`, `category_id`, `priority`, `start`, `due`, `end`, scalar date projections, and `updated_at`, subject to Security Rules validation.
+- Backend-controlled: `lifecycle`, `availability`, hierarchy fields, archive/delete/recovery/completion timestamps, and any automatic Start/End changes caused by lifecycle actions.
+- Identity/participation fields are immutable in Milestones 1–3 after creation; collaboration-era mutation semantics are deferred.
+- `type` and `created_at` are immutable.
+
+**Physical deletion**
+- Ordinary clients may never physically delete a Task document.
+- Permanent purge is a trusted backend/operations process after `purge_after`, with dependent-data cleanup defined by the approved soft-delete model.
+
+**Validation policy**
+- Security Rules validate type, allowed-field changes, ownership, enum/domain values, lifecycle creation state, nullability, category ownership, and any date synchronization constraints practical to enforce safely.
+- Backend handlers revalidate all invariants material to trusted actions.
+- If exact rich TaskDate ↔ scalar projection validation is too complex or brittle in Rules, date writes move behind a trusted backend mutation rather than allowing inconsistent direct writes.
+- Emulator tests must include malformed enums, missing required fields, invalid macro/micro pairs, invalid availability/timestamp combinations, malformed TaskDate values, scalar-date mismatches, hierarchy mutation attempts, identity mutation attempts, and invalid protected-field writes.
+
 #### Category
 
 - Category remains part of the shared Task definition.
@@ -1109,6 +1268,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-041 | 2026-10-07 | Firestore Preset Query Contract | Freeze Milestone 1–3 view-level candidate query shapes and minimum index strategy. Preset-defining predicates execute server-side; grouping, presentation filters/modifiers, and final sort remain client-side. Prioritize uses separate dated and null-Due branches merged client-side. Follow Up and per-user enrichment use Rules-v2 collection-group queries. | — |
 | DEC-042 | 2026-10-07 | Firestore Security Rules Contract | Freeze Milestone 1–3 Rules-v2 authorization boundaries: owner-scoped Task reads, invariant-checked root creation, narrow ordinary Task updates, backend-only lifecycle/archive/delete/hierarchy/audit actions, own-only preferences/view preferences, backend-managed Hide Until/reminders, immutable System Changes, identity-constrained collection-group access, and mandatory emulator rule tests. | — |
 | DEC-043 | 2026-10-07 | Backend Callable / Transaction Contract | Use 2nd-generation Firebase callable functions for Milestone 1–3 trusted business actions. Task actions use optimistic concurrency via `expected_updated_at`; lifecycle/archive/delete mutations and System Changes are atomic; subtask creation is transactional; Hide Until and reminders have dedicated callables without touching Task `updated_at`; automatic Planned→Ready is trusted/idempotent; stable backend error codes are defined. | — |
+| DEC-044 | 2026-10-07 | Physical Task Schema | Freeze the Milestone 1–3 `/tasks/{taskId}` document schema, required/null fields, TaskDate structure, lifecycle/availability/date/hierarchy invariants, field ownership, timestamp semantics, and validation policy. | — |
 
 ## MVP Scope
 
@@ -1225,6 +1385,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen the physical Milestone 1–3 Task document schema, TaskDate model, nullability, derived-field invariants, field ownership, and validation boundaries. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 backend callable/API and transaction boundaries, optimistic concurrency, stable errors, reminder/Hide Until actions, and automatic Ready promotion semantics. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 Firestore Security Rules contract, including direct-write allowlists, backend-only business state, per-user subcollection isolation, collection-group constraints, and mandatory emulator tests. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 Firestore preset candidate queries, expansion behavior, per-user collection-group enrichment, and minimum composite-index strategy. | Approved |
