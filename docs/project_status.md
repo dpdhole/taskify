@@ -1337,14 +1337,153 @@ Cross-task query projections/indexes may be introduced as derived, non-authorita
 - Past occurrences are not rewritten by edits to future recurrence behavior.
 - Recurrence evaluation retains timezone context and supports `This occurrence` and `This and future occurrences` behavior.
 
+#### View Preference Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/users/{uid}/view_preferences/{viewKey}
+```
+
+Canonical document shape:
+
+```text
+{
+  schema_version: 1,
+
+  primary_organization: "time" | "category" | "status",
+
+  time_thresholds: {
+    near_days: number,
+    medium_days: number,
+    far_days: number
+  } | null,
+
+  stale_days: number | null,
+
+  filters: {
+    category_ids: string[],
+    lifecycle_states: string[],
+    priority: boolean | null
+  },
+
+  sort: {
+    field:
+      "title" | "due" | "start" | "created" |
+      "priority" | "category" | "status",
+    direction: "asc" | "desc"
+  },
+
+  remembered_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+**Invariants**
+- `viewKey` is one supported product-defined preset identifier.
+- Only the matching authenticated user may read/write/delete the document.
+- Document existence means the preset has an explicitly remembered configuration.
+- Remember writes the complete resolved snapshot; temporary modifications do not write this document.
+- Reset physically deletes the document and returns the view to current product defaults.
+- If `time_thresholds` is present, it must satisfy `0 < near_days < medium_days < far_days`.
+- `time_thresholds` may be `null` when the preset does not use time thresholds.
+- `stale_days` may be non-null only for presets whose approved semantics support staleness.
+- Filters and sort fields are validated against the capabilities supported by that specific preset rather than assumed universally valid.
+- `category_ids` must reference categories belonging to the current user.
+- Runtime Important/Urgent/DOW/TOD modifiers are not persisted here.
+- `remembered_at` is set when Remember is explicitly invoked.
+- `updated_at` changes whenever the remembered configuration is rewritten.
+- The document is schema-versioned for deliberate future migration.
+
 #### Activity and Threads
 
 - Activity/conversation data is stored under the containing Task: `/tasks/{taskId}/threads/{threadId}/entries/{entryId}`.
-- An activity thread contains subject, thread type, creator, and timestamps; task containment is established by the Firestore path.
-- Activity entries contain actor email, timestamp, entry type, content, and structured system-change payload where applicable.
-- Every task has a default `System Changes` thread.
-- Structured system-change data is canonical; human-readable rendering is derived from it.
+- Human-readable rendering of System Changes is always derived from canonical structured data; rendered prose is not stored as the canonical audit record.
 - Firestore Security Rules v2 is used from the outset so later collection-group queries remain available.
+
+#### System Changes Thread Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/tasks/{taskId}/threads/system_changes
+```
+
+Canonical document shape:
+
+```text
+{
+  type: "system_changes",
+  subject: "System Changes",
+  created_by_email: string,
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+**Invariants**
+- Every Task has exactly one System Changes thread.
+- The deterministic thread document ID is `system_changes`.
+- The thread is created as part of root Task/subtask creation.
+- `type`, `subject`, `created_by_email`, and `created_at` are immutable.
+- `updated_at` advances when a System Changes entry is appended.
+- Ordinary clients cannot create/update/delete the System Changes thread.
+- The thread is readable whenever the parent Task is readable.
+- Future human conversation threads use separate IDs/types.
+
+#### System Changes Entry Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/tasks/{taskId}/threads/system_changes/entries/{entryId}
+```
+
+Canonical document shape:
+
+```text
+{
+  type: "system_change",
+
+  actor_email: string,
+  occurred_at: Timestamp,
+
+  action: string,
+
+  previous_state: {
+    macro: string,
+    micro: string
+  } | null,
+
+  new_state: {
+    macro: string,
+    micro: string
+  } | null,
+
+  reason: string | null,
+
+  changes: {
+    <field_path>: {
+      before: any,
+      after: any
+    }
+  }
+}
+```
+
+**Invariants**
+- Entry IDs are backend-generated.
+- Entries are append-only and immutable.
+- Ordinary clients cannot create/update/delete System Changes entries.
+- `actor_email` is resolved from trusted authenticated backend context.
+- `occurred_at` uses server time.
+- `action` uses an approved stable action identifier.
+- Lifecycle actions populate `previous_state` and `new_state`; non-lifecycle actions may use `null`.
+- `reason` follows the approved required/optional action semantics.
+- `changes` contains only fields materially changed by the action.
+- Structured audit values are canonical.
+- No redundant rendered prose/message is stored as canonical System Changes content.
+- Task mutation and its System Changes entry are written atomically in the same trusted transaction.
 
 #### Attachments and File Content
 
@@ -1477,6 +1616,8 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-045 | 2026-10-07 | User Profile Schema | Freeze the Milestone 1–3 `/users/{uid}` schema, own-only access, canonical identity fields, editable display name/timezone, provider-derived profile picture semantics, and timestamp ownership. | — |
 | DEC-046 | 2026-10-07 | Category Schema | Freeze the Milestone 1–3 `/categories/{categoryId}` schema, normalized-name uniqueness intent, archive/reference behavior, stable IDs, and trusted reset-to-default reconciliation semantics. | — |
 | DEC-047 | 2026-10-07 | Preference / State / Reminder Schemas | Freeze the Milestone 1–3 physical schemas for Task preferences, per-user Task state, and reminders. Preference enums/cardinality are fixed; Hide Until clear retains the state document with `hidden_until = null`; reminders are backend-managed with scheduled/delivered/cancelled/failed states. | — |
+| DEC-048 | 2026-10-07 | View Preference Schema | Freeze the Milestone 1–3 `/users/{uid}/view_preferences/{viewKey}` full-snapshot schema, per-preset validation, Remember/Reset semantics, and schema-versioning rules. | — |
+| DEC-049 | 2026-10-07 | System Changes Schema | Freeze deterministic `/tasks/{taskId}/threads/system_changes` thread identity and append-only structured System Changes entries. Canonical audit data is structured only; rendered prose is derived and not stored. | — |
 
 ## MVP Scope
 
@@ -1593,6 +1734,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen View Preference and System Changes schemas, including deterministic `system_changes` thread ID and structured-only canonical audit entries. | Approved |
 | 2026-10-07 | Frozen physical Preference, State, and Reminder schemas, including stable state-document identity with `hidden_until = null` on clear. | Approved |
 | 2026-10-07 | Frozen physical User Profile and Category schemas, including ownership, normalization, archival/reference rules, and reset-to-default reconciliation. | Approved |
 | 2026-10-07 | Frozen the physical Milestone 1–3 Task document schema, TaskDate model, nullability, derived-field invariants, field ownership, and validation boundaries. | Approved |
