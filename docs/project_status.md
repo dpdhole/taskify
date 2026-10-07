@@ -662,6 +662,111 @@ Index policy:
 - Validate the exact generated index set with emulator/integration tests and Firestore Query Explain before treating index ordering as operationally final; remove redundant indexes where an existing compatible index serves the query.
 - Pagination/page-size policy is deferred until measured candidate-set behavior warrants it; view-level date/staleness bounds are the primary Milestone 1–3 read-control mechanism.
 
+#### Firestore Security Rules Contract — Milestones 1–3
+
+Security Rules v2 is the baseline. Rules enforce authorization and document-shape invariants; trusted backend code is responsible for lifecycle/business-action validation, atomic System Changes writes, archive/delete/restore semantics, hierarchy operations, reminders, and other backend-owned state transitions.
+
+Authentication helpers should resolve the authenticated user's canonical email from Firebase Auth and compare normalized/canonical values consistently with stored domain email fields.
+
+**Users**
+- `/users/{uid}`: an authenticated user may read and update only their own profile document.
+- Client updates may change only explicitly user-editable profile fields such as `display_name` and, when enabled, user-editable settings such as timezone.
+- Identity-controlled fields including `uid`, canonical email fields, auth-provider identity, provider-derived profile picture provenance, and creation metadata are immutable from ordinary client updates.
+- Profile creation must match `request.auth.uid` and the authenticated canonical email.
+
+**Categories**
+- Category documents are readable/writable only by their owner.
+- `owner_email` is immutable after creation and must equal the authenticated user's canonical email.
+- Create/update validates category name/normalized-name shape and approved category fields.
+- Referenced categories are archived rather than client-deleted when product semantics require preservation; destructive delete is not part of the normal client contract.
+
+**Task reads**
+- Milestones 1–3 are individual-first. A Task is readable by its Owner; registered shared-task access is added in Milestone 6.
+- Queries must include constraints compatible with Rules; Rules do not filter unauthorized Task documents out of otherwise broader queries.
+- Task subcollections inherit Task-context visibility unless a stricter per-user rule is defined below.
+
+**Root Task create**
+- Ordinary client creation is allowed only for a root Task owned by the authenticated user.
+- Required create invariants:
+  - `type == "task"`.
+  - `owner_email == executor_email == created_by_email == me`.
+  - `consultant_emails == []` and `informed_emails == []` for the Milestone 1–3 individual flow.
+  - `parent_task_id == null` and `root_task_id == null` for direct root creation.
+  - `lifecycle.macro == "upcoming"` and `lifecycle.micro == "planned"`.
+  - `availability == "working"`.
+  - `archived_at == null`, `deleted_at == null`, `purge_after == null`, and `completed_at == null`.
+  - referenced `category_id` belongs to the current user and is valid for assignment.
+  - scalar query dates and richer TaskDate values satisfy the approved synchronization/validation contract.
+- Subtask creation is not a direct client document create; it uses the trusted `createSubtask` business action so hierarchy/depth/permission invariants are atomic.
+
+**Ordinary Task update**
+- Direct client updates are allowed only on an owned, non-deleted Task and only for approved ordinary fields.
+- Owner-editable ordinary fields for Milestones 1–3 are:
+  - `title`
+  - `description_md`
+  - `category_id`
+  - `priority`
+  - `start`, `due`, `end`
+  - `start_date`, `due_date`, `end_date`
+  - `updated_at`
+- Rules must reject updates that change any protected field, including:
+  - `type`
+  - `owner_email`, `executor_email`, `created_by_email`
+  - participant arrays
+  - `lifecycle`
+  - `availability`
+  - hierarchy fields
+  - `archived_at`, `deleted_at`, `purge_after`, `completed_at`
+  - `created_at`
+- `updated_at` on a direct client edit must resolve to the current server request time according to the implemented timestamp pattern.
+- Category changes must continue to reference a valid category owned by the current user.
+- Date edits must preserve the approved rich-date/scalar-date synchronization invariant. If Security Rules cannot robustly validate the exact synchronization without excessive complexity, date mutation must move behind a trusted backend action rather than weakening the invariant.
+- Direct physical Task delete is denied.
+
+**Backend-only Task actions**
+- Lifecycle transitions, archive, restore archive, soft delete, restore delete, hierarchy/governance changes, and other audit-relevant business actions are denied to ordinary client writes and execute through trusted backend transactions.
+- Backend actions maintain `availability` atomically with `archived_at` / `deleted_at`.
+- Backend lifecycle actions maintain lifecycle, `completed_at`, automatic Start/End behavior, and System Changes atomically.
+
+**Task preferences**
+- `/tasks/{taskId}/preferences/{uid}`: readable only when the parent Task is readable and `uid == request.auth.uid`; collection-group reads additionally require `user_email == me`.
+- A user may create/update/delete only their own preference document.
+- `task_id` must identify the containing Task and is immutable.
+- `user_email` must equal the authenticated canonical email and is immutable.
+- Client-writable preference content is limited to the approved `system_tags` structure and timestamps/schema metadata required by the implementation.
+- `system_tags` must validate the approved enums/cardinality rules for importance, urgency, DOW, and TOD.
+
+**Task state / Hide Until**
+- `/tasks/{taskId}/states/{uid}`: readable only for the matching authenticated user when the parent Task is readable; collection-group reads require `user_email == me`.
+- Client direct writes are denied. Hide Until / clear-Hide-Until executes through trusted backend actions so identity, timestamp, and Task-access invariants are enforced consistently.
+- `task_id` and `user_email` are backend-maintained identity fields.
+
+**Reminders**
+- Reminder documents are readable only by the reminder owner when the parent Task is readable.
+- Direct client create/update/delete is denied for Milestones 1–3. Reminder create/update/cancel operations use trusted backend actions to protect delivery-state invariants and prevent clients from forging delivery results.
+- Delivery fields such as `delivery_state` and `delivered_at` are backend-controlled.
+
+**View preferences**
+- `/users/{uid}/view_preferences/{viewKey}`: only the matching authenticated user may read/write/delete.
+- Writes validate a supported `schema_version` and the approved per-view preference shape.
+- Remember writes the complete resolved snapshot; Reset deletes the document.
+- Runtime Important/Urgent/DOW/TOD modifier state is not persisted here unless separately approved.
+
+**Threads / System Changes**
+- Task activity/thread data is readable when the parent Task is readable.
+- Milestones 1–3 do not allow ordinary client writes to the `System Changes` thread or its entries.
+- System Changes entries are written only by trusted backend business actions.
+- Human conversation/comment writes remain deferred to the collaboration milestone.
+
+**Collection-group rules**
+- Collection-group queries for `preferences` and `states` must be authorized using document-level identity fields (`user_email == me`) because the parent Task path is not sufficient to authorize an arbitrary collection-group query.
+- Rules for collection-group reads must remain compatible with the approved query predicates; the client must issue identity-constrained queries rather than relying on Rules to discard other users' documents.
+
+**Default-deny and testing**
+- Any document/path/field mutation not explicitly allowed is denied.
+- Firebase Emulator Security Rules tests are mandatory before deployment for Milestones 1–3.
+- Tests must cover positive and negative cases for Task create/update/read, protected-field mutation, category ownership, date synchronization, preference isolation, collection-group isolation, Hide Until access, reminder ownership, view preferences, System Changes immutability, and archive/delete/lifecycle client-write denial.
+
 #### User-Task Data Separation Rule
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
@@ -825,6 +930,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-039 | 2026-10-07 | Unspecified Date Bucket | In date-organized views, Tasks without the relevant date are placed in an **Unspecified** bucket at the end of the view. No synthetic date is assigned. Presets whose defining semantics require the date may still exclude missing-date Tasks. | — |
 | DEC-040 | 2026-10-07 | Lifecycle Query Fields | Query lifecycle directly through nested Firestore fields `lifecycle.macro` and `lifecycle.micro`. Do not duplicate lifecycle into top-level query fields unless later measurements justify a projection. | — |
 | DEC-041 | 2026-10-07 | Firestore Preset Query Contract | Freeze Milestone 1–3 view-level candidate query shapes and minimum index strategy. Preset-defining predicates execute server-side; grouping, presentation filters/modifiers, and final sort remain client-side. Prioritize uses separate dated and null-Due branches merged client-side. Follow Up and per-user enrichment use Rules-v2 collection-group queries. | — |
+| DEC-042 | 2026-10-07 | Firestore Security Rules Contract | Freeze Milestone 1–3 Rules-v2 authorization boundaries: owner-scoped Task reads, invariant-checked root creation, narrow ordinary Task updates, backend-only lifecycle/archive/delete/hierarchy/audit actions, own-only preferences/view preferences, backend-managed Hide Until/reminders, immutable System Changes, identity-constrained collection-group access, and mandatory emulator rule tests. | — |
 
 ## MVP Scope
 
@@ -941,6 +1047,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen Milestone 1–3 Firestore Security Rules contract, including direct-write allowlists, backend-only business state, per-user subcollection isolation, collection-group constraints, and mandatory emulator tests. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 Firestore preset candidate queries, expansion behavior, per-user collection-group enrichment, and minimum composite-index strategy. | Approved |
 | 2026-10-07 | Approved nested lifecycle query fields (`lifecycle.macro` / `lifecycle.micro`) with no top-level duplication. | Approved |
 | 2026-10-07 | Added derived Task availability projection and standardized Unspecified date buckets at the end of date-organized views. | Approved |
