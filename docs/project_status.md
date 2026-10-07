@@ -1202,6 +1202,116 @@ Use Firebase 2nd-generation callable functions as the client-facing trusted back
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
 
+#### User Task Preference Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/tasks/{taskId}/preferences/{uid}
+```
+
+Canonical document shape:
+
+```text
+{
+  task_id: string,
+  user_email: string,
+
+  system_tags: {
+    importance: "important" | "not_important" | null,
+    urgency: "urgent" | "not_urgent" | null,
+    dow: ("mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun")[],
+    tod: ("early_morning" | "midmorning" | "afternoon" | "evening" | "night")[]
+  },
+
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+**Invariants**
+- The document ID equals the authenticated Firebase UID.
+- `task_id` identifies the containing Task and is immutable.
+- `user_email` equals the authenticated user's canonical email and is immutable.
+- `dow` and `tod` contain only approved enum values and no duplicates.
+- Importance/Urgency explicit negative values remain distinct from `null` / unclassified.
+- `created_at` is immutable; `updated_at` uses server time.
+- A user may create/update/delete only their own preference document and only when the parent Task is readable.
+- Collection-group reads require `user_email == me`.
+
+#### User Task State Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/tasks/{taskId}/states/{uid}
+```
+
+Canonical document shape:
+
+```text
+{
+  task_id: string,
+  user_email: string,
+  hidden_until: Timestamp | null,
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+**Invariants**
+- The document ID equals the authenticated Firebase UID.
+- `task_id` identifies the containing Task and is immutable.
+- `user_email` equals the authenticated user's canonical email and is immutable.
+- When `hidden_until` is non-null for an active Hide Until operation, it must be in the future at the time it is set.
+- Expired timestamps may remain stored; active/inactive state is derived from current time.
+- Clearing Hide Until retains the state document and sets `hidden_until = null`; it does not delete the state document.
+- The state document is reserved for current/future per-user system state, so stable document identity is intentional.
+- Direct client writes are denied; trusted backend callables manage Hide Until.
+- State changes do not alter Task lifecycle, Task `updated_at`, or System Changes.
+- Collection-group reads require `user_email == me`.
+
+#### Reminder Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/tasks/{taskId}/reminders/{reminderId}
+```
+
+Canonical document shape:
+
+```text
+{
+  task_id: string,
+  user_email: string,
+  remind_at: Timestamp,
+
+  delivery_state:
+    "scheduled" |
+    "delivered" |
+    "cancelled" |
+    "failed",
+
+  created_at: Timestamp,
+  updated_at: Timestamp,
+  delivered_at: Timestamp | null
+}
+```
+
+**Invariants**
+- `task_id` identifies the containing Task and is immutable.
+- `user_email` is the reminder owner's canonical email and is immutable.
+- `remind_at` is required.
+- New reminders start with `delivery_state = "scheduled"`.
+- `delivered_at` is non-null only when `delivery_state == "delivered"`.
+- Delivery transitions to `delivered` or `failed` are backend-worker controlled.
+- Cancel sets `delivery_state = "cancelled"`; normal client behavior does not physically delete reminder records.
+- Reminder mutations do not alter Task `updated_at`.
+- Users may read only their own reminders when the parent Task is readable.
+- Create/update/cancel operations use trusted backend callables.
+
+
 Canonical logical/physical separation:
 
 - `/tasks/{taskId}/preferences/{userId}` — **UserTaskPreference**. System tags are stored in a structured `system_tags` map rather than as unrelated top-level fields or a flat tag array. Current dimensions are `importance`, `urgency`, `dow`, and `tod`. New dimensions require an approved product definition and validation semantics.
@@ -1366,6 +1476,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-044 | 2026-10-07 | Physical Task Schema | Freeze the Milestone 1–3 `/tasks/{taskId}` document schema, required/null fields, TaskDate structure, lifecycle/availability/date/hierarchy invariants, field ownership, timestamp semantics, and validation policy. | — |
 | DEC-045 | 2026-10-07 | User Profile Schema | Freeze the Milestone 1–3 `/users/{uid}` schema, own-only access, canonical identity fields, editable display name/timezone, provider-derived profile picture semantics, and timestamp ownership. | — |
 | DEC-046 | 2026-10-07 | Category Schema | Freeze the Milestone 1–3 `/categories/{categoryId}` schema, normalized-name uniqueness intent, archive/reference behavior, stable IDs, and trusted reset-to-default reconciliation semantics. | — |
+| DEC-047 | 2026-10-07 | Preference / State / Reminder Schemas | Freeze the Milestone 1–3 physical schemas for Task preferences, per-user Task state, and reminders. Preference enums/cardinality are fixed; Hide Until clear retains the state document with `hidden_until = null`; reminders are backend-managed with scheduled/delivered/cancelled/failed states. | — |
 
 ## MVP Scope
 
@@ -1482,6 +1593,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen physical Preference, State, and Reminder schemas, including stable state-document identity with `hidden_until = null` on clear. | Approved |
 | 2026-10-07 | Frozen physical User Profile and Category schemas, including ownership, normalization, archival/reference rules, and reset-to-default reconciliation. | Approved |
 | 2026-10-07 | Frozen the physical Milestone 1–3 Task document schema, TaskDate model, nullability, derived-field invariants, field ownership, and validation boundaries. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 backend callable/API and transaction boundaries, optimistic concurrency, stable errors, reminder/Hide Until actions, and automatic Ready promotion semantics. | Approved |
