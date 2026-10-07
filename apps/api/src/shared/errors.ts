@@ -2,7 +2,7 @@ import type { ApiErrorCode } from "@taskify/api-contracts";
 import { HttpsError } from "firebase-functions/v2/https";
 
 export class ApiError extends Error {
-  constructor(public readonly code: ApiErrorCode, message = code) {
+  constructor(public readonly code: ApiErrorCode, message: string = code) {
     super(message);
   }
 }

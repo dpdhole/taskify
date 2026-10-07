@@ -63,19 +63,23 @@ Firestore Security Rules and client-SDK emulator tests are implemented and verif
 Prerequisites:
 
 - Node.js 22
-- pnpm 10
+- pnpm 10.34.6 (root-pinned for Corepack)
 - JDK 21 or newer for Firestore-emulator tests
 
-Backend runtime dependencies, Vitest, Firebase Emulator tooling, and Rules test dependencies are declared. Linting, formatting, and application build scripts remain separate pending work.
+Backend runtime dependencies, TypeScript build tooling, Vitest, Firebase Emulator tooling, and Rules test dependencies are declared. Contract/API production builds and standalone Functions packaging are implemented. Linting, formatting, and client application builds remain separate pending work.
 
 After installing declared dependencies with pnpm, run:
 
 ```sh
+pnpm run build:api
+pnpm run test:api:callable
 pnpm --filter @taskify/api test --exclude '**/*.integration.test.ts'
 pnpm run test:api:integration
 pnpm run test:firestore:rules
 pnpm run test:firestore:queries
 ```
+
+The callable suite builds an ignored standalone artifact and uses local Auth, Functions, and Firestore emulators for `demo-taskify`. It performs no cloud deployment. See [`callable-verification.md`](infrastructure/firebase/callable-verification.md) for evidence and limitations.
 
 ## Project Governance
 

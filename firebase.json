@@ -1,9 +1,24 @@
 {
+  "functions": {
+    "source": "apps/api/dist/firebase",
+    "codebase": "api",
+    "runtime": "nodejs22",
+    "predeploy": ["pnpm run package:api"],
+    "ignore": ["node_modules", ".git", "*.log"]
+  },
   "firestore": {
     "rules": "infrastructure/firebase/firestore.rules",
     "indexes": "infrastructure/firebase/firestore.indexes.json"
   },
   "emulators": {
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9099
+    },
+    "functions": {
+      "host": "127.0.0.1",
+      "port": 5001
+    },
     "firestore": {
       "host": "127.0.0.1",
       "port": 8080

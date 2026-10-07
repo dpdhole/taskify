@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "dist/esm/index.js",
   "engines": {
     "node": "22"
   },
@@ -14,11 +15,13 @@
     "firebase-functions": "^6.4.0"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
     "vitest": "^5.0.3"
   }
 }

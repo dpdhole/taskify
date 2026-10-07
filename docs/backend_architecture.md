@@ -321,3 +321,15 @@ apps/api/src/
 **Status:** Approved
 
 Public API contracts are Firebase/Firestore-independent. Timestamp values crossing the trusted API boundary use canonical ISO-8601 UTC strings. Firestore `Timestamp` values and conversion logic remain private implementation details of `apps/api` and client-side adapters. This rule applies to optimistic-concurrency timestamps, Hide Until, reminders, and timestamp values returned by trusted API operations.
+
+## API Build and Local Callable Verification
+
+**Status:** Build/tooling design Approved (DEC-071–DEC-073); implemented locally. Executed evidence and remaining verification limits are recorded through `docs/project_status.md`.
+
+- TypeScript 5.9.3 compiles `packages/api-contracts` first, exposing compiled ESM and declaration entry points. The API production configuration uses NodeNext module/resolution semantics and excludes test files.
+- `pnpm run build:api` builds both packages. `pnpm run package:api` generates `apps/api/dist/firebase` and installs its production dependencies independently of the workspace, producing a pnpm lockfile.
+- The generated artifact preserves Node.js 22 and pnpm 10.34.6, contains emitted API files and external runtime dependencies, and omits the current type-only `@taskify/api-contracts` runtime dependency only after checking the emitted JS. The source workspace dependency remains intact. A later runtime contract import requires revisiting packaging rather than silently stripping it.
+- The artifact and compiled outputs are ignored build products. The generator validates its absolute destination under API `dist`, recreates only that generated artifact, and preserves its lockfile when the generated manifest is unchanged. A new clone/build without an artifact lock resolves the declared dependency ranges; no workspace lockfile is introduced in this scope.
+- `firebase.json` references the generated source, codebase `api`, runtime `nodejs22`, and a build/package predeploy hook. This configuration does not authorize Functions deployment. Cloud buildpack install/start behavior has not yet been exercised.
+- `pnpm run test:api:callable` packages the API, starts Auth/Functions/Firestore emulators for `demo-taskify`, and runs the Firebase client callable HTTP suite. The suite checks emulator endpoints before fixture access and does not use cloud fixtures.
+- The current callable uses the SDK's default region in the emulator (`us-central1`). This local behavior does not select a cloud Functions deployment region; a future deployment plan must explicitly review region, IAM, provider configuration, and billing.
