@@ -64,11 +64,13 @@
 | DEC-056 | 2026-10-07 | Workspace Tooling | Use pnpm as Taskify's package manager and workspace manager. Start with standard pnpm workspaces and explicit package dependencies; do not introduce Nx, Turborepo, or another build-orchestration layer initially. Build orchestration/caching remains deferred until demonstrated repository needs justify it. | — |
 | DEC-057 | 2026-10-07 | Language / Runtime Baseline | Use TypeScript as the baseline language for current Taskify applications and shared packages, Node.js 22 as the pinned backend/runtime major compatible with the approved Firebase Cloud Functions platform, and ECMAScript Modules (ESM) for new Node/TypeScript code. Frontend framework choices remain independent and undecided. Runtime-major upgrades are operational changes requiring compatibility validation before adoption. | — |
 | DEC-058 | 2026-10-07 | Browser Client Architecture | Use one responsive browser client at `apps/app` for both mobile-browser and desktop-browser use. Implement it as a React + TypeScript + Vite SPA with a PWA-capable architecture. Preserve the client boundary `apps/app` → `packages/client-sdk` → `packages/api-contracts` → `apps/api`; do not introduce a frontend server/business-logic layer. PWA capability does not make full offline synchronization an MVP requirement. Future native mobile/desktop clients remain separate applications to be added only when justified. | DEC-055 initial `apps/mobile` + `apps/web` split; DEC-057 frontend framework undecided wording |
+| DEC-059 | 2026-10-07 | Repository Bootstrap | Bootstrap the approved monorepo with root pnpm workspace configuration, shared strict TypeScript base configuration, `apps/api`, `apps/app`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, and `tooling`. Use `@taskify/*` package names and explicit `workspace:*` internal dependencies. Keep root scripts/config minimal; lint, formatting, test frameworks, build orchestration, and substantive Firebase configuration remain separate decisions/implementation steps. | — |
 
 ## Change Log
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Bootstrapped the approved pnpm monorepo skeleton and package boundaries with minimal root configuration. | Implemented |
 | 2026-10-07 | Frozen a single responsive `apps/app` browser client using React + TypeScript + Vite, PWA-capable but without making offline sync an MVP requirement. | Approved |
 | 2026-10-07 | Frozen TypeScript, Node.js 22, and ESM as the language/runtime baseline while leaving frontend frameworks undecided. | Approved |
 | 2026-10-07 | Frozen pnpm as the Taskify package/workspace manager; no monorepo build-orchestration layer is adopted initially. | Approved |
