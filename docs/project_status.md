@@ -780,10 +780,63 @@ Canonical document shape:
 
 **Field ownership and access**
 - Only the category owner may read/write the document in Milestones 1–3.
-- Client create/update may edit `name`, `normalized_name`, `display_order`, and archive state only where the Security Rules and operation semantics can enforce consistency safely.
+- Category create/rename/archive/reactivate use trusted backend operations. Direct client category mutation is limited to reorder writes for `display_order` plus `updated_at`.
 - `owner_email`, `created_at`, and default provenance semantics are protected.
-- If normalized-name uniqueness or reset/reactivation semantics cannot be enforced robustly through direct client writes, those mutations move behind trusted backend operations rather than weakening the invariant.
+- `normalized_name` uniqueness, reset, and reactivation semantics are enforced by trusted backend operations and transactional uniqueness guards.
 - Destructive client delete is denied for referenced categories; physical cleanup of unreferenced historical categories is not required for Milestones 1–3.
+
+#### Category Mutation Boundary — Milestones 1–3
+
+Category identity/state mutations use trusted backend operations where cross-document uniqueness or archive/reactivation semantics are involved.
+
+**Backend callables**
+```text
+createCategory({
+  name
+})
+```
+
+```text
+renameCategory({
+  category_id,
+  name,
+  expected_updated_at
+})
+```
+
+```text
+setCategoryArchived({
+  category_id,
+  archived: boolean,
+  expected_updated_at
+})
+```
+
+```text
+resetCategoriesToDefaults()
+```
+
+**Normalization and uniqueness**
+- Clients submit user-facing `name`; `normalized_name` is derived only by trusted backend code.
+- Category-name uniqueness is scoped per owner as `owner_email + normalized_name`.
+- A transactional uniqueness guard is maintained separately from the canonical Category document so concurrent create/rename/reactivate operations cannot race.
+- Canonical Category identity remains `category_id`; the uniqueness guard is derived/non-authoritative metadata.
+- Create, rename, archive/reactivate, reset, and their uniqueness-guard updates execute atomically where required.
+
+**Field ownership**
+- Backend-controlled: `owner_email`, `normalized_name`, `is_default`, `archived_at`, `created_at`.
+- User-facing category name changes use backend callables.
+- `updated_at` uses server time for all category mutations.
+
+**Reordering**
+- Category reorder may remain a direct Firestore batched write.
+- Direct reorder writes may change only `display_order` and `updated_at`.
+- No contiguous-order invariant is required for Milestones 1–3; display order only needs to remain deterministic for the client.
+
+**Task category assignment**
+- Task `category_id` remains an approved ordinary direct Task edit.
+- Security Rules must verify the referenced Category exists, belongs to the Task owner, and is active (`archived_at == null`) before accepting a new assignment.
+- Existing Tasks may continue referencing archived Categories.
 
 #### User Timezone
 
@@ -1662,6 +1715,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-048 | 2026-10-07 | View Preference Schema | Freeze the Milestone 1–3 `/users/{uid}/view_preferences/{viewKey}` full-snapshot schema, per-preset validation, Remember/Reset semantics, and schema-versioning rules. | — |
 | DEC-049 | 2026-10-07 | System Changes Schema | Freeze deterministic `/tasks/{taskId}/threads/system_changes` thread identity and append-only structured System Changes entries. Canonical audit data is structured only; rendered prose is derived and not stored. | — |
 | DEC-050 | 2026-10-07 | Task Date Mutation Boundary | Move all Start/Due/End mutation behind trusted backend normalization. Root Task creation uses `createTask`; date edits use `updateTaskDates` with optimistic concurrency. Clients submit date/time/timezone intent only; backend derives `instant` and scalar date projections. | DEC-022/DEC-042/DEC-044 direct date-write allowance |
+| DEC-051 | 2026-10-07 | Category Mutation Boundary | Use trusted backend callables for Category create/rename/archive/reactivate/reset; backend derives `normalized_name` and enforces per-owner uniqueness with transactional guard documents. Direct Firestore category writes are limited to reorder updates of `display_order` and `updated_at`. Task category assignment remains direct under Rules. | DEC-042/DEC-046 partial direct category mutation allowance |
 
 ## MVP Scope
 
@@ -1778,6 +1832,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen Category mutation boundary: backend identity/state mutations with per-owner uniqueness guards; direct writes limited to reorder. | Approved |
 | 2026-10-07 | Moved Task creation and all date mutation behind trusted backend normalization; added `createTask` and `updateTaskDates` concurrency contract. | Approved |
 | 2026-10-07 | Frozen View Preference and System Changes schemas, including deterministic `system_changes` thread ID and structured-only canonical audit entries. | Approved |
 | 2026-10-07 | Frozen physical Preference, State, and Reminder schemas, including stable state-document identity with `hidden_until = null` on clear. | Approved |
