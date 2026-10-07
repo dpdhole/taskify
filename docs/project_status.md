@@ -1258,9 +1258,23 @@ Use Firebase 2nd-generation callable functions as the client-facing trusted back
 
 **Automatic Planned → Ready promotion**
 - The automatic `Upcoming:Planned -> Upcoming:Ready` transition when Start arrives is a trusted backend process, not a client direct write.
-- Promotion must be idempotent and re-check current lifecycle/start conditions before mutation.
-- Each successful automatic promotion updates the Task and writes the corresponding System Changes entry atomically.
-- Exact scheduler/queue implementation and polling cadence remain an implementation choice; semantics are fixed.
+- Milestones 1–3 use a Firebase 2nd-generation scheduled function / Cloud Scheduler sweeper running every **4 hours**.
+- Candidate retrieval uses working Planned Tasks whose `start_date` is due/past relative to the evaluation date; backend code then evaluates the exact TaskDate semantics.
+- Eligibility requires:
+  - `availability == "working"`;
+  - `lifecycle.macro == "upcoming"`;
+  - `lifecycle.micro == "planned"`;
+  - `start != null`;
+  - for timed Start, `start.instant <= now`;
+  - for date-only Start, `start.date <= today` using the Task Owner's stored timezone.
+- Each candidate is processed transactionally. The transaction re-reads the Task and re-checks all eligibility predicates before mutation.
+- A successful promotion changes only lifecycle to `upcoming/ready`, sets Task `updated_at` to server time, and appends one structured System Changes entry with stable action identifier `auto_ready`.
+- Start/End values are not modified by the automatic promotion.
+- The transition is idempotent because only a Task still in `upcoming/planned` is mutated; duplicate or overlapping scheduler invocations therefore become no-ops after the first successful promotion.
+- If a scheduler run fails, the next sweep naturally re-discovers still-eligible Planned Tasks; no separate scheduler-state document is required.
+- No System Changes entry is written for skipped/non-eligible candidates.
+- Milestones 1–3 do not add a per-Task scheduling queue or a separate `start_instant` query projection. The 4-hour cadence is accepted because most Task usage is expected to operate at day resolution; a timed Start may therefore become Ready up to approximately four hours after its exact instant.
+- If later measurement or product requirements demand tighter timed precision, a dedicated query projection or per-Task scheduling mechanism may be proposed separately.
 
 **Direct client writes remain outside callables**
 - Approved ordinary non-date Task edits, category management, per-user system-tag preferences, and remembered view preferences remain direct Firestore client operations protected by Security Rules. Root Task creation and all Start/Due/End mutations use trusted backend callables.
@@ -1716,6 +1730,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-049 | 2026-10-07 | System Changes Schema | Freeze deterministic `/tasks/{taskId}/threads/system_changes` thread identity and append-only structured System Changes entries. Canonical audit data is structured only; rendered prose is derived and not stored. | — |
 | DEC-050 | 2026-10-07 | Task Date Mutation Boundary | Move all Start/Due/End mutation behind trusted backend normalization. Root Task creation uses `createTask`; date edits use `updateTaskDates` with optimistic concurrency. Clients submit date/time/timezone intent only; backend derives `instant` and scalar date projections. | DEC-022/DEC-042/DEC-044 direct date-write allowance |
 | DEC-051 | 2026-10-07 | Category Mutation Boundary | Use trusted backend callables for Category create/rename/archive/reactivate/reset; backend derives `normalized_name` and enforces per-owner uniqueness with transactional guard documents. Direct Firestore category writes are limited to reorder updates of `display_order` and `updated_at`. Task category assignment remains direct under Rules. | DEC-042/DEC-046 partial direct category mutation allowance |
+| DEC-052 | 2026-10-07 | Planned → Ready Scheduler | Use an idempotent 2nd-generation scheduled sweeper every 4 hours. Candidate retrieval uses due/past `start_date`; exact timed/date-only eligibility is re-evaluated transactionally. Successful promotions atomically update lifecycle/`updated_at` and append `auto_ready` System Changes. No per-Task queue or extra `start_instant` projection in Milestones 1–3. | DEC-043 exact scheduler implementation/cadence deferred |
 
 ## MVP Scope
 
@@ -1832,6 +1847,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen Planned → Ready scheduler implementation: 4-hour idempotent sweeper with transactional exact eligibility checks and atomic `auto_ready` audit entry. | Approved |
 | 2026-10-07 | Frozen Category mutation boundary: backend identity/state mutations with per-owner uniqueness guards; direct writes limited to reorder. | Approved |
 | 2026-10-07 | Moved Task creation and all date mutation behind trusted backend normalization; added `createTask` and `updateTaskDates` concurrency contract. | Approved |
 | 2026-10-07 | Frozen View Preference and System Changes schemas, including deterministic `system_changes` thread ID and structured-only canonical audit entries. | Approved |
