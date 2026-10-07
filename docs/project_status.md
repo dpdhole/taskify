@@ -61,7 +61,7 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-059**.
+- Architecture and product design are approved through **DEC-060**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
@@ -71,7 +71,7 @@ Material state transitions require explicit project-owner approval.
 - TypeScript, Node.js 22, and ESM are approved as the current language/runtime baseline.
 - The browser client technology is approved as React + TypeScript + Vite, implemented as a responsive SPA with PWA capability. Full offline synchronization is not an MVP requirement; future native clients remain deferred until justified.
 - Repository bootstrap is implemented with pnpm workspace configuration, strict shared TypeScript defaults, `@taskify/*` package naming, and explicit workspace dependencies. Lint/format/test frameworks and substantive Firebase configuration remain unselected/unimplemented.
-- The next architecture task is internal `apps/api` implementation structure.
+- The internal `apps/api` implementation structure is approved as feature-oriented business operations with thin Firebase deployment adapters and narrowly shared infrastructure.
 
 ## Open Questions
 
@@ -91,7 +91,7 @@ None formally recorded yet.
 
 ## Next Actions
 
-- Define internal `apps/api` implementation structure from the approved callable/transaction contracts. **Status:** Next design stage.
+- Define and implement the public `packages/api-contracts` baseline before the first backend callable. **Status:** Next implementation stage.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
