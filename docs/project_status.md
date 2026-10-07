@@ -273,7 +273,7 @@ Taskify uses the following primary navigation areas:
 - **Tasks** — primary task workspace using preset and user-saved views.
 - **Nearby** — ephemeral location-context query answering "what can I do here now?".
 - **Calendar** — date-oriented projection of tasks/events.
-- **Search** — free-text retrieval across accessible tasks, with Advanced Search launching the View Builder wizard.
+- **Search** — free-text retrieval across accessible tasks. Richer filtering may refine results, but a standalone View Builder is no longer an approved baseline requirement.
 - **Settings** — profile, categories, notifications, defaults, and integrations.
 
 `My Tasks` and `Shared With Me` are not separate top-level information spaces; their semantics are expressed through preset/user-saved views in **Tasks**.
@@ -283,10 +283,10 @@ Taskify uses the following primary navigation areas:
 - A saved view is a stored query definition over the user's accessible task universe.
 - Product-defined preset views are **global system-defined saved queries** with a fixed product-controlled order; users do not reorder presets.
 - New or revised preset definitions apply globally without per-user copies or migration.
-- Users may create, name, save, edit, duplicate, and delete their own views when the View Builder is exposed in Milestone 3.
-- A view definition contains task filters, one grouping field, and sort order.
-- Saved views store query semantics, not materialized task IDs.
-- Views may filter by task-definition and relationship fields such as ownership/role, lifecycle, category, priority, relative date conditions, and participants. Location is a runtime working-context modifier rather than a persisted View Builder filter. Recurrence is not currently a View Builder filter.
+- Taskify first provides global product-defined presets, configurable preset presentation/parameters, and temporary working filters.
+- User-created Saved Views and a standalone View Builder are **deferred pending demonstrated recurring retrieval needs**; they are not currently required product capabilities.
+- If persistent custom views are later justified, prefer **Save current view** over an independent query-builder experience: persist the current preset plus supported filters/presentation state rather than expose arbitrary query construction.
+- Temporary working filters may refine task-definition and relationship fields such as Category, Priority, lifecycle state, and later participation role/person. Location remains a runtime working-context modifier.
 - DOW, TOD, Important, and Urgent are not persisted as fixed filters in the saved-view definition; they are runtime system-tag modifiers applied to a view.
 - DOW/TOD modifiers are evaluated against the system clock at runtime.
 - All system-tag view modifiers are preference-aware: absence of the relevant system tag does not exclude a task; a conflicting assigned tag may exclude it while the modifier is active.
@@ -302,8 +302,8 @@ Taskify uses the following primary navigation areas:
 
 - General Search provides free-text retrieval across accessible tasks.
 - General Search covers at least title, description, human comments/conversations, attachment metadata, participant names/emails, and participation-role labels. Routine `System Changes` audit entries are excluded from general free-text search.
-- **Advanced Search** launches the same View Builder wizard used by Tasks.
-- Advanced Search may run ad hoc, be refined, and optionally be saved as a named view.
+- Search may be refined with the same supported temporary filters used in Tasks.
+- A separate Advanced Search / View Builder workflow is deferred unless later usage demonstrates a need for query construction beyond presets, temporary filters, and Search.
 - Role/participation criteria are first-class search fields, including My Role, Owner, Executor, Consultant/Reviewer, Informed, and participant name/email.
 
 #### Home
@@ -686,6 +686,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-028 | 2026-10-07 | Preset Grouping | Freeze preset grouping: Focus by Due bucket; Resolve by lifecycle state; Prioritize by Due bucket/date; Plan by Created-date bucket; Follow Up by hidden-until bucket; All Active ungrouped; Recently Closed/Unarchive/Recover by their respective date buckets. For date-based groups, Category is the secondary ordering key. | — |
 | DEC-029 | 2026-10-07 | Plan Preset | Plan contains active tasks with no Due date and groups them by Created-date bucket: Today, Previous 7 Days, Previous 30 Days, Older. Within each bucket, order by Category then Created date. | — |
 | DEC-030 | 2026-10-07 | User Timezone | Store an IANA timezone on the user profile, initially derived from device/browser timezone. Relative dates, date buckets, DOW, and TOD are evaluated using that stored timezone. | — |
+| DEC-031 | 2026-10-07 | View Customization Direction | Prefer opinionated global presets with configurable parameters/presentation, runtime modifiers, Search, and temporary filters. User-created Saved Views and a standalone View Builder are deferred pending demonstrated recurring retrieval needs. If persistence is later justified, prefer Save current view over an independent query-builder workflow. Milestone 3 becomes View Refinement. | DEC-008/DEC-011/DEC-017/DEC-018 requirements for an upfront standalone View Builder and Saved Views |
 
 ## MVP Scope
 
@@ -715,8 +716,8 @@ MVP scope is defined around coherent end-to-end user workflows, with individual 
 - Event type.
 - Calendar.
 - Recurrence.
-- Saved Views.
-- View Builder / Advanced Search.
+- Persistent user-created Saved Views / View Builder, only if later justified by demonstrated recurring retrieval needs.
+- Advanced Search beyond normal Search + supported temporary filters.
 - Structured location.
 - Nearby.
 - External-link attachments.
@@ -753,10 +754,10 @@ Implementation sequencing is frozen separately from MVP product classification:
    - Basic Search.
    - External-link attachments.
 
-3. **Milestone 3 — Saved Views**
-   - Saved Views.
-   - View Builder.
-   - Advanced Search integration.
+3. **Milestone 3 — View Refinement**
+   - Expand temporary Tasks/Search filters where justified.
+   - Evaluate whether recurring usage warrants **Save current view**.
+   - Do not build a standalone View Builder unless concrete user needs remain unsatisfied by presets, configuration, modifiers, Search, and temporary filters.
 
 4. **Milestone 4 — Location**
    - Structured task/event location.
@@ -803,6 +804,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Shifted customization direction to configurable presets + temporary filters; standalone View Builder/user-created Saved Views deferred pending demonstrated need; Milestone 3 renamed View Refinement. | Approved |
 | 2026-10-07 | Approved Plan created-date buckets and user-profile IANA timezone semantics for relative date/DOW/TOD evaluation. | Approved |
 | 2026-10-07 | Frozen preset grouping and presentation ordering; date-based groups use Category as the secondary ordering key. | Approved |
 | 2026-10-07 | Approved structured system-tag persistence, private Hide until semantics, and no mandatory userTaskIndex for Milestones 1–2. | Approved |
