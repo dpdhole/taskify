@@ -69,6 +69,7 @@
 | DEC-061 | 2026-10-07 | API Timestamp Transport | Keep `packages/api-contracts` independent of Firebase/Firestore. Public API timestamp values use canonical ISO-8601 UTC strings; Firestore `Timestamp` and conversion logic remain implementation details of `apps/api` and client-side adapters. This applies to optimistic-concurrency timestamps, Hide Until, reminders, and timestamp values returned by trusted API operations. | — |
 | DEC-062 | 2026-10-07 | API Runtime Dependencies | Approve `firebase-admin`, `firebase-functions`, `date-fns`, and `@date-fns/tz` as `apps/api` runtime dependencies, plus workspace dependency `@taskify/api-contracts`. Firebase libraries implement the approved platform boundary; date-fns timezone support performs explicit IANA/DST-safe TaskDate normalization rather than hand-rolled timezone conversion. | — |
 | DEC-063 | 2026-10-07 | Test Runner | Adopt Vitest as the Taskify test runner baseline, starting with `apps/api`. Firebase Emulator Suite remains the integration environment for Firebase-backed behavior and Security Rules verification. | — |
+| DEC-064 | 2026-10-07 | Firebase Emulator Tooling | Adopt `firebase-tools` at the workspace root and root-level `firebase.json` for Firebase CLI convention, with substantive Firebase infrastructure sources retained under `infrastructure/firebase/`. Use `firebase emulators:exec` to run integration suites against the Firestore emulator. | — |
 
 ## Change Log
 
