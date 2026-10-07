@@ -288,3 +288,30 @@ Use Firebase 2nd-generation callable functions as the client-facing trusted back
 **Backend tests**
 - Emulator/integration tests are mandatory for every callable action.
 - Tests cover authorization, expected-state validation, optimistic-concurrency conflicts, required reasons, timestamp/date behavior, `availability` transitions, atomic System Changes creation, subtask-depth rules, Hide Until isolation, reminder state transitions, transaction retry safety, and idempotent automatic Planned→Ready behavior.
+
+## Internal `apps/api` Structure
+
+**Status:** Approved
+
+The backend uses a feature-oriented structure with thin Firebase deployment adapters:
+
+```text
+apps/api/src/
+├── functions/       # callable and scheduled Firebase entry points; thin adapters only
+├── tasks/           # Task operations, lifecycle rules, and date normalization
+├── categories/      # Category business operations
+├── reminders/       # Reminder business operations
+├── task-state/      # Hide Until operations
+├── scheduled/       # scheduled business processes
+├── persistence/     # shared Firebase/Firestore mechanics, paths, converters
+├── auth/            # authenticated-user/canonical-identity resolution
+├── audit/           # System Changes construction/writes
+└── shared/          # narrow backend-wide utilities such as errors/timestamps
+```
+
+- `functions/` owns Firebase callable/scheduler declaration, context/auth extraction, contract parsing, operation invocation, and public error translation; it does not own Taskify business rules.
+- Feature operations own business validation and transaction orchestration. Firestore transaction reads/writes remain explicit rather than hidden behind generic repository abstractions.
+- Shared infrastructure exists only for genuinely cross-feature Firebase/auth/audit concerns.
+- Do not introduce generic controller → service → repository → use-case layering unless a demonstrated future need justifies it.
+- `packages/api-contracts` owns public request/response DTOs, action identifiers, and stable public error codes. Firestore persistence models, derived fields, lifecycle implementation, authorization, transaction logic, date normalization, and audit implementation remain private to `apps/api`.
+- Implement files when their operations are implemented; do not pre-create placeholder source files merely to mirror the intended structure.
