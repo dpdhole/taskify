@@ -61,8 +61,8 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-064**.
-- The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
+- Architecture and product design are approved through **DEC-068**.
+- Firestore Security Rules and the client-SDK emulator test matrix are Implemented and Verified within the executed scope, with project-owner approval to record and publish that status. All 174 Rules tests passed. The approved list exception, remembered-view capability matrix, and profile-timezone validation limit are recorded in DEC-065–DEC-068.
 - API contracts and the initial backend structure are implemented. The `createTask` operation and callable handler are verified within the expanded unit and Firestore-emulator scope recorded below, including runtime validation, canonical identity, public error translation, rollback, and retry behavior. Callable HTTP transport remains unverified. No client feature implementation is formally recorded as implemented or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
 - Repository architecture is approved as a single workspace/monorepo with `apps/api`, one responsive browser client at `apps/app`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, shared `docs`, and repository-wide `tooling`. DEC-058 supersedes DEC-055's initial separate `apps/mobile`/`apps/web` split. The workspace skeleton and package boundaries are now implemented.
@@ -70,7 +70,7 @@ Material state transitions require explicit project-owner approval.
 - pnpm is approved as the package/workspace manager. No Nx, Turborepo, or other build-orchestration layer is adopted initially; orchestration/caching remains deferred until justified.
 - TypeScript, Node.js 22, and ESM are approved as the current language/runtime baseline.
 - The browser client technology is approved as React + TypeScript + Vite, to be implemented as a responsive SPA with PWA capability. Full offline synchronization is not an MVP requirement; future native clients remain deferred until justified.
-- Repository bootstrap is implemented with pnpm workspace configuration, strict shared TypeScript defaults, `@taskify/*` package naming, and explicit workspace dependencies. Lint/format remain unselected/unimplemented. Firebase Emulator tooling is implemented and verified for the existing backend integration suite; Rules and index configuration remain pending. Vitest is approved as the test runner baseline and the initial API unit suite has passed.
+- Repository bootstrap is implemented with pnpm workspace configuration, strict shared TypeScript defaults, `@taskify/*` package naming, and explicit workspace dependencies. Lint/format remain unselected/unimplemented. Firebase Emulator tooling supports backend and client-SDK Rules suites; index configuration remains pending. Vitest remains the approved test runner.
 - The internal `apps/api` implementation structure is approved as feature-oriented business operations with thin Firebase deployment adapters and narrowly shared infrastructure.
 
 ## Open Questions
@@ -123,20 +123,37 @@ Repository/workspace bootstrap, API contracts, and the initial backend structure
 - Failure/retry coverage: a deliberately pre-created thread causes a real commit-time create-precondition failure and rolls back the queued Task write; an injected retryable `ABORTED` error after the first callback's queued writes exercises the actual SDK retry path, reuses the Task ID, and produces exactly one Task and one thread.
 - Integration setup requires the configured local emulator (`127.0.0.1:8080`); recursive fixture cleanup includes orphan subcollections. Unit execution explicitly excludes integration files. `git diff --check` passed.
 
-**Remaining verification limits**
+**Limits of the expanded API run (the later Rules workstream is recorded below)**
 
 - Callable handlers are invoked via `.run`; HTTP callable transport, Firebase token verification, deployed-function behavior, and client SDK behavior are not exercised.
 - The retry test injects a retryable error; it does not establish behavior under every real concurrent-write race or contention scenario.
 - Ambiguous local times during the autumn DST overlap were not tested or assigned a new disambiguation policy.
-- Security Rules remain a separate pending workstream. Admin SDK tests do not verify Rules; no Rules file is configured. Index/query-plan validation, deployment, and client behavior remain unverified.
+- At that run, Security Rules were a separate pending workstream and no Rules file was configured. Admin SDK tests do not verify Rules. Index/query-plan validation, deployment, and client behavior remain unverified.
 
 ## Known Issues / Technical Debt
 
-None formally recorded yet.
+- Profile timezone Rules deliberately validate identifier shape only, not IANA registry membership (DEC-068).
+- Private-record list authorization deliberately relies on canonical identity/containment invariants and permits querying own records without parent access (DEC-067). Direct gets and writes retain their stricter constraints.
+
+### Firestore Security Rules Implementation and Test Evidence — 2026-10-07
+
+**Status:** Implemented and Verified within the executed scope. Project-owner approval obtained to record this status and commit/push the implementation, tests, and documentation. No production deployment is approved or implied.
+
+- Working-tree implementation is based on `1e189359994dbdacc8cee35ef75bcf31a252c05e`.
+- Rules source: `infrastructure/firebase/firestore.rules`; configured by the root `firebase.json`. Client-SDK tests: `infrastructure/firebase/firestore.rules.test.ts`; Vitest configuration: `infrastructure/firebase/vitest.rules.config.mts`.
+- Approved root development dependencies: `firebase` `12.19.0` and `@firebase/rules-unit-testing` `5.0.2`. Node.js `22.23.3`, pnpm `10.34.6`, Vitest `5.0.3`, Firebase CLI `15.32.1`, Firestore emulator `1.22.0`, and JDK `21.0.12.1` were used. The verification-only pnpm launcher was corrected to invoke portable Node.js 22 explicitly before the final runs; no system runtime was changed.
+- `pnpm run test:firestore:rules`: **174 tests passed**, 1 file, exit code 0, duration 16.40 seconds. This executes client-SDK operations with mocked authentication against the actual configured Rules; fixture seeding alone bypasses Rules.
+- `pnpm --filter @taskify/api test --exclude '**/*.integration.test.ts'`: **39 tests passed**, 2 files, exit code 0, duration 2.35 seconds.
+- `pnpm run test:api:integration`: **25 tests passed**, 1 file, exit code 0, duration 6.77 seconds, with the Rules file configured. These Admin SDK tests remain backend regression checks, not Rules verification. Both emulator commands shut down successfully.
+- **Total: 238 tests passed.** `git diff --check` passed. No deployment or index implementation was performed.
+- Rules coverage: authenticated/profile isolation and identity/provenance protection; narrow Category reorder; owner-scoped Task reads and ordinary edits; explicit denial for every protected Task field; Category assignment/archive preservation; exact personal-tag schemas, enums, cardinality and duplicate validation; private-state/reminder read isolation and write denial; System Changes read access and immutable thread/entry boundaries; per-preset complete view snapshots, thresholds, staleness, filters, sort, ten-Category ownership limit and Reset; identity-constrained collection groups, bounded Hide Until query, approved orphan-record list behavior, and unmatched-path denial.
+- A targeted initial experiment denied both approved positive collection-group queries when UID and parent access were required. DEC-067 was approved before applying the identity-only list exception. Unconstrained, foreign-identity and unauthenticated query denial tests still pass.
+- Remaining limits: Firebase token verification is mocked; deployed behavior, client features, exact IANA existence for profile timezones, production index plans/Query Explain, and callable HTTP transport were not verified. Recursive list grants apply to ordinary collection queries too, as explicitly approved in DEC-067.
 
 ## Next Actions
 
 - Expanded TaskDate, callable-handler, and `createTask` Firestore integration verification is complete within the scope recorded above. Callable HTTP transport, deployed behavior, and additional concurrency scenarios remain outside that verification; further work requires project-owner approval.
-- Firestore Rules and index configuration remain approved designs awaiting implementation/verification; implementation actions require project-owner authorization. Security Rules verification is a separate workstream using the approved Rules implementation/test matrix.
+- Rules implementation and emulator verification are complete within the recorded scope. Production deployment, real authentication/provider validation, and client workflows remain separate work requiring project-owner authorization.
+- Index configuration remains an approved design awaiting implementation/verification and project-owner authorization. Production index plans require separate validation; emulator Rules tests do not establish index sufficiency.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.

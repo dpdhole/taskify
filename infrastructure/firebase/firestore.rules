@@ -1,0 +1,196 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function authenticated() {
+      return request.auth != null && request.auth.token.email is string
+        && request.auth.token.email.size() > 0;
+    }
+    function me() { return request.auth.token.email.lower(); }
+    function ownUser(uid) { return authenticated() && uid == request.auth.uid; }
+    function nonblank(value) {
+      return value is string && value.matches('[\\s\\S]*\\S[\\s\\S]*');
+    }
+    function nullableString(value) { return value == null || value is string; }
+    function exactKeys(data, keys) {
+      return data is map && data.keys().hasAll(keys) && data.keys().hasOnly(keys);
+    }
+    function documentId(value) {
+      return nonblank(value) && !value.matches('.*[/].*');
+    }
+    function taskReadable(taskId) {
+      return authenticated() && documentId(taskId)
+        && get(/databases/$(database)/documents/tasks/$(taskId)).data.owner_email == me();
+    }
+    function activeOwnedCategory(categoryId) {
+      return documentId(categoryId)
+        && get(/databases/$(database)/documents/categories/$(categoryId)).data.owner_email == me()
+        && get(/databases/$(database)/documents/categories/$(categoryId)).data.archived_at == null;
+    }
+    function validTags(tags) {
+      return exactKeys(tags, ['importance', 'urgency', 'dow', 'tod'])
+        && tags.importance in [null, 'important', 'not_important']
+        && tags.urgency in [null, 'urgent', 'not_urgent']
+        && tags.dow is list && tags.dow.size() <= 7
+        && tags.dow.toSet().size() == tags.dow.size()
+        && tags.dow.hasOnly(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'])
+        && tags.tod is list && tags.tod.size() <= 5
+        && tags.tod.toSet().size() == tags.tod.size()
+        && tags.tod.hasOnly(['early_morning', 'midmorning', 'afternoon', 'evening', 'night']);
+    }
+    function validPreference(data, taskId) {
+      return exactKeys(data, ['task_id', 'user_email', 'system_tags', 'created_at', 'updated_at'])
+        && data.task_id == taskId && data.user_email == me()
+        && validTags(data.system_tags)
+        && data.created_at is timestamp && data.updated_at == request.time;
+    }
+    function ownedCategory(categoryId) {
+      return documentId(categoryId)
+        && get(/databases/$(database)/documents/categories/$(categoryId)).data.owner_email == me();
+    }
+    function validCategoryFilters(ids) {
+      return ids is list && ids.size() <= 10 && ids.toSet().size() == ids.size()
+        && (ids.size() < 1 || ownedCategory(ids[0]))
+        && (ids.size() < 2 || ownedCategory(ids[1]))
+        && (ids.size() < 3 || ownedCategory(ids[2]))
+        && (ids.size() < 4 || ownedCategory(ids[3]))
+        && (ids.size() < 5 || ownedCategory(ids[4]))
+        && (ids.size() < 6 || ownedCategory(ids[5]))
+        && (ids.size() < 7 || ownedCategory(ids[6]))
+        && (ids.size() < 8 || ownedCategory(ids[7]))
+        && (ids.size() < 9 || ownedCategory(ids[8]))
+        && (ids.size() < 10 || ownedCategory(ids[9]));
+    }
+    function knownView(viewKey) {
+      return viewKey in ['focus', 'resolve', 'prioritize', 'plan', 'follow_up',
+        'all_active', 'recently_closed', 'unarchive', 'recover'];
+    }
+    function allowedLifecycleFilters(viewKey) {
+      return viewKey == 'resolve' ? ['waiting', 'blocked', 'on_hold']
+        : viewKey == 'recently_closed' ? ['done', 'cancelled', 'unable_to_complete']
+        : viewKey in ['follow_up', 'unarchive', 'recover']
+          ? ['draft', 'planned', 'ready', 'in_progress', 'waiting', 'blocked', 'on_hold', 'review', 'done', 'cancelled', 'unable_to_complete']
+          : ['draft', 'planned', 'ready', 'in_progress', 'waiting', 'blocked', 'on_hold', 'review'];
+    }
+    function validThresholds(value) {
+      return value == null || (exactKeys(value, ['near_days', 'medium_days', 'far_days'])
+        && value.near_days is int && value.medium_days is int && value.far_days is int
+        && 0 < value.near_days && value.near_days < value.medium_days && value.medium_days < value.far_days);
+    }
+    function validView(data, viewKey) {
+      return knownView(viewKey)
+        && exactKeys(data, ['schema_version', 'primary_organization', 'time_thresholds', 'stale_days',
+          'filters', 'sort', 'remembered_at', 'updated_at'])
+        && data.schema_version == 1
+        && data.primary_organization in ['time', 'category', 'status']
+        && (!(viewKey in ['resolve', 'all_active']) || data.primary_organization != 'time')
+        && validThresholds(data.time_thresholds)
+        && (!(viewKey in ['resolve', 'all_active']) || data.time_thresholds == null)
+        && (data.primary_organization != 'time' || data.time_thresholds != null)
+        && (data.stale_days == null || (viewKey in ['plan', 'all_active'] && data.stale_days is int && data.stale_days > 0))
+        && exactKeys(data.filters, ['category_ids', 'lifecycle_states', 'priority'])
+        && validCategoryFilters(data.filters.category_ids)
+        && data.filters.lifecycle_states is list
+        && data.filters.lifecycle_states.toSet().size() == data.filters.lifecycle_states.size()
+        && data.filters.lifecycle_states.hasOnly(allowedLifecycleFilters(viewKey))
+        && (data.filters.priority == null || data.filters.priority is bool)
+        && exactKeys(data.sort, ['field', 'direction'])
+        && data.sort.field in ['title', 'due', 'start', 'created', 'priority', 'category', 'status']
+        && (viewKey != 'plan' || data.sort.field != 'due')
+        && data.sort.direction in ['asc', 'desc']
+        && data.remembered_at == request.time && data.updated_at == request.time;
+    }
+    function validProfile(data, uid) {
+      return exactKeys(data, ['uid', 'email', 'normalized_email', 'display_name', 'profile_picture_url',
+          'auth_provider', 'timezone', 'created_at', 'updated_at'])
+        && data.uid == uid && data.email is string && data.email.lower() == me()
+        && data.normalized_email == me()
+        && nullableString(data.display_name) && nullableString(data.profile_picture_url)
+        && nonblank(data.auth_provider)
+        // DEC-068: validate identifier shape only, not IANA registry membership.
+        && data.timezone is string
+        && (data.timezone == 'UTC' || data.timezone.matches('([A-Za-z_+-]+/)+[A-Za-z0-9_+-]+'))
+        && data.created_at is timestamp && data.updated_at == request.time;
+    }
+
+    match /users/{uid} {
+      allow read: if ownUser(uid);
+      allow create: if ownUser(uid) && validProfile(request.resource.data, uid)
+        && request.resource.data.created_at == request.time
+        && request.resource.data.auth_provider == request.auth.token.get('firebase', {}).get('sign_in_provider', '')
+        && (request.resource.data.profile_picture_url == null
+          || (!(request.resource.data.auth_provider in ['password', 'anonymous', 'custom'])
+            && request.resource.data.profile_picture_url == request.auth.token.get('picture', null)));
+      allow update: if ownUser(uid) && validProfile(request.resource.data, uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['display_name', 'timezone', 'updated_at']);
+      allow delete: if false;
+
+      match /view_preferences/{viewKey} {
+        allow read, delete: if ownUser(uid);
+        allow create, update: if ownUser(uid) && validView(request.resource.data, viewKey);
+      }
+    }
+
+    match /categories/{categoryId} {
+      allow read: if authenticated() && resource.data.owner_email == me();
+      allow create, delete: if false;
+      allow update: if authenticated() && resource.data.owner_email == me()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['display_order', 'updated_at'])
+        && request.resource.data.display_order is number
+        && request.resource.data.updated_at == request.time;
+    }
+
+    match /tasks/{taskId} {
+      allow read: if authenticated() && resource.data.owner_email == me();
+      allow create, delete: if false;
+      allow update: if authenticated() && resource.data.owner_email == me()
+        && resource.data.deleted_at == null
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['title', 'description_md', 'category_id', 'priority', 'updated_at'])
+        && nonblank(request.resource.data.title)
+        && request.resource.data.description_md is string
+        && request.resource.data.priority is bool
+        && request.resource.data.updated_at == request.time
+        && (request.resource.data.category_id == resource.data.category_id
+          || activeOwnedCategory(request.resource.data.category_id));
+
+      match /preferences/{uid} {
+        allow get, list: if ownUser(uid) && taskReadable(taskId) && resource.data.user_email == me();
+        allow create: if ownUser(uid) && taskReadable(taskId)
+          && validPreference(request.resource.data, taskId)
+          && request.resource.data.created_at == request.time;
+        allow update: if ownUser(uid) && taskReadable(taskId)
+          && validPreference(request.resource.data, taskId)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['system_tags', 'updated_at']);
+        allow delete: if ownUser(uid) && taskReadable(taskId) && resource.data.user_email == me();
+      }
+      match /states/{uid} {
+        allow get, list: if ownUser(uid) && taskReadable(taskId) && resource.data.user_email == me();
+        allow write: if false;
+      }
+      match /reminders/{reminderId} {
+        allow read: if taskReadable(taskId) && resource.data.user_email == me();
+        allow write: if false;
+      }
+      match /threads/{threadId} {
+        allow read: if taskReadable(taskId);
+        allow write: if false;
+        match /entries/{entryId} {
+          allow read: if taskReadable(taskId);
+          allow write: if false;
+        }
+      }
+    }
+
+    // Approved list exception: identity fields authorize private-record discovery.
+    // Recursive list grants also apply to ordinary collection queries. Gets and
+    // writes retain the task-path UID and parent-access checks above.
+    match /{path=**}/preferences/{uid} {
+      allow list: if authenticated() && resource.data.user_email == me();
+    }
+    match /{path=**}/states/{uid} {
+      allow list: if authenticated() && resource.data.user_email == me();
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

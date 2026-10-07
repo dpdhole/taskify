@@ -241,6 +241,7 @@ Canonical document shape:
 - `profile_picture_url` is nullable and, in current scope, populated only from supported social-provider identity data.
 - `auth_provider` records the effective authentication provider/source required by the implementation and is identity-controlled.
 - `timezone` is a required IANA timezone identifier. Initial value is derived from the client/device at profile creation and may later be user-edited through Settings.
+- DEC-068 bounds direct-write Rules validation to identifier shape (`UTC` or a slash-separated identifier), not actual membership in the IANA database. This validation limitation is approved; TaskDate callables retain full runtime timezone validation.
 - `created_at` and `updated_at` use server timestamps.
 
 **Field ownership**
@@ -483,8 +484,8 @@ Canonical document shape:
 - `dow` and `tod` contain only approved enum values and no duplicates.
 - Importance/Urgency explicit negative values remain distinct from `null` / unclassified.
 - `created_at` is immutable; `updated_at` uses server time.
-- A user may create/update/delete only their own preference document and only when the parent Task is readable.
-- Collection-group reads require `user_email == me`.
+- A user may create/update/delete only their own preference document and only when the parent Task is readable. Direct document gets also require parent access and matching UID.
+- Preference list queries use the DEC-067 identity-only exception (`user_email == me`); this includes collection-group and ordinary collection lists, even when the parent is missing/inaccessible.
 
 #### User Task State Schema — Milestones 1–3
 
@@ -516,7 +517,7 @@ Canonical document shape:
 - The state document is reserved for current/future per-user system state, so stable document identity is intentional.
 - Direct client writes are denied; trusted backend callables manage Hide Until.
 - State changes do not alter Task lifecycle, Task `updated_at`, or System Changes.
-- Collection-group reads require `user_email == me`.
+- State list queries use the DEC-067 identity-only exception (`user_email == me`); this includes collection-group and ordinary collection lists, even when the parent is missing/inaccessible. Direct document gets retain matching UID and parent-access checks.
 
 #### Reminder Schema — Milestones 1–3
 
@@ -640,6 +641,28 @@ Canonical document shape:
 - `remembered_at` is set when Remember is explicitly invoked.
 - `updated_at` changes whenever the remembered configuration is rewritten.
 - The document is schema-versioned for deliberate future migration.
+
+**Approved remembered-view capability matrix (DEC-066)**
+
+Preset document IDs use the snake_case identifiers below. Lifecycle filters use canonical micro-state IDs; an empty list means no additional filter. Category and Priority filters are supported by every preset. The preset's existing candidate/retrieval contract remains authoritative.
+
+| Preset ID | Primary organization | Time thresholds | Stale days | Allowed sort fields | Lifecycle filters |
+|---|---|---|---|---|---|
+| `focus` | time, category, status | required for time; otherwise null or ordered map | null | title, due, start, created, priority, category, status | upcoming/active micro-states |
+| `resolve` | category, status | null | null | title, due, start, created, priority, category, status | waiting, blocked, on_hold |
+| `prioritize` | time, category, status | required for time; otherwise null or ordered map | null | title, due, start, created, priority, category, status | upcoming/active micro-states |
+| `plan` | time, category, status | required for time; otherwise null or ordered map | null or positive integer | title, start, created, priority, category, status | upcoming/active micro-states |
+| `follow_up` | time, category, status | required for time; otherwise null or ordered map | null | title, due, start, created, priority, category, status | all approved micro-states |
+| `all_active` | category, status | null | null or positive integer | title, due, start, created, priority, category, status | upcoming/active micro-states |
+| `recently_closed` | time, category, status | required for time; otherwise null or ordered map | null | title, due, start, created, priority, category, status | done, cancelled, unable_to_complete |
+| `unarchive` | time, category, status | required for time; otherwise null or ordered map | null | title, due, start, created, priority, category, status | all approved micro-states |
+| `recover` | time, category, status | required for time; otherwise null or ordered map | null | title, due, start, created, priority, category, status | all approved micro-states |
+
+- Every supported sort permits `asc` and `desc`. Plan excludes Due sorting because every candidate has no Due date.
+- Threshold values are positive integers satisfying `near_days < medium_days < far_days`. Time organization uses the preset's existing governing date; no new date projection is introduced.
+- `category_ids` contains at most 10 unique owned Category IDs, including archived owned Categories. This operational cap permits ownership checks within the per-operation Rules document-access budget.
+- Lifecycle-filter lists contain no duplicates. Upcoming/active micro-states are `draft`, `planned`, `ready`, `in_progress`, `waiting`, `blocked`, `on_hold`, and `review`.
+- A null `stale_days` means no persisted staleness cutoff, preserving the existing explicit ability to include stale Tasks.
 
 #### Activity and Threads
 

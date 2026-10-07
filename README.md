@@ -54,9 +54,9 @@ Chat history is not authoritative unless a decision or change is explicitly appr
 
 ## Development Status
 
-The repository/workspace skeleton is implemented. Application feature implementation and backend business implementation have not yet been formally recorded as implemented or verified.
+The workspace, initial API structure, and `createTask` backend slice are implemented. See `docs/project_status.md` for recorded verification scope and evidence. No client feature implementation is formally recorded.
 
-Firestore Security Rules and the minimum intended composite-index set are approved designs awaiting implementation and verification.
+Firestore Security Rules and client-SDK emulator tests are implemented and verified within the recorded local test scope. The minimum intended composite-index set remains approved and awaits implementation/verification.
 
 ## Development Setup
 
@@ -64,8 +64,17 @@ Prerequisites:
 
 - Node.js 22
 - pnpm 10
+- JDK 21 or newer for Firestore-emulator tests
 
-The workspace package boundaries are bootstrapped, but application dependencies, build scripts, linting, formatting, testing frameworks, and substantive Firebase configuration have not yet been installed or selected. Setup commands will be added as those implementation decisions are made.
+Backend runtime dependencies, Vitest, Firebase Emulator tooling, and Rules test dependencies are declared. Linting, formatting, and application build scripts remain separate pending work.
+
+After installing declared dependencies with pnpm, run:
+
+```sh
+pnpm --filter @taskify/api test --exclude '**/*.integration.test.ts'
+pnpm run test:api:integration
+pnpm run test:firestore:rules
+```
 
 ## Project Governance
 

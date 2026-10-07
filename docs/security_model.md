@@ -13,6 +13,8 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - Client updates may change only explicitly user-editable profile fields such as `display_name` and, when enabled, user-editable settings such as timezone.
 - Identity-controlled fields including `uid`, canonical email fields, auth-provider identity, provider-derived profile picture provenance, and creation metadata are immutable from ordinary client updates.
 - Profile creation must match `request.auth.uid` and the authenticated canonical email.
+- Creation provider identity must match the authenticated token's sign-in provider. A non-null social profile picture must match that token's picture; ordinary updates cannot alter either field.
+- Profile timezone create/update Rules validate only identifier shape (`UTC` or a slash-separated identifier), not IANA registry membership (DEC-068). This limitation does not weaken TaskDate callable timezone validation.
 
 **Categories**
 - Category documents are readable/writable only by their owner.
@@ -23,7 +25,7 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 **Task reads**
 - Milestones 1–3 are individual-first. A Task is readable by its Owner; registered shared-task access is added in Milestone 6.
 - Queries must include constraints compatible with Rules; Rules do not filter unauthorized Task documents out of otherwise broader queries.
-- Task subcollections inherit Task-context visibility unless a stricter per-user rule is defined below.
+- Task subcollections inherit Task-context visibility, subject to the private-user restrictions and the explicit DEC-067 identity-only list exception below.
 
 **Root Task create**
 - Direct client Task creation is denied for Milestones 1–3.
@@ -69,7 +71,7 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - Backend lifecycle actions maintain lifecycle, `completed_at`, automatic Start/End behavior, and System Changes atomically.
 
 **Task preferences**
-- `/tasks/{taskId}/preferences/{uid}`: readable only when the parent Task is readable and `uid == request.auth.uid`; collection-group reads additionally require `user_email == me`.
+- `/tasks/{taskId}/preferences/{uid}`: direct document gets require parent Task readability, `uid == request.auth.uid`, and `user_email == me`. List queries use the explicit identity-only exception below (DEC-067).
 - A user may create/update/delete only their own preference document.
 - `task_id` must identify the containing Task and is immutable.
 - `user_email` must equal the authenticated canonical email and is immutable.
@@ -77,7 +79,7 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - `system_tags` must validate the approved enums/cardinality rules for importance, urgency, DOW, and TOD.
 
 **Task state / Hide Until**
-- `/tasks/{taskId}/states/{uid}`: readable only for the matching authenticated user when the parent Task is readable; collection-group reads require `user_email == me`.
+- `/tasks/{taskId}/states/{uid}`: direct document gets require matching authenticated UID, parent Task readability, and `user_email == me`. List queries use the explicit identity-only exception below (DEC-067).
 - Client direct writes are denied. Hide Until / clear-Hide-Until executes through trusted backend actions so identity, timestamp, and Task-access invariants are enforced consistently.
 - `task_id` and `user_email` are backend-maintained identity fields.
 
@@ -102,6 +104,14 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - Collection-group queries for `preferences` and `states` must be authorized using document-level identity fields (`user_email == me`) because the parent Task path is not sufficient to authorize an arbitrary collection-group query.
 - Rules for collection-group reads must remain compatible with the approved query predicates; the client must issue identity-constrained queries rather than relying on Rules to discard other users' documents.
 
+**Approved list exception (DEC-067)**
+- `preferences` and `states` list authorization uses only `user_email == authenticated canonical email`, relying on validated identity/containment invariants on document creation/mutation.
+- UID/path and parent-Task ownership checks cannot be required by the approved email-only collection-group queries: local emulator tests rejected both positive query cases under those stricter conditions.
+- Direct document gets and all client preference writes retain UID and parent-access checks. State writes remain backend-only.
+- The recursive Rules-v2 list grant also applies to ordinary collection queries and every collection with those names, regardless of hierarchy. `preferences` and `states` are reserved collection names for this contract; clients cannot create documents at unmatched paths.
+- A caller may query their private records even if the parent Task is missing or inaccessible. This is an explicit exception to parent-access gating for lists, not a grant to read the parent Task. Trusted backend writes must preserve canonical identity and containment.
+- Other unmatched paths and mutations remain denied.
+
 **Concrete Rules-v2 validation design**
 
 - Canonical domain email authorization comparisons use the lowercased Firebase Auth email.
@@ -110,10 +120,10 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - A changed `category_id` must reference an active Category owned by the Task owner. An unchanged reference may continue pointing to a Category that was archived after assignment.
 - Direct Category writes are limited to `display_order` plus server-time `updated_at`; all Category identity/name/archive/default mutations remain trusted-backend operations.
 - Preference writes validate the complete `system_tags` map, including exact supported keys, Importance/Urgency enums, DOW/TOD enums, maximum cardinality, and no duplicate DOW/TOD values.
-- Task state and Reminder documents are client-readable only under their approved owner/task-access constraints and are direct-client-write denied.
+- Task state document gets and Reminder reads require their approved owner/task-access constraints; state lists use DEC-067. Both are direct-client-write denied.
 - System Changes thread and entries are readable with Task access and direct-client-write denied.
 - View preference writes validate schema version, complete snapshot shape, `0 < near_days < medium_days < far_days` when thresholds are present, and the capability matrix of the specific product-defined preset. Unsupported filter/sort/staleness/threshold combinations are denied rather than accepted by a generic schema validator.
-- Collection-group reads for `preferences` and `states` require identity-constrained queries compatible with `user_email == me`.
+- List reads for `preferences` and `states` use the approved DEC-067 identity-only exception; document gets and writes retain their stricter path/parent constraints.
 - All unmatched document paths and mutations are denied.
 
 **Emulator test matrix**
@@ -134,7 +144,7 @@ The mandatory Rules emulator suite is organized by authorization boundary:
 Every protected Task field receives an explicit mutation-denial test so future schema changes cannot silently widen the direct-write boundary.
 
 **Default-deny and testing**
-- Any document/path/field mutation not explicitly allowed is denied.
+- Any document/path/field mutation not explicitly allowed is denied. Recursive list reads for the reserved `preferences` and `states` collections are the explicit DEC-067 exception to path-scoped read authorization.
 - Firebase Emulator Security Rules tests are mandatory before deployment for Milestones 1–3.
 - Tests must cover positive and negative cases for Task create/update/read, protected-field mutation, category ownership, date synchronization, preference isolation, collection-group isolation, Hide Until access, reminder ownership, view preferences, System Changes immutability, and archive/delete/lifecycle client-write denial.
 
