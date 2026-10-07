@@ -61,7 +61,7 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-062**.
+- Architecture and product design are approved through **DEC-063**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
@@ -70,7 +70,7 @@ Material state transitions require explicit project-owner approval.
 - pnpm is approved as the package/workspace manager. No Nx, Turborepo, or other build-orchestration layer is adopted initially; orchestration/caching remains deferred until justified.
 - TypeScript, Node.js 22, and ESM are approved as the current language/runtime baseline.
 - The browser client technology is approved as React + TypeScript + Vite, implemented as a responsive SPA with PWA capability. Full offline synchronization is not an MVP requirement; future native clients remain deferred until justified.
-- Repository bootstrap is implemented with pnpm workspace configuration, strict shared TypeScript defaults, `@taskify/*` package naming, and explicit workspace dependencies. Lint/format/test frameworks and substantive Firebase configuration remain unselected/unimplemented.
+- Repository bootstrap is implemented with pnpm workspace configuration, strict shared TypeScript defaults, `@taskify/*` package naming, and explicit workspace dependencies. Lint/format and substantive Firebase configuration remain unselected/unimplemented. Vitest is approved as the test runner baseline and has initial API unit coverage.
 - The internal `apps/api` implementation structure is approved as feature-oriented business operations with thin Firebase deployment adapters and narrowly shared infrastructure.
 
 ## Open Questions
@@ -92,7 +92,8 @@ None formally recorded yet.
 ## Next Actions
 
 - `createTask` first backend vertical slice is implemented: callable adapter, authenticated canonical email extraction, Firestore transaction, active-category validation, Task initialization, TaskDate normalization, and deterministic System Changes thread creation. **Status:** Implemented, not Verified.
-- Add emulator/integration coverage and establish the test/tooling baseline before marking `createTask` Verified. **Status:** Next implementation stage.
+- Vitest test-runner baseline and initial TaskDate unit tests are implemented but have not yet been executed in a dependency-installed environment. **Status:** Implemented, not Verified.
+- Add Firebase Emulator integration coverage for `createTask` before marking the vertical slice Verified. **Status:** Next implementation stage.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
