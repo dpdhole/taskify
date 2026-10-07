@@ -61,15 +61,16 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-057**.
+- Architecture and product design are approved through **DEC-058**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
-- Repository architecture is approved as a single workspace/monorepo with `apps/api`, `apps/mobile`, `apps/web`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, shared `docs`, and repository-wide `tooling`. No corresponding implementation directories/workspace configuration have yet been formally created.
+- Repository architecture is approved as a single workspace/monorepo with `apps/api`, one responsive browser client at `apps/app`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, shared `docs`, and repository-wide `tooling`. DEC-058 supersedes DEC-055's initial separate `apps/mobile`/`apps/web` split. No corresponding implementation directories/workspace configuration have yet been formally created.
 - The API-contract boundary is approved: `api-contracts` defines the client/API protocol, `client-sdk` implements the official client abstraction, and backend domain/business logic remains private to `apps/api`.
 - pnpm is approved as the package/workspace manager. No Nx, Turborepo, or other build-orchestration layer is adopted initially; orchestration/caching remains deferred until justified.
-- TypeScript, Node.js 22, and ESM are approved as the current language/runtime baseline. Frontend framework choices remain independent and undecided.
-- The next architecture task is repository bootstrap configuration and initial app technology boundaries before internal backend module design.
+- TypeScript, Node.js 22, and ESM are approved as the current language/runtime baseline.
+- The browser client technology is approved as React + TypeScript + Vite, implemented as a responsive SPA with PWA capability. Full offline synchronization is not an MVP requirement; future native clients remain deferred until justified.
+- The next architecture task is repository bootstrap configuration before internal backend module design.
 
 ## Open Questions
 
@@ -89,7 +90,7 @@ None formally recorded yet.
 
 ## Next Actions
 
-- Define repository bootstrap configuration and initial app technology boundaries consistent with DEC-055–DEC-057. **Status:** Next design stage.
+- Define repository bootstrap configuration consistent with DEC-055–DEC-058. **Status:** Next design stage.
 - After repository bootstrap architecture is frozen, return to internal `apps/api` implementation structure.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
