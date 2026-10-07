@@ -61,7 +61,7 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-063**.
+- Architecture and product design are approved through **DEC-064**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
@@ -93,7 +93,8 @@ None formally recorded yet.
 
 - `createTask` first backend vertical slice is implemented: callable adapter, authenticated canonical email extraction, Firestore transaction, active-category validation, Task initialization, TaskDate normalization, and deterministic System Changes thread creation. **Status:** Implemented, not Verified.
 - Vitest test-runner baseline and initial TaskDate unit tests are implemented but have not yet been executed in a dependency-installed environment. **Status:** Implemented, not Verified.
-- Add Firebase Emulator integration coverage for `createTask` before marking the vertical slice Verified. **Status:** Next implementation stage.
+- Firebase Emulator tooling and initial `createTask` Firestore integration coverage are implemented. The suite has not yet been executed in a dependency-installed environment. **Status:** Implemented, not Verified.
+- Execute the unit/integration suites, then address any failures before considering `createTask` Verified. Security Rules verification remains separate and requires the approved Rules implementation/test matrix. **Status:** Next implementation stage.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
