@@ -519,6 +519,7 @@ The shared Task definition contains task-global data including title, markdown d
 - Date/time values retain sufficient timezone context for human interpretation and later recurrence behavior.
 - Firestore Task documents maintain scalar query fields `start_date`, `due_date`, and `end_date` (nullable `YYYY-MM-DD`) corresponding to the richer date values.
 - Firestore Task documents also maintain a derived query field `availability` with values `working`, `archived`, or `deleted`. It is non-authoritative and is derived from archive/delete state to simplify preset retrieval. `deleted` takes precedence when a Task is soft-deleted; otherwise an archived Task is `archived`; all other Tasks are `working`.
+- Lifecycle remains stored and queried through the nested fields `lifecycle.macro` and `lifecycle.micro`. Do not add duplicated top-level `lifecycle_macro` / `lifecycle_micro` query projections unless a later measured need justifies them.
 - `availability` is maintained only by trusted backend archive/delete/restore business actions and must remain consistent with `archived_at` and `deleted_at`.
 - Task `priority` is a boolean task-global Owner-controlled field and remains distinct from per-user Important/Urgent preferences.
 - Event-specific date semantics are deferred to **Milestone 5 — Events & Time** and are not part of the current Task architecture pass.
@@ -732,6 +733,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-037 | 2026-10-07 | Preset Retrieval Contracts | Freeze per-view retrieval semantics for Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, and Recover. Apply staleness only where it supports the view's intent: All Active defaults to 60 days; Plan defaults to 60 days; Focus/Prioritize/Follow Up and retrospective recovery/history views do not exclude on staleness; Resolve never hides stale unresolved work. | — |
 | DEC-038 | 2026-10-07 | Task Availability Projection | Add derived Task field `availability = working | archived | deleted` for retrieval. It is maintained by trusted backend archive/delete/restore actions and is non-authoritative relative to archive/delete timestamps. | — |
 | DEC-039 | 2026-10-07 | Unspecified Date Bucket | In date-organized views, Tasks without the relevant date are placed in an **Unspecified** bucket at the end of the view. No synthetic date is assigned. Presets whose defining semantics require the date may still exclude missing-date Tasks. | — |
+| DEC-040 | 2026-10-07 | Lifecycle Query Fields | Query lifecycle directly through nested Firestore fields `lifecycle.macro` and `lifecycle.micro`. Do not duplicate lifecycle into top-level query fields unless later measurements justify a projection. | — |
 
 ## MVP Scope
 
@@ -848,6 +850,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Approved nested lifecycle query fields (`lifecycle.macro` / `lifecycle.micro`) with no top-level duplication. | Approved |
 | 2026-10-07 | Added derived Task availability projection and standardized Unspecified date buckets at the end of date-organized views. | Approved |
 | 2026-10-07 | Frozen per-view retrieval contracts and extended staleness semantics where appropriate; Plan and All Active default to 60-day staleness while deadline/unresolved/recovery views preserve completeness. | Approved |
 | 2026-10-07 | Approved view-based retrieval extent and updated-at staleness semantics; All Active defaults to a 60-day stale threshold without lifecycle side effects. | Approved |
