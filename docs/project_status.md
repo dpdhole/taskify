@@ -683,12 +683,107 @@ Canonical document shape:
 - If exact rich TaskDate ↔ scalar projection validation is too complex or brittle in Rules, date writes move behind a trusted backend mutation rather than allowing inconsistent direct writes.
 - Emulator tests must include malformed enums, missing required fields, invalid macro/micro pairs, invalid availability/timestamp combinations, malformed TaskDate values, scalar-date mismatches, hierarchy mutation attempts, identity mutation attempts, and invalid protected-field writes.
 
-#### Category
+#### User Profile Schema — Milestones 1–3
 
-- Category remains part of the shared Task definition.
-- Exactly one primary category applies to a task.
-- Only the Owner may set or change the task category.
-- Category configuration is user-owned and may be archived rather than destructively removed while referenced.
+Canonical Firestore path:
+
+```text
+/users/{uid}
+```
+
+Canonical document shape:
+
+```text
+{
+  uid: string,
+  email: string,
+  normalized_email: string,
+  display_name: string | null,
+  profile_picture_url: string | null,
+  auth_provider: string,
+  timezone: string,
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+**Invariants**
+- `uid` equals the Firebase Auth UID and the document ID.
+- `email` is the canonical account email supplied by the authenticated identity.
+- `normalized_email` is the normalized canonical form used for domain comparisons.
+- `display_name` is nullable and user-editable.
+- `profile_picture_url` is nullable and, in current scope, populated only from supported social-provider identity data.
+- `auth_provider` records the effective authentication provider/source required by the implementation and is identity-controlled.
+- `timezone` is a required IANA timezone identifier. Initial value is derived from the client/device at profile creation and may later be user-edited through Settings.
+- `created_at` and `updated_at` use server timestamps.
+
+**Field ownership**
+- User-editable: `display_name`, `timezone`.
+- Identity/backend-controlled: `uid`, `email`, `normalized_email`, `auth_provider`, provider-derived `profile_picture_url`, `created_at`.
+- `updated_at` changes on profile mutation and must use server time.
+- Ordinary client writes must not alter canonical identity fields.
+
+**Access**
+- A user may read and update only `/users/{request.auth.uid}`.
+- Profile create must match the authenticated UID and canonical email.
+- Ordinary client physical deletion is not part of the Milestone 1–3 contract.
+
+#### Category Schema — Milestones 1–3
+
+Canonical Firestore path:
+
+```text
+/categories/{categoryId}
+```
+
+Canonical document shape:
+
+```text
+{
+  owner_email: string,
+  name: string,
+  normalized_name: string,
+  display_order: number,
+  is_default: boolean,
+  archived_at: Timestamp | null,
+  created_at: Timestamp,
+  updated_at: Timestamp
+}
+```
+
+**Invariants**
+- `owner_email` is required, canonical, immutable, and equals the authenticated user's canonical email at creation.
+- `name` is required and non-empty after product-level trim/normalization.
+- `normalized_name` is derived deterministically from `name` and is used for per-user uniqueness.
+- Active and archived categories for one user may not create ambiguous duplicate normalized names; create/rename/reset logic must preserve one canonical category identity per normalized name.
+- `display_order` is required and user-controlled for ordering categories.
+- `is_default` identifies categories originating from the product default set; it is not a permission flag.
+- `archived_at == null` means active; non-null means archived.
+- `created_at` and `updated_at` are server timestamps.
+
+**Task-reference behavior**
+- Tasks may retain references to archived categories.
+- New assignment to an archived category is not allowed.
+- A referenced category is archived rather than destructively deleted.
+- Category IDs remain stable when a default category is restored/reactivated.
+
+**Default reset behavior**
+- Reset-to-default reconciles against the current product-defined default category set.
+- For each default normalized name:
+  - reactivate the existing matching category if archived;
+  - otherwise create it if absent;
+  - mark it `is_default = true`;
+  - restore the product default display order/name as defined by the current default set.
+- User-created non-default categories are not deleted by reset.
+- Reset does not rewrite existing Task category references.
+- Because reset may touch multiple category documents and uniqueness invariants, implement it as a trusted backend operation rather than an uncoordinated multi-document client sequence.
+
+**Field ownership and access**
+- Only the category owner may read/write the document in Milestones 1–3.
+- Client create/update may edit `name`, `normalized_name`, `display_order`, and archive state only where the Security Rules and operation semantics can enforce consistency safely.
+- `owner_email`, `created_at`, and default provenance semantics are protected.
+- If normalized-name uniqueness or reset/reactivation semantics cannot be enforced robustly through direct client writes, those mutations move behind trusted backend operations rather than weakening the invariant.
+- Destructive client delete is denied for referenced categories; physical cleanup of unreferenced historical categories is not required for Milestones 1–3.
 
 #### User Timezone
 
@@ -1269,6 +1364,8 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-042 | 2026-10-07 | Firestore Security Rules Contract | Freeze Milestone 1–3 Rules-v2 authorization boundaries: owner-scoped Task reads, invariant-checked root creation, narrow ordinary Task updates, backend-only lifecycle/archive/delete/hierarchy/audit actions, own-only preferences/view preferences, backend-managed Hide Until/reminders, immutable System Changes, identity-constrained collection-group access, and mandatory emulator rule tests. | — |
 | DEC-043 | 2026-10-07 | Backend Callable / Transaction Contract | Use 2nd-generation Firebase callable functions for Milestone 1–3 trusted business actions. Task actions use optimistic concurrency via `expected_updated_at`; lifecycle/archive/delete mutations and System Changes are atomic; subtask creation is transactional; Hide Until and reminders have dedicated callables without touching Task `updated_at`; automatic Planned→Ready is trusted/idempotent; stable backend error codes are defined. | — |
 | DEC-044 | 2026-10-07 | Physical Task Schema | Freeze the Milestone 1–3 `/tasks/{taskId}` document schema, required/null fields, TaskDate structure, lifecycle/availability/date/hierarchy invariants, field ownership, timestamp semantics, and validation policy. | — |
+| DEC-045 | 2026-10-07 | User Profile Schema | Freeze the Milestone 1–3 `/users/{uid}` schema, own-only access, canonical identity fields, editable display name/timezone, provider-derived profile picture semantics, and timestamp ownership. | — |
+| DEC-046 | 2026-10-07 | Category Schema | Freeze the Milestone 1–3 `/categories/{categoryId}` schema, normalized-name uniqueness intent, archive/reference behavior, stable IDs, and trusted reset-to-default reconciliation semantics. | — |
 
 ## MVP Scope
 
@@ -1385,6 +1482,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen physical User Profile and Category schemas, including ownership, normalization, archival/reference rules, and reset-to-default reconciliation. | Approved |
 | 2026-10-07 | Frozen the physical Milestone 1–3 Task document schema, TaskDate model, nullability, derived-field invariants, field ownership, and validation boundaries. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 backend callable/API and transaction boundaries, optimistic concurrency, stable errors, reminder/Hide Until actions, and automatic Ready promotion semantics. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 Firestore Security Rules contract, including direct-write allowlists, backend-only business state, per-user subcollection isolation, collection-group constraints, and mandatory emulator tests. | Approved |
