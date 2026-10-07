@@ -61,10 +61,11 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-053**.
+- Architecture and product design are approved through **DEC-054**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
-- The next design task is `firestore.indexes.json`, followed by backend function implementation structure.
+- The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
+- The next design task is the backend function implementation structure.
 
 ## Open Questions
 
@@ -84,7 +85,7 @@ None formally recorded yet.
 
 ## Next Actions
 
-- Define `firestore.indexes.json` from the approved preset query contract and validate the minimum composite-index set. **Status:** Next design stage.
-- After indexes, define the backend function implementation structure.
+- Define the backend function implementation structure from the approved callable/transaction contracts. **Status:** Next design stage.
+- Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
