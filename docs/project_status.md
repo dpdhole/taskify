@@ -546,6 +546,11 @@ The shared Task definition contains task-global data including title, markdown d
 - Temporary changes remain client/session state until Remember is invoked.
 - Reset removes the remembered preference document and returns the view to the current product defaults.
 - View preference documents should carry a schema version so future semantic changes can be migrated deliberately.
+- Each view owns its retrieval policy. Grouping is presentation-only and does not create independent Firestore retrieval streams.
+- For views with a time-bounded working set, the default retrieval horizon is `max(30, 2 × far_days)` using the date field relevant to that view; the view may provide an explicit user action to expand beyond the loaded extent.
+- `updated_at` may be used as a view-level staleness signal. Staleness is presentation/retrieval metadata only and never changes lifecycle, archive state, or completion state.
+- **All Active** defaults to `stale_days = 60`: active tasks untouched for longer than that may be excluded from the default working set or surfaced separately as stale, with explicit access to include them. The threshold is view-specific and rememberable.
+- Views where completeness is intrinsic may choose not to apply the staleness cutoff; for example, Resolve should not hide Waiting/Blocked/On Hold work solely because it is old.
 
 #### User-Task Data Separation Rule
 
@@ -703,6 +708,8 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-032 | 2026-10-07 | Per-View Preference Persistence | Persist a full resolved preference snapshot per explicitly remembered view. No document exists until Remember; temporary changes remain client-side. Reset deletes the preference document and returns to current product defaults. Preference documents are per-user/per-view and schema-versioned. | — |
 | DEC-033 | 2026-10-07 | Preset Query Architecture | Remove user-created Saved Views and standalone View Builder from the product baseline. Preset views are application-defined, client-parameterized query strategies and may be tuned independently rather than forced through a generic saved-query DSL. | DEC-027 saved-query-document model; DEC-031 deferred Saved Views/View Builder direction |
 | DEC-034 | 2026-10-07 | View-Specific Time Thresholds | Near/Medium/Far time boundaries are configured per view, not globally. Buckets are Older, Today, Near, Medium, Far, Later with `0 < near < medium < far`; remembered values are part of the full per-view preference snapshot. | Earlier global Near/Medium/Far preference direction |
+| DEC-035 | 2026-10-07 | View Retrieval Extent | Retrieval is view-based, not group-based. Time-bounded views default to `max(30, 2 × far_days)` on the view-relevant date field and may expand on explicit user action. Grouping remains client-side presentation. | — |
+| DEC-036 | 2026-10-07 | View Staleness | `updated_at` may define view-specific staleness without changing task lifecycle. All Active defaults to a 60-day staleness threshold, rememberable per view; stale tasks remain available through explicit inclusion/access. Views such as Resolve may ignore staleness where completeness is intrinsic. | — |
 
 ## MVP Scope
 
@@ -819,6 +826,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Approved view-based retrieval extent and updated-at staleness semantics; All Active defaults to a 60-day stale threshold without lifecycle side effects. | Approved |
 | 2026-10-07 | Removed Saved Views/View Builder from the product baseline; adopted client-parameterized preset queries with independently tunable, per-view Near/Medium/Far thresholds. | Approved |
 | 2026-10-07 | Approved full per-view preference snapshots persisted only through explicit Remember; Reset returns the view to current defaults. | Approved |
 | 2026-10-07 | Shifted customization direction to configurable presets + temporary filters; standalone View Builder/user-created Saved Views deferred pending demonstrated need; Milestone 3 renamed View Refinement. | Approved |
