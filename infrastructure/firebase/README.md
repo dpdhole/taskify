@@ -21,4 +21,4 @@ The callable suite first packages the Node 22 API artifact, then starts Auth (`9
 
 Approved scope, decisions, executed test evidence, and verification limits are recorded through [`docs/project_status.md`](../../docs/project_status.md). No production deployment is performed by these scripts.
 
-Category implementation and the expanded integration/callable evidence are recorded in [category-verification.md](./category-verification.md). Owner approved commit/push; formal Verified status and deployment remain held. Run the emulator suites sequentially because they share ports/data stores.
+Category implementation and the expanded integration/callable evidence are recorded in [category-verification.md](./category-verification.md). The implementation is committed/pushed; owner approved Verified status within the recorded local scope. Owner also approved commit/push of the subsequent status update; deployment remains held. Run the emulator suites sequentially because they share ports/data stores.

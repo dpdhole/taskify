@@ -1,10 +1,11 @@
 # Category backend implementation and local evidence
 
-Status: Implemented. Owner authorized implementation choices, specification updates and local verification, separately approved post-commit authoritative snapshot responses, and explicitly approved commit/push on 2026-10-07. Formal Verified status and deployment remain held.
+Status: Implemented and Verified within the recorded local build/package/unit/emulator scope. Owner authorized implementation choices, specification updates and local verification, separately approved post-commit authoritative snapshot responses, and approved implementation commit/push. On 2026-10-07 the owner explicitly approved reviewing the evidence and recording Category as Verified within the executed local scope. Deployment/production verification are excluded; the owner separately approved commit/push of this status record on 2026-10-07.
 
 ## Scope and baseline
 
 - Repository: `dpdhole/taskify`, `main`, based on preserved specification commit `add989fe065841aa73d3ff0ff71cf6fed2ddeeab`. The owner released publication of the implementation and this prior specification commit after verification. No reset or checkout replacement was performed.
+- Published implementation: `ecba3a95939d182c7f5e07c1b99d32a41247366b`. The status review reconciled the recorded successful executions and committed tests against DEC-074–DEC-082. It introduced no code change or new test execution; the recorded 420-test results remain the executed evidence.
 - Approved behavior: DEC-074–DEC-077. Approved implementation choices/response observation: DEC-078–DEC-082.
 - Implemented operations under `apps/api/src/categories`: createCategory, renameCategory, setCategoryArchived, resetCategoryOrder and completeRegistration. Thin callable adapters live under `src/functions/categories.ts` and are exported through `src/index.ts`.
 - Updated public contracts replace ResetCategoriesToDefaultsRequest with ResetCategoryOrderRequest/Response, add registration request/response and generic DUPLICATE_ARGUMENT. Its callable transport code is already-exists with the domain code in details.
@@ -64,7 +65,7 @@ The callable command invokes package:api, which rebuilds contracts/API, checks e
 
 ## Limits and compatibility
 
-- This is executed local evidence, not formal Verified status or deployed verification. Production signatures, real providers/email delivery, cloud IAM/regions/runtime/scaling, client registration/readiness UX, browser/mobile behavior and deployed Rules/Functions remain unverified. Auth emulator tokens are unsigned and the provider fixture is mocked.
+- Verified status applies only to the executed local evidence above. Production signatures, real providers/email delivery, cloud IAM/regions/runtime/scaling, client registration/readiness UX, browser/mobile behavior and deployed Rules/Functions remain unverified. Auth emulator tokens are unsigned and the provider fixture is mocked.
 - Registration readiness is an approved client contract; no frontend enforcement is implemented. Auth creation can succeed while Taskify initialization remains pending. Existing records are not silently promoted or repaired; a default-name collision before completion requires owner-directed reconciliation. No data migration was executed.
 - Category request/response timestamps use nine fractional digits. Client adapters must preserve full Firestore seconds/nanoseconds; a Date-based formatter is unsuitable for Category concurrency. Test production builds exclude test sources; passing Vitest does not establish full repository/test-source type checking.
 - Responses describe post-commit authoritative state. Reset changed_count belongs to its transaction while the returned list may include later membership, rename, archive or reorder changes. A post-commit read/transport failure cannot undo a committed mutation; create has no idempotency key and retry can report a duplicate. Registration is explicitly idempotent.

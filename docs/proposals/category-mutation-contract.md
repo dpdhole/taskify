@@ -1,6 +1,6 @@
 # Category contract reconciliation
 
-Status: Historical reconciliation context. Decisions through DEC-082 and current implementation/evidence are authoritative in the five-document set loaded through project_status.md. The owner separately approved implementation/specification updates/local verification and then commit/push; this draft supplies no independent authorization. Deployment and formal Verified status remain held.
+Status: Historical reconciliation context. Decisions through DEC-082 and current implementation/evidence are authoritative in the five-document set loaded through project_status.md. The owner separately approved implementation/specification updates/local verification, implementation commit/push and then Verified status within the recorded local scope; this draft supplies no independent authorization. Publication of the subsequent status update is also owner-approved; deployment remains held.
 
 ## Owner-stated decisions
 
@@ -16,7 +16,7 @@ Status: Historical reconciliation context. Decisions through DEC-082 and current
 
 ## Remaining details for review
 
-1. Registration coordination, Unicode character-count/collation, precise timestamps, persistence and response observation are resolved by DEC-078–DEC-082. Publication is owner-approved. Client readiness integration, formal Verified status and production verification remain separate work.
+1. Registration coordination, Unicode character-count/collation, precise timestamps, persistence and response observation are resolved by DEC-078–DEC-082. Implementation is published and Verified within the owner-approved local scope. Publication of the subsequent status record is also owner-approved. Client readiness integration and production verification remain separate work.
 
 ## Proposed implementation details for review
 
