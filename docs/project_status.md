@@ -668,8 +668,8 @@ Canonical document shape:
 - `updated_at` is the optimistic-concurrency token for trusted Task business actions.
 
 **Field ownership**
-- Direct client-editable after creation: `title`, `description_md`, `category_id`, `priority`, `start`, `due`, `end`, scalar date projections, and `updated_at`, subject to Security Rules validation.
-- Backend-controlled: `lifecycle`, `availability`, hierarchy fields, archive/delete/recovery/completion timestamps, and any automatic Start/End changes caused by lifecycle actions.
+- Direct client-editable after creation: `title`, `description_md`, `category_id`, `priority`, and `updated_at`, subject to Security Rules validation.
+- Backend-controlled: `start`, `due`, `end`, scalar date projections, timed `instant` projections, `lifecycle`, `availability`, hierarchy fields, archive/delete/recovery/completion timestamps, and any automatic Start/End changes caused by lifecycle actions.
 - Identity/participation fields are immutable in Milestones 1–3 after creation; collaboration-era mutation semantics are deferred.
 - `type` and `created_at` are immutable.
 
@@ -680,7 +680,7 @@ Canonical document shape:
 **Validation policy**
 - Security Rules validate type, allowed-field changes, ownership, enum/domain values, lifecycle creation state, nullability, category ownership, and any date synchronization constraints practical to enforce safely.
 - Backend handlers revalidate all invariants material to trusted actions.
-- If exact rich TaskDate ↔ scalar projection validation is too complex or brittle in Rules, date writes move behind a trusted backend mutation rather than allowing inconsistent direct writes.
+- Rich TaskDate normalization and scalar/instant projection are performed only by trusted backend code; Security Rules deny direct date mutation.
 - Emulator tests must include malformed enums, missing required fields, invalid macro/micro pairs, invalid availability/timestamp combinations, malformed TaskDate values, scalar-date mismatches, hierarchy mutation attempts, identity mutation attempts, and invalid protected-field writes.
 
 #### User Profile Schema — Milestones 1–3
@@ -940,18 +940,19 @@ Authentication helpers should resolve the authenticated user's canonical email f
 - Task subcollections inherit Task-context visibility unless a stricter per-user rule is defined below.
 
 **Root Task create**
-- Ordinary client creation is allowed only for a root Task owned by the authenticated user.
-- Required create invariants:
-  - `type == "task"`.
-  - `owner_email == executor_email == created_by_email == me`.
-  - `consultant_emails == []` and `informed_emails == []` for the Milestone 1–3 individual flow.
-  - `parent_task_id == null` and `root_task_id == null` for direct root creation.
-  - `lifecycle.macro == "upcoming"` and `lifecycle.micro == "planned"`.
-  - `availability == "working"`.
-  - `archived_at == null`, `deleted_at == null`, `purge_after == null`, and `completed_at == null`.
-  - referenced `category_id` belongs to the current user and is valid for assignment.
-  - scalar query dates and richer TaskDate values satisfy the approved synchronization/validation contract.
-- Subtask creation is not a direct client document create; it uses the trusted `createSubtask` business action so hierarchy/depth/permission invariants are atomic.
+- Direct client Task creation is denied for Milestones 1–3.
+- Root Task creation uses the trusted `createTask` callable so TaskDate normalization, scalar date projections, Task initialization, and deterministic System Changes thread creation are atomic.
+- The backend enforces:
+  - `type == "task"`;
+  - `owner_email == executor_email == created_by_email == me`;
+  - empty participant arrays in the Milestone 1–3 individual flow;
+  - root hierarchy fields set to null;
+  - lifecycle initialized to `upcoming/planned`;
+  - `availability == "working"`;
+  - archive/delete/recovery/completion timestamps initialized to null;
+  - valid owned category reference;
+  - server timestamps and canonical TaskDate projections.
+- Subtask creation continues through trusted `createSubtask`.
 
 **Ordinary Task update**
 - Direct client updates are allowed only on an owned, non-deleted Task and only for approved ordinary fields.
@@ -960,9 +961,8 @@ Authentication helpers should resolve the authenticated user's canonical email f
   - `description_md`
   - `category_id`
   - `priority`
-  - `start`, `due`, `end`
-  - `start_date`, `due_date`, `end_date`
   - `updated_at`
+- Start/Due/End and scalar date projections are not direct client-editable; they are backend-controlled through `updateTaskDates`.
 - Rules must reject updates that change any protected field, including:
   - `type`
   - `owner_email`, `executor_email`, `created_by_email`
@@ -974,7 +974,7 @@ Authentication helpers should resolve the authenticated user's canonical email f
   - `created_at`
 - `updated_at` on a direct client edit must resolve to the current server request time according to the implemented timestamp pattern.
 - Category changes must continue to reference a valid category owned by the current user.
-- Date edits must preserve the approved rich-date/scalar-date synchronization invariant. If Security Rules cannot robustly validate the exact synchronization without excessive complexity, date mutation must move behind a trusted backend action rather than weakening the invariant.
+- Date edits are backend-controlled. Clients submit canonical date intent to `updateTaskDates`; the backend derives scalar date projections and timed instants.
 - Direct physical Task delete is denied.
 
 **Backend-only Task actions**
@@ -1040,6 +1040,49 @@ Use Firebase 2nd-generation callable functions as the client-facing trusted back
 - Transaction handlers re-read every document whose state is material to authorization or validation inside the transaction.
 - A successful business action returns the resulting authoritative Task state or the minimum authoritative fields required for immediate client reconciliation, together with the new `updated_at`.
 - Retry behavior must be safe under Firestore transaction retries; handlers must not perform external side effects inside retryable transaction bodies.
+
+**Task creation**
+- Callable:
+  ```text
+  createTask({
+    title,
+    description_md,
+    category_id,
+    priority?,
+    start?,
+    due?,
+    end?
+  })
+  ```
+- Date inputs contain only canonical user intent:
+  ```text
+  {
+    date: "YYYY-MM-DD",
+    has_time: boolean,
+    time: "HH:mm" | null,
+    timezone: IANA string | null
+  }
+  ```
+- Clients do not provide `instant`, scalar date projections, ownership fields, lifecycle, availability, hierarchy, or server timestamps.
+- Backend derives timed `instant` values, `start_date`/`due_date`/`end_date`, identity fields, lifecycle, availability, and timestamps.
+- Task creation and deterministic `system_changes` thread creation are atomic.
+
+**Task date update**
+- Callable:
+  ```text
+  updateTaskDates({
+    task_id,
+    expected_updated_at,
+    start?: TaskDateInput | null,
+    due?: TaskDateInput | null,
+    end?: TaskDateInput | null
+  })
+  ```
+- Omitted date fields mean unchanged; explicit `null` clears that date.
+- Backend validates date/time format and IANA timezone, derives timed `instant` projections, synchronizes scalar date fields, and sets Task `updated_at`.
+- Uses the same optimistic-concurrency contract as lifecycle actions.
+- Date-only values retain `time = null`, `timezone = null`, and `instant = null`.
+- Explicit Start/End values continue to follow the approved lifecycle non-overwrite rules.
 
 **Lifecycle / archive / delete endpoint**
 - Client callable:
@@ -1167,7 +1210,7 @@ Use Firebase 2nd-generation callable functions as the client-facing trusted back
 - Exact scheduler/queue implementation and polling cadence remain an implementation choice; semantics are fixed.
 
 **Direct client writes remain outside callables**
-- Root Task creation, approved ordinary Task edits, category management, per-user system-tag preferences, and remembered view preferences remain direct Firestore client operations protected by Security Rules, unless the date-synchronization fallback requires date edits to move behind backend validation.
+- Approved ordinary non-date Task edits, category management, per-user system-tag preferences, and remembered view preferences remain direct Firestore client operations protected by Security Rules. Root Task creation and all Start/Due/End mutations use trusted backend callables.
 - Business-action callables must not become a generic Task-update endpoint.
 
 **Stable backend error codes**
@@ -1618,6 +1661,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-047 | 2026-10-07 | Preference / State / Reminder Schemas | Freeze the Milestone 1–3 physical schemas for Task preferences, per-user Task state, and reminders. Preference enums/cardinality are fixed; Hide Until clear retains the state document with `hidden_until = null`; reminders are backend-managed with scheduled/delivered/cancelled/failed states. | — |
 | DEC-048 | 2026-10-07 | View Preference Schema | Freeze the Milestone 1–3 `/users/{uid}/view_preferences/{viewKey}` full-snapshot schema, per-preset validation, Remember/Reset semantics, and schema-versioning rules. | — |
 | DEC-049 | 2026-10-07 | System Changes Schema | Freeze deterministic `/tasks/{taskId}/threads/system_changes` thread identity and append-only structured System Changes entries. Canonical audit data is structured only; rendered prose is derived and not stored. | — |
+| DEC-050 | 2026-10-07 | Task Date Mutation Boundary | Move all Start/Due/End mutation behind trusted backend normalization. Root Task creation uses `createTask`; date edits use `updateTaskDates` with optimistic concurrency. Clients submit date/time/timezone intent only; backend derives `instant` and scalar date projections. | DEC-022/DEC-042/DEC-044 direct date-write allowance |
 
 ## MVP Scope
 
@@ -1734,6 +1778,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Moved Task creation and all date mutation behind trusted backend normalization; added `createTask` and `updateTaskDates` concurrency contract. | Approved |
 | 2026-10-07 | Frozen View Preference and System Changes schemas, including deterministic `system_changes` thread ID and structured-only canonical audit entries. | Approved |
 | 2026-10-07 | Frozen physical Preference, State, and Reminder schemas, including stable state-document identity with `hidden_until = null` on clear. | Approved |
 | 2026-10-07 | Frozen physical User Profile and Category schemas, including ownership, normalization, archival/reference rules, and reset-to-default reconciliation. | Approved |
