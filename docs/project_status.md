@@ -572,6 +572,96 @@ The shared Task definition contains task-global data including title, markdown d
 - Staleness is view-specific and rememberable only on views where it is meaningful. It must never implicitly transition lifecycle, archive, delete, complete, or purge a Task.
 - For any date-organized preset, a missing value for that preset's date dimension is represented by the final **Unspecified** bucket rather than being silently omitted, unless the preset's defining semantics explicitly require that date to exist.
 
+#### Firestore Candidate Queries and Index Contract — Milestones 1–3
+
+For Milestones 1–3, registered collaboration is not yet active, so Task candidate queries are scoped by `owner_email == currentUser.email`. Shared-task discovery is deferred to Milestone 6. Server-side predicates define the preset candidate universe; Category, Priority, remembered presentation refinements, runtime system-tag modifiers, grouping, and final display sort are applied client-side unless later measurements justify additional indexed predicates.
+
+Use nested lifecycle fields directly: `lifecycle.macro` and `lifecycle.micro`. Use `availability` as the archive/delete retrieval projection.
+
+Let:
+- `today` = current calendar date in the user's stored IANA timezone, formatted `YYYY-MM-DD`.
+- `horizonDays = max(30, 2 × far_days)`.
+- `futureBoundary` = `today + horizonDays`.
+- `pastBoundaryTs` = current instant minus `horizonDays`.
+- `staleBoundaryTs` = current instant minus the view's `stale_days`.
+
+Candidate query shapes:
+
+- **Focus**
+  - Query Tasks where `owner_email == me`, `availability == "working"`, `lifecycle.macro in ["upcoming","active"]`, and `due_date <= futureBoundary`.
+  - Order by `due_date ASC`.
+  - This single range includes all overdue Tasks and the loaded future extent.
+  - `due_date == null` is intentionally excluded because Due is intrinsic to Focus.
+  - Expansion moves `futureBoundary` outward and reruns the same view-level query.
+
+- **Resolve**
+  - Query Tasks where `owner_email == me`, `availability == "working"`, and `lifecycle.micro in ["waiting","blocked","on_hold"]`.
+  - Retrieve the complete matching set; no date or staleness boundary is applied.
+  - Grouping and stale emphasis are client-side. There is no normal extent-expansion query.
+
+- **Prioritize**
+  - Dated branch: query Tasks where `owner_email == me`, `availability == "working"`, `lifecycle.macro in ["upcoming","active"]`, and `due_date <= futureBoundary`; order by `due_date ASC`.
+  - Unspecified branch: query Tasks where the same owner/availability/lifecycle predicates apply and `due_date == null`.
+  - Merge the two branches client-side. The null branch becomes the final **Unspecified** bucket when organized by Due.
+  - Expansion moves only the dated branch's `futureBoundary` outward; the Unspecified branch remains complete.
+
+- **Plan**
+  - Query Tasks where `owner_email == me`, `availability == "working"`, `lifecycle.macro in ["upcoming","active"]`, `due_date == null`, and `created_at >= pastBoundaryTs`.
+  - Order by `created_at DESC`.
+  - Apply `updated_at` staleness classification client-side; default `stale_days = 60`. Stale Plan Tasks are not silently discarded.
+  - Expansion moves `pastBoundaryTs` backward and reruns the same view-level query.
+
+- **Follow Up**
+  - Query `collectionGroup("states")` where `user_email == me`, `hidden_until > now`, and `hidden_until <= futureBoundaryInstant`; order by `hidden_until ASC`.
+  - Resolve returned `task_id` values to Task documents, then retain Tasks visible to the current user and valid for Follow Up.
+  - Expansion moves `futureBoundaryInstant` outward.
+  - Normal views suppress currently hidden Tasks after per-user state enrichment; Follow Up intentionally includes them.
+
+- **All Active**
+  - Default query: Tasks where `owner_email == me`, `availability == "working"`, `lifecycle.macro in ["upcoming","active"]`, and `updated_at >= staleBoundaryTs`.
+  - Order by `updated_at DESC`.
+  - Default `stale_days = 60`.
+  - Explicit inclusion of stale Tasks removes/extends the `updated_at` lower boundary at the view level; stale Tasks remain valid Tasks and are never lifecycle-mutated by this rule.
+
+- **Recently Closed**
+  - Query Tasks where `owner_email == me`, `availability == "working"`, `lifecycle.macro == "completed"`, and `completed_at >= pastBoundaryTs`.
+  - Order by `completed_at DESC`.
+  - Expansion moves `pastBoundaryTs` backward.
+  - Archived or deleted Tasks are intentionally handled by Unarchive/Recover rather than the normal Recently Closed working set.
+
+- **Unarchive**
+  - Query Tasks where `owner_email == me`, `availability == "archived"`, and `archived_at >= pastBoundaryTs`.
+  - Order by `archived_at DESC`.
+  - Expansion moves `pastBoundaryTs` backward.
+
+- **Recover**
+  - Query Tasks where `owner_email == me`, `availability == "deleted"`, `deleted_at >= pastBoundaryTs`, and `purge_after > now`.
+  - Order by `deleted_at DESC`, then `purge_after ASC` where required by the selected Firestore index/query plan.
+  - Expansion moves `pastBoundaryTs` backward but never bypasses `purge_after > now`.
+
+Per-user enrichment:
+- `collectionGroup("preferences").where("user_email","==",me)` provides the user's system-tag map for candidate refinement.
+- `collectionGroup("states").where("user_email","==",me).where("hidden_until",">",now)` provides active Hide-until state for suppression in normal views.
+- Security Rules v2 must explicitly authorize these collection-group queries using the same user-identity constraints; Rules are authorization constraints, not post-query filters.
+
+Initial composite-index contract:
+- Tasks: `owner_email, availability, lifecycle.macro, due_date ASC` — Focus and Prioritize dated branch.
+- Tasks: `owner_email, availability, lifecycle.macro, due_date` — Prioritize Unspecified branch; retain as a distinct index only if Firestore does not satisfy it through an existing compatible index.
+- Tasks: `owner_email, availability, lifecycle.micro` — Resolve.
+- Tasks: `owner_email, availability, lifecycle.macro, due_date, created_at DESC` — Plan.
+- Tasks: `owner_email, availability, lifecycle.macro, updated_at DESC` — All Active.
+- Tasks: `owner_email, availability, lifecycle.macro, completed_at DESC` — Recently Closed.
+- Tasks: `owner_email, availability, archived_at DESC` — Unarchive.
+- Tasks: `owner_email, availability, deleted_at DESC, purge_after ASC` — Recover.
+- Collection group `states`: `user_email, hidden_until ASC` — Follow Up and active Hide-until lookup.
+- Collection group `preferences`: collection-group-scoped index on `user_email` — per-user preference enrichment.
+
+Index policy:
+- Create indexes for preset-defining retrieval, not for every Category/Status/Priority/custom-sort combination.
+- Final view grouping and user-selected sort remain client-side over the bounded candidate set.
+- Validate the exact generated index set with emulator/integration tests and Firestore Query Explain before treating index ordering as operationally final; remove redundant indexes where an existing compatible index serves the query.
+- Pagination/page-size policy is deferred until measured candidate-set behavior warrants it; view-level date/staleness bounds are the primary Milestone 1–3 read-control mechanism.
+
 #### User-Task Data Separation Rule
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
@@ -734,6 +824,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-038 | 2026-10-07 | Task Availability Projection | Add derived Task field `availability = working | archived | deleted` for retrieval. It is maintained by trusted backend archive/delete/restore actions and is non-authoritative relative to archive/delete timestamps. | — |
 | DEC-039 | 2026-10-07 | Unspecified Date Bucket | In date-organized views, Tasks without the relevant date are placed in an **Unspecified** bucket at the end of the view. No synthetic date is assigned. Presets whose defining semantics require the date may still exclude missing-date Tasks. | — |
 | DEC-040 | 2026-10-07 | Lifecycle Query Fields | Query lifecycle directly through nested Firestore fields `lifecycle.macro` and `lifecycle.micro`. Do not duplicate lifecycle into top-level query fields unless later measurements justify a projection. | — |
+| DEC-041 | 2026-10-07 | Firestore Preset Query Contract | Freeze Milestone 1–3 view-level candidate query shapes and minimum index strategy. Preset-defining predicates execute server-side; grouping, presentation filters/modifiers, and final sort remain client-side. Prioritize uses separate dated and null-Due branches merged client-side. Follow Up and per-user enrichment use Rules-v2 collection-group queries. | — |
 
 ## MVP Scope
 
@@ -850,6 +941,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen Milestone 1–3 Firestore preset candidate queries, expansion behavior, per-user collection-group enrichment, and minimum composite-index strategy. | Approved |
 | 2026-10-07 | Approved nested lifecycle query fields (`lifecycle.macro` / `lifecycle.micro`) with no top-level duplication. | Approved |
 | 2026-10-07 | Added derived Task availability projection and standardized Unspecified date buckets at the end of date-organized views. | Approved |
 | 2026-10-07 | Frozen per-view retrieval contracts and extended staleness semantics where appropriate; Plan and All Active default to 60-day staleness while deadline/unresolved/recovery views preserve completeness. | Approved |
