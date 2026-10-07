@@ -67,11 +67,13 @@
 | DEC-059 | 2026-10-07 | Repository Bootstrap | Bootstrap the approved monorepo with root pnpm workspace configuration, shared strict TypeScript base configuration, `apps/api`, `apps/app`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, and `tooling`. Use `@taskify/*` package names and explicit `workspace:*` internal dependencies. Keep root scripts/config minimal; lint, formatting, test frameworks, build orchestration, and substantive Firebase configuration remain separate decisions/implementation steps. | — |
 | DEC-060 | 2026-10-07 | API Internal Structure | Organize `apps/api` with thin Firebase deployment adapters under `src/functions`, feature-oriented business operations under `src/tasks`, `src/categories`, `src/reminders`, `src/task-state`, and `src/scheduled`, and narrowly shared infrastructure under `src/persistence`, `src/auth`, `src/audit`, and `src/shared`. Keep transaction orchestration visible in feature operations; do not introduce generic controller/service/repository/use-case layering or generic repository interfaces. Public DTOs/action identifiers/error codes belong in `packages/api-contracts`; persisted Firestore models and backend business rules remain private to `apps/api`. | — |
 | DEC-061 | 2026-10-07 | API Timestamp Transport | Keep `packages/api-contracts` independent of Firebase/Firestore. Public API timestamp values use canonical ISO-8601 UTC strings; Firestore `Timestamp` and conversion logic remain implementation details of `apps/api` and client-side adapters. This applies to optimistic-concurrency timestamps, Hide Until, reminders, and timestamp values returned by trusted API operations. | — |
+| DEC-062 | 2026-10-07 | API Runtime Dependencies | Approve `firebase-admin`, `firebase-functions`, `date-fns`, and `@date-fns/tz` as `apps/api` runtime dependencies, plus workspace dependency `@taskify/api-contracts`. Firebase libraries implement the approved platform boundary; date-fns timezone support performs explicit IANA/DST-safe TaskDate normalization rather than hand-rolled timezone conversion. | — |
 
 ## Change Log
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Approved the initial `apps/api` runtime dependency set for Firebase callables/Firestore and IANA timezone normalization. | Approved |
 | 2026-10-07 | Decoupled public API timestamp transport from Firebase/Firestore using canonical ISO-8601 UTC strings. | Approved |
 | 2026-10-07 | Frozen the feature-oriented internal `apps/api` structure with thin Firebase function adapters and explicit transaction orchestration. | Approved |
 | 2026-10-07 | Bootstrapped the approved pnpm monorepo skeleton and package boundaries with minimal root configuration. | Implemented |
