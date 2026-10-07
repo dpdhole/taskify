@@ -61,11 +61,13 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-054**.
+- Architecture and product design are approved through **DEC-055**.
 - The concrete Firestore Security Rules design and emulator test matrix are approved; no Rules implementation has yet been formally recorded as implemented or verified.
 - No application implementation has been formally recorded as started, implemented, or verified.
 - The minimum intended `firestore.indexes.json` composite-index set is approved; no index configuration has yet been formally recorded as implemented or verified.
-- The next design task is the backend function implementation structure.
+- Repository architecture is approved as a single workspace/monorepo with `apps/api`, `apps/mobile`, `apps/web`, `packages/api-contracts`, `packages/client-sdk`, `infrastructure/firebase`, shared `docs`, and repository-wide `tooling`. No corresponding implementation directories/workspace configuration have yet been formally created.
+- The API-contract boundary is approved: `api-contracts` defines the client/API protocol, `client-sdk` implements the official client abstraction, and backend domain/business logic remains private to `apps/api`.
+- The next architecture task is workspace/tooling selection and repository bootstrap structure before internal backend module design.
 
 ## Open Questions
 
@@ -85,7 +87,8 @@ None formally recorded yet.
 
 ## Next Actions
 
-- Define the backend function implementation structure from the approved callable/transaction contracts. **Status:** Next design stage.
+- Define workspace/tooling selection and repository bootstrap structure consistent with DEC-055. **Status:** Next design stage.
+- After repository bootstrap architecture is frozen, return to internal `apps/api` implementation structure.
 - Firestore Rules and index configuration remain approved designs awaiting implementation/verification.
 
 No subsequent material action is considered approved unless explicitly authorized by the project owner.
