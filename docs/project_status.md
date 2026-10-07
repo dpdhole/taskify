@@ -270,27 +270,27 @@ Completed-task history is not rewritten when a task is reopened or otherwise cha
 Taskify uses the following primary navigation areas:
 
 - **Home** — contextual overview of what needs attention now.
-- **Tasks** — primary task workspace using preset and user-saved views.
+- **Tasks** — primary task workspace using product-defined preset views with per-view customization.
 - **Nearby** — ephemeral location-context query answering "what can I do here now?".
 - **Calendar** — date-oriented projection of tasks/events.
 - **Search** — free-text retrieval across accessible tasks. Richer filtering may refine results, but a standalone View Builder is no longer an approved baseline requirement.
 - **Settings** — profile, categories, notifications, defaults, and integrations.
 
-`My Tasks` and `Shared With Me` are not separate top-level information spaces; their semantics are expressed through preset/user-saved views in **Tasks**.
+`My Tasks` and `Shared With Me` are not separate top-level information spaces; their semantics are expressed through preset views and filters in **Tasks**.
 
-#### Tasks and Saved Views
+#### Tasks and Preset Views
 
-- A saved view is a stored query definition over the user's accessible task universe.
-- Product-defined preset views are **global system-defined saved queries** with a fixed product-controlled order; users do not reorder presets.
-- New or revised preset definitions apply globally without per-user copies or migration.
-- Taskify first provides global product-defined presets, configurable preset presentation/parameters, and temporary working filters.
-- User-created Saved Views and a standalone View Builder are **deferred pending demonstrated recurring retrieval needs**; they are not currently required product capabilities.
-- If persistent custom views are later justified, prefer **Save current view** over an independent query-builder experience: persist the current preset plus supported filters/presentation state rather than expose arbitrary query construction.
-- Temporary working filters may refine task-definition and relationship fields such as Category, Priority, lifecycle state, and later participation role/person. Location remains a runtime working-context modifier.
-- DOW, TOD, Important, and Urgent are not persisted as fixed filters in the saved-view definition; they are runtime system-tag modifiers applied to a view.
-- DOW/TOD modifiers are evaluated against the system clock at runtime.
+- Taskify does **not** provide user-created Saved Views or a standalone View Builder.
+- Product-defined preset views have a fixed product-controlled order; users do not reorder presets.
+- Each preset is implemented as an application-defined, client-parameterized query strategy rather than a persisted saved-query document.
+- Presets may be tuned independently; they are not required to share one generic query-definition DSL.
+- Each view supports contextual customization using dimensions meaningful for that view. Current core dimensions are Time, Category, and Status; the selected primary organization controls grouping while the other applicable dimensions remain filters.
+- Temporary working filters may refine fields such as Category, Priority, lifecycle/status, and later participation role/person. Category and Status support multi-select where applicable. Location remains a runtime working-context modifier.
+- DOW, TOD, Important, and Urgent remain runtime system-tag modifiers applied after the preset candidate set is resolved.
+- DOW/TOD modifiers are evaluated against the system clock in the user's stored timezone.
 - All system-tag view modifiers are preference-aware: absence of the relevant system tag does not exclude a task; a conflicting assigned tag may exclude it while the modifier is active.
-- The View Builder is intentionally constrained to task filters, a single grouping field, and sort order rather than arbitrary nested boolean/query expressions.
+- Per-view customization is persisted only through explicit **Remember**; otherwise changes remain temporary client state.
+- Visual/layout treatment must distinguish product defaults, remembered customization, and temporary modifications so the user can tell what will persist.
 
 #### Nearby
 
@@ -303,7 +303,7 @@ Taskify uses the following primary navigation areas:
 - General Search provides free-text retrieval across accessible tasks.
 - General Search covers at least title, description, human comments/conversations, attachment metadata, participant names/emails, and participation-role labels. Routine `System Changes` audit entries are excluded from general free-text search.
 - Search may be refined with the same supported temporary filters used in Tasks.
-- A separate Advanced Search / View Builder workflow is deferred unless later usage demonstrates a need for query construction beyond presets, temporary filters, and Search.
+- There is no separate Advanced Search / View Builder workflow in the approved baseline; Search may be refined with supported filters.
 - Role/participation criteria are first-class search fields, including My Role, Owner, Executor, Consultant/Reviewer, Informed, and participant name/email.
 
 #### Home
@@ -339,10 +339,10 @@ Subtasks use the same Task Detail experience and are independently browsable. Wh
 
 - Taskify uses a **Gmail-inspired responsive navigation model** as an interaction reference, without copying Gmail's UI literally.
 - Desktop/wider screens use a persistent/collapsible sidebar. Mobile uses the same hierarchy in a navigation drawer.
-- The sidebar/drawer exposes **Home, Tasks, Nearby, Calendar**, and a bounded set of pinned/recent **My Views** under Tasks. **Settings** is visually separated as configuration.
+- The sidebar/drawer exposes **Home, Tasks, Nearby, Calendar**, with the fixed preset-view hierarchy available under Tasks. **Settings** is visually separated as configuration.
 - **Search is global** from the application header rather than primarily a peer destination in the mobile navigation hierarchy. Search results occupy the main workspace.
 - A prominent global **Create** action remains independent of navigation.
-- Tasks remains the canonical place for all My Views, Preset Views, and view management; sidebar My Views are shortcuts only.
+- Tasks remains the canonical place for preset views and their contextual customization.
 - Navigation back from Task Detail should restore the originating workspace context (view, filters/modifiers, calendar position, map area, or search results as applicable).
 - Task Detail and major workspaces use stable/deep-linkable routes; navigation history and canonical resource URLs are separate concerns.
 - Persistent preferences and temporary session UI state must be distinguished explicitly rather than persisting arbitrary frontend state.
@@ -541,6 +541,8 @@ The shared Task definition contains task-global data including title, markdown d
 - No per-view preference document exists until Remember is used; absence of a document means use the current product defaults for that view.
 - Remembered view preferences are stored per user and per view, e.g. `/users/{uid}/view_preferences/{viewKey}`.
 - The snapshot includes the view's resolved customizable state, such as primary organization, view-specific time thresholds, filters, and sort.
+- Time thresholds are **view-specific**, not global. A view may define and remember its own **Near / Medium / Far** day boundaries; for example, Focus may use tighter 3/7/10 thresholds while Plan may use looser 5/15/30 thresholds.
+- Time buckets are derived as: Older = before today; Today; Near = day 1 through Near; Medium = Near+1 through Medium; Far = Medium+1 through Far; Later = after Far. Thresholds must satisfy `0 < near < medium < far`.
 - Temporary changes remain client/session state until Remember is invoked.
 - Reset removes the remembered preference document and returns the view to the current product defaults.
 - View preference documents should carry a schema version so future semantic changes can be migrated deliberately.
@@ -606,13 +608,13 @@ Cross-task query projections/indexes may be introduced as derived, non-authorita
 - Permanent purge occurs after a retention period and removes owned dependent data, including attachments and object-storage content.
 - Exact retention duration and purge mechanism are deferred to Firebase Architecture / operations.
 
-#### Saved Views
+#### Preset Views and View Preferences
 
-- The saved-query model exists from the outset even though the user-facing View Builder is introduced later.
-- Global preset views are system-owned saved-query definitions with fixed product-controlled ordering; users do not reorder them.
-- User-created Saved Views are user-owned documents containing name, structured filter definition, one grouping field, sort definition, and timestamps.
-- Global presets and later user-created views use the same query-definition semantics.
-- Dynamic system-tag modifiers are not persisted as fixed saved-view filters.
+- Preset definitions are application-owned client query strategies, not Firestore saved-query documents.
+- No user-created Saved View persistence model is required.
+- Full remembered per-view preference snapshots are stored under the user as approved in Per-View Preferences.
+- Each preset may expose independently tuned defaults and supported customization parameters.
+- Dynamic system-tag modifiers remain runtime state and are not part of the remembered view snapshot unless explicitly approved later.
 - Initial global preset order and user question:
   1. **Focus** — "What needs my attention now or very soon?" Overdue or due within the next 3 calendar days.
   2. **Resolve** — "What is stuck or paused and needs intervention?" Blocked, On Hold, or Waiting.
@@ -693,12 +695,14 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-024 | 2026-10-07 | Milestone 1 Lifecycle Contract | Milestone 1 uses explicit business-action transitions. Completion is valid only from In Progress; Waiting/Blocked/On Hold must Resume first. Planned/Ready tasks may be cancelled directly. Due dates never transition lifecycle automatically. | — |
 | DEC-025 | 2026-10-07 | System Tag Persistence | Store per-user system tags in a structured `system_tags` map under Task preference documents. Current dimensions are Importance, Urgency, DOW, and TOD; explicit negative vs unclassified semantics are preserved. | — |
 | DEC-026 | 2026-10-07 | Hide Until Semantics | Keep shared lifecycle states Waiting/Blocked/On Hold separate from private per-user Hide until. Hide until suppresses surfacing only, does not change lifecycle, and is discoverable through Search and Follow Up. | — |
-| DEC-027 | 2026-10-07 | Preset Saved Queries | Use the saved-query model from the outset. Global preset views are fixed-order, system-defined saved queries; users do not reorder presets. Initial order: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | — |
+| DEC-027 | 2026-10-07 | Preset Views | Initial preset order is fixed and product-controlled: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. The earlier saved-query-document implementation model is superseded by DEC-033. | DEC-033 supersedes saved-query-document implementation |
 | DEC-028 | 2026-10-07 | Preset Grouping | Freeze preset grouping: Focus by Due bucket; Resolve by lifecycle state; Prioritize by Due bucket/date; Plan by Created-date bucket; Follow Up by hidden-until bucket; All Active ungrouped; Recently Closed/Unarchive/Recover by their respective date buckets. For date-based groups, Category is the secondary ordering key. | — |
 | DEC-029 | 2026-10-07 | Plan Preset | Plan contains active tasks with no Due date and groups them by Created-date bucket: Today, Previous 7 Days, Previous 30 Days, Older. Within each bucket, order by Category then Created date. | — |
 | DEC-030 | 2026-10-07 | User Timezone | Store an IANA timezone on the user profile, initially derived from device/browser timezone. Relative dates, date buckets, DOW, and TOD are evaluated using that stored timezone. | — |
 | DEC-031 | 2026-10-07 | View Customization Direction | Prefer opinionated global presets with configurable parameters/presentation, runtime modifiers, Search, and temporary filters. User-created Saved Views and a standalone View Builder are deferred pending demonstrated recurring retrieval needs. If persistence is later justified, prefer Save current view over an independent query-builder workflow. Milestone 3 becomes View Refinement. | DEC-008/DEC-011/DEC-017/DEC-018 requirements for an upfront standalone View Builder and Saved Views |
 | DEC-032 | 2026-10-07 | Per-View Preference Persistence | Persist a full resolved preference snapshot per explicitly remembered view. No document exists until Remember; temporary changes remain client-side. Reset deletes the preference document and returns to current product defaults. Preference documents are per-user/per-view and schema-versioned. | — |
+| DEC-033 | 2026-10-07 | Preset Query Architecture | Remove user-created Saved Views and standalone View Builder from the product baseline. Preset views are application-defined, client-parameterized query strategies and may be tuned independently rather than forced through a generic saved-query DSL. | DEC-027 saved-query-document model; DEC-031 deferred Saved Views/View Builder direction |
+| DEC-034 | 2026-10-07 | View-Specific Time Thresholds | Near/Medium/Far time boundaries are configured per view, not globally. Buckets are Older, Today, Near, Medium, Far, Later with `0 < near < medium < far`; remembered values are part of the full per-view preference snapshot. | Earlier global Near/Medium/Far preference direction |
 
 ## MVP Scope
 
@@ -718,7 +722,7 @@ MVP scope is defined around coherent end-to-end user workflows, with individual 
 - Preset Views.
 - Per-user DOW/TOD/Important/Urgent preferences.
 - Reminders.
-- Snooze / `hidden_until`.
+- Hide until / `hidden_until`.
 - Basic Search, initially focused on title/description retrieval.
 - System Changes activity.
 - Archive/delete/restore behavior needed for a coherent lifecycle.
@@ -728,7 +732,7 @@ MVP scope is defined around coherent end-to-end user workflows, with individual 
 - Event type.
 - Calendar.
 - Recurrence.
-- Persistent user-created Saved Views / View Builder, only if later justified by demonstrated recurring retrieval needs.
+- Richer view refinement beyond the core preset customization/filtering baseline, if later justified.
 - Advanced Search beyond normal Search + supported temporary filters.
 - Structured location.
 - Nearby.
@@ -762,14 +766,14 @@ Implementation sequencing is frozen separately from MVP product classification:
    - Tasks workspace + preset views.
    - DOW/TOD/Important/Urgent.
    - Reminders.
-   - Snooze.
+   - Hide until.
    - Basic Search.
    - External-link attachments.
 
 3. **Milestone 3 — View Refinement**
-   - Expand temporary Tasks/Search filters where justified.
-   - Evaluate whether recurring usage warrants **Save current view**.
-   - Do not build a standalone View Builder unless concrete user needs remain unsatisfied by presets, configuration, modifiers, Search, and temporary filters.
+   - Expand contextual preset customization and Tasks/Search filters where justified.
+   - Refine per-view Remember/Reset behavior, presentation options, and client-side sorting.
+   - No user-created Saved Views or standalone View Builder.
 
 4. **Milestone 4 — Location**
    - Structured task/event location.
@@ -798,7 +802,6 @@ Implementation sequencing is frozen separately from MVP product classification:
 ## Open Questions
 
 - Exact Nearby coarse-proximity distance bands/resolution/query implementation remains deferred to Firebase Architecture.
-- Exact date-bucket definitions for View Builder grouping remain a detailed UX decision.
 - Exact autosave-versus-unsaved-change warning behavior remains a detailed interaction-design decision.
 - Search implementation details beyond the approved baseline (fuzzy/semantic search, stemming, ranking technology) remain deferred to Firebase Architecture.
 - Todo field, lifecycle, and date semantics remain deferred.
@@ -816,6 +819,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Removed Saved Views/View Builder from the product baseline; adopted client-parameterized preset queries with independently tunable, per-view Near/Medium/Far thresholds. | Approved |
 | 2026-10-07 | Approved full per-view preference snapshots persisted only through explicit Remember; Reset returns the view to current defaults. | Approved |
 | 2026-10-07 | Shifted customization direction to configurable presets + temporary filters; standalone View Builder/user-created Saved Views deferred pending demonstrated need; Milestone 3 renamed View Refinement. | Approved |
 | 2026-10-07 | Approved Plan created-date buckets and user-profile IANA timezone semantics for relative date/DOW/TOD evaluation. | Approved |
