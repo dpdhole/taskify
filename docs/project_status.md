@@ -552,6 +552,21 @@ The shared Task definition contains task-global data including title, markdown d
 - **All Active** defaults to `stale_days = 60`: active tasks untouched for longer than that may be excluded from the default working set or surfaced separately as stale, with explicit access to include them. The threshold is view-specific and rememberable.
 - Views where completeness is intrinsic may choose not to apply the staleness cutoff; for example, Resolve should not hide Waiting/Blocked/On Hold work solely because it is old.
 
+#### Preset Retrieval Contracts
+
+- Retrieval is defined per preset/view. Grouping, time buckets, Category grouping, Status grouping, and client-side sort operate on the retrieved candidate set and do not create separate Firestore retrieval streams.
+- **Focus** — candidate set is active, non-archived, non-deleted Tasks with a Due date at or before the view retrieval horizon, plus all overdue Tasks. Use `due_date` as the retrieval date field. Staleness does not exclude Tasks from Focus because due-date urgency takes precedence; stale age may be shown as secondary context.
+- **Resolve** — candidate set is non-archived, non-deleted Tasks in Waiting, Blocked, or On Hold. Retrieve the complete unresolved set by default. Staleness does not exclude Tasks; older untouched Tasks may receive stronger stale emphasis because age increases the need for intervention.
+- **Prioritize** — candidate set is active, non-archived, non-deleted Tasks with Due dates inside the loaded view extent; no-Due Tasks may be included where required by the view's configured presentation. Use `due_date` for bounded retrieval. Staleness does not override or hide deadline-based relevance.
+- **Plan** — candidate set is active, non-archived, non-deleted Tasks with no Due date. Use `created_at` for the bounded working set. Plan supports staleness based on `updated_at`; stale unscheduled Tasks remain valid and may be surfaced as neglected/older work rather than silently dropped. Default `stale_days` is 60 unless the remembered view preference specifies another value.
+- **Follow Up** — candidate set is Tasks for which the current user's `hidden_until > now`. Use `hidden_until` as the bounded retrieval field. Staleness is not used for exclusion because the future follow-up time is authoritative for the view.
+- **All Active** — candidate set is all non-completed, non-archived, non-deleted Tasks in the active working universe. Default `stale_days = 60`; Tasks untouched longer than the threshold are excluded from the default working set or surfaced separately as stale, with an explicit user action to include them. This is a retrieval/presentation rule only.
+- **Recently Closed** — candidate set is terminal Completed Tasks inside the view's retrospective extent using `completed_at`. `updated_at` staleness does not apply because closure time is the relevant age signal.
+- **Unarchive** — candidate set is archived, non-deleted Tasks inside the view's loaded retrospective extent using `archived_at`. `updated_at` staleness does not apply because archive age is the relevant age signal.
+- **Recover** — candidate set is soft-deleted Tasks that remain recoverable, using `deleted_at` / `purge_after` as the governing window. `updated_at` staleness does not apply.
+- Where a view uses a bounded date field, its default extent is `max(30, 2 × far_days)`. The view must clearly indicate when the loaded extent is partial and provide an explicit action to expand it.
+- Staleness is view-specific and rememberable only on views where it is meaningful. It must never implicitly transition lifecycle, archive, delete, complete, or purge a Task.
+
 #### User-Task Data Separation Rule
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
@@ -710,6 +725,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-034 | 2026-10-07 | View-Specific Time Thresholds | Near/Medium/Far time boundaries are configured per view, not globally. Buckets are Older, Today, Near, Medium, Far, Later with `0 < near < medium < far`; remembered values are part of the full per-view preference snapshot. | Earlier global Near/Medium/Far preference direction |
 | DEC-035 | 2026-10-07 | View Retrieval Extent | Retrieval is view-based, not group-based. Time-bounded views default to `max(30, 2 × far_days)` on the view-relevant date field and may expand on explicit user action. Grouping remains client-side presentation. | — |
 | DEC-036 | 2026-10-07 | View Staleness | `updated_at` may define view-specific staleness without changing task lifecycle. All Active defaults to a 60-day staleness threshold, rememberable per view; stale tasks remain available through explicit inclusion/access. Views such as Resolve may ignore staleness where completeness is intrinsic. | — |
+| DEC-037 | 2026-10-07 | Preset Retrieval Contracts | Freeze per-view retrieval semantics for Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, and Recover. Apply staleness only where it supports the view's intent: All Active defaults to 60 days; Plan defaults to 60 days; Focus/Prioritize/Follow Up and retrospective recovery/history views do not exclude on staleness; Resolve never hides stale unresolved work. | — |
 
 ## MVP Scope
 
@@ -826,6 +842,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen per-view retrieval contracts and extended staleness semantics where appropriate; Plan and All Active default to 60-day staleness while deadline/unresolved/recovery views preserve completeness. | Approved |
 | 2026-10-07 | Approved view-based retrieval extent and updated-at staleness semantics; All Active defaults to a 60-day stale threshold without lifecycle side effects. | Approved |
 | 2026-10-07 | Removed Saved Views/View Builder from the product baseline; adopted client-parameterized preset queries with independently tunable, per-view Near/Medium/Far thresholds. | Approved |
 | 2026-10-07 | Approved full per-view preference snapshots persisted only through explicit Remember; Reset returns the view to current defaults. | Approved |
