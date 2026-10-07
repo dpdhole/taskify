@@ -767,6 +767,183 @@ Authentication helpers should resolve the authenticated user's canonical email f
 - Firebase Emulator Security Rules tests are mandatory before deployment for Milestones 1–3.
 - Tests must cover positive and negative cases for Task create/update/read, protected-field mutation, category ownership, date synchronization, preference isolation, collection-group isolation, Hide Until access, reminder ownership, view preferences, System Changes immutability, and archive/delete/lifecycle client-write denial.
 
+#### Backend Callable/API and Transaction Contract — Milestones 1–3
+
+Use Firebase 2nd-generation callable functions as the client-facing trusted backend boundary for business actions. Callable handlers authenticate the Firebase user, resolve the canonical user email server-side, validate authorization and current document state, and execute domain mutations in Firestore transactions. Client-supplied identity fields are never trusted.
+
+**General mutation contract**
+- Task business-action calls use optimistic concurrency through the Task's current `updated_at`.
+- Standard request shape:
+  ```text
+  {
+    task_id,
+    expected_updated_at,
+    ...action_specific_payload
+  }
+  ```
+- If the current Task `updated_at` differs from `expected_updated_at`, return `CONFLICT` without applying the mutation.
+- All Task mutations set `updated_at` from server time.
+- Transaction handlers re-read every document whose state is material to authorization or validation inside the transaction.
+- A successful business action returns the resulting authoritative Task state or the minimum authoritative fields required for immediate client reconciliation, together with the new `updated_at`.
+- Retry behavior must be safe under Firestore transaction retries; handlers must not perform external side effects inside retryable transaction bodies.
+
+**Lifecycle / archive / delete endpoint**
+- Client callable:
+  ```text
+  executeTaskAction({
+    task_id,
+    action,
+    expected_updated_at,
+    payload?: {
+      reason?: string
+    }
+  })
+  ```
+- Milestone 1–3 actions:
+  - `start`
+  - `wait_for_input`
+  - `mark_blocked`
+  - `put_on_hold`
+  - `resume`
+  - `complete`
+  - `cancel`
+  - `mark_unable`
+  - `reopen`
+  - `archive`
+  - `restore_archive`
+  - `delete`
+  - `restore_delete`
+- The callable is a thin dispatcher to internal action handlers; transition logic is not duplicated across endpoints.
+- Each action transaction:
+  1. reads the Task;
+  2. verifies ownership/authorization and recoverability/deletion conditions;
+  3. checks `expected_updated_at`;
+  4. validates the requested transition/action against the approved lifecycle contract;
+  5. applies Task changes, including `availability`, relevant timestamps, `completed_at`, and automatic Start/End behavior;
+  6. writes one structured System Changes entry in the Task's default System Changes thread;
+  7. commits Task + System Changes atomically.
+- Required/optional reason semantics follow the approved lifecycle contract.
+- Reopen clears `completed_at` but preserves End unless a later approved rule changes that behavior.
+- Archive/restore archive do not change lifecycle.
+- Delete/restore delete do not change lifecycle; soft delete sets `deleted_at`, `purge_after`, and `availability = "deleted"`. Restore delete clears delete/recovery fields and restores `availability` from the preserved archive state.
+
+**Subtask creation**
+- Callable:
+  ```text
+  createSubtask({
+    parent_task_id,
+    expected_parent_updated_at,
+    task: {
+      title,
+      description_md?,
+      category_id,
+      priority?,
+      start?,
+      due?,
+      end?
+    }
+  })
+  ```
+- Transaction reads the parent and validates:
+  - caller owns or is otherwise permitted by the current milestone's hierarchy rule;
+  - parent is not deleted and is eligible for child creation;
+  - one-level hierarchy limit is not exceeded;
+  - `expected_parent_updated_at` still matches;
+  - referenced category is valid for the new Task Owner.
+- The new subtask is created as a normal Task with:
+  - `type = "task"`;
+  - creator as Owner/Executor in the Milestone 1–3 individual flow;
+  - `lifecycle = Upcoming:Planned`;
+  - `availability = "working"`;
+  - correct `parent_task_id` and `root_task_id`;
+  - synchronized rich/scalar dates;
+  - server timestamps.
+- Parent Task data is changed only if an approved parent metadata field requires it; otherwise parent `updated_at` need not change merely because a child was created.
+- Creation and any required System Changes entry are atomic.
+
+**Hide Until**
+- Callables:
+  ```text
+  hideTaskUntil({
+    task_id,
+    hidden_until,
+    expected_task_updated_at?
+  })
+
+  clearHiddenUntil({
+    task_id
+  })
+  ```
+- Validate Task readability/access and that `hidden_until` is in the future when set.
+- Upsert/delete or clear the caller's `/tasks/{taskId}/states/{uid}` state atomically as appropriate.
+- `task_id` and `user_email` are server-derived/validated identity fields.
+- Hide Until does not mutate Task lifecycle and does not create a lifecycle System Changes entry.
+- Task `updated_at` is not changed solely because one user's private Hide Until state changed.
+
+**Reminders**
+- Callables:
+  ```text
+  createReminder({
+    task_id,
+    remind_at
+  })
+
+  updateReminder({
+    task_id,
+    reminder_id,
+    remind_at
+  })
+
+  cancelReminder({
+    task_id,
+    reminder_id
+  })
+  ```
+- Validate caller access to the Task and ownership of the reminder.
+- Create sets `delivery_state = "scheduled"` and server-maintained identity/timestamps.
+- Update is allowed only while the reminder remains editable under the current delivery-state rules and resets scheduling metadata as needed.
+- Cancel sets `delivery_state = "cancelled"`; clients do not physically delete delivered/auditable reminder records unless a later retention policy permits it.
+- Delivery transitions to `delivered` or `failed` and `delivered_at` are backend-worker controlled, not callable-client controlled.
+- Reminder mutations do not change Task `updated_at` solely because a personal reminder changed.
+
+**Automatic Planned → Ready promotion**
+- The automatic `Upcoming:Planned -> Upcoming:Ready` transition when Start arrives is a trusted backend process, not a client direct write.
+- Promotion must be idempotent and re-check current lifecycle/start conditions before mutation.
+- Each successful automatic promotion updates the Task and writes the corresponding System Changes entry atomically.
+- Exact scheduler/queue implementation and polling cadence remain an implementation choice; semantics are fixed.
+
+**Direct client writes remain outside callables**
+- Root Task creation, approved ordinary Task edits, category management, per-user system-tag preferences, and remembered view preferences remain direct Firestore client operations protected by Security Rules, unless the date-synchronization fallback requires date edits to move behind backend validation.
+- Business-action callables must not become a generic Task-update endpoint.
+
+**Stable backend error codes**
+- `UNAUTHENTICATED`
+- `TASK_NOT_FOUND`
+- `NOT_AUTHORIZED`
+- `INVALID_ARGUMENT`
+- `INVALID_TRANSITION`
+- `REASON_REQUIRED`
+- `TASK_DELETED`
+- `TASK_NOT_RECOVERABLE`
+- `PARENT_NOT_ELIGIBLE`
+- `SUBTASK_DEPTH_EXCEEDED`
+- `REMINDER_NOT_FOUND`
+- `INVALID_REMINDER_STATE`
+- `CONFLICT`
+- `INTERNAL`
+- Error payloads may include safe machine-readable context, but must not expose unauthorized Task existence/details.
+
+**Transaction boundaries**
+- Task + System Changes for a business action: one Firestore transaction.
+- Subtask creation + hierarchy validation + required System Changes: one Firestore transaction.
+- Hide Until state mutation: one transaction/batched atomic mutation scoped to the user-state document and any required validation reads; no Task write unless required by a later approved invariant.
+- Reminder create/update/cancel: one transaction over the reminder plus Task-access validation reads; no Task write solely for reminder state.
+- External side effects such as future notification delivery, email, or push dispatch occur after committed domain state and must use idempotent/outbox-style processing if introduced; they are never relied upon for transaction atomicity.
+
+**Backend tests**
+- Emulator/integration tests are mandatory for every callable action.
+- Tests cover authorization, expected-state validation, optimistic-concurrency conflicts, required reasons, timestamp/date behavior, `availability` transitions, atomic System Changes creation, subtask-depth rules, Hide Until isolation, reminder state transitions, transaction retry safety, and idempotent automatic Planned→Ready behavior.
+
 #### User-Task Data Separation Rule
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
@@ -931,6 +1108,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-040 | 2026-10-07 | Lifecycle Query Fields | Query lifecycle directly through nested Firestore fields `lifecycle.macro` and `lifecycle.micro`. Do not duplicate lifecycle into top-level query fields unless later measurements justify a projection. | — |
 | DEC-041 | 2026-10-07 | Firestore Preset Query Contract | Freeze Milestone 1–3 view-level candidate query shapes and minimum index strategy. Preset-defining predicates execute server-side; grouping, presentation filters/modifiers, and final sort remain client-side. Prioritize uses separate dated and null-Due branches merged client-side. Follow Up and per-user enrichment use Rules-v2 collection-group queries. | — |
 | DEC-042 | 2026-10-07 | Firestore Security Rules Contract | Freeze Milestone 1–3 Rules-v2 authorization boundaries: owner-scoped Task reads, invariant-checked root creation, narrow ordinary Task updates, backend-only lifecycle/archive/delete/hierarchy/audit actions, own-only preferences/view preferences, backend-managed Hide Until/reminders, immutable System Changes, identity-constrained collection-group access, and mandatory emulator rule tests. | — |
+| DEC-043 | 2026-10-07 | Backend Callable / Transaction Contract | Use 2nd-generation Firebase callable functions for Milestone 1–3 trusted business actions. Task actions use optimistic concurrency via `expected_updated_at`; lifecycle/archive/delete mutations and System Changes are atomic; subtask creation is transactional; Hide Until and reminders have dedicated callables without touching Task `updated_at`; automatic Planned→Ready is trusted/idempotent; stable backend error codes are defined. | — |
 
 ## MVP Scope
 
@@ -1047,6 +1225,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen Milestone 1–3 backend callable/API and transaction boundaries, optimistic concurrency, stable errors, reminder/Hide Until actions, and automatic Ready promotion semantics. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 Firestore Security Rules contract, including direct-write allowlists, backend-only business state, per-user subcollection isolation, collection-group constraints, and mandatory emulator tests. | Approved |
 | 2026-10-07 | Frozen Milestone 1–3 Firestore preset candidate queries, expansion behavior, per-user collection-group enrichment, and minimum composite-index strategy. | Approved |
 | 2026-10-07 | Approved nested lifecycle query fields (`lifecycle.macro` / `lifecycle.micro`) with no top-level duplication. | Approved |
