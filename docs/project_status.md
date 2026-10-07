@@ -281,8 +281,9 @@ Taskify uses the following primary navigation areas:
 #### Tasks and Saved Views
 
 - A saved view is a stored query definition over the user's accessible task universe.
-- Product-defined preset views are configured for users by default.
-- Users may create, name, save, edit, duplicate, and delete their own views.
+- Product-defined preset views are **global system-defined saved queries** with a fixed product-controlled order; users do not reorder presets.
+- New or revised preset definitions apply globally without per-user copies or migration.
+- Users may create, name, save, edit, duplicate, and delete their own views when the View Builder is exposed in Milestone 3.
 - A view definition contains task filters, one grouping field, and sort order.
 - Saved views store query semantics, not materialized task IDs.
 - Views may filter by task-definition and relationship fields such as ownership/role, lifecycle, category, priority, relative date conditions, and participants. Location is a runtime working-context modifier rather than a persisted View Builder filter. Recurrence is not currently a View Builder filter.
@@ -533,19 +534,21 @@ User ↔ Task-specific values remain separate from the shared Task document but 
 
 Canonical logical/physical separation:
 
-- `/tasks/{taskId}/preferences/{userId}` — **UserTaskPreference** for user-managed system-tag preferences such as DOW, TOD, Important, and Urgent.
-- `/tasks/{taskId}/states/{userId}` — **UserTaskState** for system-managed per-user state such as snooze / `hidden_until` and future user-specific system state.
+- `/tasks/{taskId}/preferences/{userId}` — **UserTaskPreference**. System tags are stored in a structured `system_tags` map rather than as unrelated top-level fields or a flat tag array. Current dimensions are `importance`, `urgency`, `dow`, and `tod`. New dimensions require an approved product definition and validation semantics.
+- `/tasks/{taskId}/states/{userId}` — **UserTaskState** for system-managed per-user state such as **Hide until** / `hidden_until` and future user-specific system state.
 - `/tasks/{taskId}/reminders/{reminderId}` — **Reminder** documents; multiple reminders per user/task are allowed.
 
-Cross-task query projections/indexes may be introduced as derived, non-authoritative structures during Firebase Architecture when required by Home, Tasks, Saved Views, or collaboration.
+The canonical preference document also carries `task_id` and `user_email` to support secure collection-group queries. For Importance/Urgency, explicit negative values remain distinct from unclassified/null. DOW/TOD are multi-select dimensions.
 
-#### Reminders and Snooze
+Cross-task query projections/indexes may be introduced as derived, non-authoritative structures during Firebase Architecture when required by Home, Tasks, Saved Views, or collaboration. No `userTaskIndex` is required for Milestones 1–2 unless measured/query constraints justify it.
+
+#### Reminders and Hide Until
 
 - Reminders are per-user and per-task, with a required `remind_at` date/time and delivery state.
-- Snooze is system-managed per-user task state, triggered by a user action.
-- Snooze requires a `hidden_until` date/time.
-- Snoozed tasks are suppressed from normal working views until `hidden_until`, while remaining retrievable through Search or explicit snoozed-state filtering.
-- Snooze is distinct from DOW/TOD/Important/Urgent because those are user-managed system tags, while snooze is time-bound system-managed state.
+- **Hide until** is system-managed per-user task state, triggered by a user action and stored as `hidden_until`.
+- Tasks hidden until a future time are suppressed from normal working views until `hidden_until`, while remaining retrievable through Search and the global **Follow Up** preset.
+- Hide until is distinct from lifecycle states such as Waiting/Blocked/On Hold: lifecycle states describe the shared Task's progress, while Hide until only controls when the current user wants the Task surfaced.
+- Hide until is also distinct from DOW/TOD/Important/Urgent because those are user-managed system tags, while Hide until is time-bound system-managed state.
 
 #### Recurrence
 
@@ -588,8 +591,21 @@ Cross-task query projections/indexes may be introduced as derived, non-authorita
 
 #### Saved Views
 
-- Saved Views are user-owned documents containing name, structured filter definition, one grouping field, sort definition, preset/user-defined indicator, display order, and timestamps.
+- The saved-query model exists from the outset even though the user-facing View Builder is introduced later.
+- Global preset views are system-owned saved-query definitions with fixed product-controlled ordering; users do not reorder them.
+- User-created Saved Views are user-owned documents containing name, structured filter definition, one grouping field, sort definition, and timestamps.
+- Global presets and later user-created views use the same query-definition semantics.
 - Dynamic system-tag modifiers are not persisted as fixed saved-view filters.
+- Initial global preset order and user question:
+  1. **Focus** — "What needs my attention now or very soon?" Overdue or due within the next 3 calendar days.
+  2. **Resolve** — "What is stuck or paused and needs intervention?" Blocked, On Hold, or Waiting.
+  3. **Prioritize** — "What should I work on first based on deadlines?" Active tasks grouped by Due date, with no-due tasks last.
+  4. **Plan** — "What tasks have no due date and still need scheduling or commitment?" Active tasks with no Due date.
+  5. **Follow Up** — "What have I deliberately hidden that I need to revisit later?" Tasks with active `hidden_until`.
+  6. **All Active** — "What work is currently open?" All non-completed, non-archived, non-deleted tasks.
+  7. **Recently Closed** — "What have I finished, cancelled, or otherwise closed recently?" Terminal tasks closed in the past 15 days using `completed_at`.
+  8. **Unarchive** — "What archived tasks can I bring back into normal use?" Archived tasks available to restore.
+  9. **Recover** — "What deleted tasks can I still restore?" Soft-deleted tasks still within the recovery window.
 
 #### Search
 
@@ -647,6 +663,9 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-022 | 2026-10-07 | Task Write Boundary | Use a hybrid write model: approved ordinary Task fields may be edited directly under Security Rules; lifecycle, archive/delete, hierarchy/governance, and audit-relevant business actions execute through trusted backend transactions that also write System Changes. | — |
 | DEC-023 | 2026-10-07 | Task Creation Lifecycle | Normal user-created Tasks start at `Upcoming:Planned`. `Upcoming:Draft` is reserved for future trusted-backend/import creation such as email forwarding. | — |
 | DEC-024 | 2026-10-07 | Milestone 1 Lifecycle Contract | Milestone 1 uses explicit business-action transitions. Completion is valid only from In Progress; Waiting/Blocked/On Hold must Resume first. Planned/Ready tasks may be cancelled directly. Due dates never transition lifecycle automatically. | — |
+| DEC-025 | 2026-10-07 | System Tag Persistence | Store per-user system tags in a structured `system_tags` map under Task preference documents. Current dimensions are Importance, Urgency, DOW, and TOD; explicit negative vs unclassified semantics are preserved. | — |
+| DEC-026 | 2026-10-07 | Hide Until Semantics | Keep shared lifecycle states Waiting/Blocked/On Hold separate from private per-user Hide until. Hide until suppresses surfacing only, does not change lifecycle, and is discoverable through Search and Follow Up. | — |
+| DEC-027 | 2026-10-07 | Preset Saved Queries | Use the saved-query model from the outset. Global preset views are fixed-order, system-defined saved queries; users do not reorder presets. Initial order: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | — |
 
 ## MVP Scope
 
@@ -764,6 +783,8 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Approved structured system-tag persistence, private Hide until semantics, and no mandatory userTaskIndex for Milestones 1–2. | Approved |
+| 2026-10-07 | Frozen global fixed-order preset saved queries: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | Approved |
 | 2026-10-07 | Revised Firebase architecture: Task-scoped preference/state/reminder subcollections, Task-contained activity threads, Rules v2 baseline, and scalar date query fields. | Approved |
 | 2026-10-07 | Approved email-link authentication, social-provider profile picture URL, hybrid Task write boundary, Task-only optional date semantics, boolean priority, Planned creation default, and Milestone 1 lifecycle transition constraints. | Approved |
 | 2026-10-06 | Approved individual-first MVP scope classification and Post-MVP boundaries. | Approved |
