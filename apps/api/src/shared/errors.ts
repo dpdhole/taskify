@@ -13,6 +13,7 @@ export function toHttpsError(error: unknown): HttpsError {
     code === "UNAUTHENTICATED" ? "unauthenticated" :
     code === "NOT_AUTHORIZED" ? "permission-denied" :
     code === "CONFLICT" ? "aborted" :
+    code === "DUPLICATE_ARGUMENT" ? "already-exists" :
     code === "INTERNAL" ? "internal" : "invalid-argument";
   return new HttpsError(firebaseCode, code, { code });
 }

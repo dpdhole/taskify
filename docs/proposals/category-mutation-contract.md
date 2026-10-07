@@ -1,6 +1,6 @@
 # Category contract reconciliation
 
-Status: Draft reconciling owner-stated decisions. The unresolved details below are proposals/questions, not approved requirements. No Category implementation or cloud change is authorized by this draft.
+Status: Historical reconciliation context. Decisions through DEC-082 and current implementation/evidence are authoritative in the five-document set loaded through project_status.md. The owner separately approved implementation/specification updates/local verification and then commit/push; this draft supplies no independent authorization. Deployment and formal Verified status remain held.
 
 ## Owner-stated decisions
 
@@ -12,17 +12,17 @@ Status: Draft reconciling owner-stated decisions. The unresolved details below a
 - Repeated unchanged operations do not change timestamps.
 - Default Categories cannot be renamed or archived, but may be reordered.
 - User-added Categories remain renameable, archiveable, and reorderable under normal owner/concurrency rules.
-- Provision defaults at account registration. Append new custom Categories after the last owned Category, including archived entries. Registration implementation coordination is not yet selected.
+- Provision defaults at account registration. Append new custom Categories after the last owned Category, including archived entries. DEC-078 selects authenticated completeRegistration({}) and retryable readiness coordination.
 
 ## Remaining details for review
 
-1. Registration coordination and Unicode character-count/collation implementation details before coding. Product behavior, mutation semantics and Reset API are approved through DEC-077.
+1. Registration coordination, Unicode character-count/collation, precise timestamps, persistence and response observation are resolved by DEC-078–DEC-082. Publication is owner-approved. Client readiness integration, formal Verified status and production verification remain separate work.
 
 ## Proposed implementation details for review
 
 - The normalization/default/ordering decisions above are recorded in DEC-075; they are no longer proposals.
 - Mutation semantics are now approved in DEC-076: duplicate create/rename uses DUPLICATE_ARGUMENT across active/archived Categories without implicit reactivation; missing/foreign targets use generic INVALID_ARGUMENT. Stale tokens return CONFLICT even for no-op requests; matching unchanged requests preserve timestamps. These are no longer proposals.
-- Default provisioning occurs at account registration. Its implementation must preserve IDs/Task references under retries and never become a reset endpoint; trigger/coordination details remain to be reviewed.
+- Default provisioning occurs through completeRegistration({}); IDs/Task references remain stable under retries and Reset never provisions defaults. See the approved DEC-078 mechanism.
 
 ## Affected authoritative areas
 
@@ -31,6 +31,6 @@ Status: Draft reconciling owner-stated decisions. The unresolved details below a
 - docs/backend_architecture.md: supported Category callables and initialization/uniqueness behavior.
 - docs/security_model.md and Rules: any restrictions on default reorder.
 - docs/decisions.md: partial supersession of DEC-046/DEC-051 and any affected DEC-053 boundary.
-- packages/api-contracts/src/categories.ts: implement approved resetCategoryOrder empty request and multi-Category response; the old request in source has not yet been changed. Add generic DUPLICATE_ARGUMENT to the source error enum during implementation.
+- packages/api-contracts/src/categories.ts now implements resetCategoryOrder empty request/multi-Category response and registration completion types; the public enum now includes generic DUPLICATE_ARGUMENT.
 
-Ordering-only Reset now has an approved request/response contract (DEC-077): resetCategoryOrder({}) returns changed_count and all Category IDs/order/individual timestamps, including archived entries, using current server state with no per-Category tokens. Default provisioning remains separate. Preventing default rename removes the need to recover the original default identity after rename; no default_key schema field is proposed.
+Ordering-only Reset has the approved DEC-077 contract with DEC-082 post-commit snapshot observation. Default provisioning remains separate. Preventing default rename removes the need to recover original default identity after rename; no default_key field is adopted.

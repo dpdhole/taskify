@@ -3,7 +3,8 @@ import { initializeApp, deleteApp, type FirebaseApp } from "firebase/app";
 import { connectAuthEmulator, getAuth, sendSignInLinkToEmail, signInWithEmailLink, signInWithCredential,
   GoogleAuthProvider, signOut } from "firebase/auth";
 import { connectFunctionsEmulator, getFunctions, httpsCallable } from "firebase/functions";
-import { connectFirestoreEmulator, getFirestore, getDoc, doc } from "firebase/firestore";
+import { connectFirestoreEmulator, getFirestore, getDoc, doc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { createHash } from "node:crypto";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 const PROJECT = "demo-taskify";
@@ -47,7 +48,8 @@ describe("createTask callable HTTP transport", () => {
     if (!clear.ok) throw new Error("Failed to clear local Firestore fixtures");
     const clearAuth = await fetch(`${AUTH}/emulator/v1/projects/${PROJECT}/accounts`, { method: "DELETE" });
     if (!clearAuth.ok) throw new Error("Failed to clear local Auth fixtures");
-    await db.collection("categories").doc("personal").set({ owner_email: EMAIL, archived_at: null });
+    await db.collection("categories").doc("personal").set({ owner_email: EMAIL, name: "Personal", normalized_name: "personal",
+      display_order: 0, is_default: false, archived_at: null, created_at: new Date(), updated_at: new Date() });
   });
   afterAll(async () => {
     if (db) await db.terminate();
@@ -128,5 +130,127 @@ describe("createTask callable HTTP transport", () => {
     expect(response.status).toBe(401);
     expect((await response.json()).error.status).toBe("UNAUTHENTICATED");
     await emptyWrites();
+  });
+
+  const namedCall = <T>(name: string, data: unknown) => httpsCallable<unknown, T>(getFunctions(owner), name)(data).then((response) => response.data);
+  type Mutation = { category_id: string; updated_at: string };
+  type Reset = { changed_count: number; categories: Array<Mutation & { display_order: number }> };
+  const precise = (value: { seconds: number; nanoseconds: number }) =>
+    new Date(value.seconds * 1000).toISOString().replace(/\.\d{3}Z$/, `.${String(value.nanoseconds).padStart(9, "0")}Z`);
+
+  it("creates a Category through HTTP, then creates a Task using its stable ID", async () => {
+    await emailLinkLogin();
+    const category = await namedCall<Mutation>("createCategory", { name: "  Cafe\u0301  ", owner_email: "spoof@example.com", is_default: true });
+    const stored = await getDoc(doc(getFirestore(owner), `categories/${category.category_id}`));
+    expect(stored.data()).toMatchObject({ name: "Café", normalized_name: "café", owner_email: EMAIL, display_order: 1, is_default: false });
+    expect(category.updated_at).toBe(precise(stored.get("updated_at")));
+    const task = await namedCall<{ task_id: string }>("createTask", { ...request, category_id: category.category_id });
+    expect((await getDoc(doc(getFirestore(owner), `tasks/${task.task_id}`))).get("category_id")).toBe(category.category_id);
+  });
+  it("returns stable duplicate errors for active and archived names without reactivation", async () => {
+    await emailLinkLogin();
+    const category = await namedCall<Mutation>("createCategory", { name: "Custom" });
+    await expect(namedCall("createCategory", { name: "CUSTOM" })).rejects.toMatchObject({
+      code: "functions/already-exists", details: { code: "DUPLICATE_ARGUMENT" },
+    });
+    const archived = await namedCall<Mutation>("setCategoryArchived", { category_id: category.category_id, archived: true, expected_updated_at: category.updated_at });
+    await expect(namedCall("createCategory", { name: "Custom" })).rejects.toMatchObject({
+      code: "functions/already-exists", details: { code: "DUPLICATE_ARGUMENT" },
+    });
+    expect((await db.collection("categories").doc(category.category_id).get()).get("archived_at")).not.toBeNull();
+    await expect(namedCall("renameCategory", { category_id: "personal", name: "CUSTOM", expected_updated_at: precise((await db.collection("categories").doc("personal").get()).get("updated_at")) }))
+      .rejects.toMatchObject({ details: { code: "DUPLICATE_ARGUMENT" } });
+    await namedCall("setCategoryArchived", { category_id: category.category_id, archived: false, expected_updated_at: archived.updated_at });
+    expect((await db.collection("categories").doc(category.category_id).get()).get("archived_at")).toBeNull();
+  });
+  it("preserves matching-state timestamps and rejects stale tokens, including client server-time reorders", async () => {
+    await emailLinkLogin();
+    const category = await namedCall<Mutation>("createCategory", { name: "Custom" });
+    await expect(namedCall("renameCategory", { category_id: category.category_id, name: " Custom ", expected_updated_at: category.updated_at })).resolves.toEqual(category);
+    const renamed = await namedCall<Mutation>("renameCategory", { category_id: category.category_id, name: "CUSTOM", expected_updated_at: category.updated_at });
+    await expect(namedCall("renameCategory", { category_id: category.category_id, name: "CUSTOM", expected_updated_at: category.updated_at }))
+      .rejects.toMatchObject({ code: "functions/aborted", details: { code: "CONFLICT" } });
+    const ref = doc(getFirestore(owner), `categories/${category.category_id}`);
+    await updateDoc(ref, { display_order: 99, updated_at: serverTimestamp() });
+    await expect(namedCall("setCategoryArchived", { category_id: category.category_id, archived: false, expected_updated_at: renamed.updated_at }))
+      .rejects.toMatchObject({ details: { code: "CONFLICT" } });
+    const current = precise((await getDoc(ref)).get("updated_at"));
+    await expect(namedCall("setCategoryArchived", { category_id: category.category_id, archived: false, expected_updated_at: current }))
+      .resolves.toEqual({ category_id: category.category_id, updated_at: current });
+  });
+  it("completes registration idempotently and protects default names/archive state over HTTP", async () => {
+    await emailLinkLogin();
+    await db.collection("categories").doc("personal").delete();
+    const registered = await namedCall<{ category_ids: string[] }>("completeRegistration", {});
+    expect(registered.category_ids).toHaveLength(13);
+    await expect(namedCall("completeRegistration", {})).resolves.toEqual(registered);
+    const first = await db.collection("categories").doc(registered.category_ids[0]!).get();
+    const input = { category_id: first.id, expected_updated_at: precise(first.get("updated_at")) };
+    await expect(namedCall("renameCategory", { ...input, name: "Changed" })).rejects.toMatchObject({ details: { code: "INVALID_ARGUMENT" } });
+    await expect(namedCall("setCategoryArchived", { ...input, archived: true })).rejects.toMatchObject({ details: { code: "INVALID_ARGUMENT" } });
+    await expect(namedCall("renameCategory", { ...input, name: first.get("name") })).resolves.toMatchObject({ updated_at: input.expected_updated_at });
+    await expect(namedCall<Reset>("resetCategoryOrder", {})).resolves.toMatchObject({ changed_count: 0, categories: expect.any(Array) });
+    expect((await db.collection("categories").get()).size).toBe(13);
+  });
+  it("returns alphabetical Reset IDs/order/precise timestamps, preserving archived entries and existing Task references", async () => {
+    await emailLinkLogin();
+    const zulu = await namedCall<Mutation>("createCategory", { name: "Zulu" });
+    const alpha = await namedCall<Mutation>("createCategory", { name: "Alpha" });
+    const task = await namedCall<{ task_id: string }>("createTask", { ...request, category_id: alpha.category_id });
+    await namedCall("setCategoryArchived", { category_id: alpha.category_id, archived: true, expected_updated_at: alpha.updated_at });
+    const result = await namedCall<Reset>("resetCategoryOrder", {});
+    expect(Object.keys(result).sort()).toEqual(["categories", "changed_count"]);
+    expect(result.changed_count).toBe(3);
+    expect(result.categories.map((entry) => [entry.category_id, entry.display_order])).toEqual([[alpha.category_id, 0], ["personal", 1], [zulu.category_id, 2]]);
+    for (const entry of result.categories) {
+      expect(Object.keys(entry).sort()).toEqual(["category_id", "display_order", "updated_at"]);
+      expect(entry.updated_at).toBe(precise((await db.collection("categories").doc(entry.category_id).get()).get("updated_at")));
+    }
+    expect((await db.collection("categories").doc(alpha.category_id).get()).get("archived_at")).not.toBeNull();
+    expect((await db.collection("tasks").doc(task.task_id).get()).get("category_id")).toBe(alpha.category_id);
+    await expect(namedCall<Reset>("resetCategoryOrder", {})).resolves.toEqual({ ...result, changed_count: 0 });
+  });
+  it.each(["createCategory", "renameCategory", "setCategoryArchived", "resetCategoryOrder", "completeRegistration"])
+    ("denies unauthenticated %s HTTP calls", async (name) => {
+      await expect(httpsCallable(getFunctions(guest), name)({})).rejects.toMatchObject({ code: "functions/unauthenticated", details: { code: "UNAUTHENTICATED" } });
+      expect((await db.collection("categories").get()).size).toBe(1);
+      expect((await db.collection("category_owner_metadata").get()).empty).toBe(true);
+    });
+  it("hides foreign/missing targets and rejects malformed Category requests over HTTP", async () => {
+    await emailLinkLogin();
+    await db.collection("categories").doc("foreign").set({ owner_email: "other@example.com" });
+    for (const category_id of ["foreign", "missing", "nested/path"]) {
+      await expect(namedCall("renameCategory", { category_id, name: "Changed", expected_updated_at: "2026-10-07T00:00:00.000000000Z" }))
+        .rejects.toMatchObject({ details: { code: "INVALID_ARGUMENT" } });
+    }
+    for (const [name, input] of [["createCategory", { name: "a".repeat(16) }], ["renameCategory", {}],
+      ["setCategoryArchived", { archived: "true" }], ["resetCategoryOrder", { owner_email: "spoof@example.com" }], ["completeRegistration", null]] as const) {
+      await expect(namedCall(name, input)).rejects.toMatchObject({ details: { code: "INVALID_ARGUMENT" } });
+    }
+    expect((await db.collection("categories").get()).size).toBe(2);
+  });
+  it("keeps guards/registration metadata private and denies direct protected Category writes", async () => {
+    await emailLinkLogin();
+    const created = await namedCall<Mutation>("createCategory", { name: "Custom" });
+    const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
+    for (const path of [`category_name_guards/${hash([EMAIL, "custom"])}`, `category_owner_metadata/${hash(EMAIL)}`]) {
+      const ref = doc(getFirestore(owner), path);
+      await expect(getDoc(ref)).rejects.toMatchObject({ code: "permission-denied" });
+      await expect(setDoc(ref, { owner_email: EMAIL })).rejects.toMatchObject({ code: "permission-denied" });
+    }
+    await expect(updateDoc(doc(getFirestore(owner), `categories/${created.category_id}`), { name: "Bypass", updated_at: serverTimestamp() }))
+      .rejects.toMatchObject({ code: "permission-denied" });
+  });
+  it("accepts a 15-grapheme Unicode name over HTTP and permits ordinary client reorder", async () => {
+    await emailLinkLogin();
+    const name = "👩‍👩‍👧‍👦".repeat(15);
+    const created = await namedCall<Mutation>("createCategory", { name });
+    const ref = doc(getFirestore(owner), `categories/${created.category_id}`);
+    await updateDoc(ref, { display_order: 25, updated_at: serverTimestamp() });
+    const stored = await getDoc(ref);
+    expect(stored.get("name")).toBe(name);
+    expect(stored.get("display_order")).toBe(25);
+    await expect(namedCall("renameCategory", { category_id: created.category_id, name, expected_updated_at: precise(stored.get("updated_at")) }))
+      .resolves.toEqual({ category_id: created.category_id, updated_at: precise(stored.get("updated_at")) });
   });
 });

@@ -34,7 +34,7 @@ resetCategoryOrder({})
 ```
 
 **Reset contract (DEC-074)**
-- DEC-077 replaces the earlier `resetCategoriesToDefaults` endpoint specification with `resetCategoryOrder({})`. This is an order-only operation, not default restoration. The old endpoint was never implemented; source API-contract changes remain pending implementation.
+- DEC-077 replaces the earlier `resetCategoriesToDefaults` endpoint specification with `resetCategoryOrder({})`. This is an order-only operation, not default restoration. The source API contracts and callable now implement the approved name/response.
 - Resolve the owner server-side and use the current Category set in one atomic transaction. The request contains no client-supplied Category IDs or per-Category `expected_updated_at` tokens. Re-read/retry material state as required; this does not weaken concurrency checks on individual rename/archive operations.
 - Return all owned Categories, including archived ones, in resulting alphabetical order using this Firebase-independent response shape:
   ```text
@@ -54,14 +54,17 @@ resetCategoryOrder({})
 - Preserve archive state, identity, names, default provenance, creation timestamps, uniqueness guards, and Task references. Only changed numeric `display_order` values and their server-time `updated_at` may be written.
 - An already-correct effective alphabetical order causes no writes, including when existing numeric order values have gaps. Repeated Reset remains idempotent.
 - Default provisioning is separate; Reset must not create missing defaults or reactivate Categories.
+- Response observation (DEC-082): after the transaction commits, read one owner-scoped query snapshot for the response and sort its entries alphabetically. `changed_count` describes only this invocation's successful transaction; response values describe the later authoritative snapshot and may include concurrent mutations or membership additions. They are not guaranteed to describe this invocation's exact commit state. Empty/no-op responses use the same observation policy.
+- Read the private owner metadata document before the Category query. Provisioning/create write its membership revision in the same transaction as additions, providing a common contention point even for an empty collection. Read Category documents transactionally so concurrent rename/archive/direct reorder can contend/retry. Do not split Reset into batches or silently cap/truncate its Category set; Firestore transaction size/time limits remain operational limits.
 
 **Normalization and uniqueness**
 - Clients submit user-facing `name`; `normalized_name` is derived only by trusted backend code.
-- Trim the submitted name, normalize its display form to Unicode NFC, preserve display casing/internal whitespace/accents/punctuation, and enforce a non-empty maximum of 15 characters. Derive the uniqueness key using locale-independent lowercasing (DEC-075).
+- Trim the submitted name, normalize its display form to Unicode NFC, preserve display casing/internal whitespace/accents/punctuation, and enforce a non-empty maximum of 15 grapheme clusters using native `Intl.Segmenter("en", { granularity: "grapheme" })` (DEC-079). Derive the uniqueness key using locale-independent lowercasing (DEC-075). Reject malformed Unicode with unpaired surrogates rather than losing data during UTF-8 encoding. Count segmentation follows the pinned runtime's ICU; runtime upgrades require Unicode regression checks.
 - Category-name uniqueness is scoped per owner as `owner_email + normalized_name`.
 - A transactional uniqueness guard is maintained separately from the canonical Category document so concurrent create/rename/reactivate operations cannot race.
 - Canonical Category identity remains `category_id`; the uniqueness guard is derived/non-authoritative metadata.
 - Create, rename, archive/reactivate, and default provisioning maintain uniqueness guards atomically where required. Order Reset is atomic but does not mutate names or guards.
+- Guard path/schema and private owner metadata are specified in the Category persistence section of `docs/data_model.md` (DEC-081). Archive retains the guard. Canonical-name queries also detect records predating guard creation; guard metadata never becomes Category identity.
 
 **Field ownership**
 - Backend-controlled: `owner_email`, `normalized_name`, `is_default`, `archived_at`, `created_at`.
@@ -76,10 +79,15 @@ resetCategoryOrder({})
 - Rename/archive requests retain `expected_updated_at`. Re-read material state transactionally and return `CONFLICT` for a stale token, even when the requested value already matches current state.
 - After ownership, validation and concurrency checks, an unchanged request succeeds with the existing timestamp and performs no writes. Default protection forbids changes; it does not turn an unchanged matching-state request into a mutation.
 - Valid custom changes are atomic, set Category `updated_at` to server time, preserve Category identity and Task references, and maintain any affected uniqueness guards. A display-casing-only rename changes the name/timestamp but retains its normalized key.
-- `DUPLICATE_ARGUMENT` is an approved generic domain error code. Its API-contract enum/transport mapping must be implemented and verified during the separately approved Category implementation; no Category-specific missing/duplicate codes are introduced.
+- `DUPLICATE_ARGUMENT` maps to callable `already-exists`, with `{ code: "DUPLICATE_ARGUMENT" }` in details (DEC-081). The public enum and transport mapping are implemented; no Category-specific missing/duplicate codes are introduced.
+- Category `expected_updated_at` and response `updated_at` use canonical UTC ISO strings with exactly nine fractional digits, preserving Firestore seconds/nanoseconds (DEC-080). Compare those components directly; never compare a `Date` or millisecond-truncated token. Existing non-Category operations retain their recorded transport behavior.
+- Mutations write Firestore server timestamp transforms. Create/rename/archive responses read the Category after commit, including no-op responses; a later concurrent mutation may be reflected (DEC-082). No-op transactions still preserve timestamps and perform no writes.
+- A post-commit read/transport failure cannot roll back the already committed mutation. Create has no idempotency key; retrying a committed create may report DUPLICATE_ARGUMENT. Consumers must reconcile authoritative state after an ambiguous failure rather than assuming no write occurred. Registration completion remains explicitly idempotent.
 
 **Registration provisioning / new custom ordering (DEC-075)**
-- Trusted account-registration work provisions the 13 alphabetically ordered defaults defined in `docs/data_model.md`. The implementation mechanism and registration-failure coordination remain to be reviewed; no new trigger or callable is selected by this requirement alone.
+- Authenticated `completeRegistration({})` provisions the 13 alphabetically ordered defaults and records completion atomically (DEC-078). Resolve canonical owner email server-side and return `{ category_ids: string[] }`, the stable default IDs in catalogue order. Taskify registration completes only after this callable succeeds; a Firebase Auth account can exist while Taskify registration remains pending. Failure leaves initialization retryable. No Auth/Firestore trigger or Identity Platform dependency is adopted.
+- IDs are allocated once per invocation, outside retry callbacks. Concurrent completions contend on private owner metadata; a completed marker returns its stored default IDs without writes, repairs, duplicate Categories, or overwriting state/references. Completion is owner-email-scoped, matching Category ownership.
+- If preexisting owned Categories exist before completion, preserve them and append the defaults after the existing maximum order. A preexisting custom default-name collision fails with DUPLICATE_ARGUMENT without partial provisioning or promoting/reusing the custom Category. Backend implementation is present; client registration/readiness UX remains unimplemented.
 - New custom Categories are placed after the last existing owned Category, including archived entries. Ordering/uniqueness must be safe under concurrent creation without introducing an unapproved global uniqueness/contiguity invariant for display order.
 - Registration provisioning adds defaults; order Reset preserves existing Category data and never performs provisioning.
 

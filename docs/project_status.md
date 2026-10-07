@@ -58,10 +58,14 @@ Material state transitions require explicit project-owner approval.
 - Responses should be brief, precise, and actionable by default.
 - Unnecessary internal reasoning or step-by-step thinking should not be exposed unless explicitly requested.
 - New scope, technologies, dependencies, or processes must be identified as proposals before adoption.
+- Maintain continuity and execution context in this document's **Current Status** section, with links to authoritative specifications and detailed evidence where needed. Do not create separate handoff documents or handoff directories.
 
 ## Current Status
 
-- Architecture and product design are approved through **DEC-077**.
+- Architecture and product design are approved through **DEC-082**.
+- Category backend and registration completion are Implemented. DEC-078–DEC-082 resolve registration coordination, grapheme counting/code-point ordering, precise concurrency tokens, private persistence and post-commit response observation. Production builds/package passed; executed local results are 116 API unit + 63 API integration + 174 Rules + 39 query/tooling + 28 callable HTTP tests = 420 passing tests. Evidence/limits are recorded in [category-verification.md](../infrastructure/firebase/category-verification.md). Owner approved commit/push on 2026-10-07; formal Verified status remains held.
+- Publication/execution context: the owner explicitly released commit/push of the Category implementation, tests and documentation to `origin/main`, including the preserved Category specification commit `add989fe065841aa73d3ff0ff71cf6fed2ddeeab`. The implementation commit descends from that baseline; Git records the exact local/remote tips. Remote `main` was fetched before publication and confirmed an ancestor of the checkout; no force push or history replacement is authorized. No deployment, billing/IAM change, cloud fixture write or cloud resource alteration is authorized.
+- Category continuation: formal Verified status remains a separate owner decision. Client registration/readiness integration and production verification are pending. Local execution uses the portable Node 22/pnpm 10.34.6/JDK 21 tools in sibling `verification-tools`; run the shared-port emulator suites sequentially. Exact commands, environment and limits remain in the linked Category evidence.
 - Firestore Security Rules and the client-SDK emulator test matrix are Implemented and Verified within the executed scope, with project-owner approval to record and publish that status. All 174 Rules tests passed. The approved list exception, remembered-view capability matrix, and profile-timezone validation limit are recorded in DEC-065–DEC-068.
 - API contracts and the initial backend structure are implemented. The `createTask` operation and callable handler retain their recorded verification scope. Local Node 22 ESM build/package preparation and callable HTTP transport are Implemented and Verified within the recorded scope; all 15 transport tests and existing regressions passed, with owner approval to record and publish that status. Production token signatures, real providers, cloud runtime/deployment, and client features remain unverified.
 - The approved eight composite indexes and DEC-069 preference single-field collection-group override are Implemented and Verified within the executed local-test/development-service planning scope, with owner approval to record and publish that status. All definitions became READY and matched the manifest; all 13 real-service plan-only query variants selected the intended indexes. Production workload/performance verification remains pending.
@@ -77,7 +81,7 @@ Material state transitions require explicit project-owner approval.
 ## Open Questions
 
 - Exact Nearby coarse-proximity distance bands/resolution/query implementation remains deferred to Firebase Architecture.
-- Category normalization/default catalogue/protection, registration-time provisioning, custom append ordering and the 15-character limit are approved by DEC-075; mutation semantics and generic DUPLICATE_ARGUMENT are approved by DEC-076; resetCategoryOrder request/response is approved by DEC-077. Registration coordination and Unicode character-count/collation implementation details must be made concrete before coding; no trigger or new dependency is implicitly approved. Source API contracts still contain the old reset request and omit DUPLICATE_ARGUMENT; aligning them belongs to pending implementation, not this specification-only phase.
+- Category implementation choices are resolved by DEC-078–DEC-082. Client registration/readiness integration remains unimplemented; Firebase Auth creation alone does not complete Taskify registration. Large-collection Reset operational capacity and real cloud/provider/runtime behavior remain unverified. Reset must fail atomically if service limits prevent completion; no batching/cap is approved.
 - Exact autosave-versus-unsaved-change warning behavior remains a detailed interaction-design decision.
 - Search implementation details beyond the approved baseline (fuzzy/semantic search, stemming, ranking technology) remain deferred to Firebase Architecture.
 - Todo field, lifecycle, and date semantics remain deferred.
@@ -86,6 +90,8 @@ Material state transitions require explicit project-owner approval.
 ## Implementation Status
 
 Repository/workspace bootstrap, API contracts, and the initial backend structure are implemented. The `createTask` vertical slice includes a callable adapter, authenticated canonical email extraction, Firestore transaction, active-category validation, canonical Task initialization, TaskDate normalization, and deterministic System Changes thread creation. The approved runtime-validation correction is implemented and verified within the expanded suites below. No client feature implementation is formally recorded as implemented or verified.
+
+Category backend create/rename/archive/order-reset and registration-default completion are also Implemented under DEC-074–DEC-082, with current executed evidence in category-verification.md. Client registration/readiness behavior remains unimplemented. Owner approved commit/push; Category formal Verified status has not been approved.
 
 ### Initial Verification Evidence — 2026-10-07
 
@@ -154,7 +160,7 @@ Repository/workspace bootstrap, API contracts, and the initial backend structure
 
 ## Next Actions
 
-- Category behavior and Reset API are Approved, not Implemented (DEC-074–DEC-077): atomically alphabetize all owned Categories, including custom and archived, preserve archive state, and avoid writes/timestamp updates when effective order is unchanged. Review remaining registration/counting/collation implementation details before coding; no Category backend code or cloud change is authorized by this specification update alone.
+- Review Category executed local evidence (DEC-074–DEC-082) for a separate formal Verified status decision. Backend callables/contracts/tests are Implemented and commit/push is owner-approved. Client registration/readiness UX, deployment and production verification remain separate work.
 
 - Local API build/package and callable HTTP work is complete and owner-approved as Verified within the executed scope: contract/API production builds passed, the standalone runtime artifact loaded with dependencies resolving inside it, an unchanged rebuild preserved its lockfile, standard Corepack selected pnpm 10.34.6, and all five test suites passed (292 tests). The owner-approved ApiError message annotation fixed nine compile errors without runtime/public-contract changes. Exact commands, versions, durations and limits are recorded in [callable-verification.md](../infrastructure/firebase/callable-verification.md). Commit/push is owner-approved; cloud deployment remains a separate decision.
 - Rules implementation and emulator verification are complete within the recorded scope. Production deployment, real authentication/provider validation, and client workflows remain separate work requiring project-owner authorization.

@@ -23,6 +23,8 @@ Authentication helpers resolve the authenticated user's canonical domain email a
 - Trusted create/rename handlers enforce DEC-075 normalization, length and uniqueness. Default Categories cannot change name/archive state; custom Categories retain those mutation permissions. Ordinary direct reorder remains permitted for both defaults and custom Categories, under the existing owner/server-timestamp boundary.
 - Referenced categories are archived rather than client-deleted when product semantics require preservation; destructive delete is not part of the normal client contract.
 - Category order Reset is a trusted backend operation scoped to the authenticated owner's Categories. It may change only ordering and server update timestamps for changed entries; it preserves archive state and all protected identity/name/default fields (DEC-074). Ordinary client reorder permissions are unchanged by this specification update.
+- All five Category/registration callables resolve the canonical owner from authenticated email. `completeRegistration({})` provisions defaults/completion atomically; it accepts no owner override. Name guards and owner membership/completion metadata are private backend collections; unmatched-path Rules deny all direct client reads/writes (DEC-078/DEC-081). No client Rules permission is widened.
+- Category optimistic concurrency compares exact timestamp seconds/nanoseconds, including server timestamps written by ordinary client reorders; nine-digit UTC ISO tokens avoid precision loss (DEC-080).
 
 **Task reads**
 - Milestones 1–3 are individual-first. A Task is readable by its Owner; registered shared-task access is added in Milestone 6.

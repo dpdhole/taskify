@@ -11,7 +11,20 @@ export interface SetCategoryArchivedRequest {
   archived: boolean;
   expected_updated_at: ApiTimestamp;
 }
-export type ResetCategoriesToDefaultsRequest = Record<string, never>;
+export type ResetCategoryOrderRequest = Record<string, never>;
+export type CompleteRegistrationRequest = Record<string, never>;
+
+export interface CompleteRegistrationResponse {
+  /** Stable default IDs in catalogue order; completed retries return the same IDs. */
+  category_ids: string[];
+}
+
+export interface ResetCategoryOrderResponse {
+  /** Changes made by this invocation's successful transaction. */
+  changed_count: number;
+  /** One authoritative post-commit snapshot, alphabetically sorted; may include later mutations. */
+  categories: Array<CategoryMutationResponse & { display_order: number }>;
+}
 
 export interface CategoryMutationResponse {
   category_id: string;

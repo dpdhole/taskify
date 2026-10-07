@@ -81,6 +81,7 @@ A subtask is a normal `Task` entity with a parent relationship. It is independen
 - At account registration, provision Family, Finance, Friends, Growth, Hobbies, Household, Leisure, Partner, Self, Social, Spirituality, Wellness and Work in alphabetical order (DEC-075).
 - Default Category names/archive state are fixed, but their order may be changed. Custom Categories remain editable and are initially appended after the last Category. Category names support Unicode, are trimmed/NFC-normalized, and have a 15-character maximum; duplicate matching ignores case.
 - Users may edit categories under their approved mutation permissions. Category Reset restores alphabetical order across all owned Categories, including custom and archived entries; it preserves archive state and does not restore names or recreate default Categories (DEC-074).
+- Taskify registration completes after authenticated `completeRegistration({})` succeeds; Firebase Auth account creation alone can leave initialization pending/retryable (DEC-078). The 15-character name limit counts grapheme clusters; alphabetical reset uses deterministic normalized-name Unicode code-point ordering (DEC-079).
 - Categories remain lightweight and do not become projects.
 - Tasks can be filtered/sorted by relevant attributes including category, lifecycle state, priority, dates, participation role, and location.
 
