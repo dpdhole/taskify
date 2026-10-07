@@ -606,6 +606,17 @@ Cross-task query projections/indexes may be introduced as derived, non-authorita
   7. **Recently Closed** — "What have I finished, cancelled, or otherwise closed recently?" Terminal tasks closed in the past 15 days using `completed_at`.
   8. **Unarchive** — "What archived tasks can I bring back into normal use?" Archived tasks available to restore.
   9. **Recover** — "What deleted tasks can I still restore?" Soft-deleted tasks still within the recovery window.
+- Preset grouping/presentation is fixed as follows:
+  - **Focus** — group by Due-date bucket: Overdue, Today, Next 3 Days.
+  - **Resolve** — group by lifecycle micro-state: Blocked, Waiting, On Hold.
+  - **Prioritize** — group by Due-date bucket/date, chronological, No Due last.
+  - **Plan** — group by Category.
+  - **Follow Up** — group by hidden-until date bucket: Today, Tomorrow, Later.
+  - **All Active** — no grouping.
+  - **Recently Closed** — group by closed-date bucket.
+  - **Unarchive** — group by archived-date bucket.
+  - **Recover** — group by deleted-date bucket.
+- Whenever the primary grouping is date-based, **Category is the secondary ordering key**. Time/date ordering then resolves within Category as appropriate to the view. This is an ordering rule, not nested visible grouping.
 
 #### Search
 
@@ -666,6 +677,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-025 | 2026-10-07 | System Tag Persistence | Store per-user system tags in a structured `system_tags` map under Task preference documents. Current dimensions are Importance, Urgency, DOW, and TOD; explicit negative vs unclassified semantics are preserved. | — |
 | DEC-026 | 2026-10-07 | Hide Until Semantics | Keep shared lifecycle states Waiting/Blocked/On Hold separate from private per-user Hide until. Hide until suppresses surfacing only, does not change lifecycle, and is discoverable through Search and Follow Up. | — |
 | DEC-027 | 2026-10-07 | Preset Saved Queries | Use the saved-query model from the outset. Global preset views are fixed-order, system-defined saved queries; users do not reorder presets. Initial order: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | — |
+| DEC-028 | 2026-10-07 | Preset Grouping | Freeze preset grouping: Focus by Due bucket; Resolve by lifecycle state; Prioritize by Due bucket/date; Plan by Category; Follow Up by hidden-until bucket; All Active ungrouped; Recently Closed/Unarchive/Recover by their respective date buckets. For date-based groups, Category is the secondary ordering key. | — |
 
 ## MVP Scope
 
@@ -783,6 +795,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Frozen preset grouping and presentation ordering; date-based groups use Category as the secondary ordering key. | Approved |
 | 2026-10-07 | Approved structured system-tag persistence, private Hide until semantics, and no mandatory userTaskIndex for Milestones 1–2. | Approved |
 | 2026-10-07 | Frozen global fixed-order preset saved queries: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | Approved |
 | 2026-10-07 | Revised Firebase architecture: Task-scoped preference/state/reminder subcollections, Task-contained activity threads, Rules v2 baseline, and scalar date query fields. | Approved |
