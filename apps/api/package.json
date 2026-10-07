@@ -12,5 +12,12 @@
     "date-fns": "^4.1.0",
     "firebase-admin": "^13.6.0",
     "firebase-functions": "^6.4.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
   }
 }
