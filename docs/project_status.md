@@ -528,6 +528,12 @@ The shared Task definition contains task-global data including title, markdown d
 - Only the Owner may set or change the task category.
 - Category configuration is user-owned and may be archived rather than destructively removed while referenced.
 
+#### User Timezone
+
+- Each user profile stores an IANA timezone identifier.
+- The timezone is initially derived from the device/browser timezone and may later be editable in Settings.
+- Relative date semantics, date buckets, DOW, and TOD evaluation use the user's stored timezone rather than the executing device's transient local timezone.
+
 #### User-Task Data Separation Rule
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
@@ -600,7 +606,7 @@ Cross-task query projections/indexes may be introduced as derived, non-authorita
   1. **Focus** — "What needs my attention now or very soon?" Overdue or due within the next 3 calendar days.
   2. **Resolve** — "What is stuck or paused and needs intervention?" Blocked, On Hold, or Waiting.
   3. **Prioritize** — "What should I work on first based on deadlines?" Active tasks grouped by Due date, with no-due tasks last.
-  4. **Plan** — "What tasks have no due date and still need scheduling or commitment?" Active tasks with no Due date.
+  4. **Plan** — "What tasks have no due date and still need scheduling or commitment?" Active tasks with no Due date, grouped by Created-date bucket: Today, Previous 7 Days, Previous 30 Days, Older; within each bucket order by Category, then Created date.
   5. **Follow Up** — "What have I deliberately hidden that I need to revisit later?" Tasks with active `hidden_until`.
   6. **All Active** — "What work is currently open?" All non-completed, non-archived, non-deleted tasks.
   7. **Recently Closed** — "What have I finished, cancelled, or otherwise closed recently?" Terminal tasks closed in the past 15 days using `completed_at`.
@@ -610,7 +616,7 @@ Cross-task query projections/indexes may be introduced as derived, non-authorita
   - **Focus** — group by Due-date bucket: Overdue, Today, Next 3 Days.
   - **Resolve** — group by lifecycle micro-state: Blocked, Waiting, On Hold.
   - **Prioritize** — group by Due-date bucket/date, chronological, No Due last.
-  - **Plan** — group by Category.
+  - **Plan** — group by Created-date bucket: Today, Previous 7 Days, Previous 30 Days, Older; within each bucket order by Category, then Created date.
   - **Follow Up** — group by hidden-until date bucket: Today, Tomorrow, Later.
   - **All Active** — no grouping.
   - **Recently Closed** — group by closed-date bucket.
@@ -677,7 +683,9 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-025 | 2026-10-07 | System Tag Persistence | Store per-user system tags in a structured `system_tags` map under Task preference documents. Current dimensions are Importance, Urgency, DOW, and TOD; explicit negative vs unclassified semantics are preserved. | — |
 | DEC-026 | 2026-10-07 | Hide Until Semantics | Keep shared lifecycle states Waiting/Blocked/On Hold separate from private per-user Hide until. Hide until suppresses surfacing only, does not change lifecycle, and is discoverable through Search and Follow Up. | — |
 | DEC-027 | 2026-10-07 | Preset Saved Queries | Use the saved-query model from the outset. Global preset views are fixed-order, system-defined saved queries; users do not reorder presets. Initial order: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | — |
-| DEC-028 | 2026-10-07 | Preset Grouping | Freeze preset grouping: Focus by Due bucket; Resolve by lifecycle state; Prioritize by Due bucket/date; Plan by Category; Follow Up by hidden-until bucket; All Active ungrouped; Recently Closed/Unarchive/Recover by their respective date buckets. For date-based groups, Category is the secondary ordering key. | — |
+| DEC-028 | 2026-10-07 | Preset Grouping | Freeze preset grouping: Focus by Due bucket; Resolve by lifecycle state; Prioritize by Due bucket/date; Plan by Created-date bucket; Follow Up by hidden-until bucket; All Active ungrouped; Recently Closed/Unarchive/Recover by their respective date buckets. For date-based groups, Category is the secondary ordering key. | — |
+| DEC-029 | 2026-10-07 | Plan Preset | Plan contains active tasks with no Due date and groups them by Created-date bucket: Today, Previous 7 Days, Previous 30 Days, Older. Within each bucket, order by Category then Created date. | — |
+| DEC-030 | 2026-10-07 | User Timezone | Store an IANA timezone on the user profile, initially derived from device/browser timezone. Relative dates, date buckets, DOW, and TOD are evaluated using that stored timezone. | — |
 
 ## MVP Scope
 
@@ -795,6 +803,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Approved Plan created-date buckets and user-profile IANA timezone semantics for relative date/DOW/TOD evaluation. | Approved |
 | 2026-10-07 | Frozen preset grouping and presentation ordering; date-based groups use Category as the secondary ordering key. | Approved |
 | 2026-10-07 | Approved structured system-tag persistence, private Hide until semantics, and no mandatory userTaskIndex for Milestones 1–2. | Approved |
 | 2026-10-07 | Frozen global fixed-order preset saved queries: Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, Recover. | Approved |
