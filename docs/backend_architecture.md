@@ -315,3 +315,9 @@ apps/api/src/
 - Do not introduce generic controller → service → repository → use-case layering unless a demonstrated future need justifies it.
 - `packages/api-contracts` owns public request/response DTOs, action identifiers, and stable public error codes. Firestore persistence models, derived fields, lifecycle implementation, authorization, transaction logic, date normalization, and audit implementation remain private to `apps/api`.
 - Implement files when their operations are implemented; do not pre-create placeholder source files merely to mirror the intended structure.
+
+### Public timestamp transport
+
+**Status:** Approved
+
+Public API contracts are Firebase/Firestore-independent. Timestamp values crossing the trusted API boundary use canonical ISO-8601 UTC strings. Firestore `Timestamp` values and conversion logic remain private implementation details of `apps/api` and client-side adapters. This rule applies to optimistic-concurrency timestamps, Hide Until, reminders, and timestamp values returned by trusted API operations.
