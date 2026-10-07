@@ -534,6 +534,17 @@ The shared Task definition contains task-global data including title, markdown d
 - The timezone is initially derived from the device/browser timezone and may later be editable in Settings.
 - Relative date semantics, date buckets, DOW, and TOD evaluation use the user's stored timezone rather than the executing device's transient local timezone.
 
+#### Per-View Preferences
+
+- View customization is persisted only when the user explicitly chooses **Remember**.
+- A remembered view stores a **full resolved preference snapshot**, not sparse overrides.
+- No per-view preference document exists until Remember is used; absence of a document means use the current product defaults for that view.
+- Remembered view preferences are stored per user and per view, e.g. `/users/{uid}/view_preferences/{viewKey}`.
+- The snapshot includes the view's resolved customizable state, such as primary organization, view-specific time thresholds, filters, and sort.
+- Temporary changes remain client/session state until Remember is invoked.
+- Reset removes the remembered preference document and returns the view to the current product defaults.
+- View preference documents should carry a schema version so future semantic changes can be migrated deliberately.
+
 #### User-Task Data Separation Rule
 
 User ↔ Task-specific values remain separate from the shared Task document but are stored as **Task subcollections**, reflecting their task-scoped nature and expected small participant counts. They are not embedded directly in the Task document.
@@ -687,6 +698,7 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-029 | 2026-10-07 | Plan Preset | Plan contains active tasks with no Due date and groups them by Created-date bucket: Today, Previous 7 Days, Previous 30 Days, Older. Within each bucket, order by Category then Created date. | — |
 | DEC-030 | 2026-10-07 | User Timezone | Store an IANA timezone on the user profile, initially derived from device/browser timezone. Relative dates, date buckets, DOW, and TOD are evaluated using that stored timezone. | — |
 | DEC-031 | 2026-10-07 | View Customization Direction | Prefer opinionated global presets with configurable parameters/presentation, runtime modifiers, Search, and temporary filters. User-created Saved Views and a standalone View Builder are deferred pending demonstrated recurring retrieval needs. If persistence is later justified, prefer Save current view over an independent query-builder workflow. Milestone 3 becomes View Refinement. | DEC-008/DEC-011/DEC-017/DEC-018 requirements for an upfront standalone View Builder and Saved Views |
+| DEC-032 | 2026-10-07 | Per-View Preference Persistence | Persist a full resolved preference snapshot per explicitly remembered view. No document exists until Remember; temporary changes remain client-side. Reset deletes the preference document and returns to current product defaults. Preference documents are per-user/per-view and schema-versioned. | — |
 
 ## MVP Scope
 
@@ -804,6 +816,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Approved full per-view preference snapshots persisted only through explicit Remember; Reset returns the view to current defaults. | Approved |
 | 2026-10-07 | Shifted customization direction to configurable presets + temporary filters; standalone View Builder/user-created Saved Views deferred pending demonstrated need; Milestone 3 renamed View Refinement. | Approved |
 | 2026-10-07 | Approved Plan created-date buckets and user-profile IANA timezone semantics for relative date/DOW/TOD evaluation. | Approved |
 | 2026-10-07 | Frozen preset grouping and presentation ordering; date-based groups use Category as the secondary ordering key. | Approved |
