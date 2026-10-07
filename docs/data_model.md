@@ -437,9 +437,12 @@ Initial composite-index contract:
 - Collection group `preferences`: collection-group-scoped index on `user_email` — per-user preference enrichment.
 
 Index policy:
+- The minimum intended explicit composite-index set is frozen as: Tasks `owner_email, availability, lifecycle.macro, due_date ASC`; Tasks `owner_email, availability, lifecycle.micro`; Tasks `owner_email, availability, lifecycle.macro, due_date, created_at DESC`; Tasks `owner_email, availability, lifecycle.macro, updated_at DESC`; Tasks `owner_email, availability, lifecycle.macro, completed_at DESC`; Tasks `owner_email, availability, archived_at DESC`; Tasks `owner_email, availability, deleted_at DESC, purge_after ASC`; and collection-group `states` `user_email, hidden_until ASC`.
+- Do not add a separate Prioritize null-Due composite index initially: the frozen `owner_email, availability, lifecycle.macro, due_date ASC` index is intended to serve both the dated and null-Due branches unless operational validation proves otherwise.
+- Do not add an explicit composite index for collection-group `preferences.user_email` initially; the single equality predicate is intended to use Firestore automatic single-field indexing.
 - Create indexes for preset-defining retrieval, not for every Category/Status/Priority/custom-sort combination.
 - Final view grouping and user-selected sort remain client-side over the bounded candidate set.
-- Validate the exact generated index set with emulator/integration tests and Firestore Query Explain before treating index ordering as operationally final; remove redundant indexes where an existing compatible index serves the query.
+- Validate the exact generated index set with emulator/integration tests and Firestore Query Explain before treating index ordering as operationally final. In particular, validate the Recover query's multiple inequality fields (`deleted_at` and `purge_after`) against the actual SDK query and index plan. Operational field-order/redundancy adjustments that preserve the frozen query semantics do not require a product-semantic change.
 - Pagination/page-size policy is deferred until measured candidate-set behavior warrants it; view-level date/staleness bounds are the primary Milestone 1–3 read-control mechanism.
 
 #### User-Task Data Separation Rule
