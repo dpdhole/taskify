@@ -518,6 +518,8 @@ The shared Task definition contains task-global data including title, markdown d
 - Start may be populated automatically when execution begins if absent; End may be populated automatically when the task reaches an appropriate terminal state if absent. Explicitly entered Start/End values are not overwritten automatically.
 - Date/time values retain sufficient timezone context for human interpretation and later recurrence behavior.
 - Firestore Task documents maintain scalar query fields `start_date`, `due_date`, and `end_date` (nullable `YYYY-MM-DD`) corresponding to the richer date values.
+- Firestore Task documents also maintain a derived query field `availability` with values `working`, `archived`, or `deleted`. It is non-authoritative and is derived from archive/delete state to simplify preset retrieval. `deleted` takes precedence when a Task is soft-deleted; otherwise an archived Task is `archived`; all other Tasks are `working`.
+- `availability` is maintained only by trusted backend archive/delete/restore business actions and must remain consistent with `archived_at` and `deleted_at`.
 - Task `priority` is a boolean task-global Owner-controlled field and remains distinct from per-user Important/Urgent preferences.
 - Event-specific date semantics are deferred to **Milestone 5 — Events & Time** and are not part of the current Task architecture pass.
 
@@ -542,7 +544,8 @@ The shared Task definition contains task-global data including title, markdown d
 - Remembered view preferences are stored per user and per view, e.g. `/users/{uid}/view_preferences/{viewKey}`.
 - The snapshot includes the view's resolved customizable state, such as primary organization, view-specific time thresholds, filters, and sort.
 - Time thresholds are **view-specific**, not global. A view may define and remember its own **Near / Medium / Far** day boundaries; for example, Focus may use tighter 3/7/10 thresholds while Plan may use looser 5/15/30 thresholds.
-- Time buckets are derived as: Older = before today; Today; Near = day 1 through Near; Medium = Near+1 through Medium; Far = Medium+1 through Far; Later = after Far. Thresholds must satisfy `0 < near < medium < far`.
+- Time buckets are derived as: Older = before today; Today; Near = day 1 through Near; Medium = Near+1 through Medium; Far = Medium+1 through Far; Later = after Far; **Unspecified** = the relevant date is not set. Thresholds must satisfy `0 < near < medium < far`.
+- When a view is organized by a date dimension and the relevant date is absent, place the Task in the **Unspecified** bucket at the end of the view. This is presentation semantics and does not invent a date value.
 - Temporary changes remain client/session state until Remember is invoked.
 - Reset removes the remembered preference document and returns the view to the current product defaults.
 - View preference documents should carry a schema version so future semantic changes can be migrated deliberately.
@@ -555,17 +558,18 @@ The shared Task definition contains task-global data including title, markdown d
 #### Preset Retrieval Contracts
 
 - Retrieval is defined per preset/view. Grouping, time buckets, Category grouping, Status grouping, and client-side sort operate on the retrieved candidate set and do not create separate Firestore retrieval streams.
-- **Focus** — candidate set is active, non-archived, non-deleted Tasks with a Due date at or before the view retrieval horizon, plus all overdue Tasks. Use `due_date` as the retrieval date field. Staleness does not exclude Tasks from Focus because due-date urgency takes precedence; stale age may be shown as secondary context.
-- **Resolve** — candidate set is non-archived, non-deleted Tasks in Waiting, Blocked, or On Hold. Retrieve the complete unresolved set by default. Staleness does not exclude Tasks; older untouched Tasks may receive stronger stale emphasis because age increases the need for intervention.
-- **Prioritize** — candidate set is active, non-archived, non-deleted Tasks with Due dates inside the loaded view extent; no-Due Tasks may be included where required by the view's configured presentation. Use `due_date` for bounded retrieval. Staleness does not override or hide deadline-based relevance.
-- **Plan** — candidate set is active, non-archived, non-deleted Tasks with no Due date. Use `created_at` for the bounded working set. Plan supports staleness based on `updated_at`; stale unscheduled Tasks remain valid and may be surfaced as neglected/older work rather than silently dropped. Default `stale_days` is 60 unless the remembered view preference specifies another value.
+- **Focus** — candidate set is active Tasks with `availability == "working"` and a Due date at or before the view retrieval horizon, plus all overdue Tasks. Use `due_date` as the retrieval date field. Staleness does not exclude Tasks from Focus because due-date urgency takes precedence; stale age may be shown as secondary context.
+- **Resolve** — candidate set is Tasks with `availability == "working"` in Waiting, Blocked, or On Hold. Retrieve the complete unresolved set by default. Staleness does not exclude Tasks; older untouched Tasks may receive stronger stale emphasis because age increases the need for intervention.
+- **Prioritize** — candidate set is active Tasks with `availability == "working"`; Tasks with Due dates inside the loaded view extent use `due_date` retrieval, while Tasks with no Due date remain eligible and appear in the final **Unspecified** bucket when organized by Due. Use `due_date` for bounded retrieval. Staleness does not override or hide deadline-based relevance.
+- **Plan** — candidate set is active Tasks with `availability == "working"` and no Due date. Use `created_at` for the bounded working set. Plan supports staleness based on `updated_at`; stale unscheduled Tasks remain valid and may be surfaced as neglected/older work rather than silently dropped. Default `stale_days` is 60 unless the remembered view preference specifies another value.
 - **Follow Up** — candidate set is Tasks for which the current user's `hidden_until > now`. Use `hidden_until` as the bounded retrieval field. Staleness is not used for exclusion because the future follow-up time is authoritative for the view.
-- **All Active** — candidate set is all non-completed, non-archived, non-deleted Tasks in the active working universe. Default `stale_days = 60`; Tasks untouched longer than the threshold are excluded from the default working set or surfaced separately as stale, with an explicit user action to include them. This is a retrieval/presentation rule only.
+- **All Active** — candidate set is all non-completed Tasks with `availability == "working"` in the active working universe. Default `stale_days = 60`; Tasks untouched longer than the threshold are excluded from the default working set or surfaced separately as stale, with an explicit user action to include them. This is a retrieval/presentation rule only.
 - **Recently Closed** — candidate set is terminal Completed Tasks inside the view's retrospective extent using `completed_at`. `updated_at` staleness does not apply because closure time is the relevant age signal.
-- **Unarchive** — candidate set is archived, non-deleted Tasks inside the view's loaded retrospective extent using `archived_at`. `updated_at` staleness does not apply because archive age is the relevant age signal.
-- **Recover** — candidate set is soft-deleted Tasks that remain recoverable, using `deleted_at` / `purge_after` as the governing window. `updated_at` staleness does not apply.
+- **Unarchive** — candidate set is Tasks with `availability == "archived"` inside the view's loaded retrospective extent using `archived_at`. `updated_at` staleness does not apply because archive age is the relevant age signal.
+- **Recover** — candidate set is Tasks with `availability == "deleted"` that remain recoverable, using `deleted_at` / `purge_after` as the governing window. `updated_at` staleness does not apply.
 - Where a view uses a bounded date field, its default extent is `max(30, 2 × far_days)`. The view must clearly indicate when the loaded extent is partial and provide an explicit action to expand it.
 - Staleness is view-specific and rememberable only on views where it is meaningful. It must never implicitly transition lifecycle, archive, delete, complete, or purge a Task.
+- For any date-organized preset, a missing value for that preset's date dimension is represented by the final **Unspecified** bucket rather than being silently omitted, unless the preset's defining semantics explicitly require that date to exist.
 
 #### User-Task Data Separation Rule
 
@@ -726,6 +730,8 @@ No Related Tasks / See Also relationship is included in the current data model. 
 | DEC-035 | 2026-10-07 | View Retrieval Extent | Retrieval is view-based, not group-based. Time-bounded views default to `max(30, 2 × far_days)` on the view-relevant date field and may expand on explicit user action. Grouping remains client-side presentation. | — |
 | DEC-036 | 2026-10-07 | View Staleness | `updated_at` may define view-specific staleness without changing task lifecycle. All Active defaults to a 60-day staleness threshold, rememberable per view; stale tasks remain available through explicit inclusion/access. Views such as Resolve may ignore staleness where completeness is intrinsic. | — |
 | DEC-037 | 2026-10-07 | Preset Retrieval Contracts | Freeze per-view retrieval semantics for Focus, Resolve, Prioritize, Plan, Follow Up, All Active, Recently Closed, Unarchive, and Recover. Apply staleness only where it supports the view's intent: All Active defaults to 60 days; Plan defaults to 60 days; Focus/Prioritize/Follow Up and retrospective recovery/history views do not exclude on staleness; Resolve never hides stale unresolved work. | — |
+| DEC-038 | 2026-10-07 | Task Availability Projection | Add derived Task field `availability = working | archived | deleted` for retrieval. It is maintained by trusted backend archive/delete/restore actions and is non-authoritative relative to archive/delete timestamps. | — |
+| DEC-039 | 2026-10-07 | Unspecified Date Bucket | In date-organized views, Tasks without the relevant date are placed in an **Unspecified** bucket at the end of the view. No synthetic date is assigned. Presets whose defining semantics require the date may still exclude missing-date Tasks. | — |
 
 ## MVP Scope
 
@@ -842,6 +848,7 @@ None formally recorded yet.
 
 | Date | Change | Approval |
 |---|---|---|
+| 2026-10-07 | Added derived Task availability projection and standardized Unspecified date buckets at the end of date-organized views. | Approved |
 | 2026-10-07 | Frozen per-view retrieval contracts and extended staleness semantics where appropriate; Plan and All Active default to 60-day staleness while deadline/unresolved/recovery views preserve completeness. | Approved |
 | 2026-10-07 | Approved view-based retrieval extent and updated-at staleness semantics; All Active defaults to a 60-day stale threshold without lifecycle side effects. | Approved |
 | 2026-10-07 | Removed Saved Views/View Builder from the product baseline; adopted client-parameterized preset queries with independently tunable, per-view Near/Medium/Far thresholds. | Approved |
