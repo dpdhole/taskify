@@ -1,6 +1,6 @@
-# Taskify Product Specification
+# Taskify Product Specification (Legacy Reference)
 
-> **[REVISION-PENDING — 2026-10-12]** Taskify's owner has authorized preparation of a **simplification specification migration** (single-user scope, revised task lifecycle/threads/dates, query-first IA, and proposed Appwrite architecture). **This marker records intent only.** The content below remains the **current approved repository baseline**, not the simplified specification. No earlier decision is superseded, no implementation status is changed, and no migration/deployment is authorized by this marker. The revised rules must be reconciled, reviewed, and explicitly approved before replacing this baseline. See `docs/project_status.md` for migration status.
+> **LEGACY REFERENCE — 2026-10-12.** Historical product specification from the Firebase/collaboration design. Retained only as a design hint during the single-user simplification. Its rules are **not** automatically requirements of the revised product. See `docs/project_status.md` for current discussion baseline and unresolved decisions. Earlier approval and implementation evidence remain recoverable in Git history.
 
 
 > Authoritative product requirements and UX/product baseline. Load through `docs/project_status.md`.
