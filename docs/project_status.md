@@ -1,5 +1,8 @@
 # Taskify Project Status
 
+> **[REVISION-PENDING — 2026-10-12]** Taskify's owner has authorized preparation of a **simplification specification migration** (single-user scope, revised task lifecycle/threads/dates, query-first IA, and proposed Appwrite architecture). **This marker records intent only.** The content below remains the **current approved repository baseline**, not the simplified specification. No earlier decision is superseded, no implementation status is changed, and no migration/deployment is authorized by this marker. The revised rules must be reconciled, reviewed, and explicitly approved before replacing this baseline. See `docs/project_status.md` for migration status.
+
+
 ## Documentation Loading Contract
 
 This file is the canonical entry point for Taskify project state.
