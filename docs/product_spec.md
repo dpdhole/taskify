@@ -110,40 +110,58 @@ Taskify is a responsive, mobile-first, **single-user personal responsibility and
 - **Remove task-level Priority** as an unnecessary legacy collaboration/execution field.
 - Category is task classification metadata, not a lifecycle or scheduling operation.
 
-## 7. Query-first Inbox information architecture
+## 7. Query-first Inbox information architecture — Issue 12 closed
 
-### 7.1 Common interaction contract
+### 7.1 Shared query interaction contract
 
-Taskify provides **seven fixed named query destinations**, each initially presented as a grouped accordion/list. Queries determine candidate task eligibility. Applicable filters refine results; one Group By organizes them; sorting determines row order. Query names are not action names.
+- Seven fixed query destinations, not user-created saved views. **Home is a separate contextual workspace**; Global Search is a separate search workspace.
+- Candidate eligibility belongs to the query. The user refines the returned population with applicable multi-select Category, Lifecycle State and Time filters; OR within each dimension and AND across dimensions. Additional DOW/TOD and Important/Urgent modifiers are exposed where meaningful.
+- **One Group By** dimension at a time: Category, Lifecycle State or an applicable task date. The Group By dimension is omitted from the simultaneous filters; changing Group By clears conflicting filter selections.
+- All queries and Global Search use consistent **Group By / Filter / Sort** semantics and controls, **only offering applicable dimensions**. Search itself defaults to ungrouped results and can group by Category.
+- **View-global sort**, chosen through sortable table column headers, applies to every accordion group; it does not change group order. Changing sort **preserves expanded/collapsed groups**. A view's remembered sorting preference applies at entry.
+- Group order is user-defined global Category order, fixed lifecycle order (§3.1), or calendar/time-bucket order. All group headers show matching counts; empty groups remain visible. On entry and filter changes, only the first nonempty group expands; Back from Task Detail restores exact expansion state.
+- Time buckets support Older, Today, Near, Medium, Far, Later, Unspecified. Configure Near/Medium/Far boundaries **per view**; explicit **Remember** persists the choice, Reset restores that view's defaults. Display concrete date ranges.
+- For **Paused Until** grouping, order is **Expired → chronological upcoming buckets → Indefinite → Unspecified**. A missing date is **Unspecified**, always last, for other date dimensions as well.
+- Filter controls and table rows are shared across query views, with context-sensitive visible fields. **Omit the Group By field from individual task rows**, since the group header already supplies it. Keep fields relevant to the question each view answers.
+- **Remember** saves supported Group By, filtering, global sort and time thresholds only when explicitly invoked. **Reset** returns to defaults. Temporary scroll/accordion state is never remembered across visits/devices.
+- No automatic query refresh after task edits. An explicit **Refresh** reapplies eligibility, filters, group membership, sorting and counts and clears the edit indicator. See §7.4 for in-place edit feedback.
 
-- Category, Lifecycle State and Time-bucket filters are **multi-select**. Selections combine with OR within a dimension and AND across dimensions. Default filters = All / no additional restriction.
-- One primary Group By dimension: Category, lifecycle, or a supported date dimension (Planned Start, Due, Actual End, Paused Until, archived/deleted date as applicable).
-- The selected Group By dimension is **not available as a filter**. Switching Group By clears the newly conflicting filter selections; they are not restored on switching back.
-- Category groups follow the global user-defined order. Lifecycle groups follow the fixed order in §3.1.
-- Common time-bucket concepts: Older/Before Today, Today, Near, Medium, Far, Later, Unspecified. The user may customize Near/Medium/Far boundaries **per query**, and actual ranges must be clearly indicated. For Paused Until, additionally distinguish indefinite from no pause.
-- DOW/TOD/Important/Urgent controls remain part of the query working-context filtering system, where applicable; detailed selection and rememberability rules remain for further review.
-- **Remember** explicitly persists a query's supported grouping, filters, sorting and time thresholds; absent Remember, changes remain temporary. **Reset** restores product defaults.
-- Provide a consistent filter interface with inapplicable controls unavailable and filter option counts visible. Count semantics are deferred to detailed UX design.
-- Retrieval is **query-specific and bounded where appropriate**, with fixed product default limits and explicit **temporary expansion**. Expansion is not remembered. Do not suggest that a partially loaded set is complete. Resolve should not silently omit unresolved work; Focus should include all qualifying overdue work.
-- No standalone saved-view builder or separate user-created query definitions are currently required.
+### 7.2 Seven query contracts
 
-### 7.2 Seven queries and confirmed defaults
-
-| Query (working navigation label) | User question / eligibility | Default Group By | Default sort within group |
+| Query | User question and eligibility | Default Group By | Default sort |
 |---|---|---|---|
-| **Focus** | What executable work merits attention now? Excludes Waiting, Blocked, On Hold; exact pause and Planned Start inclusion deferred | Due | Planned Start ↑ |
-| **Resolve** | What work is interrupted or deferred? Includes nonterminal Waiting, Blocked, On Hold **OR** a recorded pause, even when expired | Lifecycle | Paused Until ↑ |
-| **Plan** | What needs scope clarification or planning? All Draft and Planned, whether or not planned dates exist | Lifecycle | Created ↑ (oldest first) |
-| **All Active** *(fixed label subject to final naming)* | What open work exists? Default nonterminal nonarchived tasks; explicit temporary expansion to **all nondeleted tasks**, including terminal/archived | Category | Due ↑ |
-| **Recently Closed** | What closed recently? Terminal tasks selected by Actual End in a bounded retrospective window | Actual End | Actual End ↓ |
-| **Archive** *(working label)* | What is archived and may need restoration? | Archived Date | Archived Date ↓ |
-| **Trash** *(working label)* | What deleted tasks can still be recovered? | Deleted Date | Deleted Date ↓ |
+| **Focus** | What can I work on? Executable nonterminal tasks excluding Waiting, Blocked, On Hold and **future or indefinite recorded pauses**. **Expired pauses do not exclude**; Planned Start does not affect eligibility. Due/overdue alone does not override an effective pause. | Due | Planned Start ↑ |
+| **Resolve** | What is interrupted/deferred? All nonterminal Waiting, Blocked, On Hold **OR** any recorded pause (expired, future, indefinite), including paused In Progress tasks. | Lifecycle | Paused Until ↑ |
+| **Plan** | What needs clarification/planning? All Draft and Planned tasks, regardless of planned dates. | Lifecycle | Created ↑ |
+| **All Active** | What's my outstanding workload? Default nonterminal nonarchived nondeleted tasks. Explicit temporary expansion includes terminal and archived, **not deleted** tasks. | Category | Due ↑ |
+| **Recently Closed** | What did I close recently? Terminal Done, Cancelled or Unable to Complete tasks by Actual End. | Actual End | Actual End ↓ |
+| **Archive** | What have I archived? Tasks by Archived Date. | Archived Date | Archived Date ↓ |
+| **Trash** | What can I restore? Recoverable deleted tasks by Deleted Date. | Deleted Date | Deleted Date ↓ |
 
-- **Prioritize** removed as a redundant standalone query (available through Focus, filtering, Due grouping and working preferences).
-- **Paused** merged into Resolve, not a separate query.
-- **All Tasks** merged into All Active as temporary scope expansion; the navigation label does **not** change dynamically.
-- Recently Closed, Archive and Trash remain distinct.
-- Possible initial horizons discussed but **not finally approved**: Recently Closed 15 days; Archive 30 days. Exact per-query limits remain open.
+- **Names retained:** Focus, Resolve, Plan, All Active, Recently Closed, Archive, Trash. The name **All Active** does not change when scope is expanded.
+- **No retrieval pagination** for Focus, Resolve, Plan or All Active in the current design; assume roughly 50–100 active tasks per user and revisit if performance or usage warrants.
+- Recently Closed, Archive and Trash initially include records within the **last 15 days** of Actual End, Archived Date and Deleted Date, respectively. Each supports **explicit temporary expansion** of its date window; expansion is not Remember-saved.
+- The original 60-day staleness rules for Plan and All Active are **superseded** by complete eligible-task loading.
+- Prioritize is not a separate query; Paused is incorporated into Resolve; standalone All Tasks becomes the All Active expansion.
+- Query Quick Search: temporary, **title-only** refinement applied to the current query and its filters, preserving grouping, updating counts and hiding unmatched rows; cleared on switching queries and not remembered.
+
+### 7.3 Task row and contextual actions
+
+- The **task title is always a link to Task Detail**, regardless of view. Row columns/treatment are shared, omitting the current Group By field while showing contextually useful information.
+- A **visible primary action** is chosen by **hybrid relevance**: the query ranks useful actions, and the task state limits which are valid. When no meaningful contextual action applies, use **Edit** as the generic primary action.
+- An **overflow menu** shows up to **two other valid and relevant lifecycle actions**, then standard actions, with separators as appropriate; never duplicate the visible primary action.
+- Standard actions, when valid: **Edit**, **Change Category**, **Change Dates**, **Add Comment**, **Attach File**, **Archive/Restore**, **Delete**. Lifecycle/deferral actions such as Resume, Extend and Clear Pause are contextual, not universal.
+- **Resolve:** prioritize **Resume** where the state is interrupted, **Clear Pause** for already In Progress tasks with a recorded pause, and **Extend** where applicable. Extend supports a later Paused Until or a change to **Indefinite**, without changing lifecycle. Only valid actions appear.
+- **Add Comment** uses a lightweight popover targeting the permanent **Notes & Comments** thread. **Attach File** uses a lightweight file-select/upload popover targeting that same thread. Both honor existing lifecycle transitions (Draft/Planned → In Progress on successful comment/attachment; terminal tasks do not reopen).
+- Closing either popover with unsaved content warns **Stay / Discard**; successful submission closes without warning.
+
+### 7.4 Post-edit feedback and explicit refresh
+
+- After a successful edit, **keep the task in its present row position** (do not immediately re-sort, regroup, or reapply filters) and highlight its background subtly. Only the latest edited task retains the highlight, until another edit or refresh.
+- **Exception:** if the edited task is no longer eligible for the current workspace/filter, animate it vanishing. Update the affected group count immediately; otherwise **counts remain unchanged until Refresh**.
+- No automatic repositioning, auto-scrolling to an updated row or background workspace refresh.
+- Show a subtle actionable prompt, e.g. **“3 tasks changed. Refresh view”**. Count **distinct tasks changed since the last refresh**. Explicit Refresh reconciles rows/ordering/groups/counts and clears the counter and highlight.
+- This interaction is user-controlled and distinct from **Home's automatic contextual refresh when returning to Home** (§8.6).
 
 ## 8. Home — HERE + NOW contextual workspace (Issue 12 decisions)
 
@@ -248,6 +266,21 @@ The intended interaction is **choose a workspace, configure it, and work within 
 - Users can expand/collapse groups manually. **Changing filters** resets expansion to first nonempty; navigating to a workspace starts from this default. Opening a Task and returning via Back restores the exact existing group expansion.
 - Accordion expansion is temporary and not remembered. **Behavior on sort changes remains open** for the query-views discussion.
 
+### 9.5 Global Search — text only
+
+Global Search uses the application-header Search entry, **not** a Text/Map switcher or geospatial search action. **Map Search is a possible future enhancement**, not current scope.
+
+- **Explicit Search action**, no live query while typing; nonempty search text requires **at least 3 characters**. An empty text string is not a List search.
+- **Cumulative depth selector**, labeled **Title** (default: task title), **Description** (adds task description and Todo Thread titles), and **All Content** (adds user comments and attachment filenames). Routine System Changes are excluded from full-text content.
+- **Default scope:** active, nonarchived and nondeleted tasks; the user can explicitly expand scope to include terminal and archived tasks. Deleted tasks stay within Trash/recovery workflows.
+- A **Filter icon** opens a popover with the applicable shared Category/lifecycle/scope filters. Filtering is independent from Text depth. **Apply** commits the current mode's selections; **Clear** clears the pending draft and requires Apply; **Cancel** or outside click discards unapplied changes. Indicate when filters are active.
+- Search results display as a **tabular List** with **Title, Category, Status, Planned Start, Due and Match**. Default sort is **Task Title A–Z**. Users sort by clicking column headers; one view-global sort column at a time (ascending/descending), also used within optional Category groups. Category Group By is optional and **off by default**; when enabled, order categories globally and omit repeated Category field in grouped rows.
+- **Match** indicates where the query matched; show highlighted title text, a short description/comment excerpt, a matching Todo Thread title, or an attachment filename as applicable. Shared Task Detail navigation applies.
+- **Explicit Load More**, initially **10 results**, loading 10 more each time while preserving scroll/sort. More than two additional loads used frequently is a **UX validation signal**, not a reason to adopt infinite scrolling.
+- On mobile, use standard responsive compact results/cards preserving key data and matching context; offer a compact sort control rather than imposing horizontal scrolling as the only interaction.
+- Global Search supports explicit **Remember / Reset** for its eligible configuration, consistent with query views. Fresh navigation starts from remembered options/defaults; Back from Task Detail restores exact search text, filters, depth, results, scroll and grouping.
+- Global Search and query Quick Search serve separate intents: **Global Search** searches progressively deeper content; **Quick Search** searches titles within a selected query. The shared Group By/Filter/Sort model is used only where meaningful.
+
 ## 10. Remaining presentation work
 
 - Grouped accordion/list remains the primary query presentation; rows expose state, scheduling and Important/Urgent cues.
@@ -255,22 +288,31 @@ The intended interaction is **choose a workspace, configure it, and work within 
 - Full Task Detail content hierarchy, Search result behavior, responsive sizing/breakpoints and accessibility mechanics remain for detailed design; do not infer Event or collaboration behavior from the legacy specification.
 - Workspace-specific actions are projections of shared task-domain operations, not separate query implementations.
 
-## 11. Record management and deferred legacy scope
+## 11. Archive / Trash bulk management and remaining legacy scope
+
+- Archive and Trash are independent of task lifecycle. Archived tasks can be found in Archive or expanded All Active; deleted tasks can be recovered in Trash while eligible.
+- **Manual-only bulk actions** in the respective workspace overflow menus:
+  - **Archive:** **Delete older than N days/months** based on Archived Date, moving eligible tasks to Trash (soft delete).
+  - **Trash:** **Purge older than N days/months** based on Deleted Date, permanently removing eligible tasks.
+  - Choose N from a days/months dropdown; show the count of affected tasks and require explicit confirmation.
+- No automatic scheduled cleanup. Retention periods, purge implementation and restore invariants remain architecture/record-management open issues.
+- **Events, stand-alone Calendar and Nearby workspaces are removed** from the redesigned product. Task dates and locations remain. Recurrence, reminder delivery, notifications, external links and other historical scope require later explicit decisions.
+
+
 
 - Archive/Trash are independent from task lifecycle. Archived tasks remain retrievable through Archive or expanded All Active. Deleted tasks are excluded from the expanded All Active population and may appear in Trash while recoverable.
 - Exact archive/delete/restore/retention invariants and permissions remain **open**; do not infer them from the legacy Firebase specification.
 - **Events are removed**. Recurrence, standalone Nearby, Calendar, reminder delivery, notifications, external secure links and other legacy features remain to be reconciled; the location capability required by Home HERE is retained.
 
-## 12. Outstanding decisions and implementation constraints
+## 12. Remaining non-IA design and implementation questions
 
-The following are not silently resolved by this working baseline:
+Issue 12's product-level IA interaction decisions are **closed**. The following are **not** implementation approvals or silently resolved requirements:
 
-1. Precise Focus eligibility with past/future pauses and scheduled-but-not-due tasks, and cross-query visibility after expiration.
-2. TOD slot clock boundaries; reminder behavior; time-bucket handling/labels for absent, expired and indefinite pauses.
-3. Final navigation names, fixed query retrieval horizons and detailed filters/counts; presentation modes and task details.
-4. Identity linking, service free-tier constraints, data backup/retention and exact Appwrite DocumentsDB structure.
-5. Direct-client data integrity and authorization feasibility, atomic thread/system-history transitions, optimistic concurrency limitations, and migration away from Firebase.
-6. Legacy recurrence/notification features, separate Calendar/Nearby workspaces, and final record recovery semantics.
+1. Detailed TOD clock boundaries, reminder delivery and time calculations.
+2. Precise persistence schema, filters/count computation feasibility, performance and responsive/accessibility implementation.
+3. Archive/Trash retention, restoration constraints, purge mechanics and safety controls.
+4. Identity linking, backup/operations and Appwrite DocumentsDB authorization, data integrity, multi-record event atomicity, and concurrent writes.
+5. Whether legacy recurrence, external links and notification features are retained, deferred or removed, plus any future Eisenhower or Map Search presentation.
 
 ## 13. Specification governance
 

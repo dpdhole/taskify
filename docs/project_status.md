@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Working simplified product specification prepared (2026-10-12).** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Simplified product specification — Issue 12 IA closed (2026-10-13).** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -99,19 +99,34 @@ Seven query destinations; default presentation is grouped accordion/list:
 - **Query group accordions:** visible counts and empty groups, only first nonempty expands on entry or filter changes, manual expansion allowed; Back from Task Detail restores exact existing expansion. Sorting-change rule deferred.
 - No next/previous Task navigation or Task-to-Task links in current scope without a demonstrated need.
 
+## Issue 12 — Final decisions and closure (2026-10-13)
+
+**Status:** Product-level IA decisions complete and recorded in `docs/product_spec.md` §§7–10. This does not imply implementation, design verification, or approval of backend mechanics.
+
+- **All seven names retained.** Focus excludes future/indefinite pauses but ignores expired pauses; Planned Start never filters Focus. Resolve still includes interrupted tasks and any recorded pause.
+- **Load all eligible active work** in Focus, Resolve, Plan and All Active (working assumption: 50–100 active tasks). Recently Closed, Archive and Trash each show **15 days** by default, with user-initiated temporary expansion; the old 60-day active staleness threshold is superseded.
+- **Shared Group By/Filter/Sort** interaction across applicable query and Global Search dimensions; one global sort via table column headers, category/state/time grouping where applicable. Sorting preserves accordion expansion. Grouping by Paused Until orders **Expired → upcoming → Indefinite → Unspecified**; other missing dates go last. Near/Medium/Far thresholds remain per-query and explicitly Remember-saved.
+- **Task rows:** shared structure, omit the Group By column; title opens Task Detail. Visible hybrid context/state-dependent primary action (Edit fallback); overflow contains up to two other valid lifecycle actions, then standard actions, with no duplication.
+- **Resolve Extend** supports later pause or Indefinite. Standard overflow includes Add Comment and Attach File, both as unsaved-work-protected popovers targeting Notes & Comments.
+- **Edits:** keep the edited row stationary and highlighted until next edit/refresh. If it becomes ineligible, animate its removal and update counts. Otherwise counts/ordering/group membership wait for explicit Refresh; show distinct-edited-task counter with **Refresh view** link.
+- **Global Search:** text-only; at least three characters; user explicitly clicks Search. Cumulative depth Title (default) → Description → All Content. Active default scope with expansion for terminal/archived; filter-icon popover with Apply/Clear/Cancel. Tabular columns Title, Category, Status, Planned Start, Due, Match; sortable headers; optional Category grouping; 10 results per batch with explicit Load More; shared responsive row style.
+- **Map Search is future-only**. Home HERE still supports proximity. 
+- **Archive bulk Delete older than N** soft-deletes to Trash; **Trash bulk Purge older than N** permanently deletes. Days/months dropdown, affected count, confirmation, and **manual-only** invocation.
+
+**Next work:** Detailed domain/architecture/security reconciliation, not further Issue 12 product-level IA debate.
+
 ## Deferred / unresolved
 
-- Final fixed labels for All Active, Archive and Trash; precise Focus paused/date eligibility; subtle cross-query visibility and UX testing.
-- Date bucket labels/order for expired, indefinite and unspecified pauses; concrete TOD boundaries; actual fixed retrieval horizons; reminders/notifications.
-- Eisenhower as a potential alternative presentation, detailed Search UX, Task Detail content hierarchy, precise responsive sizing and accessibility, and query sort-change accordion behavior. **Calendar and Nearby are not separate workspaces.**
+- Concrete TOD slot clock boundaries; reminders/notifications and remaining implementation-level time-bucket details.
+- Eisenhower and Map Search as possible future presentations; detailed Task Detail content hierarchy, responsive sizing and accessibility. **Calendar and Nearby are not separate workspaces.**
 - **Events are removed** from the redesigned product. Recurrence, external links, notifications and other legacy features still require retain/defer/remove decisions; coarse task location and saved places are retained for Home.
 - Appwrite service feasibility: permissions, uniqueness, structural invariants, atomic multi-document writes and system history; exact storage schemas and migration strategy.
-- Archive/Trash retention and restore rules.
+- Archive/Trash retention and restore/purge mechanics (bulk action UX is specified).
 
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Resume Issue 12's remaining product/IA design when appropriate.
+2. Issue 12 IA is closed; continue with domain, data, security and architecture reconciliation when authorized.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
