@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Simplified product specification — Issue 12 IA closed (2026-10-13).** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Simplified product specification — Issues 13–14 decisions recorded (2026-10-13); Issue 15 next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -53,27 +53,11 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - Paused Until may be timed or indefinite; expired pause remains recorded until user action. Resume clears pause with transition atomically. Terminal closure retains pause for context but disables its operational effect; reopening clears pause.
 - Pauses may suppress execution attention but not planning/scheduling visibility of overdue work. Reminder coupling and subtle cross-query behavior are deferred.
 
-### Query-first information architecture (Issue 12 partly resolved)
+### Query-first information architecture (Issue 12 closed, revised in Issue 14)
 
-Seven query destinations; default presentation is grouped accordion/list:
-
-| Query | Default Group By | Default within-group sort |
-|---|---|---|
-| Focus | Due | Planned Start ↑ |
-| Resolve | Lifecycle | Paused Until ↑ |
-| Plan | Lifecycle | Created ↑ |
-| All Active (working name) | Category | Due ↑ |
-| Recently Closed | Actual End | Actual End ↓ |
-| Archive (working name) | Archived Date | Archived Date ↓ |
-| Trash (working name) | Deleted Date | Deleted Date ↓ |
-
-- Focus excludes Waiting/Blocked/On Hold; Resolve includes all interrupted tasks **or** tasks with a recorded pause (including expired) while nonterminal. Plan includes Draft/Planned regardless of dates.
-- All Active defaults to open, nonarchived work; temporarily expandable to all nondeleted Tasks, including terminal/archived. Expanded scope and retrieval horizons do not persist.
-- Category, Lifecycle and Time filters are multi-select; selections OR within a dimension, AND across dimensions; default no restriction.
-- Grouping by a dimension removes its filter; changing Group By clears conflicting selections. Category order is globally user-defined; lifecycle order is fixed above.
-- DOW/TOD and Important/Urgent remain personal working preferences. Per-query Near/Medium/Far bucket thresholds show actual ranges.
-- Query-specific fixed retrieval limits, explicit temporary expansion and visible partial-result indicators. Resolve cannot silently omit unresolved tasks; Focus includes qualifying overdue tasks.
-- `Remember` explicitly saves supported per-query presentation/filter preferences; `Reset` restores defaults. Filter option counts are supported; detailed semantics deferred.
+- Current **six** Tasks views: Focus, Resolve, Plan, All Active, **Closed**, Trash. Issue 14 merged Recently Closed and Archive into Closed; no separate archive state/date/actions.
+- Closed and Trash retrieve **all** eligible history by default, with independent remembered historical time buckets. All Active is nonterminal by default, with optional terminal expansion.
+- Delete/Restore change deletion metadata only; Closed membership depends on terminal lifecycle. See `docs/product_spec.md` §§7 and 11 for authoritative current details.
 
 ## Issue 12 — Home decisions (agreed in discussion)
 
@@ -103,30 +87,39 @@ Seven query destinations; default presentation is grouped accordion/list:
 
 **Status:** Product-level IA decisions complete and recorded in `docs/product_spec.md` §§7–10. This does not imply implementation, design verification, or approval of backend mechanics.
 
-- **All seven names retained.** Focus excludes future/indefinite pauses but ignores expired pauses; Planned Start never filters Focus. Resolve still includes interrupted tasks and any recorded pause.
-- **Load all eligible active work** in Focus, Resolve, Plan and All Active (working assumption: 50–100 active tasks). Recently Closed, Archive and Trash each show **15 days** by default, with user-initiated temporary expansion; the old 60-day active staleness threshold is superseded.
+- **At Issue 12 closure, all seven names were retained; Issue 14 later revised this to six.** Focus excludes future/indefinite pauses but ignores expired pauses; Planned Start never filters Focus. Resolve still includes interrupted tasks and any recorded pause.
+- **At Issue 12 closure:** active views loaded all eligible Tasks, historical views had 15-day defaults. **Issue 14 supersedes historical restrictions:** Closed and Trash now show all eligible Tasks.
 - **Shared Group By/Filter/Sort** interaction across applicable query and Global Search dimensions; one global sort via table column headers, category/state/time grouping where applicable. Sorting preserves accordion expansion. Grouping by Paused Until orders **Expired → upcoming → Indefinite → Unspecified**; other missing dates go last. Near/Medium/Far thresholds remain per-query and explicitly Remember-saved.
 - **Task rows:** shared structure, omit the Group By column; title opens Task Detail. Visible hybrid context/state-dependent primary action (Edit fallback); overflow contains up to two other valid lifecycle actions, then standard actions, with no duplication.
 - **Resolve Extend** supports later pause or Indefinite. Standard overflow includes Add Comment and Attach File, both as unsaved-work-protected popovers targeting Notes & Comments.
 - **Edits:** keep the edited row stationary and highlighted until next edit/refresh. If it becomes ineligible, animate its removal and update counts. Otherwise counts/ordering/group membership wait for explicit Refresh; show distinct-edited-task counter with **Refresh view** link.
 - **Global Search:** text-only; at least three characters; user explicitly clicks Search. Cumulative depth Title (default) → Description → All Content. Active default scope with expansion for terminal/archived; filter-icon popover with Apply/Clear/Cancel. Tabular columns Title, Category, Status, Planned Start, Due, Match; sortable headers; optional Category grouping; 10 results per batch with explicit Load More; shared responsive row style.
 - **Map Search is future-only**. Home HERE still supports proximity. 
-- **Archive bulk Delete older than N** soft-deletes to Trash; **Trash bulk Purge older than N** permanently deletes. Days/months dropdown, affected count, confirmation, and **manual-only** invocation.
+- **Issue 14 supersession:** Closed bulk Move to Trash older than N; Trash bulk Purge older than N; individual Delete, Restore and Permanent Delete. All deletion actions require confirmation.
 
 **Next work:** Detailed domain/architecture/security reconciliation, not further Issue 12 product-level IA debate.
 
+## Issues 13–14 — Decisions recorded (2026-10-13)
+
+- **TOD:** fixed nonconfigurable half-open periods Late Night 00–05, Morning 05–08, Mid Morning 08–12, Afternoon 12–16, Evening 16–20, Night 20–00, interpreted in configured timezone. Reminders and recurrence deferred.
+- **Scope:** WYSIWYG descriptions/comments; files and external links in Notes & Comments and Todo Thread **headers**, never System. Terminal/deleted Tasks and closed Todo Threads remain read-only.
+- **Attachment limits:** 5 MB/file, 25 MB combined uploaded files and 10 items across Task, one-file uploads; renaming without confirmation, replacement/removal with confirmation. Task-title flat ZIP Download All includes files, description and external links, not comments.
+- **Lifecycle:** Close automatically enters Closed, no archive metadata. Terminal closure clears Paused Until, retains Planned/Due/Actual Start; Reopen goes to In Progress, clears latest Actual End, keeps Todo Thread states; history preserves prior outcomes. Done with open Todo Threads always warns with count/names but does not block.
+- **Trash:** soft Delete/Restore affect deletion metadata only, each requires confirmation. Individual/bulk permanent deletion only in Trash, irreversible confirmation, storage files before DB. Bulk partial success permitted, failed items retried manually.
+- **Bulk views:** Closed cleanup and Trash purge remain in the relevant view, remember independent day/month thresholds, ignore view filters, show count and confirmation; no automatic cleanup. Closed/Trash historical buckets independently Remember-saved and all records visible by default.
+- **Deferred:** recurrence mechanics, notifications/reminders, related Tasks, optional Eisenhower and Map Search. **Removed:** Events, Calendar/Nearby workspaces, collaboration, independent subtasks, Priority and View Builder.
+- **Next:** Issue 15 Task Detail content hierarchy, then domain/storage/security reconciliation. No implementation or deployment claimed.
+
 ## Deferred / unresolved
 
-- Concrete TOD slot clock boundaries; reminders/notifications and remaining implementation-level time-bucket details.
-- Eisenhower and Map Search as possible future presentations; detailed Task Detail content hierarchy, responsive sizing and accessibility. **Calendar and Nearby are not separate workspaces.**
-- **Events are removed** from the redesigned product. Recurrence, external links, notifications and other legacy features still require retain/defer/remove decisions; coarse task location and saved places are retained for Home.
-- Appwrite service feasibility: permissions, uniqueness, structural invariants, atomic multi-document writes and system history; exact storage schemas and migration strategy.
-- Archive/Trash retention and restore/purge mechanics (bulk action UX is specified).
+- Recurrence, reminders/notifications and other deferred enhancements.
+- Task Detail and accessibility UX, rich-text/attachment technical details.
+- Fixed TOD timezone/DST details; Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
 
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Issue 12 IA is closed; continue with domain, data, security and architecture reconciliation when authorized.
+2. Issues 12–14 product discussion decisions are documented with explicit supersessions; continue with Issue 15 and architecture reconciliation when authorized.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
