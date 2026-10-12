@@ -205,25 +205,55 @@ These same **count / visible empty groups / first-nonempty-expanded / filter-cha
 - Show location and freshness **separately**, e.g. **“Current location · Updated 5 min ago”**, alongside Refresh. Do **not** show distance moved since last refresh.
 - Further responsive navigation/persistence behavior is pending Issue 12 discussion.
 
-## 9. Search, creation and remaining navigation
+## 9. Navigation, Search, Create and Task Detail (Issue 12)
 
-- **Global Search:** available from the application header; results occupy the main workspace. Detailed search fields/ranking will be reconciled separately.
-- **Global Create:** prominent and independent of the current navigation/query. Create **Task**; **Event is removed** from the redesigned product.
-- **Query Quick Search:** temporary **title-only** search within the current query, combining with its current filters and preserving grouping, updating group counts and clearing when switching queries. Quick Search is not remembered.
-- The grouped accordion/list is the primary query result presentation. Home is an additional contextual workspace and **not an eighth query**.
-- **Calendar and Nearby** as separate workspaces remain under consideration; Home HERE is not by itself a decision to eliminate Nearby or adopt a Calendar.
-- The old **Event entity/type and Event creation** are **removed** from the redesigned product; no Event-specific Calendar/Nearby projections.
-- Desktop/mobile navigation layout, deep links, task-detail back-navigation context, and preservation of unsaved work remain to be specified.
-- Actions belong to domain operations, **not queries**; do not duplicate business logic per workspace.
+### 9.1 Application navigation
 
-## 10. Other presentations
+- Use a **Gmail-inspired responsive navigation model**: a persistent, collapsible desktop sidebar and the same hierarchy in a mobile navigation drawer.
+- **Home** is the contextual HERE + NOW workspace (§8); **Tasks** contains the seven predefined query views (§7). Home is not an eighth query.
+- **Calendar and Nearby are removed as separate workspaces.** Task scheduling dates and task locations remain supported, including Home's HERE contexts.
+- **Potential future enhancement (not a current requirement):** a map presentation for Search results.
+- **Global Search** is accessible from the application header and displays results in the main workspace.
+- **Global Create** is prominent and independent of navigation, creating Tasks only; **Events are removed**.
+- **Query Quick Search** searches titles within the current query, combines with its temporary filters, retains grouping, updates group counts, and clears on switching queries. It is not remembered.
+- Settings is separated as application configuration; finer hierarchy is open.
+- Eisenhower and other optional presentation concepts remain separate future design discussions, not a commitment to restore Calendar, Nearby, Events, or a View Builder.
 
+### 9.2 Workspace retention versus navigation reset
 
-- The grouped accordion/list is the primary query result presentation; each row exposes clear state, schedule and Important/Urgent context.
-- **Eisenhower, Calendar and Map** remain distinct optional presentation/design discussions, not new task entities or approved query modes.
-- Global Search and Create follow the application-level patterns in §9. Details of task navigation and alternative presentations remain open.
-- Actions are owned by domain operations, **not duplicated per query**. The query supplies a user's question and makes contextually relevant decisions/actions discoverable.
-- Task detail interaction design and record-level management actions will be specified in a separate discussion.
+The intended interaction is **choose a workspace, configure it, and work within it**.
+
+- **Open Task from workspace → Back/Close:** restore the originating workspace's exact query, filters, sort, Group By, scroll position and manually expanded/collapsed groups.
+- **Select a workspace using application navigation** (including a previously visited workspace): enter fresh using its explicitly **Remember**-saved configuration or product defaults. Do not restore temporary filters/scroll/expansion from a prior workspace visit.
+- **New browser session:** initialize from remembered configuration or defaults; do not synchronize temporary workspace context across devices/clients.
+- Remember saves eligible query/Home configuration, **not scroll position or accordion expansion**.
+- A Task opened directly through a bookmark/external URL follows normal browser history and application navigation; do not invent a workspace-of-origin.
+- Task Detail and workspaces should have stable, directly accessible routes. Browser Back and Taskify Back must behave consistently with the actual navigation origin.
+
+### 9.3 Task Detail interaction
+
+- **Mobile:** Task Detail opens full-page.
+- **Desktop:** Task Detail opens as a **side panel** over the originating workspace, which remains visible for context, not simultaneous work. The user may **expand** to full page for intensive editing and optionally collapse back to the panel.
+- **Working UX assumption, subject to usage validation:** most interactions are Workspace → side panel quick work → Back; full-page desktop usage is less frequent.
+- Opening another task from the workspace while the panel is open switches the panel to that task **after handling any unsaved changes**. The panel is a focused task interaction; returning to the workspace closes it rather than encouraging concurrent workspace editing.
+- Side-panel detail is **not** a different domain state or edit contract from full page. Every new desktop Task Detail entry starts in a side panel; prior expansion is not remembered.
+- **Back/Close** from either side panel or expanded full-page detail returns directly to the origin workspace with exact context restored, rather than requiring an intermediate Collapse step.
+- **Unsaved edits:** warn on leaving Task Detail, switching tasks, or returning to workspace. Offer **Stay** or **Discard Changes**; no automatic save. Stay cancels the navigation.
+- Do not add next/previous task controls or nested task-to-task navigation without a demonstrated use case. Todo Threads are part of the parent Task.
+
+### 9.4 Shared query accordion behavior
+
+- Group headers always show matching task counts. **Empty groups remain visible.**
+- On entering a query, expand **only the first nonempty group** in query group order; collapse all others. If every group is empty, keep all collapsed with visible empty-state indicators.
+- Users can expand/collapse groups manually. **Changing filters** resets expansion to first nonempty; navigating to a workspace starts from this default. Opening a Task and returning via Back restores the exact existing group expansion.
+- Accordion expansion is temporary and not remembered. **Behavior on sort changes remains open** for the query-views discussion.
+
+## 10. Remaining presentation work
+
+- Grouped accordion/list remains the primary query presentation; rows expose state, scheduling and Important/Urgent cues.
+- Alternative Eisenhower presentation remains to be considered separately; a stand-alone Calendar workspace and Nearby workspace are excluded from the revised scope.
+- Full Task Detail content hierarchy, Search result behavior, responsive sizing/breakpoints and accessibility mechanics remain for detailed design; do not infer Event or collaboration behavior from the legacy specification.
+- Workspace-specific actions are projections of shared task-domain operations, not separate query implementations.
 
 ## 11. Record management and deferred legacy scope
 

@@ -87,11 +87,23 @@ Seven query destinations; default presentation is grouped accordion/list:
 - While Home is visible, refresh manually; returning to Home refreshes automatically. Show location and last-updated time separately, without movement distance.
 - Retain **header Global Search**, **global Task Create**, and **temporary title-only Quick Search** within a query. **Events are removed**.
 
+## Issue 12 — Navigation and Task Detail (agreed in discussion)
+
+- **Remove Calendar and Nearby as separate workspaces.** Retain date/location on Tasks and Home. Search map presentation is a **possible future enhancement**, not a current feature.
+- **Responsive navigation:** Gmail-inspired collapsible desktop sidebar and mobile drawer using the same Home/Tasks hierarchy; global header Search and independent Task Create. Settings separate.
+- **Workspace session:** Open Task → Back/Close restores the full origin query, filters, sorting, grouping, scroll and accordion expansion. Explicit application navigation always re-enters a workspace from Remember-saved settings or defaults; do not restore temporary context across workspace visits or clients.
+- **Direct-linked Task:** normal browser history and app navigation, no fabricated prior workspace.
+- **Task Detail:** mobile full-page; desktop side panel by default, expandable to full page with optional Collapse. Back/Close from either display returns directly to the originating workspace. Workspace is context, not a concurrent editing surface.
+- **Unsaved changes:** Stay/Discard warning before navigation or switching tasks; no automatic saving.
+- **Working UX hypothesis (validate with use):** users mostly work from workspace through the side panel; desktop full-page is less frequent.
+- **Query group accordions:** visible counts and empty groups, only first nonempty expands on entry or filter changes, manual expansion allowed; Back from Task Detail restores exact existing expansion. Sorting-change rule deferred.
+- No next/previous Task navigation or Task-to-Task links in current scope without a demonstrated need.
+
 ## Deferred / unresolved
 
 - Final fixed labels for All Active, Archive and Trash; precise Focus paused/date eligibility; subtle cross-query visibility and UX testing.
 - Date bucket labels/order for expired, indefinite and unspecified pauses; concrete TOD boundaries; actual fixed retrieval horizons; reminders/notifications.
-- Eisenhower and Calendar presentations, standalone Nearby workspace, and task-detail interaction design; responsive navigation, deep-link/back-navigation and unsaved-work handling.
+- Eisenhower as a potential alternative presentation, detailed Search UX, Task Detail content hierarchy, precise responsive sizing and accessibility, and query sort-change accordion behavior. **Calendar and Nearby are not separate workspaces.**
 - **Events are removed** from the redesigned product. Recurrence, external links, notifications and other legacy features still require retain/defer/remove decisions; coarse task location and saved places are retained for Home.
 - Appwrite service feasibility: permissions, uniqueness, structural invariants, atomic multi-document writes and system history; exact storage schemas and migration strategy.
 - Archive/Trash retention and restore rules.
