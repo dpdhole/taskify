@@ -70,7 +70,7 @@ Material state transitions require explicit project-owner approval.
 **Status tag:** `REVISION-PENDING` — documentation migration preparation only; **not** approval of replacement specifications or supersession of DEC-001–DEC-082.
 
 - Owner authorized marking the authoritative specifications as pending a coordinated simplification revision. This branch carries non-normative notices; the original approved rules remain operative until the replacement specifications and supersession decisions are reviewed and explicitly approved.
-- Source for reconciliation: **Taskify — Simplification Specification Handoff** (prepared 2026-10-12; currently a separate downloadable discussion handoff, **not yet committed to this repository**). It covers single-user scope, lifecycle/threads, Issue 11 date-and-pause decisions, and seven-query IA decisions with unresolved items distinguished.
+- Reconciliation source: [Taskify Simplification — Reconciliation Proposal](./proposals/taskify-simplification.md), derived from the **Taskify — Simplification Specification Handoff** (prepared 2026-10-12). The proposal is **not authoritative** and tracks discussion agreements, supersession candidates, and blockers before any replacement baseline is approved.
 - Intended reconciliation order: product behavior and query contracts → domain/data model → architecture/security → decision supersession register and project status. Preserve historical evidence and explicitly distinguish existing Firebase implementation from the proposed Appwrite direction.
 - **Out of scope for this status change:** rewriting requirements, creating new approved DEC entries, modifying code, database migration, cloud configuration, deployment, and declaring the new design implemented or verified.
 
