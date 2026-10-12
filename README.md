@@ -7,7 +7,8 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 ## Documentation
 
 - [Project status and current discussion baseline](docs/project_status.md) — canonical entry point, agreed direction and open decisions.
-- [Legacy product specification](docs/product_spec.md) — historical reference only; **not** an authoritative specification for the redesigned product.
+- [Working product specification](docs/product_spec.md) — consolidated simplified product behavior and explicitly open decisions.
+- [Legacy product specification](docs/product_spec_legacy.md) — historical reference only; not requirements for the redesign.
 
 The revision considers a responsive browser client, Appwrite Auth/DocumentsDB and a Taskify data-access adapter. These details must be reconciled into approved, implementable specifications before development resumes.
 

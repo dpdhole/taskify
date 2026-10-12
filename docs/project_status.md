@@ -1,17 +1,25 @@
 # Taskify — Project Status
 
-> **Status: Specification migration in preparation (2026-10-12).** Current simplification decisions are agreed in discussion, not yet fully approved as replacement repository specifications. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Working simplified product specification prepared (2026-10-12).** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
 This file is the canonical project entry point. The project owner makes all material product, architecture, repository and operational decisions. Explicitly distinguish **current discussion agreement**, **approved repository baseline**, **proposal**, **open issue**, **implemented**, and **verified**. Do not treat legacy implementation as evidence for the redesigned architecture.
+
+## Legacy specification preservation policy
+
+- `docs/product_spec_legacy.md` is a **read-only historical reference**, not a working specification or editable source of requirements.
+- **Never create, edit, overwrite, reformat, synchronize, or otherwise modify** `docs/product_spec_legacy.md` during subsequent specification revisions, implementation, or documentation cleanup.
+- Use it only to understand historical intent or compare previous behavior with the revised specification. Conflicts are resolved through current owner-approved decisions and `docs/product_spec.md`, **not** by treating legacy content as current authority.
+- **Retain the file until the project owner explicitly authorizes its deletion.** Do not infer deletion approval from cleanup requests, migration progress, obsolete content, or a future release.
+- Changes to current product behavior belong in `docs/product_spec.md`, with project status updated here. Deleting the legacy file is a separate owner-controlled action.
 
 ## Repository and historical baseline
 
 - Repository: https://github.com/dpdhole/taskify
 - Historical approved baseline: `main` through DEC-082 before the simplification branch. The older decisions, Firebase backend, rules, tests and verification evidence are recoverable from Git history.
 - Cleanup preparation branch: `docs/simplification-revision-intent-2026-10-12`; source head before cleanup: `c0a4751aae50edf6e95a2c57490bbf392f5590c0`.
-- `docs/product_spec.md` is a **legacy reference/hint**, not the authoritative specification for the redesign. It contains intentionally supersession-pending concepts.
+- `docs/product_spec.md` is the **working simplified product specification**, recording discussion decisions and explicitly unresolved requirements. `docs/product_spec_legacy.md` preserves the older product specification as a **legacy reference only**.
 - Historical discussion reconciliation proposal: `docs/proposals/taskify-simplification.md` at commit `92b15eb80ee85dae9802e43d6ec9de1dc2c897b2`. That proposal is preserved in Git history after cleanup.
 - Replacing or deleting files from the working tree does not invalidate Git history or approve revised business rules.
 
@@ -78,10 +86,10 @@ Seven query destinations; default presentation is grouped accordion/list:
 
 ## Planned specification migration
 
-1. Use this file as the current **discussion-status reference** and `docs/product_spec.md` only as a legacy hint.
+1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
 2. Resume Issue 12's remaining product/IA design when appropriate.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
-4. Reintroduce authoritative specifications deliberately, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
+4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
 
-**Repository cleanup scope:** Proposed active tree contains only `README.md`, `docs/project_status.md`, and `docs/product_spec.md`. Source removals are not cloud-resource deletions.
+**Repository cleanup scope:** Prepared active tree contains `README.md`, `docs/project_status.md`, `docs/product_spec.md`, and the protected read-only `docs/product_spec_legacy.md`. Source removals are not cloud-resource deletions.
