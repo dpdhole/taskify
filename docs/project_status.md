@@ -75,12 +75,24 @@ Seven query destinations; default presentation is grouped accordion/list:
 - Query-specific fixed retrieval limits, explicit temporary expansion and visible partial-result indicators. Resolve cannot silently omit unresolved tasks; Focus includes qualifying overdue tasks.
 - `Remember` explicitly saves supported per-query presentation/filter preferences; `Reset` restores defaults. Filter option counts are supported; detailed semantics deferred.
 
+## Issue 12 — Home decisions (agreed in discussion)
+
+- **Home** is a contextual workspace with **HERE + NOW**, **HERE**, and **NOW** sections; not an eighth preset query.
+- **HERE + NOW** matches BOTH location and NOW preferences; **HERE** matches location independently; **NOW** matches DOW/TOD independently. Tasks may appear in multiple sections.
+- NOW eligibility: DOW+TOD both match; TOD matches with DOW absent; or DOW matches on its own. DOW mismatch excludes; no DOW/TOD preference excludes. NOW sorts by **DOW+TOD → TOD-only → DOW-only → Title**.
+- HERE sorts **Distance → Title**. HERE + NOW sorts **Distance → NOW match class → Title**. No arbitrary top-3–5 cap or inferred relevance scores.
+- Initial Home scope is WIP (In Progress, Waiting, Blocked, On Hold), not executable-only. User-selectable lifecycle, Category and date filters; explicit **Remember / Reset**.
+- HERE and HERE + NOW share selectable current/saved/manual location and configurable radius, with coarse proximity resolution. Missing location shows an empty/prompted HERE and HERE + NOW; NOW stays available.
+- All Home sections remain visible with counts, including empty ones. When opening the workspace or changing filters, expand **only the first nonempty section**, in fixed section order; others collapsed. The same accordion defaults/count/empty-group visibility apply to query grouping. Sort-change expansion behavior remains deferred.
+- While Home is visible, refresh manually; returning to Home refreshes automatically. Show location and last-updated time separately, without movement distance.
+- Retain **header Global Search**, **global Task Create**, and **temporary title-only Quick Search** within a query. **Events are removed**.
+
 ## Deferred / unresolved
 
 - Final fixed labels for All Active, Archive and Trash; precise Focus paused/date eligibility; subtle cross-query visibility and UX testing.
 - Date bucket labels/order for expired, indefinite and unspecified pauses; concrete TOD boundaries; actual fixed retrieval horizons; reminders/notifications.
-- Eisenhower, Calendar and Map presentations; task-detail interaction design.
-- Whether Events, recurrence, locations, external links and other legacy features are retained, deferred or removed.
+- Eisenhower and Calendar presentations, standalone Nearby workspace, and task-detail interaction design; responsive navigation, deep-link/back-navigation and unsaved-work handling.
+- **Events are removed** from the redesigned product. Recurrence, external links, notifications and other legacy features still require retain/defer/remove decisions; coarse task location and saved places are retained for Home.
 - Appwrite service feasibility: permissions, uniqueness, structural invariants, atomic multi-document writes and system history; exact storage schemas and migration strategy.
 - Archive/Trash retention and restore rules.
 

@@ -145,21 +145,93 @@ Taskify provides **seven fixed named query destinations**, each initially presen
 - Recently Closed, Archive and Trash remain distinct.
 - Possible initial horizons discussed but **not finally approved**: Recently Closed 15 days; Archive 30 days. Exact per-query limits remain open.
 
-## 8. Presentations, search and navigation
+## 8. Home — HERE + NOW contextual workspace (Issue 12 decisions)
+
+Home is a **contextual task-discovery workspace**, distinct from Focus's broader executable-work query. It has three permanently visible sections in this order:
+
+1. **HERE + NOW** — tasks satisfying **both** the HERE and NOW matching rules.
+2. **HERE** — tasks matching the selected location/proximity context, regardless of DOW/TOD.
+3. **NOW** — tasks matching the current DOW/TOD context, regardless of location.
+
+A task may appear in multiple sections. The sections do not consume or deduplicate one another. There is **no fixed 3–5-item cap**, and Taskify does not invent a relevance score.
+
+### 8.1 Home eligibility and user controls
+
+- **Initial lifecycle scope:** work in progress (In Progress, Waiting, Blocked, On Hold). **Do not exclude interrupted states**: blocked or waiting work can be contextually relevant.
+- Users may expand lifecycle scope and refine **Category, dates and lifecycle status**. Changes are temporary unless explicitly saved through **Remember**; **Reset** restores Home defaults. The precise scope-expansion UI is still to be designed.
+- DOW/TOD matching uses **user-set task preferences**, not inferred activity or Taskify-assigned priorities. Important/Urgent preferences remain available for task context; an Eisenhower Home presentation is not implied by these three sections.
+
+### 8.2 HERE context
+
+- HERE and HERE + NOW share a **single selected location and configurable proximity radius**.
+- Start from the device's current location when permission is available; otherwise permit selection of a saved location or manual location choice.
+- Support both coarse proximity matching and user-saved locations/places. A task needs matching location data to qualify for **HERE** or **HERE + NOW**.
+- If no location context is available, both location-dependent sections stay visible with an empty state and a location-selection prompt. NOW remains independently functional.
+- Match location/proximity at a **coarse resolution**; do not continuously relocate/recalculate the task list.
+
+### 8.3 NOW matching and sorting
+
+NOW uses the user's current local day-of-week and time-of-day slot.
+
+A task qualifies when:
+- **DOW + TOD** both match; or
+- **TOD** matches and DOW is **absent**; or
+- **DOW** matches and TOD is **absent or does not match**.
+
+A configured **DOW mismatch excludes** the task even when TOD matches. A task with **neither** DOW nor TOD specified is excluded.
+
+NOW default order is **(1) DOW + TOD match, (2) TOD-only match, (3) DOW-only match, then Task Title A–Z** within each level.
+
+### 8.4 HERE / HERE + NOW sorting
+
+- **HERE:** Distance ascending → Task Title A–Z.
+- **HERE + NOW:** Distance ascending → NOW match class (DOW + TOD, TOD-only, DOW-only) → Task Title A–Z.
+- Distance is the primary sort for HERE + NOW even when NOW match classes differ. User-defined sort changes may be exposed through Home configuration and Remember; no automatic composite relevance scoring.
+- NOW does **not** use distance, including for tasks without location.
+
+### 8.5 Home sections and shared accordion rules
+
+- Each section always appears, even if empty, and its header displays the matching task **count**.
+- When Home opens, **expand only the first section containing tasks**, following HERE + NOW → HERE → NOW; collapse the remaining sections. If none contain tasks, all sections are collapsed with empty-state indicators visible.
+- Users may manually expand/collapse sections. Expansion state is **not** saved with Remember.
+- When Home filters change, reset expansion to the first nonempty section.
+
+These same **count / visible empty groups / first-nonempty-expanded / filter-change reset** behaviors apply to query-view Group By accordions. **Whether sorting changes reset accordion expansion is deferred to the query-views discussion**, not determined by Home rules.
+
+### 8.6 Home refresh and navigation
+
+- While Home remains visible, the user **manually refreshes** results. Returning to Home triggers an **automatic refresh**.
+- Context resolution is coarse for both location and DOW/TOD. Do not continuously poll GPS or rerank results while Home remains open.
+- Show location and freshness **separately**, e.g. **“Current location · Updated 5 min ago”**, alongside Refresh. Do **not** show distance moved since last refresh.
+- Further responsive navigation/persistence behavior is pending Issue 12 discussion.
+
+## 9. Search, creation and remaining navigation
+
+- **Global Search:** available from the application header; results occupy the main workspace. Detailed search fields/ranking will be reconciled separately.
+- **Global Create:** prominent and independent of the current navigation/query. Create **Task**; **Event is removed** from the redesigned product.
+- **Query Quick Search:** temporary **title-only** search within the current query, combining with its current filters and preserving grouping, updating group counts and clearing when switching queries. Quick Search is not remembered.
+- The grouped accordion/list is the primary query result presentation. Home is an additional contextual workspace and **not an eighth query**.
+- **Calendar and Nearby** as separate workspaces remain under consideration; Home HERE is not by itself a decision to eliminate Nearby or adopt a Calendar.
+- The old **Event entity/type and Event creation** are **removed** from the redesigned product; no Event-specific Calendar/Nearby projections.
+- Desktop/mobile navigation layout, deep links, task-detail back-navigation context, and preservation of unsaved work remain to be specified.
+- Actions belong to domain operations, **not queries**; do not duplicate business logic per workspace.
+
+## 10. Other presentations
+
 
 - The grouped accordion/list is the primary query result presentation; each row exposes clear state, schedule and Important/Urgent context.
-- **Eisenhower, Calendar and Map** are distinct presentation-design discussions, not new task entities or implicitly approved query modes.
-- Global Search and task-detail navigation are still required at the conceptual level, but exact UI hierarchy, controls, search implementation, and alternative presentation semantics are to be finalized.
+- **Eisenhower, Calendar and Map** remain distinct optional presentation/design discussions, not new task entities or approved query modes.
+- Global Search and Create follow the application-level patterns in §9. Details of task navigation and alternative presentations remain open.
 - Actions are owned by domain operations, **not duplicated per query**. The query supplies a user's question and makes contextually relevant decisions/actions discoverable.
 - Task detail interaction design and record-level management actions will be specified in a separate discussion.
 
-## 9. Record management and deferred legacy scope
+## 11. Record management and deferred legacy scope
 
 - Archive/Trash are independent from task lifecycle. Archived tasks remain retrievable through Archive or expanded All Active. Deleted tasks are excluded from the expanded All Active population and may appear in Trash while recoverable.
 - Exact archive/delete/restore/retention invariants and permissions remain **open**; do not infer them from the legacy Firebase specification.
-- Events, recurrence, locations, Nearby, reminder delivery, notifications, external secure links and related legacy features are **unreconciled**: retain, defer or remove only by explicit decision.
+- **Events are removed**. Recurrence, standalone Nearby, Calendar, reminder delivery, notifications, external secure links and other legacy features remain to be reconciled; the location capability required by Home HERE is retained.
 
-## 10. Outstanding decisions and implementation constraints
+## 12. Outstanding decisions and implementation constraints
 
 The following are not silently resolved by this working baseline:
 
@@ -168,9 +240,9 @@ The following are not silently resolved by this working baseline:
 3. Final navigation names, fixed query retrieval horizons and detailed filters/counts; presentation modes and task details.
 4. Identity linking, service free-tier constraints, data backup/retention and exact Appwrite DocumentsDB structure.
 5. Direct-client data integrity and authorization feasibility, atomic thread/system-history transitions, optimistic concurrency limitations, and migration away from Firebase.
-6. Legacy Event/recurrence/location/notification features and final record recovery semantics.
+6. Legacy recurrence/notification features, separate Calendar/Nearby workspaces, and final record recovery semantics.
 
-## 11. Specification governance
+## 13. Specification governance
 
 - This document is the **current working simplified product baseline**, grounded in explicit owner discussion decisions, and may be refined by later decisions.
 - `docs/project_status.md` is the canonical entry point for actual project state and implementation status.
