@@ -65,6 +65,16 @@ Material state transitions require explicit project-owner approval.
 
 ## Current Status
 
+### Simplification Specification Migration — Intent Recorded (2026-10-12)
+
+**Status tag:** `REVISION-PENDING` — documentation migration preparation only; **not** approval of replacement specifications or supersession of DEC-001–DEC-082.
+
+- Owner authorized marking the authoritative specifications as pending a coordinated simplification revision. This branch carries non-normative notices; the original approved rules remain operative until the replacement specifications and supersession decisions are reviewed and explicitly approved.
+- Source for reconciliation: **Taskify — Simplification Specification Handoff** (prepared 2026-10-12; currently a separate downloadable discussion handoff, **not yet committed to this repository**). It covers single-user scope, lifecycle/threads, Issue 11 date-and-pause decisions, and seven-query IA decisions with unresolved items distinguished.
+- Intended reconciliation order: product behavior and query contracts → domain/data model → architecture/security → decision supersession register and project status. Preserve historical evidence and explicitly distinguish existing Firebase implementation from the proposed Appwrite direction.
+- **Out of scope for this status change:** rewriting requirements, creating new approved DEC entries, modifying code, database migration, cloud configuration, deployment, and declaring the new design implemented or verified.
+
+
 - Architecture and product design are approved through **DEC-082**.
 - Category backend and registration completion are Implemented and Verified within the recorded local build/package/unit/emulator scope, with explicit owner approval to record this status on 2026-10-07. DEC-078–DEC-082 resolve registration coordination, grapheme counting/code-point ordering, precise concurrency tokens, private persistence and post-commit response observation. Production builds/package passed; executed local results are 116 API unit + 63 API integration + 174 Rules + 39 query/tooling + 28 callable HTTP tests = 420 passing tests. Evidence/limits are recorded in [category-verification.md](../infrastructure/firebase/category-verification.md). This status excludes client readiness and deployed/production behavior.
 - Publication/execution context: the owner explicitly released commit/push of the Category implementation, tests and documentation to `origin/main`, including the preserved Category specification commit `add989fe065841aa73d3ff0ff71cf6fed2ddeeab`. The implementation commit descends from that baseline; Git records the exact local/remote tips. Remote `main` was fetched before publication and confirmed an ancestor of the checkout; no force push or history replacement is authorized. No deployment, billing/IAM change, cloud fixture write or cloud resource alteration is authorized.
