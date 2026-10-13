@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Simplified product specification — Issue 15 Task Detail UX closed (2026-10-13); domain/architecture reconciliation next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Simplified product specification — Issue 15 closed; Issue 16 domain business rules in progress (2026-10-13).** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -121,16 +121,25 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - **Responsive:** Existing desktop side panel/full-page expansion and mobile full-page rules retained; same hierarchy/actions with wrapping badges and prominent controls, **subject to usage verification**.
 - **Status:** Product-level UX decisions recorded, not implemented or validated. See `docs/product_spec.md` §12.
 
+## Issue 16 — Domain business rules in progress (2026-10-13)
+
+- **Interruption semantics:** Waiting = external time dependency, Blocked = obstacle/conflict/unavailability, On Hold = user choice not to proceed. Direct transitions permitted; Paused Until optional and independently editable.
+- **Lifecycle explanations:** Natural Draft → Planned → In Progress → Done actions and Resume require no comment; interruptions, switching interruption reasons, non-Done closure, direct Draft/Planned → Done and all Reopen actions require explanations in the immutable transition Activity Log entry. Implicit content-driven promotions do not require an additional explanation.
+- **Scheduling:** Relative-date shortcuts and conventional picker for Planned Start, Due, Paused Until; date/pause changes log old/new values and have optional comments. Planned dates never imply Planned lifecycle.
+- **Classification:** Category required with Uncategorized default; Location optionally Unspecified. Important/Urgent tri-state Yes/No/Unset, either Unset implies Eisenhower Unclassified. DOW/TOD support multiple values, OR within dimension, empty means no preference. Home/query matching needs reconciliation.
+- **Audit scope:** Task title/description, Category/Location/preferences and ordinary comment activity are not logged. Todo rename/state/delete, attachment changes, Task Delete/Restore and lifecycle/schedule changes are logged. Todo creation needs no log entry. Permanent deletion removes Task/history.
+- **Status:** Agreed rules recorded in `docs/product_spec.md` §13. Issue 16 **remains open** for invariants and cross-query consistency; no implementation claimed.
+
 ## Deferred / unresolved
 
 - Recurrence, reminders/notifications and other deferred enhancements.
 - Task Detail accessibility, responsive breakpoints and usability verification; rich-text/attachment technical details (high-level Issue 15 UX closed).
-- Fixed TOD timezone/DST details; Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
+- Issue 16 invariants, multi-valued DOW/TOD Home/query matching, fixed TOD timezone/DST details; Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
 
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Issues 12–15 product discussion decisions are documented with explicit supersessions; proceed to architecture reconciliation when authorized.
+2. Issues 12–15 and agreed Issue 16 business rules are documented with explicit supersessions; complete Issue 16 invariants before architecture reconciliation.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
