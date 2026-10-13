@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Issues 15–17 closed at product/logical model level (2026-10-13); Issue 18 Appwrite physical feasibility next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Issues 15–17 closed at product/logical model level (2026-10-13); Issue 18 MongoDB Atlas Free feasibility next; Appwrite Cloud ruled out for PoC/beta under current ongoing-cost constraints.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -33,7 +33,7 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 
 - Single-user, mobile-first/responsive task management; no collaboration accounts, role-based task participation, or delegation.
 - Cloud-authoritative online writes, optional offline read cache, no offline write synchronization.
-- Proposed Appwrite Auth + DocumentsDB with Taskify data-access adapter; Google social sign-in first, Apple later. Stable internal identity; provider linking/authorization require validation.
+- Backend selection is open under Issue 18. **Appwrite Cloud Auth + DocumentsDB was the earlier preferred proposal but is not feasible for PoC/beta under the owner's ongoing-cost constraints**; MongoDB Atlas Free is the next candidate for evaluation. Google social sign-in remains the preferred sign-in UX, subject to provider/security validation. Taskify-owned data-access adapter remains the architectural direction.
 - Client-side last-modified conflict warning is **best effort**; atomic concurrency guarantees are not assumed.
 
 ### Task and category model
@@ -149,18 +149,28 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - Composition for Task-owned Threads/Entries/attachments and permanent deletion; references for Category/Location; single-user ownership boundary.
 - Preferred progressive reads: Task document for core detail/Thread headers, Entry content and file bytes on demand. Global Search All Content requires Entry search. Physical DocumentsDB behavior **unverified**.
 - Client-store/query discussions separated for a later architecture issue, with application-scoped normalized cache, shared selectors/mutators and demand-driven loading as agreed direction.
-- **Next:** Issue 18 Appwrite feasibility and proposed repository organization, not code changes yet. See `docs/product_spec.md` §15.
+- **Next:** Issue 18 vendor-neutral physical feasibility, beginning with MongoDB Atlas Free. See `docs/product_spec.md` §15.
+
+## Issue 18 — Backend feasibility and cost decision (2026-10-13)
+
+**Approved owner decision:** Mark **Appwrite Cloud with DocumentsDB as not feasible for the Taskify PoC/beta under the current ongoing-cost constraints**, rather than upgrading the existing project. DocumentsDB was unavailable for provisioning on the current free plan; selecting a paid offering would introduce recurring costs. This is a *project cost/scope decision*, not a claim that Appwrite's document model is technically incapable of meeting Taskify's requirements. Do not interpret it as deleting the existing Appwrite PoC project or forbidding future reassessment if costs change.
+
+**Next evaluation candidate:** **MongoDB Atlas Free** for PoC and beta. This is approval to evaluate, **not** a final backend or production architecture selection. Validate the free-tier limits, nested Thread operations, multi-value DOW/TOD queries, Global Search across separate Entries, atomic mutations, authorization, backup/restore and deployment requirements. Atlas alone does not supply client-facing authentication or a secure Taskify API; trusted backend and operating costs remain open.
+
+**Repository organization approved for feasibility work:** `poc/` rather than `experiments/`, with `poc/appwrite/` originally proposed; adapt PoC implementation to `poc/mongodb-atlas/` if used. Put reproducible findings in `docs/feasibility/` and approved design conclusions in a future `docs/architecture.md`. No feasibility code or tests have been created, run or committed yet. Repository/PoC implementation and provisioning remain controlled, explicit actions.
+
+**Attachment release-scope discussion:** Link/metadata-only initial support and deferral of binary file storage have been discussed as a *proposal*, not yet recorded as an approved supersession of the file-attachment product requirements. Do not silently remove or rewrite the existing attachment specification.
 
 ## Deferred / unresolved
 
 - Recurrence, reminders/notifications and other deferred enhancements.
 - Task Detail accessibility, responsive breakpoints and usability verification; rich-text/attachment technical details (high-level Issue 15 UX closed).
-- Implementation-level domain transition contracts, fixed TOD timezone/DST details, query implementation and Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
+- Implementation-level domain transition contracts, fixed TOD timezone/DST details, query implementation and selected-backend data/security/concurrency, file deletion consistency, migrations and operational design.
 
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Issues 12–17 product/domain/logical data decisions are documented with explicit supersessions; Issue 18 begins physical persistence feasibility.
+2. Issues 12–17 product/domain/logical data decisions are documented with explicit supersessions; Issue 18 evaluates MongoDB Atlas Free following the Appwrite Cloud cost decision.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
