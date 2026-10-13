@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Simplified product specification — Issues 13–14 decisions recorded (2026-10-13); Issue 15 next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Simplified product specification — Issue 15 Task Detail UX closed (2026-10-13); domain/architecture reconciliation next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -97,7 +97,7 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - **Map Search is future-only**. Home HERE still supports proximity. 
 - **Issue 14 supersession:** Closed bulk Move to Trash older than N; Trash bulk Purge older than N; individual Delete, Restore and Permanent Delete. All deletion actions require confirmation.
 
-**Next work:** Detailed domain/architecture/security reconciliation, not further Issue 12 product-level IA debate.
+**Next work after Issue 15:** Detailed domain/architecture/security reconciliation, not further Issue 12 product-level IA debate.
 
 ## Issues 13–14 — Decisions recorded (2026-10-13)
 
@@ -108,18 +108,29 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - **Trash:** soft Delete/Restore affect deletion metadata only, each requires confirmation. Individual/bulk permanent deletion only in Trash, irreversible confirmation, storage files before DB. Bulk partial success permitted, failed items retried manually.
 - **Bulk views:** Closed cleanup and Trash purge remain in the relevant view, remember independent day/month thresholds, ignore view filters, show count and confirmation; no automatic cleanup. Closed/Trash historical buckets independently Remember-saved and all records visible by default.
 - **Deferred:** recurrence mechanics, notifications/reminders, related Tasks, optional Eisenhower and Map Search. **Removed:** Events, Calendar/Nearby workspaces, collaboration, independent subtasks, Priority and View Builder.
-- **Next:** Issue 15 Task Detail content hierarchy, then domain/storage/security reconciliation. No implementation or deployment claimed.
+- **Next:** Issue 15 Task Detail hierarchy is now closed; domain/storage/security reconciliation follows. No implementation or deployment claimed.
+
+## Issue 15 — Task Detail UX closed (2026-10-13)
+
+- **Hierarchy:** Title → clickable Status/Dates → clickable Classification/Preferences → state-dependent Task Action Bar → two-line Description preview (expand to formatted display) → Notes & Comments → Todos → + Add Todo → low-prominence Activity Log.
+- **Actions:** Ready (Draft → Planned), Start, Pause, Resume and Reopen are state-dependent primaries; Close is secondary for nonterminal tasks; More contains only secondary Task-level actions and duplicates neither badges nor primary controls. Ready is a user-facing action, not a new status; assigning planned dates alone does not change lifecycle.
+- **Pause:** Managed together with Waiting, Blocked and On Hold; interrupted Tasks retain visible Resume, and current status/Paused Until are editable via contextual badges.
+- **Editing:** Contextual overlays for most substantive edits including WYSIWYG description; title inline; simple preferences may toggle directly. Existing Save/Cancel and unsaved-change protection apply.
+- **Work sections:** Notes & Comments expanded by default; Todos displayed in creation order with independently collapsed contents, with Add Todo title overlay; files/links in thread headers via + Attach overlay; Activity Log collapsed and read-only.
+- **Supersession:** Comments are **plain text**, compact inline entries with no hard length limit, explicitly superseding Issue 14's WYSIWYG comment rule. WYSIWYG Task descriptions remain. User-facing Todo means Todo Thread, and Activity Log means immutable System Changes.
+- **Responsive:** Existing desktop side panel/full-page expansion and mobile full-page rules retained; same hierarchy/actions with wrapping badges and prominent controls, **subject to usage verification**.
+- **Status:** Product-level UX decisions recorded, not implemented or validated. See `docs/product_spec.md` §12.
 
 ## Deferred / unresolved
 
 - Recurrence, reminders/notifications and other deferred enhancements.
-- Task Detail and accessibility UX, rich-text/attachment technical details.
+- Task Detail accessibility, responsive breakpoints and usability verification; rich-text/attachment technical details (high-level Issue 15 UX closed).
 - Fixed TOD timezone/DST details; Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
 
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Issues 12–14 product discussion decisions are documented with explicit supersessions; continue with Issue 15 and architecture reconciliation when authorized.
+2. Issues 12–15 product discussion decisions are documented with explicit supersessions; proceed to architecture reconciliation when authorized.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
