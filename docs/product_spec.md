@@ -88,7 +88,7 @@ Taskify is a responsive, mobile-first, **single-user personal responsibility and
 - Todo Thread rename is permitted only while its parent and the Todo Thread are editable; System records previous and new titles.
 - Terminal/deleted parent Tasks and closed Todo Threads are read-only. To edit a terminal Task, the user must explicitly reopen it first.
 - A Todo Thread can be deleted only if it currently contains no comments, file attachments, or external links; deletion is recorded in System Changes.
-- Comments belong to their original thread; **attachments belong to thread headers**, not individual comments. Notes & Comments and open Todo Threads accept attachments; the System thread never does. A consolidated attachments section is deferred. Unified activity can show User/System entries with independent toggles.
+- Comments belong to their original thread; **attachments belong to thread headers**, not individual comments. In Task Detail, comments are compact chronological plain-text entries, composed and posted inline within Notes & Comments or the expanded Todo; editing is inline when permitted. Notes & Comments and open Todo Threads accept attachments; the System thread never does. A consolidated attachments section is deferred. Unified activity can show User/System entries with independent toggles.
 - User comments can be edited/deleted within 30 minutes only when their parent Task/thread is editable; edited entries retain their original position/timestamp and show Edited. System events are immutable. Whether this client-enforced limit is security-critical remains a deliberate accepted limitation of the simplified approach.
 - Exact storage representation, large-history behavior and cross-record transaction requirements need architectural verification.
 
@@ -283,14 +283,14 @@ Global Search uses the application-header Search entry, **not** a Text/Map switc
 
 - Grouped accordion/list remains the primary query presentation; rows expose state, scheduling and Important/Urgent cues.
 - Alternative Eisenhower presentation remains to be considered separately; a stand-alone Calendar workspace and Nearby workspace are excluded from the revised scope.
-- Full Task Detail content hierarchy, Search result behavior, responsive sizing/breakpoints and accessibility mechanics remain for detailed design; do not infer Event or collaboration behavior from the legacy specification.
+- Task Detail's high-level hierarchy and action model are specified in §12 (Issue 15); responsive sizing/breakpoints, accessibility mechanics and usability validation remain. Search result refinements likewise remain for later design; do not infer Event or collaboration behavior from the legacy specification.
 - Workspace-specific actions are projections of shared task-domain operations, not separate query implementations.
 
 ## 11. Attachments, Closed and Trash — Issue 14 scope decisions
 
 ### 11.1 Rich text and thread-level attachments
 
-- Descriptions and comments use a WYSIWYG rich-text editor, with familiar formatting; users need not edit raw Markdown. Exact storage/editor mechanics remain later design.
+- Task descriptions use a WYSIWYG rich-text editor, with familiar formatting; users need not edit raw Markdown. Comments use short-form plain text and a compact inline composer, with no rich-text toolbar or hard character limit. Long-form content generally belongs in the Task description, but this is guidance rather than validation. Exact description storage/editor mechanics remain later design.
 - The permanent **Notes & Comments** thread supports files, external links and comments even with zero Todo Threads. **Open Todo Threads** support attachments in their headers. Closed Todo Threads retain readable, noneditable attachments. The **System thread never supports attachments**.
 - Files/links are attached to their owning thread header, independent of individual comments; no consolidated Task attachments section for now (future possibility). Each attachment has one owning thread.
 - **Per-Task limits across all threads:** 5 MB per uploaded file; 25 MB combined uploaded files; 10 total file/link attachments. Upload one file at a time. Allow common images, PDFs, text, Office documents and archives; prohibit executables/scripts and dangerous file types. External links consume an attachment slot, not file bytes.
@@ -315,17 +315,69 @@ Global Search uses the application-header Search entry, **not** a Text/Map switc
 - **Defer:** recurrence (independent new occurrence and use of Paused Until explored, but not designed or approved), reminders/notifications, related Tasks, possible Eisenhower and Map Search.
 - **Remove:** Events, independent Calendar/Nearby, task collaboration/delegation/participant secure links, independent subtasks (Todo Threads replace them), Priority and View Builder.
 
-## 12. Remaining non-IA design and implementation questions
+## 12. Task Detail UX — Issue 15 closed (2026-10-13)
+
+**Scope:** Approved product-level information hierarchy, responsive presentation and primary interactions. This is a specification decision, **not implemented or usability-verified**. Fine-grained forms, visual treatment, accessibility mechanics and technical contracts remain later work.
+
+### 12.1 Shared hierarchy and navigation
+
+Task Detail presents the same domain information and actions in a desktop side panel (expandable to full page) and mobile full page, following the already-approved origin-workspace restoration, direct-link navigation and unsaved-change protection rules in §9.3. Every new desktop entry starts in a side panel. Narrow screens wrap metadata badges and keep the action bar prominent; there are no mobile-only business workflows. These responsive choices are **subject to usage verification**.
+
+Display sections, in order:
+
+1. **Title**, clickable to edit inline with Save/Cancel when editable.
+2. **Status and Dates**, displayed as clickable badges; show pertinent Planned Start, Due, lifecycle and Paused Until information contextually, without conflating planned and actual dates.
+3. **Classification and User Preferences**, using clickable fields/badges for Category, Location and DOW/TOD; simple Important/Urgent preference changes can be direct labeled toggles.
+4. **Task Action Bar**, with state-dependent primary action, secondary Close where applicable and tertiary **More** menu.
+5. **Description**, initially a two-line **plain-text preview**; **More** expands to render the formatted description. **Edit** opens a WYSIWYG editing overlay with explicit Save/Cancel and unsaved-content protection.
+6. **Notes & Comments**, expanded by default, showing compact thread-header file/link attachments and chronological plain-text comments.
+7. **Todos**, displayed in creation order; each header shows Open/Closed status, and each Todo starts collapsed and can expand independently to show its own attachments/comments.
+8. **+ Add Todo**, after existing Todo entries and before the log.
+9. **Activity Log**, low prominence, collapsed by default and view-only.
+
+**User-facing terminology:** **Todo** refers to an existing *Todo Thread*, not an independently browsable subtask or Task. **Activity Log** is the UI name for the immutable System thread/System Changes. These labels do not rename or alter their underlying domain semantics.
+
+### 12.2 Task actions and contextual editing
+
+The **Manage Task State** capability is a family of explicit business actions, not one unconstrained status setter. The interface chooses actions according to the Task's current persisted lifecycle:
+
+| Current lifecycle | Primary action | Secondary |
+|---|---|---|
+| Draft | **Ready** (explicit Draft → Planned) | Close |
+| Planned | **Start** (→ In Progress) | Close |
+| In Progress | **Pause** (choose Waiting, Blocked or On Hold; manage Paused Until) | Close |
+| Waiting / Blocked / On Hold | **Resume** (→ In Progress and clear Paused Until) | Close |
+| Done / Cancelled / Unable to Complete | **Reopen** (→ In Progress) | None |
+
+- **Ready** is an action label, **not a lifecycle state**. Setting or editing Planned Start/Due does **not** imply Draft → Planned; the transition remains explicit. Previously established implicit execution promotions from substantive Notes/Todo activity (§3.1) remain in force.
+- **Pause** coordinates interruption status and Paused Until in the same workflow. In interrupted states, Resume remains immediately available; status and Paused Until badges can open contextual editing. Extending or clearing a pause may leave lifecycle unchanged. Pause expiry alone never resumes the Task.
+- **Close** selects a terminal outcome (Done, Cancelled, Unable to Complete), retaining existing closure rules and the open-Todo warning for Done. Read-only restrictions apply to terminal/deleted Tasks.
+- The tertiary **More** menu contains only valid **secondary Task-level actions** (such as Download All or Delete); it does not duplicate metadata edits or actions already exposed as primary/secondary controls.
+- Most editing actions appear as **overlays over Task Detail**, preserving its context. Simple Title editing is inline; Category/Location may be inline fields, and non-interruptive add/remove preference changes may be labeled toggles. Context determines which inputs and actions are visible. An overlay action uses Save/Cancel as applicable; there is no universal Edit Task page requirement.
+- Task Detail retains explicit-save and Stay/Discard protection for unsaved changes. A completed direct toggle is an individually committed action rather than a persistent unsaved form.
+
+### 12.3 Notes, Todos, attachments and activity
+
+- **Notes & Comments** is expanded on entry. Plain-text comments use a short, compact, tweet-like inline composer with explicit Post; no character limit is imposed. Entries display chronologically and support inline edits within the existing 30-minute edit/delete window, subject to editability. Comment content has no WYSIWYG/Markdown formatting. The previously specified WYSIWYG **comments** rule from Issue 14 is **superseded**; WYSIWYG **Task descriptions** remain.
+- Files and external links display compactly in the owning Notes & Comments or Todo **header**, separate from comments. **+ Attach** opens an overlay for File or Link. Existing Task-wide attachment quotas, editability and ownership contracts (§11.1) apply unchanged.
+- Existing Todos are ordered by creation; Open/Closed appears without reordering, and individual contents start collapsed. **+ Add Todo** opens a lightweight title-entry overlay with Add/Cancel, appends an initially collapsed Todo and **does not itself start execution**. Creating a Todo is not creating an independent Task.
+- Activity Log is the read-only presentation of immutable System Changes and remains collapsed by default.
+
+### 12.4 Deliberately left for later design
+
+Precise form composition, per-transition comment requirements, exact badge layouts, responsive breakpoints, accessibility behavior, detailed attachment failure handling, storage/API contracts and usability-driven refinements are not settled by Issue 15. Issue 15 is **closed at product-specification level**, not implementation or UX-validation level.
+
+## 13. Remaining non-IA design and implementation questions
 
 Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, historical-view, terminal-edit and deletion rules**. These are specification decisions, not implementation evidence.
 
 1. Fixed TOD timezone/DST behavior; reminders/notifications and recurrence details deferred.
-2. Task Detail hierarchy, accessibility, responsiveness and rich-text/attachment UX.
+2. Task Detail visual/accessibility/usability verification and unresolved rich-text/attachment implementation details; Issue 15 high-level interaction hierarchy is closed.
 3. Storage model, safe file-before-database deletion, partial failure and concurrence, ZIP export and query performance.
 4. Appwrite permissions, integrity, atomic multi-document activity, identity linking, backup and migration.
 5. Related Tasks, Eisenhower, Map Search and other deferred features subject to separate decisions.
 
-## 13. Specification governance
+## 14. Specification governance
 
 - This document is the **current working simplified product baseline**, grounded in explicit owner discussion decisions, and may be refined by later decisions.
 - `docs/project_status.md` is the canonical entry point for actual project state and implementation status.
