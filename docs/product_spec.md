@@ -472,7 +472,7 @@ Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, h
 
 ## 15. Logical data model — Issue 17 closed (2026-10-13)
 
-**Status:** Owner-approved logical model and data ownership relationships; **not** a verified Appwrite physical schema or implemented storage system. Physical embedding, schema capabilities and operational constraints remain under Issue 18 feasibility review.
+**Status:** Owner-approved logical model and data ownership relationships; **not** a verified physical schema or implemented storage system. Physical embedding, schema capabilities and operational constraints remain under Issue 18 feasibility review.
 
 ### 15.1 Task-centric data and progressive content retrieval
 
@@ -481,7 +481,7 @@ Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, h
 - **Entry** is a shared model for plain-text user comments and immutable system-generated Activity Log events. Entries are **separate documents** cross-referencing the owning Task and Thread. System events can carry optional structured metadata as well as display text. Comments and system events follow distinct editing/immutability rules despite reusing Entry.
 - **Attachment metadata** is included in the owning Thread rather than a standalone Attachment entity; actual uploaded files are in object storage. External links are likewise thread-owned metadata. Attachment limits from §11 remain.
 - **Read strategy thesis:** Task Detail's Task read can supply primary attributes, description, Thread headers/status and attachment metadata; Comments and Activity Log Entries are fetched on demand, while uploaded file contents are opened/downloaded only when needed. Since Notes & Comments expands by default, its Entries may begin loading on Task Detail entry. Full-content Global Search requires querying Entries separately; this is not assumed solved by a single Task read.
-- The physical single-document capability and consistency of embedded Thread edits require Appwrite verification; a *logical aggregate* is not a guarantee of one physical read.
+- The physical single-document capability and consistency of embedded Thread edits require validation against the chosen document database; a *logical aggregate* is not a guarantee of one physical read.
 
 ### 15.2 User-owned data and per-view configuration
 
@@ -500,11 +500,11 @@ Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, h
 
 ### 15.4 Separated client-architecture discussion
 
-A subsequent, **separate architecture issue** should cover the agreed direction of a hybrid DocumentsDB/client query approach, centralized application-scoped normalized Task store, shared selectors/views and business mutators, Taskify-owned data-access adapter, and demand-driven loading with reusable caches. Cloud remains authoritative, and no offline writes are supported. Cache freshness and query-snapshot coordination remain unresolved. Do **not** treat these as settled physical schema rules or implemented features.
+A subsequent, **separate architecture issue** should cover the agreed direction of hybrid database/client query execution, centralized application-scoped normalized Task store, shared selectors/views and business mutators, Taskify-owned data-access adapter, and demand-driven loading with reusable caches. Cloud remains authoritative, and no offline writes are supported. Cache freshness and query-snapshot coordination remain unresolved. Do **not** treat these as settled physical schema rules or implemented features.
 
 ### 15.5 Next: Issue 18 feasibility
 
-Confirm Appwrite DocumentsDB nested JSON/document limits, subdocument updates, querying/indexing for six Task views and Home, separate Entry search, file storage and write consistency before approving a physical model. Repository organization for feasibility code/findings requires separate owner approval.
+**Issue 18 decision (2026-10-13):** Appwrite Cloud DocumentsDB is **not feasible for the PoC/beta under the owner's ongoing-cost constraints** after DocumentsDB provisioning was unavailable on the free plan. This is a cost/scope decision, not a technical impossibility finding or a final ban on revisiting Appwrite. **Evaluate MongoDB Atlas Free next** for PoC and beta, without treating it as an approved production architecture. Validate nested updates, document/query/index limits, six Task views and Home, full-content search over separate Entries, atomicity, authorization and free-tier operating limits. Atlas requires a separately designed trusted API and authentication. The approved feasibility workspace convention is `poc/` with documentation under `docs/feasibility/`; no PoC execution is claimed. Binary-attachment deferral has been discussed but is not yet an approved replacement of existing product rules.
 
 ## 16. Specification governance
 
