@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Simplified product specification — Issue 15 closed; Issue 16 domain business rules in progress (2026-10-13).** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Simplified product specification — Issues 15–16 closed at product level (2026-10-13); data/architecture reconciliation next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -128,18 +128,28 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - **Scheduling:** Relative-date shortcuts and conventional picker for Planned Start, Due, Paused Until; date/pause changes log old/new values and have optional comments. Planned dates never imply Planned lifecycle.
 - **Classification:** Category required with Uncategorized default; Location optionally Unspecified. Important/Urgent tri-state Yes/No/Unset, either Unset implies Eisenhower Unclassified. DOW/TOD support multiple values, OR within dimension, empty means no preference. Home/query matching needs reconciliation.
 - **Audit scope:** Task title/description, Category/Location/preferences and ordinary comment activity are not logged. Todo rename/state/delete, attachment changes, Task Delete/Restore and lifecycle/schedule changes are logged. Todo creation needs no log entry. Permanent deletion removes Task/history.
-- **Status:** Agreed rules recorded in `docs/product_spec.md` §13. Issue 16 **remains open** for invariants and cross-query consistency; no implementation claimed.
+- **Status superseded by Issue 16 closure below:** Earlier agreed rules recorded in `docs/product_spec.md` §13; see the closure section for the finalized NOW matching, five-class grouping and product-level closure. No implementation claimed.
+
+## Issue 16 — Product/domain rules closed (2026-10-13)
+
+- **Autonomy:** Single-user knowledge/activity repository, not compliance auditing; logical constraints with minimal friction. Required lifecycle deviation explanations retained as useful context.
+- **Dates:** Actual Start and End remain system-managed and not directly editable; Actual Start records first entry into In Progress including later Reopen, Actual End records latest closure and clears on Reopen. Planned Start/Due remain intentions and do not gate lifecycle. Paused Until may be later than Due with nonblocking warning.
+- **Todos:** Parent Task closes only at user's choice; Todo completion does not auto-close parent. Closing a Todo or adding comments/attachments still promotes Draft/Planned to In Progress. Todo creation never promotes; existing read-only and nonempty-Todo deletion restrictions retained.
+- **NOW matching supersession:** DOW and TOD allow multiple values, OR within each dimension, **AND across dimensions** when both configured; either dimension alone can match; neither excludes. Remove the prior DOW-only fallback for TOD mismatches. Preserve NOW match-class sort.
+- **Important/Urgent:** Combined five-class Group By and multi-select Filter in **all six Task views**, in fixed order **Do First, Schedule, Delegate, Eliminate, Unclassified**. Unclassified means either tri-state value is Unset. Same shared grouping/filter/Remember semantics; no change to default view grouping. Delegate/Eliminate are labels only.
+- **Architecture direction:** Configuration-driven shared query-view implementation is favored for assessment, without collapsing view-specific domain rules or claiming code exists.
+- **Status:** Issue 16 **closed at business-rule specification level**. Remaining transition-contract details, storage/security/concurrency, time/DST, query implementation and UX verification belong to subsequent architecture/design work. See `docs/product_spec.md` §§8.3, 13.
 
 ## Deferred / unresolved
 
 - Recurrence, reminders/notifications and other deferred enhancements.
 - Task Detail accessibility, responsive breakpoints and usability verification; rich-text/attachment technical details (high-level Issue 15 UX closed).
-- Issue 16 invariants, multi-valued DOW/TOD Home/query matching, fixed TOD timezone/DST details; Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
+- Implementation-level domain transition contracts, fixed TOD timezone/DST details, query implementation and Appwrite data/security/concurrency, file deletion consistency, migrations and operational design.
 
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Issues 12–15 and agreed Issue 16 business rules are documented with explicit supersessions; complete Issue 16 invariants before architecture reconciliation.
+2. Issues 12–16 product and business-level decisions are documented with explicit supersessions; proceed to data and architecture reconciliation.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
