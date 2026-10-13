@@ -106,7 +106,7 @@ Taskify is a responsive, mobile-first, **single-user personal responsibility and
 
 ### 6.2 Preferences
 
-- Retain the user's **Important, Urgent, preferred Day-of-Week (DOW), and preferred Time-of-Day (TOD)** signals. These are separate from the task's scheduling TOD precision.
+- Retain the user's **Important, Urgent, preferred Day-of-Week (DOW), and preferred Time-of-Day (TOD)** signals. Important/Urgent are tri-state (Yes/No/Unset); DOW/TOD are multi-valued (possibly empty). These are separate from scheduling TOD precision. See Issue 16 in §13.4.
 - Urgent/Important are independently identifiable by icon/treatment in lists; a dedicated Eisenhower matrix is a separate presentation discussion.
 - **Remove task-level Priority** as an unnecessary legacy collaboration/execution field.
 - Category is task classification metadata, not a lifecycle or scheduling operation.
@@ -367,17 +367,81 @@ The **Manage Task State** capability is a family of explicit business actions, n
 
 Precise form composition, per-transition comment requirements, exact badge layouts, responsive breakpoints, accessibility behavior, detailed attachment failure handling, storage/API contracts and usability-driven refinements are not settled by Issue 15. Issue 15 is **closed at product-specification level**, not implementation or UX-validation level.
 
-## 13. Remaining non-IA design and implementation questions
+## 13. Domain business rules — Issue 16 in progress (2026-10-13)
+
+These are agreed specification rules, **not implementation evidence**. Issue 16 remains open for domain-invariant reconciliation. Todo and Activity Log are user-facing names for Todo Thread and immutable System Changes.
+
+### 13.1 Interruption states
+
+- **Waiting:** External time-based dependency.
+- **Blocked:** Conflict, obstacle or unavailability.
+- **On Hold:** User intent not to proceed for now.
+- Transitions directly among these three states are permitted, require an explanation and are logged, without resuming execution. Preserve original Actual Start and current Paused Until unless explicitly changed.
+- Paused Until is optional for all three states (no value, timed or indefinite). Expiry does not change lifecycle. Resume returns to In Progress and clears the pause.
+
+### 13.2 Transition explanations
+
+The natural path is **Draft → Planned → In Progress → Done**. Explicit deviations require an explanation unless they return to that path. An explanation is stored on the same immutable Activity Log entry as the lifecycle transition, not as a separate user comment. Every lifecycle transition has an Activity Log entry; explanations may also be supplied optionally.
+
+| Transition | Explanation |
+|---|---|
+| Draft → Planned (Ready), Planned → In Progress (Start), In Progress → Done | Not required |
+| Nonterminal → Waiting / Blocked / On Hold | **Required** |
+| Waiting ↔ Blocked ↔ On Hold | **Required** |
+| Waiting / Blocked / On Hold → In Progress (Resume) | Not required |
+| Nonterminal → Cancelled / Unable to Complete | **Required** |
+| Draft / Planned → Done directly | **Required** |
+| Done / Cancelled / Unable to Complete → In Progress (Reopen) | **Required** |
+
+Previously approved implicit promotions from meaningful comments/attachments or closing a Todo do **not** require an additional comment. The full transition matrix remains part of the open invariant review. Existing actual-date and closure rules are unchanged.
+
+### 13.3 Planned Start, Due and Paused Until
+
+- Provide **relative-date shortcuts** (e.g. Tomorrow, Next Monday, In 10 Days, In 2 Weeks) and a conventional date/time picker for all three. Resolve relative choices at confirmation in the configured timezone, keeping existing date-only, TOD-slot and exact-time precision. Free-text natural-language input is deferred. Indefinite is additionally available for Paused Until.
+- Adding, modifying or clearing dates/pause requires **no explanation**, but permits an optional explanation; the Activity Log records old and new values and any explanation. Changing Paused Until need not change status.
+- Planned date changes alone do **not** transition Draft → Planned. Ready remains explicit.
+
+### 13.4 Classification and preferences
+
+- **Category:** Single required classification; empty/default/reset assignment is the protected **Uncategorized**, not a null or new Unclassified Category. **Location:** Optional; missing/cleared displays **Unspecified**. Both use contextual single-value editing.
+- **Important** and **Urgent** are independent tri-state user preferences: **Yes**, **No**, **Unset** (the default). Unset is distinct from No. A Task is Eisenhower **Unclassified** whenever **either** value is Unset; only two explicit values place it in a quadrant. The matrix UI remains deferred.
+- **DOW** supports zero or more of seven weekdays; **TOD** zero or more of the six fixed slots. Within each dimension, selected values are matched with **OR**; empty means **no preference**, not all days/times. Existing Home NOW cross-dimension intent is retained, but exact multi-value Home and query filtering semantics must be reconciled before closing Issue 16.
+- Important/Urgent may use labeled tri-state tag controls, DOW/TOD add/remove tags. Category, Location, preferences changes require **no comments and no Activity Log entries**.
+
+### 13.5 Ordinary content and activity recording
+
+| Business operation | Explanation required | Activity Log |
+|---|---|---|
+| Change Task title or description | No | No |
+| Change Category, Location, Important, Urgent, DOW or TOD | No | No |
+| Post/edit/delete ordinary comment | No | No separate entry |
+| Create Todo | No | No required entry |
+| Rename Todo | No | Yes: old/new title |
+| Close/reopen Todo | No | Yes: transition |
+| Delete eligible empty Todo | No | Yes: deletion |
+| Add/rename/replace/remove attachment or link | No | Yes: operation |
+| Soft Delete / Restore Task | No | Yes: action |
+| Permanently Delete Task | No | Task and its history removed |
+
+- Ordinary comments retain their own timestamp/Edited presentation and 30-minute edit/delete window. If posting a comment implicitly promotes Draft/Planned to In Progress, log the resulting **lifecycle transition**, not a duplicate comment action.
+- Todo creation does not start execution; closing a Todo may do so. Todo deletion remains restricted to Todos with no comments, uploaded attachments or external links. Parent/closed read-only restrictions stay in effect.
+- Existing attachment ownership, quotas, confirmation rules, Task Delete/Restore confirmations and permanent file-before-record deletion remain unchanged.
+
+### 13.6 Still open
+
+Complete domain invariants and transition paths, reconcile multi-value DOW/TOD Home NOW/query matching, then proceed to data, API, authorization, concurrency and Appwrite feasibility. **Issue 16 is not closed.**
+
+## 14. Remaining non-IA design and implementation questions
 
 Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, historical-view, terminal-edit and deletion rules**. These are specification decisions, not implementation evidence.
 
 1. Fixed TOD timezone/DST behavior; reminders/notifications and recurrence details deferred.
 2. Task Detail visual/accessibility/usability verification and unresolved rich-text/attachment implementation details; Issue 15 high-level interaction hierarchy is closed.
-3. Storage model, safe file-before-database deletion, partial failure and concurrence, ZIP export and query performance.
+3. Complete Issue 16 domain invariants and reconcile multi-valued DOW/TOD query behavior; then storage model, safe file-before-database deletion, partial failure and concurrency, ZIP export and query performance.
 4. Appwrite permissions, integrity, atomic multi-document activity, identity linking, backup and migration.
 5. Related Tasks, Eisenhower, Map Search and other deferred features subject to separate decisions.
 
-## 14. Specification governance
+## 15. Specification governance
 
 - This document is the **current working simplified product baseline**, grounded in explicit owner discussion decisions, and may be refined by later decisions.
 - `docs/project_status.md` is the canonical entry point for actual project state and implementation status.
