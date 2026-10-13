@@ -116,11 +116,11 @@ Taskify is a responsive, mobile-first, **single-user personal responsibility and
 ### 7.1 Shared query interaction contract
 
 - Six fixed query destinations, not user-created saved views. **Home is a separate contextual workspace**; Global Search is a separate search workspace.
-- Candidate eligibility belongs to the query. The user refines the returned population with applicable multi-select Category, Lifecycle State and Time filters; OR within each dimension and AND across dimensions. Additional DOW/TOD and Important/Urgent modifiers are exposed where meaningful.
-- **One Group By** dimension at a time: Category, Lifecycle State or an applicable task date. The Group By dimension is omitted from the simultaneous filters; changing Group By clears conflicting filter selections.
+- Candidate eligibility belongs to the query. The user refines the returned population with applicable multi-select Category, Lifecycle State, Time, and five-class Important/Urgent filters; OR within each dimension and AND across dimensions. DOW/TOD modifiers are exposed where meaningful. The Important/Urgent filter is supported by all six Task views.
+- **One Group By** dimension at a time: Category, Lifecycle State, an applicable task date, or **Important/Urgent classification**. The active Group By dimension is omitted from simultaneous filters; changing Group By clears conflicting filter selections. Important/Urgent grouping and filtering use the same five classes (§13.7) across all six Task views.
 - All queries and Global Search use consistent **Group By / Filter / Sort** semantics and controls, **only offering applicable dimensions**. Search itself defaults to ungrouped results and can group by Category.
 - **View-global sort**, chosen through sortable table column headers, applies to every accordion group; it does not change group order. Changing sort **preserves expanded/collapsed groups**. A view's remembered sorting preference applies at entry.
-- Group order is user-defined global Category order, fixed lifecycle order (§3.1), or calendar/time-bucket order. All group headers show matching counts; empty groups remain visible. On entry and filter changes, only the first nonempty group expands; Back from Task Detail restores exact expansion state.
+- Group order is user-defined global Category order, fixed lifecycle order (§3.1), calendar/time-bucket order, or fixed Important/Urgent classification order (§13.7). All group headers show matching counts; empty groups remain visible. On entry and filter changes, only the first nonempty group expands; Back from Task Detail restores exact expansion state.
 - Time buckets support Older, Today, Near, Medium, Far, Later, Unspecified. Configure Near/Medium/Far boundaries **per view**; explicit **Remember** persists the choice, Reset restores that view's defaults. Display concrete date ranges.
 - For **Paused Until** grouping, order is **Expired → chronological upcoming buckets → Indefinite → Unspecified**. A missing date is **Unspecified**, always last, for other date dimensions as well.
 - Filter controls and table rows are shared across query views, with context-sensitive visible fields. **Omit the Group By field from individual task rows**, since the group header already supplies it. Keep fields relevant to the question each view answers.
@@ -189,12 +189,13 @@ A task may appear in multiple sections. The sections do not consume or deduplica
 
 NOW uses the user's current local day-of-week and time-of-day slot.
 
-A task qualifies when:
-- **DOW + TOD** both match; or
-- **TOD** matches and DOW is **absent**; or
-- **DOW** matches and TOD is **absent or does not match**.
+Each Task may select multiple weekdays and multiple TOD slots. Within each dimension, values match using **OR**. Across DOW and TOD, use **AND when both are configured**:
 
-A configured **DOW mismatch excludes** the task even when TOD matches. A task with **neither** DOW nor TOD specified is excluded.
+- If both are selected: current weekday must match one selected DOW **and** the current slot must match one selected TOD.
+- If only one dimension is configured: that dimension must match.
+- If neither is configured: Task is excluded from NOW.
+
+A matching weekday alone does **not** qualify a Task when a configured TOD fails to match (and vice versa). This explicitly **supersedes** Issue 12's earlier DOW-only fallback on TOD mismatch. For example, a Monday/Wednesday + Morning Task matches only Monday or Wednesday mornings.
 
 NOW default order is **(1) DOW + TOD match, (2) TOD-only match, (3) DOW-only match, then Task Title A–Z** within each level.
 
@@ -405,7 +406,7 @@ Previously approved implicit promotions from meaningful comments/attachments or 
 
 - **Category:** Single required classification; empty/default/reset assignment is the protected **Uncategorized**, not a null or new Unclassified Category. **Location:** Optional; missing/cleared displays **Unspecified**. Both use contextual single-value editing.
 - **Important** and **Urgent** are independent tri-state user preferences: **Yes**, **No**, **Unset** (the default). Unset is distinct from No. A Task is Eisenhower **Unclassified** whenever **either** value is Unset; only two explicit values place it in a quadrant. The matrix UI remains deferred.
-- **DOW** supports zero or more of seven weekdays; **TOD** zero or more of the six fixed slots. Within each dimension, selected values are matched with **OR**; empty means **no preference**, not all days/times. Existing Home NOW cross-dimension intent is retained, but exact multi-value Home and query filtering semantics must be reconciled before closing Issue 16.
+- **DOW** supports zero or more of seven weekdays; **TOD** zero or more of the six fixed slots. Within each dimension, selected values match using **OR**; empty means **no preference**, not all days/times. When both dimensions are configured, **both must match** (AND). When only one is configured, it alone determines a NOW match. Neither configured excludes the Task from NOW. This supersedes the earlier DOW-match override of TOD mismatches; see §8.3.
 - Important/Urgent may use labeled tri-state tag controls, DOW/TOD add/remove tags. Category, Location, preferences changes require **no comments and no Activity Log entries**.
 
 ### 13.5 Ordinary content and activity recording
@@ -427,9 +428,37 @@ Previously approved implicit promotions from meaningful comments/attachments or 
 - Todo creation does not start execution; closing a Todo may do so. Todo deletion remains restricted to Todos with no comments, uploaded attachments or external links. Parent/closed read-only restrictions stay in effect.
 - Existing attachment ownership, quotas, confirmation rules, Task Delete/Restore confirmations and permanent file-before-record deletion remain unchanged.
 
-### 13.6 Still open
+### 13.6 Confirmed domain invariants and autonomy principle
 
-Complete domain invariants and transition paths, reconcile multi-value DOW/TOD Home NOW/query matching, then proceed to data, API, authorization, concurrency and Appwrite feasibility. **Issue 16 is not closed.**
+- **Personal autonomy:** The user is accountable only to themselves. Taskify is a working repository of activity, history and knowledge, **not a compliance audit system**. Enforce logical invariants with minimal friction. Retain the specifically agreed mandatory lifecycle explanations as useful historical context.
+- **Actual Start:** System-managed, assigned on the **first** entry to In Progress, including Reopen from a terminal Task that never previously started. Once assigned, preserve through Resume, Close and Reopen; a Task closed directly from Draft/Planned may have no Actual Start.
+- **Actual End:** System-managed, assigned upon each closure as the latest closure timestamp, cleared on Reopen. Prior outcomes/times remain in Activity Log. Actual Start/End are **not directly editable, clearable or backdateable** by the user.
+- **Planned Start and Due:** User intentions, not lifecycle gates. Task may begin before/after Planned Start or close before/after the planned dates; lifecycle actions do not modify them. The existing Planned Start calendar-date ≤ Due calendar-date validation remains. Paused Until may exceed Due (including when already overdue), with a nonblocking warning; overdue remains independent of pause.
+- **Task versus Todos:** Only the user decides when a parent Task is Done. Closing all Todos never closes the Task automatically; closing a Task with open Todos retains the existing warning. Todo states persist on Task Close/Reopen. A closed Todo can reopen while its parent is nonterminal and nondeleted; a terminal parent must first be Reopened, and a deleted parent Restored.
+- **Todo creation/deletion:** Adding a Todo is valid in any nonterminal, nondeleted parent state and does not change lifecycle. Keep the prohibition on deleting a Todo with comments, files or links.
+- **Implicit execution promotion:** Adding a comment or file/link attachment in the relevant editable thread, or closing a Todo, moves Draft/Planned to In Progress and assigns Actual Start if absent; record the lifecycle transition without an extra required comment. Creating/renaming Todos alone does not promote, and content activity never automatically resumes Waiting/Blocked/On Hold.
+
+### 13.7 Important/Urgent grouping and filtering (Issue 16)
+
+- **One combined five-class dimension** is available as **Group By** and **multi-select Filter** across **all six Task views** (Focus, Resolve, Plan, All Active, Closed, Trash). Existing default groupings remain unchanged. The same dimension cannot simultaneously group and filter.
+- Fixed, **nonconfigurable** bucket order and user-facing labels:
+
+| Order | Label | Important | Urgent |
+|---|---|---|---|
+| 1 | **Do First** | Yes | Yes |
+| 2 | **Schedule** | Yes | No |
+| 3 | **Delegate** | No | Yes |
+| 4 | **Eliminate** | No | No |
+| 5 | **Unclassified** | Unset in either dimension | Unset in either dimension |
+
+- Unclassified means **either** preference is Unset, including both Unset; every Task maps to exactly one bucket.
+- Multi-select filter uses OR within the five classes and AND with other applicable filter dimensions. Same five buckets, counts, empty-group display, global sorting, Group By filter exclusion, and Remember/Reset contract as existing grouping (§7.1). The ordering remains fixed unlike user-defined Category order.
+- **Delegate** and **Eliminate** are names of preference classifications, **not** operations to delegate work or delete Tasks. No collaboration, deletion, lifecycle or scheduling effects. Eisenhower Matrix UI remains deferred.
+- **Architecture direction (proposal to validate):** Favor one configuration-driven query-view implementation with shared filtering, grouping, sorting and presentation mechanics, while retaining per-view eligibility and domain-operation differences. This is not an implemented or approved technology/API design. The five-class dimension can be hidden in a view later if needed without changing its underlying semantics.
+
+### 13.8 Issue 16 closure
+
+**Issue 16 is closed at the product/business-rule specification level (2026-10-13).** Fine-grained transition availability, Appwrite/data model, authorization, concurrency, immutable event atomicity, query execution strategy, timezone/DST specifics and actual implementation validation are **not** claimed complete. These are next-stage domain/architecture reconciliation and design tasks.
 
 ## 14. Remaining non-IA design and implementation questions
 
@@ -437,7 +466,7 @@ Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, h
 
 1. Fixed TOD timezone/DST behavior; reminders/notifications and recurrence details deferred.
 2. Task Detail visual/accessibility/usability verification and unresolved rich-text/attachment implementation details; Issue 15 high-level interaction hierarchy is closed.
-3. Complete Issue 16 domain invariants and reconcile multi-valued DOW/TOD query behavior; then storage model, safe file-before-database deletion, partial failure and concurrency, ZIP export and query performance.
+3. Design and verify storage/query contracts (including multi-valued DOW/TOD and the five Important/Urgent classes), safe file-before-database deletion, partial failure and concurrency, ZIP export and query performance; product-level Issue 16 decisions are closed.
 4. Appwrite permissions, integrity, atomic multi-document activity, identity linking, backup and migration.
 5. Related Tasks, Eisenhower, Map Search and other deferred features subject to separate decisions.
 
