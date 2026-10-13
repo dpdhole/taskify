@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Status: Simplified product specification — Issues 15–16 closed at product level (2026-10-13); data/architecture reconciliation next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Status: Issues 15–17 closed at product/logical model level (2026-10-13); Issue 18 Appwrite physical feasibility next.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 
@@ -140,6 +140,17 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 - **Architecture direction:** Configuration-driven shared query-view implementation is favored for assessment, without collapsing view-specific domain rules or claiming code exists.
 - **Status:** Issue 16 **closed at business-rule specification level**. Remaining transition-contract details, storage/security/concurrency, time/DST, query implementation and UX verification belong to subsequent architecture/design work. See `docs/product_spec.md` §§8.3, 13.
 
+## Issue 17 — Logical data model closed (2026-10-13)
+
+- Task primary document; typed Discussion, Todo and Activity Log Threads conceptually embedded in Task, with Thread-owned attachment metadata; file bytes in object storage.
+- Separate shared Entries for plain-text comments and immutable Activity Log events (optional structured system payload), referencing stable Task and Thread identities.
+- Personal Task preferences stored on Task; independent user-owned Categories and saved Locations referenced by ID; Category global ordering and protected Uncategorized retained. Locations have optional coordinates and centrally propagate changes to referencing Tasks.
+- User Profile/Settings and one Remember-saved View Configuration document per user/workspace (six Task queries, Home, Global Search); ephemeral state not persisted as view configuration.
+- Composition for Task-owned Threads/Entries/attachments and permanent deletion; references for Category/Location; single-user ownership boundary.
+- Preferred progressive reads: Task document for core detail/Thread headers, Entry content and file bytes on demand. Global Search All Content requires Entry search. Physical DocumentsDB behavior **unverified**.
+- Client-store/query discussions separated for a later architecture issue, with application-scoped normalized cache, shared selectors/mutators and demand-driven loading as agreed direction.
+- **Next:** Issue 18 Appwrite feasibility and proposed repository organization, not code changes yet. See `docs/product_spec.md` §15.
+
 ## Deferred / unresolved
 
 - Recurrence, reminders/notifications and other deferred enhancements.
@@ -149,7 +160,7 @@ The previous Firebase Category backend, tests, indexes and task/API slice were i
 ## Planned specification migration
 
 1. Use this file as the canonical **project status** entry point, `docs/product_spec.md` as the working simplified product baseline, and `docs/product_spec_legacy.md` only as a historical reference.
-2. Issues 12–16 product and business-level decisions are documented with explicit supersessions; proceed to data and architecture reconciliation.
+2. Issues 12–17 product/domain/logical data decisions are documented with explicit supersessions; Issue 18 begins physical persistence feasibility.
 3. Approve replacement product rules and document supersessions explicitly; then design coherent data, security and architecture contracts.
 4. Reconcile and approve the working `docs/product_spec.md` alongside future data, architecture and security specifications, rather than silently reviving obsolete documents or treating historical DEC entries as erased.
 5. Require separate approval for commits, merges, implementation, data migration and deployment.
