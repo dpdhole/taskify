@@ -470,7 +470,43 @@ Issue 12 IA is closed, but Issues 13–14 **supersede its conflicting archive, h
 4. Appwrite permissions, integrity, atomic multi-document activity, identity linking, backup and migration.
 5. Related Tasks, Eisenhower, Map Search and other deferred features subject to separate decisions.
 
-## 15. Specification governance
+## 15. Logical data model — Issue 17 closed (2026-10-13)
+
+**Status:** Owner-approved logical model and data ownership relationships; **not** a verified Appwrite physical schema or implemented storage system. Physical embedding, schema capabilities and operational constraints remain under Issue 18 feasibility review.
+
+### 15.1 Task-centric data and progressive content retrieval
+
+- **Task** is the primary document, holding its own identity, title/description, lifecycle, dates, location/category references and single-user Important/Urgent/DOW/TOD preferences.
+- **Threads** are logically composed within Task and preferred as **embedded typed subdocuments**: one permanent Discussion (user-facing Notes & Comments), zero or more Todo, and one permanent Activity Log. Types define which operations are valid. Thread state and attachment metadata live with the owning Thread.
+- **Entry** is a shared model for plain-text user comments and immutable system-generated Activity Log events. Entries are **separate documents** cross-referencing the owning Task and Thread. System events can carry optional structured metadata as well as display text. Comments and system events follow distinct editing/immutability rules despite reusing Entry.
+- **Attachment metadata** is included in the owning Thread rather than a standalone Attachment entity; actual uploaded files are in object storage. External links are likewise thread-owned metadata. Attachment limits from §11 remain.
+- **Read strategy thesis:** Task Detail's Task read can supply primary attributes, description, Thread headers/status and attachment metadata; Comments and Activity Log Entries are fetched on demand, while uploaded file contents are opened/downloaded only when needed. Since Notes & Comments expands by default, its Entries may begin loading on Task Detail entry. Full-content Global Search requires querying Entries separately; this is not assumed solved by a single Task read.
+- The physical single-document capability and consistency of embedded Thread edits require Appwrite verification; a *logical aggregate* is not a guarantee of one physical read.
+
+### 15.2 User-owned data and per-view configuration
+
+- User has a stable internal identifier and logically owns Task, profile, settings, categories, saved locations and view configurations. User Profile is the logical ownership root, **not a mandate for one huge profile document**.
+- **Categories** are separately identifiable, user-owned records with protected Uncategorized, both default and custom Categories under the same model and global ordering. Tasks reference one Category ID; Category rename, reorder or archive preserves references. The exact simplified starter Category names remain to be reconciled, rather than inherited automatically from legacy.
+- **Saved Locations** are independently identifiable, user-owned records with a name and optional coordinates. Three workflows are recognized: named place without coordinates, save current position as a new named place, or update coordinates on an existing named place. Tasks reference a Location ID; changing its name/coordinates affects all referencing Tasks. Location absence is allowed.
+- **User Settings** holds global preferences such as configured timezone. Per-Task Important/Urgent/DOW/TOD preferences live directly in Task, not a User–Task join document.
+- **View Configuration:** one logical document per user/workspace for all six Tasks views, Home and Global Search. Store only explicitly Remember-saved settings. Product-controlled View Definitions and temporary session state (including search text, scroll, accordion expansion, temporary filters and navigation context) are separate concepts; no additional persistent saved-view entities are implied.
+
+### 15.3 Identity, composition and references
+
+- Every Task, embedded Thread, Entry, Category, Location and attachment has a stable identity. Editing labels does not change identity. Embedded Thread IDs must be stable because Entries reference them.
+- **Composition** applies to Task → Threads → Entries/attachment metadata (and owned uploaded file content), even where Entries or file bytes are stored separately. Permanent Task deletion removes its entire composed hierarchy, including entry history and stored files; soft deletion preserves the hierarchy for Restore. Existing restricted Todo deletion applies.
+- **References** apply to Task → Category and Task → Location. These records have independent identities/lifecycles, and changes do not cascade into Task deletion. Referenced entities remain the source of truth for shared names/coordinates/order.
+- User is the ownership/authorization boundary. Single-user scope has no collaborative Task participant entities.
+
+### 15.4 Separated client-architecture discussion
+
+A subsequent, **separate architecture issue** should cover the agreed direction of a hybrid DocumentsDB/client query approach, centralized application-scoped normalized Task store, shared selectors/views and business mutators, Taskify-owned data-access adapter, and demand-driven loading with reusable caches. Cloud remains authoritative, and no offline writes are supported. Cache freshness and query-snapshot coordination remain unresolved. Do **not** treat these as settled physical schema rules or implemented features.
+
+### 15.5 Next: Issue 18 feasibility
+
+Confirm Appwrite DocumentsDB nested JSON/document limits, subdocument updates, querying/indexing for six Task views and Home, separate Entry search, file storage and write consistency before approving a physical model. Repository organization for feasibility code/findings requires separate owner approval.
+
+## 16. Specification governance
 
 - This document is the **current working simplified product baseline**, grounded in explicit owner discussion decisions, and may be refined by later decisions.
 - `docs/project_status.md` is the canonical entry point for actual project state and implementation status.
