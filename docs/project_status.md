@@ -2,6 +2,13 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-19 — Legacy Firebase validation review and handoff
+
+- **Historical evidence reviewed:** Commit `46108abcdff3a60ec812170ebd63a8bb3830b7f5` records a local 420-test verification set (116 API unit, 63 Admin Firestore integration, 174 Security Rules, 39 query/index, 28 callable HTTP). Results are **historical local evidence** and were not rerun against the simplified client-direct Firebase architecture.
+- **Critical architectural gap:** The old design trusted a callable backend for Task lifecycle and Activity Log writes and denied equivalent direct-client writes. The current Firebase Spark client adapter needs revised Security Rules to secure Task/event atomicity, event immutability, ownership and concurrency; historical Rules do not certify those guarantees.
+- **Handoff:** See [`docs/feasibility/firebase-validation-gap-analysis.md`](feasibility/firebase-validation-gap-analysis.md) for source references, reused/retired coverage, four proposed gates and pass/fail criteria. **Gate 1** is the next proposed feasibility activity, requiring separate implementation approval: direct-client Task mutation + mandatory Activity event pairing under adversarial Rules tests.
+- **Execution status:** Documentation and validation planning only. No new PoC, Rules, tests, Firebase provisioning, deployment, or verification executed. All current product/domain decisions remain governed by `docs/product_spec.md` §§17–18.
+
 ## 2026-10-19 — Firebase Spark high-level architecture and data model
 
 - **Owner-approved PoC/beta platform:** Firebase Spark free-only Authentication (Google sign-in), Firestore, static Firebase Hosting. No paid services, no custom hosted API, no Cloud Functions or server-managed sessions. This supersedes the earlier proposed dedicated TypeScript API/direct Google OAuth/MongoDB-first delivery architecture.
