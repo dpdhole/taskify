@@ -1,6 +1,17 @@
 # Taskify — Project Status
 
-> **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. The legacy specification remains immutable.
+> **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
+
+## 2026-10-19 — Firebase Spark high-level architecture and data model
+
+- **Owner-approved PoC/beta platform:** Firebase Spark free-only Authentication (Google sign-in), Firestore, static Firebase Hosting. No paid services, no custom hosted API, no Cloud Functions or server-managed sessions. This supersedes the earlier proposed dedicated TypeScript API/direct Google OAuth/MongoDB-first delivery architecture.
+- **Client architecture:** layered UI → application/domain services and shared Task state → provider-independent ports → Firebase adapter. Cloud authoritative; Firestore Security Rules are the actual authorization boundary, not client-side domain mutators.
+- **Corrected domain ownership:** Only Discussion supports user comments and external-link attachments; Todo is a Task-owned checklist record with no Entries or attachments; Activity Log is append-only structured system-event Entries extending the Discussion Entry concept. Binary file uploads/storage are deferred beyond PoC/beta.
+- **Logical/physical model:** Task-centric aggregate, independent user-owned Saved Views/Categories/Locations/Settings; tentative user-scoped Firestore tasks, todos, discussionEntries and activityEvents collections. Exact layout remains a design proposal pending validation (§18).
+- **Atomic integrity requirement:** Task lifecycle/other audited mutation and its required Activity Log event succeed or fail together. Conflict protection and adversarial Firestore Security Rules tests are mandatory feasibility gates; client batch atomicity alone is insufficient.
+- **Permanent deletion blocker:** Firestore subcollections do not cascade. Before cleanup implementation, validate safe partial-failure/recovery behavior for multi-step permanent deletion; do not claim arbitrary hierarchy deletion can be one atomic batch.
+- **High-level navigation direction:** Gmail-inspired Dashboard, shared Saved Views, Task Detail; Profile/Settings top-right, bottom Create/Search control with scroll hiding. Further UI specifics deferred to slices.
+- **State:** Architectural direction and logical ownership approved; Firestore collection layout and rule correctness proposed/unverified; no Firebase resources provisioned, code implemented, or deployment performed. See controlling specification §18.
 
 ## 2026-10-19 — Lifecycle, schedule, saved views and Home redesign
 
@@ -20,7 +31,7 @@
 - **Status:** major redesign and post-closure Search/Reference amendment approved and documented; implementation and backend feasibility unresolved. Legacy file unchanged.
 
 
-> **Status: Issues 15–17 closed at product/logical model level (2026-10-13); Issue 18 MongoDB Atlas Free feasibility next; Appwrite Cloud ruled out for PoC/beta under current ongoing-cost constraints.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
+> **Historical status (2026-10-13): Issues 15–17 closed at their then-current logical level; MongoDB Atlas Free was the next candidate at that time. This has been superseded by the 2026-10-19 Firebase Spark selection and revised ownership model in §18.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance
 

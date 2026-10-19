@@ -636,3 +636,65 @@ Remain valid unless explicitly superseded: Todo Thread ownership/states, attachm
 **Deferred to design-first implementation slices, not blockers to closure:** conflict-dialog copy/layout; dense chart legend appearance; fine-grained filter combinatorics and date-group presentation; client state management/concurrency/cache contracts; authorization and persistence APIs; architecture and backend feasibility. These must be reconciled with the functional invariants before implementation. Any newly discovered **material domain conflict** requires a separately approved specification decision, not silent implementation choice.
 
 **Delivery status:** Major-changes **product specification discussion closed**, not application implementation or design verified. No beta/production migration and no approved backend. MongoDB Atlas Free remains an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**
+
+
+## 18. Firebase Spark PoC/beta architecture and high-level data design (owner-approved direction, 2026-10-19)
+
+**Authority / status:** This section records the owner's agreed PoC/beta platform, corrected ownership model and high-level transaction requirements. It supersedes conflicting historical §15 logical/physical direction, §17 references to a pending backend, and earlier hosted-API / direct-Google-OAuth proposals. **Firestore collection layout is a proposed design, not a deployed or tested physical schema. Security-rule feasibility and deletion safety are explicit gates.** Do not interpret platform approval as approval to provision or deploy cloud resources.
+
+### 18.1 Platform, application boundary and high-level navigation
+
+- **PoC/beta platform:** Firebase **Spark (no-cost)** capabilities only: Firebase Authentication with Google sign-in, Cloud Firestore, and static Firebase Hosting. No separate hosted Taskify API, server-managed Taskify sessions, Cloud Functions, Firebase App Hosting or Blaze upgrade in this release baseline. No runtime service requiring payment is an approved dependency.
+- **Client architecture:** web UI → client-side application/domain services and shared normalized Task store → provider-independent persistence ports → Firebase/Firestore adapter. The browser is **not** trusted: Firebase Auth supplies identity and Firestore Security Rules enforce per-user access and any expressible cross-document constraints. Provider independence applies to application code/contracts, not to the deployed Firebase security policy; one provider adapter is needed initially.
+- Cloud writes are authoritative. Successful mutations update shared client Task state so rows, group membership and counts react without a mandatory manual refresh. Offline write sync is out of scope. Google sign-in session persistence is managed through supported Firebase Auth mechanisms, not a custom server session.
+- **High-level layout direction:** Gmail-inspired navigation, with Dashboard replacing Inbox, a shared Saved View results workspace and Task Detail as the conversation-like detail view; left navigation contains Dashboard, All Tasks and Saved Views. Profile/Settings access moves to top-right; global Create/Search actions are at the bottom with scroll-related hiding. The detailed responsive layout/scroll rules are deferred to slice design. Global Search remains the temporary View-scoped filter of §17.8; its approved semantics are unchanged by repositioning its control.
+- **Link-only attachment scope for PoC/beta:** Discussion supports external-link references only. Binary file uploads, file-object storage and associated file download/ZIP functionality are deferred beyond PoC/beta, not deleted from later product scope.
+
+### 18.2 Corrected Task aggregate and ownership model
+
+- **Task:** one user-owned aggregate root storing identity, owner, title, description, optional Reference (≤255 characters), category/location references, Important/Urgent values, Draft/In Progress/Closed lifecycle, independent Pause, current closure outcome, Created/Planned Start/Due/Actual Start/Actual End/Deleted Date and concurrency metadata. Do not persist obsolete DOW/TOD Task preferences, an independent deletion Boolean, or View grouping as Task-owned state.
+- **Discussion:** one permanent Task-owned conversational component. **Only Discussion supports user-authored comment Entries and external-link attachments** in this release. Link metadata belong to Discussion, not to a Todo or Activity Log entry. Discussion comments remain subject to the approved comment edit/delete window and Task editability rules.
+- **Todo:** zero or more Task-owned checklist records with stable ID, title, open/closed state, order and timestamps. **Todo has no Entries, no comments and no attachments.** It is not a general-purpose Discussion Thread and needs no embedded Thread hierarchy. Retain parent Task closure behavior, Todo close/reopen and their approved effects on Actual Start/lifecycle. Historical Todo-specific attachment/comment restrictions no longer apply because such content cannot exist.
+- **Activity Log:** permanent Task-owned chronological record of structured **system event Entries**. It conceptually **extends the entry structure used by Discussion** with event type, operation metadata, before/after or changed-field details where applicable, reason/comment when required, timestamp and actor identifiers. Activity Log events are append-only/immutable; users cannot edit/delete them independently. Activity Log has no attachments and is not itself a user-comment discussion thread.
+- **Categories, Locations, Saved Views and Settings:** separate user-owned logical records. Category and Location IDs are referenced by Task; their names remain authoritative on the referenced entities. Saved Views are independently identifiable saved query definitions with ordering and Home visibility, never owners of Tasks. All Tasks is the protected system definition; Search text, scroll and navigation context are ephemeral and never saved as View definitions.
+- **Read model:** list/Dashboard/search loads all eligible lightweight Task metadata (plus classification labels needed by client text matching), not all Discussion comments or Activity events. Load Task Detail's discussion entries, Todo data and history on demand. Defer caching/query mechanics to implementation design.
+
+### 18.3 Proposed Firestore physical arrangement — not yet schema approval
+
+A candidate user-scoped collection layout (where uid is Firebase Auth UID) is:
+
+```text
+users/{uid}                        # profile/settings; view order and user preferences
+users/{uid}/tasks/{taskId}         # Task metadata; bounded Discussion link metadata possible
+  /todos/{todoId}                  # Task-owned checklist items only
+  /discussionEntries/{entryId}     # editable plain-text user comments
+  /activityEvents/{eventId}        # append-only structured system events
+users/{uid}/savedViews/{viewId}    # independent query definitions
+users/{uid}/categories/{categoryId}
+users/{uid}/locations/{locationId}
+```
+
+Paths and data boundaries are **candidates**. Consider Task document size, efficient eligible-Task queries, security-rule access budgets, index/read cost, and the limits of atomic related-document checks before approving physical structure. A user UID in a path does not by itself authorize reads/writes; Security Rules must validate authenticated ownership. Do not duplicate Derived View membership or search indexes as Task state.
+
+### 18.4 Atomic mutation boundaries and integrity requirements
+
+- **Approved invariant:** an operation that must update Task state and record a required Activity Log event commits both atomically, or neither. Applies to Start/Schedule/Pause/Edit Pause/Resume/Done/Close/Reopen, audited date changes, Delete/Restore and other audited Task mutations. Store sufficient stable operation/event identifiers and concurrency metadata to detect conflicting or incomplete actions; the exact representation is deferred.
+- **Discussion post:** create the comment Entry and, when qualifying activity changes Draft/In Progress or Actual Start, include corresponding Task change and any required system event in the **same atomic operation**. Editing/deleting an ordinary comment follows existing permissions and audit policy.
+- **Discussion link mutation:** link metadata updates and any required Task state change plus required Activity event constitute one atomic database write set.
+- **Todo creation:** create checklist record, with no implicit Start; any approved audit event must be included if required by the final operation contract. **Todo close/reopen:** atomically persist Todo status, any affected Task lifecycle/Actual Start fields, and any required Activity event.
+- **Saved View and ordinary non-audited Task metadata edits:** independent single-document writes where no cross-record invariant applies. Any required multi-record reordering or dependent data changes must be modeled as atomic operations if needed.
+- **Firestore mechanism:** transactions or atomic write batches from the client; Firebase Auth and Firestore Security Rules independently enforce ownership, permitted fields/state transitions and feasible cross-document checks (including getAfter where useful). **Atomicity of a batch does not prove correctness**: the direct-write adversarial/rules test must verify no permitted path updates lifecycle without its required event or forges prohibited state. Treat authenticated-user-authored event history as app-enforced records, not independently tamper-proof server evidence.
+- **Hard feasibility gate:** If Firestore Rules cannot enforce an essential domain invariant without a trusted server, **do not weaken it silently**. Present options requiring explicit approval (e.g., schema/operation redesign, deferring functionality, or changing infrastructure/cost constraints).
+
+### 18.5 Permanent deletion and free-tier feasibility gates
+
+- Soft deletion marks **Deleted Date** and retains Task hierarchy; Restore clears it. Closed/Deleted read-only semantics and Cleanup eligibility remain as specified in §17.
+- Deleting a Firestore Task document does **not** cascade to subcollections. An arbitrarily large Task with Todos, Discussion entries and Activity events cannot be assumed removable in a single bounded client transaction. **Permanent deletion requires an explicitly validated idempotent, recoverable multi-step deletion design**, including partial failures, authorization, and ensuring inaccessible orphaned subcollections are handled. Do not claim an atomic Task-and-all-children purge on Spark.
+- No binary file cleanup is required in the PoC/beta link-only scope; file-first deletion rules remain relevant if uploads are introduced later.
+- Before implementing domain slices, validate Firebase Spark availability/quotas, rule size/access limits, atomic Task+event mutation and conflict rejection, client metadata loading/cost, and a usable no-cost manual backup/export/recovery method. No successful test or provisioning is claimed.
+
+### 18.6 Explicit supersessions and retained decisions
+
+- Historical §15's generic Task → Thread → Entry/attachments model is corrected: **Discussion alone owns comments/links, Todos are checklist records, Activity Log owns immutable structured event Entries.**
+- Historical separate hosted API, direct Google OAuth, Taskify-managed server sessions, Appwrite/Atlas-first approach and deep content search are **not** the PoC/beta baseline. Firebase Spark is the selected provider; MongoDB remains a historical evaluated alternative.
+- This high-level design remains consistent with §17 lifecycle, Saved View, Dashboard and lightweight Search rules; only the conflicting Todo/Discussion/Activity Log ownership and PoC/beta attachment delivery scope are superseded. Detailed UX, exact field types, collection indexes, Security Rules and backend adapter contract belong to slice-level design.
