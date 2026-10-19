@@ -6,11 +6,12 @@
 
 - **Lifecycle:** Draft, In Progress, Closed; Pause independently definite/indefinite, with fixed reasons, per-pause-episode comment, Edit Pause and Resume; separate closure outcomes Done vs five failure reasons, direct Reopen; Start/Resume conflict resolution.
 - **Scheduling:** Start as quick action, Schedule from Draft with optional Pause Until Start and system-generated "Waiting to start" comment; Reschedule tertiary. Actual Start independent of scheduling.
-- **Views:** Home Dashboard, shared All Tasks workspace with mandatory Group By, user-owned Saved Views, Save/Save As/Reset, navigation discard warning and cross-device Settings → Views ordering. Provisioning of starter views not finalized.
+- **Views:** Home Dashboard, shared All Tasks workspace with mandatory Group By, Save/Save As/Reset, navigation discard warning and cross-device Settings → Views ordering. Six editable Saved Views are automatically provisioned (Focus, Scheduled, Priority, Local, Completed, Deleted). Protected system All Tasks is the seventh View, last by default, always visible on Home and immutable as a saved definition; global ordering is user-adjustable.
 - **Dashboard:** global nondeleted distinct-Task New/Closed clustered burn-rate and per-Saved-View collapsible pie/legend sections with drill-down.
 - **Scope:** Remove DOW/TOD Task preferences and HERE/NOW proximity; keep TOD date-entry shortcuts resolved as timestamps; Location remains classification with coordinates latent only.
 - **Lifecycle reconciliation closed (2026-10-19):** Draft + Paused activity does not change Draft or set Actual Start; Reopen preserves an empty Actual Start; Start remains available to In Progress Tasks when Actual Start is empty. See §17.2–17.3.
-- **Open questions:** §17.7 of working specification, notably starter provisioning, dashboard defaults, conflict-dialog details and relocated bulk actions.
+- **Views provisioning/grouping closed (2026-10-19):** All seven Views initially appear on Home. The six ordinary Saved Views are editable/deletable; All Tasks is protected and always visible. Group By partitions Tasks exclusively, with missing dates in Unspecified last. Provisioned default groupings and within-group sorts appear in §17.5. UI design details remain deferred.
+- **Open questions:** §17.7 of working specification, notably discoverability of unsuccessful closures, dashboard defaults, conflict-dialog details and relocated bulk actions.
 - **Status:** product-spec discussion approved and recorded; implementation and backend feasibility unresolved. Legacy file unchanged.
 
 
