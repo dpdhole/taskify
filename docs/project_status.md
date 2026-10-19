@@ -1,6 +1,6 @@
 # Taskify — Project Status
 
-> **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Unresolved points are explicitly enumerated in §17.7. The legacy specification remains immutable.
+> **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Unresolved points are explicitly enumerated in §17.8. The legacy specification remains immutable.
 
 ## 2026-10-19 — Lifecycle, schedule, saved views and Home redesign
 
@@ -11,7 +11,8 @@
 - **Scope:** Remove DOW/TOD Task preferences and HERE/NOW proximity; keep TOD date-entry shortcuts resolved as timestamps; Location remains classification with coordinates latent only.
 - **Lifecycle reconciliation closed (2026-10-19):** Draft + Paused activity does not change Draft or set Actual Start; Reopen preserves an empty Actual Start; Start remains available to In Progress Tasks when Actual Start is empty. See §17.2–17.3.
 - **Views provisioning/grouping closed (2026-10-19):** All seven Views initially appear on Home. The six ordinary Saved Views are editable/deletable; All Tasks is protected and always visible. Group By partitions Tasks exclusively, with missing dates in Unspecified last. Provisioned default groupings and within-group sorts appear in §17.5. UI design details remain deferred.
-- **Open questions:** §17.7 of working specification, notably discoverability of unsuccessful closures, dashboard defaults, conflict-dialog details and relocated bulk actions.
+- **Filtering and cleanup resolved (2026-10-19):** All Views support Closure Reason as multi-select Filter-only, available when Include Closed is on; disabled selections remain stored but inactive. Include Closed and Include Deleted are independent; Deleted Date presence is the sole deletion indicator and allows the Deleted preset to isolate its population. Account-wide, manual cleanup now resides in Settings → Cleanup, with independent retained N Days/Months thresholds, strictly older-than cutoff, confirmations and partial-failure safeguards. See §17.5 and §17.7.
+- **Open questions:** §17.8 of working specification, notably Dashboard initial defaults, Start/Resume dialog details, date edge cases and cross-client contracts.
 - **Status:** product-spec discussion approved and recorded; implementation and backend feasibility unresolved. Legacy file unchanged.
 
 

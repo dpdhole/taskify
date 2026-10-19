@@ -564,7 +564,10 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - **All seven Views appear on Home initially**, including protected All Tasks whose inclusion is permanently on. Home follows their global ordering; the first section defaults expanded. Users can hide any ordinary Saved View while All Tasks remains visible.
 - **Group partition invariant:** Every matching Task belongs to exactly one mutually exclusive group. The sum of group counts equals the View's Task count. Date range buckets must not overlap; missing grouping dates are assigned to **Unspecified**, always ordered last, including when empty. Zero-count groups remain in Task Views and Dashboard legends but have no pie slices. Deleted Date grouping can use non-overlapping relative buckets (Today, Yesterday, 2–7 days ago, 8–30 days ago, Older); specific Windows Explorer-like visual treatment is deferred to UI design. Applied analogously for Completed and other time groupings. All date boundaries use configured timezone.
 - **Deleted View access:** Deleted Tasks appear and count normally in its Home section; opening them is read-only, with only permitted Restore, Permanent Delete and applicable bulk operations under existing authorization/confirmation requirements. Deleted Tasks remain excluded from global burn-rate.
-- **Open:** dedicated discoverability of unsuccessful closure outcomes (Cancelled, Unable to Complete, No Longer Applicable, Duplicate, Other) has not yet been decided. Do not provision an additional view without owner approval.
+- **Closure Reason discovery is filter-only, not Group By.** Every Task View exposes a multi-select Closure Reason filter, with values Done, Cancelled, Unable to Complete, No Longer Applicable, Duplicate and Other. Selected values use OR within this filter and AND with other dimensions. No additional default Closed View is provisioned; unsuccessful closures are discoverable by explicitly enabling Include Closed and filtering by Closure Reason.
+- **Include Closed is the prerequisite:** when disabled, Closure Reason selection is unavailable and any selections are retained but inactive. Re-enabling Include Closed reactivates them. Choosing a reason never automatically enables Include Closed. Saved Views retain both the scope control and selected reasons.
+- **Include Closed and Include Deleted are independent scope-expansion controls**: both off = open nondeleted; Closed only on = all nondeleted; Deleted only on = open including deleted; both on = all Tasks including deleted Closed Tasks. Other applicable filters/grouping/sorting apply equally to all eligible Tasks. Deleted Tasks remain read-only wherever encountered.
+- **Deleted Date is the single source of truth for soft deletion**: populated means deleted, empty means not deleted; soft deletion sets it and Restore clears it. There is no separately stored deletion-state Boolean or dedicated Deletion Status attribute. The query model supports Deleted Date **Is Set** / **Is Not Set** and appropriate date-range conditions. The provisioned Deleted View enables both Include Closed and Include Deleted and restricts results to Deleted Date Is Set; it does not require a special query engine or separate Deleted dataset.
 - Important/Urgent fixed order: Do First (Yes/Yes), Schedule (Yes/No), Delegate (No/Yes), Eliminate (No/No), Unclassified (either Unset). These are grouping labels, not actions.
 
 ### 17.6 Home Dashboard
@@ -576,17 +579,25 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - Global, unfiltered by Saved Views, excludes deleted Tasks. New series counts distinct nondeleted Tasks by Created Date; Closed counts only **currently Closed** distinct nondeleted Tasks by their current latest Actual End. Evaluate as of today: reopen removes from Closed series until reclosed. Repeated historical closure events never inflate counts.
 - Period selector Last N Days/Weeks/Months: Days **3/7/10**, Weeks **4–12**, Months **3–36**, representing N complete calendar periods **plus current partial**; current bucket visually distinguished. Configurable week start (Monday default), user timezone. Remember last selected N/unit across sessions/clients. Initial default remains **open** (7 Days suggested, not confirmed).
 
-### 17.7 Supersession, retention, unresolved decisions
+### 17.7 Account-wide manual Cleanup (replaces fixed Closed/Trash bulk actions)
+
+- Bulk cleanup belongs to **Settings → Cleanup**, not to Saved Views or the Task View workspace. This is an account-wide maintenance operation: it evaluates **all qualifying Tasks** regardless of the user's current Saved View, filters, grouping or sorting.
+- **Move Closed Tasks to Trash:** select nondeleted Closed Tasks whose current Actual End is older than the chosen threshold and soft-delete them.
+- **Permanently Delete Deleted Tasks:** select soft-deleted Tasks whose Deleted Date is older than the chosen threshold, irrespective of their underlying open/Closed lifecycle.
+- Each operation retains its own **N Days / N Months** age setting, remembered across sessions and clients. Execution is **manual only**; no automatic or scheduled cleanup.
+- Eligibility is **strictly older than** the full configured calendar-age threshold: equality at the cutoff is not eligible. Evaluate configured calendar days/months and dates in the user's timezone. Month-end overflow mechanics remain an open date-semantics detail, not permission to guess.
+- Both operations show count of qualifying Tasks, require explicit confirmation and honor existing irreversible-deletion warnings. Existing storage-before-record permanent deletion order, partial-success/failure reporting and manual rerun behavior are retained.
+- Cleanup acts on Tasks and their stored content/history as dictated by deletion policy; it never deletes or rewrites Saved View definitions.
+
+### 17.8 Supersession, retention, unresolved decisions
 
 Remain valid unless explicitly superseded: Todo Thread ownership/states, attachment limits and lifecycle, plaintext comments, WYSIWYG Task descriptions, Activity Log immutability, soft deletion/restore/Trash, Important/Urgent tri-states, Global Search behavior, responsive Task Detail, and unsaved Task content protection.
 
 **Open before implementation:**
 1. Detailed Start/Resume conflict dialog wording and interaction.
-2. Discoverability of unsuccessful closures (no additional preset approved yet).
-3. Burn-rate initial default; zero-count legend interaction and dense pie labels.
-4. Relative N Months month-end, DST and Late Night time-slot rollover.
-5. Include Closed/Deleted interactions with read-only Trash and date/group filtering.
-6. Relocation of former Closed bulk cleanup and Trash bulk purge actions after removing fixed views.
-7. Settings/persistence and cross-client contract details.
+2. Burn-rate initial default; zero-count legend interaction and dense pie labels.
+3. Relative N Months month-end, DST and Late Night time-slot rollover, including exact month-age cutoff calculation.
+4. Detailed query-filter applicability and date-range combinations beyond the agreed Include Closed/Deleted and Closure Reason behavior.
+5. Settings/persistence and cross-client contract details.
 
 **Delivery status:** These are approved product-spec discussion decisions only. No redesigned code/deployment, no beta/production migration, and no approved backend. MongoDB Atlas Free is only an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**
