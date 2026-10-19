@@ -521,7 +521,8 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 ### 17.1 Scope, date entry, navigation
 
 - No existing beta or production migration; previous environments will be abandoned. Remove DOW/TOD Task preference fields/matching and contextual HERE/NOW Home and all GPS/proximity UX. Retain Location as optional classification; coordinates remain optional latent data, with no coordinate editing, maps, GPS or proximity UI.
-- Date inputs: Today, Tomorrow, N Days/Weeks/Months, Choose, exact time and fixed TOD shortcuts. TOD shortcuts resolve immediately to timestamps, not symbolic stored values: Planned Start uses slot START; Due and Paused Until use slot END. Custom TOD slot boundaries are future-only.
+- Date inputs: Today, Tomorrow, N Days/Weeks/Months, Choose, exact time and fixed TOD shortcuts. TOD shortcuts resolve immediately to exact timestamps, not symbolic stored values. **Planned Start and Paused Until use the START of the chosen calendar day/TOD slot; Due uses its END**. Exact time uses the explicitly selected timestamp. Date-only Due expires at the end of its selected calendar day (equivalently the following day's 00:00 exclusive boundary). A slot ending at 00:00 resolves to **the next calendar day's midnight**. Existing fixed TOD slots remain; custom slot boundaries are future-only.
+- Relative date calculations use **calendar-day offsets** for N Days and **7 × N calendar days** for N Weeks. N Months targets the same day of month N calendar months from the context date; when unavailable, use the **last valid day of that target month** (e.g., January 31 + one month → February 28/29). Preserve the local clock time and original date-only versus exact-time precision. Interpret calculations in the user's configured timezone: if the resulting local clock time does not exist due to DST, advance to the first valid local time; when ambiguous, use the earlier occurrence. These rules apply to Planned Start, Due, Paused Until, and relevant calendar-age cleanup thresholds.
 - Navigation: Home (default Dashboard), All Tasks (shared Task View), Settings including Preferences, Views, Categories, Locations, Profile and Sign Out. Retain header Global Search and Create. Remove fixed six-view navigation.
 
 ### 17.2 Lifecycle, Pause, actions and closures
@@ -547,7 +548,7 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - Draft Task displays distinct **Start** primary quick action and **Schedule** secondary form action. Schedule does not show a status selector. Missing Planned Start defaults to **Tomorrow**.
 - Schedule with **Pause Until Start unchecked**: Draft → In Progress (not Paused), Actual Start stays empty until separately set by Start/qualifying activity.
 - Schedule with **Pause Until Start checked**: remains Draft, becomes Paused, Paused Until = Planned Start, reason Waiting, system Activity Log comment "Waiting to start"; no automatic Resume at Planned Start.
-- Reschedule is a tertiary action for open Tasks, including paused Tasks: edit dates and optionally pause settings, preserve pause by default, never implicitly Resume or reset Actual Start. Closed requires Reopen first.
+- Reschedule is a tertiary action for open Tasks, including paused Tasks: edit dates and optionally pause settings, preserve pause by default, never implicitly Resume or reset Actual Start. **Editing Planned Start never automatically adjusts Paused Until**, even if Pause Until Start originally copied Planned Start into Paused Until. Paused Until may precede Planned Start without warning; retain the existing nonblocking warning when Paused Until exceeds Due. Closed requires Reopen first.
 - Maintain planned date ordering and optional paired-date-shift rules where not superseded.
 
 ### 17.5 All Tasks and Saved Views
@@ -577,7 +578,7 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - First Saved View section expanded on new session; other sections collapsed. Expansion retained within session, refreshed data does not reset it. Order reflects global Saved View order controlled in Settings; no Home drag-and-drop.
 - Burn-rate chart: **two clustered bars** (New and Closed), no Net Change. Desktop/tablet vertical; mobile horizontal, fixed-height vertically scrollable, current partial period initially visible.
 - Global, unfiltered by Saved Views, excludes deleted Tasks. New series counts distinct nondeleted Tasks by Created Date; Closed counts only **currently Closed** distinct nondeleted Tasks by their current latest Actual End. Evaluate as of today: reopen removes from Closed series until reclosed. Repeated historical closure events never inflate counts.
-- Period selector Last N Days/Weeks/Months: Days **3/7/10**, Weeks **4–12**, Months **3–36**, representing N complete calendar periods **plus current partial**; current bucket visually distinguished. Configurable week start (Monday default), user timezone. Remember last selected N/unit across sessions/clients. Initial default remains **open** (7 Days suggested, not confirmed).
+- Period selector Last N Days/Weeks/Months: Days **3/7/10**, Weeks **4–12**, Months **3–36**, representing N complete calendar periods **plus current partial**; current bucket visually distinguished. Configurable week start (Monday default), user timezone. Remember last selected N/unit across sessions/clients. **Initial default is Last 7 Days** (seven completed calendar days plus today).
 
 ### 17.7 Account-wide manual Cleanup (replaces fixed Closed/Trash bulk actions)
 
@@ -585,7 +586,7 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - **Move Closed Tasks to Trash:** select nondeleted Closed Tasks whose current Actual End is older than the chosen threshold and soft-delete them.
 - **Permanently Delete Deleted Tasks:** select soft-deleted Tasks whose Deleted Date is older than the chosen threshold, irrespective of their underlying open/Closed lifecycle.
 - Each operation retains its own **N Days / N Months** age setting, remembered across sessions and clients. Execution is **manual only**; no automatic or scheduled cleanup.
-- Eligibility is **strictly older than** the full configured calendar-age threshold: equality at the cutoff is not eligible. Evaluate configured calendar days/months and dates in the user's timezone. Month-end overflow mechanics remain an open date-semantics detail, not permission to guess.
+- Eligibility is **strictly older than** the full configured calendar-age threshold: equality at the cutoff is not eligible. Evaluate calendar days/months in the user's configured timezone, using the §17.1 calendar-offset and month-end clamping rules, preserving relevant local clock times and DST disambiguation.
 - Both operations show count of qualifying Tasks, require explicit confirmation and honor existing irreversible-deletion warnings. Existing storage-before-record permanent deletion order, partial-success/failure reporting and manual rerun behavior are retained.
 - Cleanup acts on Tasks and their stored content/history as dictated by deletion policy; it never deletes or rewrites Saved View definitions.
 
@@ -595,9 +596,8 @@ Remain valid unless explicitly superseded: Todo Thread ownership/states, attachm
 
 **Open before implementation:**
 1. Detailed Start/Resume conflict dialog wording and interaction.
-2. Burn-rate initial default; zero-count legend interaction and dense pie labels.
-3. Relative N Months month-end, DST and Late Night time-slot rollover, including exact month-age cutoff calculation.
-4. Detailed query-filter applicability and date-range combinations beyond the agreed Include Closed/Deleted and Closure Reason behavior.
-5. Settings/persistence and cross-client contract details.
+2. Zero-count Dashboard legend interaction and dense pie labels (detailed presentation deferred where applicable).
+3. Detailed query-filter applicability and date-range combinations beyond the agreed Include Closed/Deleted and Closure Reason behavior.
+4. Settings/persistence and cross-client contract details.
 
 **Delivery status:** These are approved product-spec discussion decisions only. No redesigned code/deployment, no beta/production migration, and no approved backend. MongoDB Atlas Free is only an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**
