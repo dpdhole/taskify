@@ -1,5 +1,18 @@
 # Taskify — Project Status
 
+> **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Unresolved points are explicitly enumerated in §17.7. The legacy specification remains immutable.
+
+## 2026-10-19 — Lifecycle, schedule, saved views and Home redesign
+
+- **Lifecycle:** Draft, In Progress, Closed; Pause independently definite/indefinite, with fixed reasons, per-pause-episode comment, Edit Pause and Resume; separate closure outcomes Done vs five failure reasons, direct Reopen; Start/Resume conflict resolution.
+- **Scheduling:** Start as quick action, Schedule from Draft with optional Pause Until Start and system-generated "Waiting to start" comment; Reschedule tertiary. Actual Start independent of scheduling.
+- **Views:** Home Dashboard, shared All Tasks workspace with mandatory Group By, user-owned Saved Views, Save/Save As/Reset, navigation discard warning and cross-device Settings → Views ordering. Provisioning of starter views not finalized.
+- **Dashboard:** global nondeleted distinct-Task New/Closed clustered burn-rate and per-Saved-View collapsible pie/legend sections with drill-down.
+- **Scope:** Remove DOW/TOD Task preferences and HERE/NOW proximity; keep TOD date-entry shortcuts resolved as timestamps; Location remains classification with coordinates latent only.
+- **Open questions:** §17.7 of working specification, notably Draft+Paused implicit activity, Reopen Actual Start, starter provisioning, dashboard defaults and relocated bulk actions.
+- **Status:** product-spec discussion approved and recorded; implementation and backend feasibility unresolved. Legacy file unchanged.
+
+
 > **Status: Issues 15–17 closed at product/logical model level (2026-10-13); Issue 18 MongoDB Atlas Free feasibility next; Appwrite Cloud ruled out for PoC/beta under current ongoing-cost constraints.** The redesigned product behavior is consolidated in `docs/product_spec.md`; unresolved details remain open and implementation is not claimed. The previous Firebase baseline remains available in Git history. No revised implementation or deployment is claimed.
 
 ## Authority and governance

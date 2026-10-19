@@ -513,3 +513,77 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - `docs/product_spec_legacy.md` is **historical source material only** and must not override this document.
 - Detailed data, architecture and security specifications remain to be written and approved. Previous Firebase verification does not certify the revised product.
 - Updating this document does **not** authorize code changes, database migration, cloud configuration or deployment.
+
+## 17. Major owner-agreed redesign — 2026-10-19 (controlling revision)
+
+**Status:** Owner-approved discussion decisions, not implemented or verified. **This section supersedes conflicting requirements in preceding sections.** Earlier issue narratives remain historical context; nonconflicting rules still apply.
+
+### 17.1 Scope, date entry, navigation
+
+- No existing beta or production migration; previous environments will be abandoned. Remove DOW/TOD Task preference fields/matching and contextual HERE/NOW Home and all GPS/proximity UX. Retain Location as optional classification; coordinates remain optional latent data, with no coordinate editing, maps, GPS or proximity UI.
+- Date inputs: Today, Tomorrow, N Days/Weeks/Months, Choose, exact time and fixed TOD shortcuts. TOD shortcuts resolve immediately to timestamps, not symbolic stored values: Planned Start uses slot START; Due and Paused Until use slot END. Custom TOD slot boundaries are future-only.
+- Navigation: Home (default Dashboard), All Tasks (shared Task View), Settings including Preferences, Views, Categories, Locations, Profile and Sign Out. Retain header Global Search and Create. Remove fixed six-view navigation.
+
+### 17.2 Lifecycle, Pause, actions and closures
+
+**Only three lifecycle states: Draft, In Progress, Closed.** Old Planned, Ready, Waiting, Blocked, On Hold, Paused, Done, Cancelled and Unable to Complete are not lifecycle states. Draft is initial. Pause is an **independent open-Task condition**; closure outcome and soft deletion are also separate dimensions.
+
+- Start is an explicit immediate action: Draft → In Progress and set Actual Start if empty. An In Progress Task may legitimately have empty Actual Start after Schedule; lifecycle entry alone need not establish work commencement.
+- Pause activates without altering Draft/In Progress. Requires Until timestamp or Indefinitely, fixed reason Waiting/Blocked/On Hold/Other, and a user-written Activity Log comment on the first pause of each episode. Scheduling's Pause Until Start uses exception: system-generated comment "Waiting to start". Edit Pause adjusts reason, date or indefinite duration, with no required new comment. Record edits; expiry never auto-resumes.
+- Resume clears active pause without altering lifecycle or automatically setting Actual Start. Pauses can coexist with Draft or In Progress. Qualifying activity while paused does not clear pause.
+- Start while Paused: warn, default selected resolution **Start & Resume**, alternative **Start Only** preserving pause, or Cancel. Start with no pause executes without dialog. Resume with Actual Start absent: warn, default selected **Resume & Start**, alternative **Resume Only** preserving empty Actual Start, or Cancel. Resume with Actual Start present executes without dialog. No double-action without confirmation.
+- Done from any open Task → Closed, outcome Done, no comment form. Warn if Actual Start empty and/or open Todo Threads exist, combining warnings with Todo names/count; user may Complete Anyway. Does not modify Todo states or invent Actual Start.
+- Close from any open Task → Closed, mandatory failure outcome Cancelled, Unable to Complete, No Longer Applicable, Duplicate or Other; optional comment. No open-Todo warning. Done/Close set latest Actual End and clear active pause; history preserved.
+- Reopen from Closed → In Progress with one click/no comment or dialog; clears active closure outcome and Actual End; preserves original Actual Start if recorded, Todo Thread states and prior closure history. Reclosing is allowed, each event logged. Closed remains otherwise read-only. Deleted remains independently read-only except Restore.
+
+### 17.3 Actual Start and implicit activity
+
+- Actual Start and Actual End are system-managed. Actual Start records the first explicit Start or qualifying activity **only if currently empty**: adding comment, adding attachment, or closing Todo Thread. Creating Todo, editing metadata, Schedule and date arrival never independently set Actual Start.
+- Qualifying activity in Draft can promote it to In Progress; qualifying activity while paused can establish Actual Start without clearing pause. **OPEN:** under the independent-pause model, whether Draft+Paused qualifying activity also transitions Draft→In Progress while retaining Pause must be confirmed. Do not assume.
+- Direct Done/Close without Start leaves Actual Start empty ("Never Started"). Latest Actual End clears on Reopen. **OPEN:** if Reopen occurs with Actual Start empty, older agreement suggests setting it, newer work-detection rule suggests not: explicit reconciliation needed.
+
+### 17.4 Schedule and Reschedule
+
+- Draft Task displays distinct **Start** primary quick action and **Schedule** secondary form action. Schedule does not show a status selector. Missing Planned Start defaults to **Tomorrow**.
+- Schedule with **Pause Until Start unchecked**: Draft → In Progress (not Paused), Actual Start stays empty until separately set by Start/qualifying activity.
+- Schedule with **Pause Until Start checked**: remains Draft, becomes Paused, Paused Until = Planned Start, reason Waiting, system Activity Log comment "Waiting to start"; no automatic Resume at Planned Start.
+- Reschedule is a tertiary action for open Tasks, including paused Tasks: edit dates and optionally pause settings, preserve pause by default, never implicitly Resume or reset Actual Start. Closed requires Reopen first.
+- Maintain planned date ordering and optional paired-date-shift rules where not superseded.
+
+### 17.5 All Tasks and Saved Views
+
+- One shared Task View workspace. All Tasks opens open, nondeleted Tasks by default, mandatory **Group By Category**. Opening a Saved View loads its query settings into the same workspace and displays its saved name as page title.
+- **Group By mandatory** for every normal Task View; None is not selectable. Filters/Sort support Category, Location, lifecycle, paused condition, closure outcome, Important/Urgent, dates, Include Closed and Include Deleted as applicable. OR within a dimension, AND across dimensions; grouped dimension not simultaneously filterable.
+- Category and Location groups follow globally user-defined orders; pickers and table sorts alphabetical. Optional Location has Unspecified group. Locations support stable IDs, rename, reorder, icons, archive, case-insensitive Unicode NFC-trimmed unique names, max 30 graphemes. No required starter Location list. Latent coordinates have no UI.
+- All Tasks: **Save As... only** and Reset to system defaults. Saved View: **Save** to update, **Save As...** to create, and Reset to last saved definition. Unsaved setting changes visibly indicated; current workspace configuration retained during session until navigation.
+- Navigating away from a modified Task View **to any destination including Task Detail** warns by default with Discard & Continue / Cancel and **"Do not show this warning again"**. Per-user warning preference persists across clients; if disabled, navigation discards changes immediately. Back from Task Detail restores origin view identity, saved/default configuration and applicable navigation context but never discarded configuration edits. Task data edits are never discarded by this view warning.
+- Settings → Views manages rename, dashboard inclusion, reorder and deletion. Saved Views are stored queries, not Task owners. Deletion requires named confirmation, removes Home section, **never deletes Tasks**. One global cross-device order, new views appended; reorder via Settings, not Home. User-created views default to Show on Home enabled (revisit with preset provisioning).
+- **Proposed, not finally approved starter provisioning:** Focus (all open by Due), Scheduled (all open by Planned Start), Priority (all open by five-class Important/Urgent), Local (all open by Location), Completed (nondeleted Closed with outcome Done by Actual End), Deleted (all deleted by Deleted Date). All Tasks itself is not a Saved View. Other unsuccessful Closed outcomes remain accessible by filters; dedicated default coverage unresolved.
+- Important/Urgent fixed order: Do First (Yes/Yes), Schedule (Yes/No), Delegate (No/Yes), Eliminate (No/No), Unclassified (either Unset). These are grouping labels, not actions.
+
+### 17.6 Home Dashboard
+
+- Home is default landing. Global burn-rate plus collapsible sections for Dashboard-enabled Saved Views. No embedded Task lists; Saved View links open the shared Task View. Home refreshes on navigation to it.
+- Each Saved View section shows grouped **pie chart** using its Saved View Group By, with legend labels and counts **including zero-count groups**. Zero groups have no slice. Clicking a nonzero slice opens the Saved View with a temporary group drill-down, without modifying stored settings. Grouped sections omit duplicate summary card. Defensive invalid/missing Group By fallback shows total count and view link only.
+- First Saved View section expanded on new session; other sections collapsed. Expansion retained within session, refreshed data does not reset it. Order reflects global Saved View order controlled in Settings; no Home drag-and-drop.
+- Burn-rate chart: **two clustered bars** (New and Closed), no Net Change. Desktop/tablet vertical; mobile horizontal, fixed-height vertically scrollable, current partial period initially visible.
+- Global, unfiltered by Saved Views, excludes deleted Tasks. New series counts distinct nondeleted Tasks by Created Date; Closed counts only **currently Closed** distinct nondeleted Tasks by their current latest Actual End. Evaluate as of today: reopen removes from Closed series until reclosed. Repeated historical closure events never inflate counts.
+- Period selector Last N Days/Weeks/Months: Days **3/7/10**, Weeks **4–12**, Months **3–36**, representing N complete calendar periods **plus current partial**; current bucket visually distinguished. Configurable week start (Monday default), user timezone. Remember last selected N/unit across sessions/clients. Initial default remains **open** (7 Days suggested, not confirmed).
+
+### 17.7 Supersession, retention, unresolved decisions
+
+Remain valid unless explicitly superseded: Todo Thread ownership/states, attachment limits and lifecycle, plaintext comments, WYSIWYG Task descriptions, Activity Log immutability, soft deletion/restore/Trash, Important/Urgent tri-states, Global Search behavior, responsive Task Detail, and unsaved Task content protection.
+
+**Open before implementation:**
+1. Qualifying activity on Draft+Paused: set Actual Start only or also Draft→In Progress without Resume.
+2. Reopen of never-started Task: Actual Start handling under independent lifecycle/execution model.
+3. Start availability for already In Progress but never-started Task.
+4. Detailed Start/Resume conflict dialog wording and interaction.
+5. Provisioned starter Saved Views, initial Dashboard inclusion, per-view sorting, failed-closure discoverability.
+6. Burn-rate initial default; zero-count legend interaction and dense pie labels.
+7. Relative N Months month-end, DST and Late Night time-slot rollover.
+8. Include Closed/Deleted interactions with read-only Trash and date/group filtering.
+9. Relocation of former Closed bulk cleanup and Trash bulk purge actions after removing fixed views.
+10. Settings/persistence and cross-client contract details.
+
+**Delivery status:** These are approved product-spec discussion decisions only. No redesigned code/deployment, no beta/production migration, and no approved backend. MongoDB Atlas Free is only an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**
