@@ -589,7 +589,24 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - This **explicitly supersedes** the historical requirement to keep edited rows stationary, defer membership/count/sort updates until Refresh, and display a distinct edited-Task Refresh counter (§7.4 and earlier Issue 12 records). Manual refresh may remain useful for recovering stale external data; it is not necessary after local successful mutations.
 - **Implementation design deferred to each vertical slice:** choice of state-management library, optimistic versus acknowledged mutation ordering, query invalidation, concurrency, cache reconciliation, offline behavior and cross-client synchronization. Do not infer a particular technology or atomicity guarantee from this product behavior.
 
-### 17.8 Account-wide manual Cleanup (replaces fixed Closed/Trash bulk actions)
+### 17.8 Post-closure amendment: Reference and lightweight Global Search (approved 2026-10-19)
+
+**Task Reference**
+- A Task has **one optional Reference** field: ordinary user-editable free text, maximum **255 characters**, no uniqueness constraint, no modeled external relationship. Reference belongs to the Task, not to a Category, Location or user-level setting.
+- Reference is ordinary metadata: editing it does not implicitly Start a Task or create an Activity Log event; normal Closed/Deleted read-only constraints apply.
+- Reference is searchable along with Task **Title**, current **Category name**, and current **Location name**.
+
+**Header Global Search: temporary Task View text filter**
+- Global Search is **not a separate search workspace**. On explicit Submit of **nonempty** text, search the currently open Saved View or All Tasks using that View's eligible Task population. If no Task View is open, open **All Tasks** and apply the search; submitting empty text without an open View does **nothing** and must not navigate.
+- Match a **single contiguous phrase** (not separately tokenized words), after trimming leading/trailing whitespace, as a **case-insensitive substring** of any one of Title, Category name, Location name, or Reference. Field matches combine with **OR**; the overall text condition combines with the View's structured filter conditions using **AND**. This is a simple metadata match, not description/full-text/deep-content search. No three-character minimum is carried forward.
+- Search text is **temporary client-side workspace state**, **never part of a Saved View definition** and never captured by Save or Save As. It does **not** mark the View as modified or itself trigger an unsaved-View warning.
+- Search preserves the View's Group By, global group order, sort keys/directions, and all group sections **including zero-result groups**. Counts show the current search result population. No relevance ranking, special grouping or search-specific View.
+- Changing the current View's filters, Group By or Sort while Search is active retains the text filter and reevaluates matches; these configuration edits retain their normal unsaved-change semantics. Empty Submit clears the active search and restores results under the current View configuration.
+- Navigation away from Task View (including Home, Settings or another Saved View) **clears** search. **Task List → Task Detail → Back** is an exception: restore the search phrase, result context and list/scroll position as part of returning to the same workspace.
+- The selected View's entire eligible Task population must be available to the client-side text filter; searching only rows currently rendered/paginated is **not** a valid complete result. Exact fetching/caching/reactivity mechanisms are decided in the relevant implementation slice.
+- **Future scope only:** description/comments/Todos/Activity Log/attachment content search, full-text/deep search, rich ranking, and any separate search experience. Historical §9.5's separate Global Search workspace, Title/Description/All Content depth modes, three-character minimum, remembered Search configuration and old Quick Search distinction are superseded. Header Search entry remains.
+
+### 17.9 Account-wide manual Cleanup (replaces fixed Closed/Trash bulk actions)
 
 - Bulk cleanup belongs to **Settings → Cleanup**, not to Saved Views or the Task View workspace. This is an account-wide maintenance operation: it evaluates **all qualifying Tasks** regardless of the user's current Saved View, filters, grouping or sorting.
 - **Move Closed Tasks to Trash:** select nondeleted Closed Tasks whose current Actual End is older than the chosen threshold and soft-delete them.
@@ -599,18 +616,19 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - Both operations show count of qualifying Tasks, require explicit confirmation and honor existing irreversible-deletion warnings. Existing storage-before-record permanent deletion order, partial-success/failure reporting and manual rerun behavior are retained.
 - Cleanup acts on Tasks and their stored content/history as dictated by deletion policy; it never deletes or rewrites Saved View definitions.
 
-### 17.9 Major revision closure, retention and deferred design
+### 17.10 Major revision closure, retention and deferred design
 
-Remain valid unless explicitly superseded: Todo Thread ownership/states, attachment limits and lifecycle, plaintext comments, WYSIWYG Task descriptions, Activity Log immutability, soft deletion/restore/Trash, Important/Urgent tri-states, Global Search behavior, responsive Task Detail, and unsaved Task content protection.
+Remain valid unless explicitly superseded: Todo Thread ownership/states, attachment limits and lifecycle, plaintext comments, WYSIWYG Task descriptions, Activity Log immutability, soft deletion/restore/Trash, Important/Urgent tri-states, responsive Task Detail, and unsaved Task content protection.
 
-**Major-changes product discussion closed (2026-10-19):** The owner directed closure of the functional redesign and transition to design-first, slice-by-slice implementation. §17 controls wherever historical §§1–16 disagree. Historic Issue 12–17 texts are retained as chronology, **not** competing executable requirements. Contradiction audit below identifies explicit supersessions; do not revive old behavior from the earlier sections.
+**Major-changes product discussion closed (2026-10-19), with approved post-closure Reference/Search amendment in §17.8:** The owner directed closure of the functional redesign and transition to design-first, slice-by-slice implementation. §17 controls wherever historical §§1–16 disagree. Historic Issue 12–17 texts are retained as chronology, **not** competing executable requirements. Contradiction audit below identifies explicit supersessions; do not revive old behavior from the earlier sections.
 
 **Final supersession audit / traceability:**
 - Old nine-state lifecycle, interruption microstates, standalone Ready/Planned and archived-terminal status → **three states plus independent Pause and closure outcome** (§17.2–17.4).
 - Old mandatory Resume/Reopen explanations and non-Done closure explanations → **noninteractive Resume/Reopen when no conflict, required Pause episode comment, Close reason with optional comment** (§17.2).
 - Old DOW/TOD Task preferences, symbolic TOD stored precision, HERE/NOW proximity and GPS → **no preference matching/proximity; TOD is a timestamp-resolving date-entry convenience** (§17.1).
 - Old fixed query routes and Remember per preset, fixed Home sections → **one workspace, saved/system Views, Dashboard** (§17.5–17.6).
-- Old Trash/Closed bulk actions attached to fixed views → **account-wide Settings → Cleanup** (§17.8).
+- Old Trash/Closed bulk actions attached to fixed views → **account-wide Settings → Cleanup** (§17.9).
+- Old standalone/deep Global Search and per-view Quick Search → **one temporary client-side metadata text filter within the active Task View; new Task Reference** (§17.8).
 - Old edited-row stationary/Refresh counter → **reactive store and immediate row/group/count updates** (§17.7).
 - Old Dashboard chart temporary segment filter → **navigate to unchanged View and scroll/expand target group** (§17.6).
 - Old Pause Until TOD end boundary → **start boundary for Pause Until and Planned Start; Due end boundary** (§17.1).
