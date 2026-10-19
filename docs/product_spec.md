@@ -528,7 +528,7 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 
 **Only three lifecycle states: Draft, In Progress, Closed.** Old Planned, Ready, Waiting, Blocked, On Hold, Paused, Done, Cancelled and Unable to Complete are not lifecycle states. Draft is initial. Pause is an **independent open-Task condition**; closure outcome and soft deletion are also separate dimensions.
 
-- Start is an explicit immediate action: Draft → In Progress and set Actual Start if empty. An In Progress Task may legitimately have empty Actual Start after Schedule; lifecycle entry alone need not establish work commencement.
+- Start is an explicit immediate action: Draft → In Progress and set Actual Start if empty. **Start is also available when In Progress and Actual Start is empty**; it sets Actual Start to the current timestamp without changing lifecycle. If Actual Start already exists, Start is unavailable. An In Progress Task may legitimately have empty Actual Start after Schedule or Reopen; lifecycle entry alone need not establish work commencement.
 - Pause activates without altering Draft/In Progress. Requires Until timestamp or Indefinitely, fixed reason Waiting/Blocked/On Hold/Other, and a user-written Activity Log comment on the first pause of each episode. Scheduling's Pause Until Start uses exception: system-generated comment "Waiting to start". Edit Pause adjusts reason, date or indefinite duration, with no required new comment. Record edits; expiry never auto-resumes.
 - Resume clears active pause without altering lifecycle or automatically setting Actual Start. Pauses can coexist with Draft or In Progress. Qualifying activity while paused does not clear pause.
 - Start while Paused: warn, default selected resolution **Start & Resume**, alternative **Start Only** preserving pause, or Cancel. Start with no pause executes without dialog. Resume with Actual Start absent: warn, default selected **Resume & Start**, alternative **Resume Only** preserving empty Actual Start, or Cancel. Resume with Actual Start present executes without dialog. No double-action without confirmation.
@@ -539,8 +539,8 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 ### 17.3 Actual Start and implicit activity
 
 - Actual Start and Actual End are system-managed. Actual Start records the first explicit Start or qualifying activity **only if currently empty**: adding comment, adding attachment, or closing Todo Thread. Creating Todo, editing metadata, Schedule and date arrival never independently set Actual Start.
-- Qualifying activity in Draft can promote it to In Progress; qualifying activity while paused can establish Actual Start without clearing pause. **OPEN:** under the independent-pause model, whether Draft+Paused qualifying activity also transitions Draft→In Progress while retaining Pause must be confirmed. Do not assume.
-- Direct Done/Close without Start leaves Actual Start empty ("Never Started"). Latest Actual End clears on Reopen. **OPEN:** if Reopen occurs with Actual Start empty, older agreement suggests setting it, newer work-detection rule suggests not: explicit reconciliation needed.
+- Qualifying activity on an **unpaused Draft** promotes it to In Progress and sets Actual Start if empty. **Draft + Paused is an explicit exception**: comments, attachments and Todo Thread completion neither change Draft nor set Actual Start; the user must explicitly use Start to begin work (and resolve the pause conflict). Qualifying activity on **In Progress + Paused** can establish Actual Start if empty without clearing pause.
+- Direct Done/Close without Start leaves Actual Start empty ("Never Started"). Latest Actual End clears on Reopen. **Reopen never sets Actual Start**: if previously recorded, preserve it; if empty, keep it empty until explicit Start or qualifying activity.
 
 ### 17.4 Schedule and Reschedule
 
@@ -575,15 +575,12 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 Remain valid unless explicitly superseded: Todo Thread ownership/states, attachment limits and lifecycle, plaintext comments, WYSIWYG Task descriptions, Activity Log immutability, soft deletion/restore/Trash, Important/Urgent tri-states, Global Search behavior, responsive Task Detail, and unsaved Task content protection.
 
 **Open before implementation:**
-1. Qualifying activity on Draft+Paused: set Actual Start only or also Draft→In Progress without Resume.
-2. Reopen of never-started Task: Actual Start handling under independent lifecycle/execution model.
-3. Start availability for already In Progress but never-started Task.
-4. Detailed Start/Resume conflict dialog wording and interaction.
-5. Provisioned starter Saved Views, initial Dashboard inclusion, per-view sorting, failed-closure discoverability.
-6. Burn-rate initial default; zero-count legend interaction and dense pie labels.
-7. Relative N Months month-end, DST and Late Night time-slot rollover.
-8. Include Closed/Deleted interactions with read-only Trash and date/group filtering.
-9. Relocation of former Closed bulk cleanup and Trash bulk purge actions after removing fixed views.
-10. Settings/persistence and cross-client contract details.
+1. Detailed Start/Resume conflict dialog wording and interaction.
+2. Provisioned starter Saved Views, initial Dashboard inclusion, per-view sorting, failed-closure discoverability.
+3. Burn-rate initial default; zero-count legend interaction and dense pie labels.
+4. Relative N Months month-end, DST and Late Night time-slot rollover.
+5. Include Closed/Deleted interactions with read-only Trash and date/group filtering.
+6. Relocation of former Closed bulk cleanup and Trash bulk purge actions after removing fixed views.
+7. Settings/persistence and cross-client contract details.
 
 **Delivery status:** These are approved product-spec discussion decisions only. No redesigned code/deployment, no beta/production migration, and no approved backend. MongoDB Atlas Free is only an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**

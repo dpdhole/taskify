@@ -9,7 +9,8 @@
 - **Views:** Home Dashboard, shared All Tasks workspace with mandatory Group By, user-owned Saved Views, Save/Save As/Reset, navigation discard warning and cross-device Settings → Views ordering. Provisioning of starter views not finalized.
 - **Dashboard:** global nondeleted distinct-Task New/Closed clustered burn-rate and per-Saved-View collapsible pie/legend sections with drill-down.
 - **Scope:** Remove DOW/TOD Task preferences and HERE/NOW proximity; keep TOD date-entry shortcuts resolved as timestamps; Location remains classification with coordinates latent only.
-- **Open questions:** §17.7 of working specification, notably Draft+Paused implicit activity, Reopen Actual Start, starter provisioning, dashboard defaults and relocated bulk actions.
+- **Lifecycle reconciliation closed (2026-10-19):** Draft + Paused activity does not change Draft or set Actual Start; Reopen preserves an empty Actual Start; Start remains available to In Progress Tasks when Actual Start is empty. See §17.2–17.3.
+- **Open questions:** §17.7 of working specification, notably starter provisioning, dashboard defaults, conflict-dialog details and relocated bulk actions.
 - **Status:** product-spec discussion approved and recorded; implementation and backend feasibility unresolved. Legacy file unchanged.
 
 
