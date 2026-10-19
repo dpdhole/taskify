@@ -574,13 +574,22 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 ### 17.6 Home Dashboard
 
 - Home is default landing. Global burn-rate plus collapsible sections for Dashboard-enabled Saved Views. No embedded Task lists; Saved View links open the shared Task View. Home refreshes on navigation to it.
-- Each Saved View section shows grouped **pie chart** using its Saved View Group By, with legend labels and counts **including zero-count groups**. Zero groups have no slice. Clicking a nonzero slice opens the Saved View with a temporary group drill-down, without modifying stored settings. Grouped sections omit duplicate summary card. Defensive invalid/missing Group By fallback shows total count and view link only.
+- Each Saved View section shows a **pie chart** grouped by that View's mandatory Group By, with legend labels and counts **including zero-count groups**. Zero groups have no slice but remain accessible through the corresponding group in the linked View. **Selecting a nonzero chart segment or a legend group opens the unchanged Saved View and scrolls to and expands that group section**; it **does not** apply a temporary filter, replace Group By, modify sorting, or mark the View as unsaved. The same target-group navigation is available for zero-count groups, with an informative empty group and Open View link rather than blocking reconfiguration.
+- If a whole Saved View matches **zero Tasks**, its Dashboard section remains visible in its global position and exposes an **empty-state message plus Open View link**, without a pie chart; the linked View remains fully configurable. All Tasks follows the same empty-state navigation but its system default cannot be overwritten. Grouped sections do not duplicate counts in a separate summary card. Defensive missing/invalid Group By fallback shows total count and link only.
+- Dashboard group counts derive from the **entire matching Task population**, regardless of which Task View groups happen to be expanded/collapsed; each Task counts in exactly one group. Expansion is presentation state, not a query filter.
 - First Saved View section expanded on new session; other sections collapsed. Expansion retained within session, refreshed data does not reset it. Order reflects global Saved View order controlled in Settings; no Home drag-and-drop.
 - Burn-rate chart: **two clustered bars** (New and Closed), no Net Change. Desktop/tablet vertical; mobile horizontal, fixed-height vertically scrollable, current partial period initially visible.
 - Global, unfiltered by Saved Views, excludes deleted Tasks. New series counts distinct nondeleted Tasks by Created Date; Closed counts only **currently Closed** distinct nondeleted Tasks by their current latest Actual End. Evaluate as of today: reopen removes from Closed series until reclosed. Repeated historical closure events never inflate counts.
 - Period selector Last N Days/Weeks/Months: Days **3/7/10**, Weeks **4–12**, Months **3–36**, representing N complete calendar periods **plus current partial**; current bucket visually distinguished. Configurable week start (Monday default), user timezone. Remember last selected N/unit across sessions/clients. **Initial default is Last 7 Days** (seven completed calendar days plus today).
 
-### 17.7 Account-wide manual Cleanup (replaces fixed Closed/Trash bulk actions)
+### 17.7 Reactive Task-data and View consistency (functional requirement)
+
+- The application maintains current Task data in a shared **store/state** abstraction. Successful Task mutations update this state; affected Task rows, grouping membership and aggregate counts update reactively and locally without requiring manual Refresh.
+- If an updated Task remains eligible in the same group, update its row. If it moves to another matching group, relocate its row. If it ceases to qualify, remove it from the current View. If it newly qualifies, add it to the appropriate group. Update matching group counts and Home chart aggregates from the same authoritative client state.
+- This **explicitly supersedes** the historical requirement to keep edited rows stationary, defer membership/count/sort updates until Refresh, and display a distinct edited-Task Refresh counter (§7.4 and earlier Issue 12 records). Manual refresh may remain useful for recovering stale external data; it is not necessary after local successful mutations.
+- **Implementation design deferred to each vertical slice:** choice of state-management library, optimistic versus acknowledged mutation ordering, query invalidation, concurrency, cache reconciliation, offline behavior and cross-client synchronization. Do not infer a particular technology or atomicity guarantee from this product behavior.
+
+### 17.8 Account-wide manual Cleanup (replaces fixed Closed/Trash bulk actions)
 
 - Bulk cleanup belongs to **Settings → Cleanup**, not to Saved Views or the Task View workspace. This is an account-wide maintenance operation: it evaluates **all qualifying Tasks** regardless of the user's current Saved View, filters, grouping or sorting.
 - **Move Closed Tasks to Trash:** select nondeleted Closed Tasks whose current Actual End is older than the chosen threshold and soft-delete them.
@@ -590,14 +599,22 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 - Both operations show count of qualifying Tasks, require explicit confirmation and honor existing irreversible-deletion warnings. Existing storage-before-record permanent deletion order, partial-success/failure reporting and manual rerun behavior are retained.
 - Cleanup acts on Tasks and their stored content/history as dictated by deletion policy; it never deletes or rewrites Saved View definitions.
 
-### 17.8 Supersession, retention, unresolved decisions
+### 17.9 Major revision closure, retention and deferred design
 
 Remain valid unless explicitly superseded: Todo Thread ownership/states, attachment limits and lifecycle, plaintext comments, WYSIWYG Task descriptions, Activity Log immutability, soft deletion/restore/Trash, Important/Urgent tri-states, Global Search behavior, responsive Task Detail, and unsaved Task content protection.
 
-**Open before implementation:**
-1. Detailed Start/Resume conflict dialog wording and interaction.
-2. Zero-count Dashboard legend interaction and dense pie labels (detailed presentation deferred where applicable).
-3. Detailed query-filter applicability and date-range combinations beyond the agreed Include Closed/Deleted and Closure Reason behavior.
-4. Settings/persistence and cross-client contract details.
+**Major-changes product discussion closed (2026-10-19):** The owner directed closure of the functional redesign and transition to design-first, slice-by-slice implementation. §17 controls wherever historical §§1–16 disagree. Historic Issue 12–17 texts are retained as chronology, **not** competing executable requirements. Contradiction audit below identifies explicit supersessions; do not revive old behavior from the earlier sections.
 
-**Delivery status:** These are approved product-spec discussion decisions only. No redesigned code/deployment, no beta/production migration, and no approved backend. MongoDB Atlas Free is only an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**
+**Final supersession audit / traceability:**
+- Old nine-state lifecycle, interruption microstates, standalone Ready/Planned and archived-terminal status → **three states plus independent Pause and closure outcome** (§17.2–17.4).
+- Old mandatory Resume/Reopen explanations and non-Done closure explanations → **noninteractive Resume/Reopen when no conflict, required Pause episode comment, Close reason with optional comment** (§17.2).
+- Old DOW/TOD Task preferences, symbolic TOD stored precision, HERE/NOW proximity and GPS → **no preference matching/proximity; TOD is a timestamp-resolving date-entry convenience** (§17.1).
+- Old fixed query routes and Remember per preset, fixed Home sections → **one workspace, saved/system Views, Dashboard** (§17.5–17.6).
+- Old Trash/Closed bulk actions attached to fixed views → **account-wide Settings → Cleanup** (§17.8).
+- Old edited-row stationary/Refresh counter → **reactive store and immediate row/group/count updates** (§17.7).
+- Old Dashboard chart temporary segment filter → **navigate to unchanged View and scroll/expand target group** (§17.6).
+- Old Pause Until TOD end boundary → **start boundary for Pause Until and Planned Start; Due end boundary** (§17.1).
+
+**Deferred to design-first implementation slices, not blockers to closure:** conflict-dialog copy/layout; dense chart legend appearance; fine-grained filter combinatorics and date-group presentation; client state management/concurrency/cache contracts; authorization and persistence APIs; architecture and backend feasibility. These must be reconciled with the functional invariants before implementation. Any newly discovered **material domain conflict** requires a separately approved specification decision, not silent implementation choice.
+
+**Delivery status:** Major-changes **product specification discussion closed**, not application implementation or design verified. No beta/production migration and no approved backend. MongoDB Atlas Free remains an Issue 18 feasibility candidate. **Do not edit or delete docs/product_spec_legacy.md.**
