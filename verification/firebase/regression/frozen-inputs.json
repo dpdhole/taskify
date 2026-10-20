@@ -1,0 +1,128 @@
+{
+  "repositoryBaseline": "ea6280eb2bff56175add90890f9285cb8cb9d6b6",
+  "inputs": [
+    {
+      "path": "gate2/entities/firebase.json",
+      "sha256": "cbe69904004969c555fa0fb0efd1e0f8c86220eaaa5e8c4ce959ac8328f62057"
+    },
+    {
+      "path": "gate2/entities/firestore.rules",
+      "sha256": "56748f5737ae1a9b292f3ee1cb77e7b15ddd93a03f3a8a950c3a0c18cfb81abe"
+    },
+    {
+      "path": "gate2/entities/names.mjs",
+      "sha256": "dc3e40f221b3328827dc7835ad9fac0c4193c987f6662e6d84d42dfba6939bde"
+    },
+    {
+      "path": "gate2/entities/package-lock.json",
+      "sha256": "c73fb4027a7bbe3f3744be71a6578d1f82e647376ee3b0c1bd265422533fd943"
+    },
+    {
+      "path": "gate2/entities/package.json",
+      "sha256": "ec92c6a8ab31ac8f17b4a08adf8448712206996533ea5780f459e101571733e9"
+    },
+    {
+      "path": "gate2/entities/planned-dates.mjs",
+      "sha256": "62622a31d3e0cfa49ec1846a14163d75878fa4d74bc57c3b7c8cfdbfbce00560"
+    },
+    {
+      "path": "gate2/entities/run.ps1",
+      "sha256": "931fef24437ff57cf69e200d24f41cecc480343e52891f9cdbdbf3e4f1d32ca9"
+    },
+    {
+      "path": "gate2/entities/tests/display.test.mjs",
+      "sha256": "cc492cf99d0a4670ca019a3e8c4e742a4490af371729514c36cce317ae654576"
+    },
+    {
+      "path": "gate2/entities/tests/security.test.mjs",
+      "sha256": "b941ee628cb1a61e022ac5d7169a08c2c9029a676c6bfbee058e86f2353a166c"
+    },
+    {
+      "path": "gate2/entities/views.mjs",
+      "sha256": "a17e2efd465610f0be92aac001cbf69251cd501071d5bca2dbd53ab0fd49bbac"
+    },
+    {
+      "path": "gate3/purge-recovery/cleanup.mjs",
+      "sha256": "e7ee62f8912a6ac3642268d2d9527cd20884672069830692c0901dfd1dbf3a41"
+    },
+    {
+      "path": "gate3/purge-recovery/firebase.json",
+      "sha256": "cbe69904004969c555fa0fb0efd1e0f8c86220eaaa5e8c4ce959ac8328f62057"
+    },
+    {
+      "path": "gate3/purge-recovery/firestore.rules",
+      "sha256": "a21a6db3969eb0e703cf75d766d3903472d1ee9ec8ace84123dc3093f5c4c492"
+    },
+    {
+      "path": "gate3/purge-recovery/names.mjs",
+      "sha256": "dc3e40f221b3328827dc7835ad9fac0c4193c987f6662e6d84d42dfba6939bde"
+    },
+    {
+      "path": "gate3/purge-recovery/operations.mjs",
+      "sha256": "713738789f26b91974dd5ee1c8671f245b5470d88c4518d64bb50964b8948049"
+    },
+    {
+      "path": "gate3/purge-recovery/operator-recovery.mjs",
+      "sha256": "ea426adb9bdbd32857358048ef0c6eabbb9e6e3cc9876cea8b37f4a5d8f58717"
+    },
+    {
+      "path": "gate3/purge-recovery/package-lock.json",
+      "sha256": "b4523e1a3ec0f5c1cace072b720a759edffcb69f0530dd929541371841127da6"
+    },
+    {
+      "path": "gate3/purge-recovery/package.json",
+      "sha256": "6878c1dce7f31a5b4c7227f8e9c3ba756fbf8adeee07e1f066238d31d5c1cbf0"
+    },
+    {
+      "path": "gate3/purge-recovery/planned-dates.mjs",
+      "sha256": "62622a31d3e0cfa49ec1846a14163d75878fa4d74bc57c3b7c8cfdbfbce00560"
+    },
+    {
+      "path": "gate3/purge-recovery/run.ps1",
+      "sha256": "039b10bf08e91cc63bed05e6b736077d7a524fc11fbe984f00c9c16947566ea8"
+    },
+    {
+      "path": "gate3/purge-recovery/tests/gate3.test.mjs",
+      "sha256": "49ac44192f8b52031201cacef95b7bcf21a801cb4898372f3adef8f120ac4d71"
+    },
+    {
+      "path": "gate3/purge-recovery/views.mjs",
+      "sha256": "a17e2efd465610f0be92aac001cbf69251cd501071d5bca2dbd53ab0fd49bbac"
+    },
+    {
+      "path": "gate4/auth-query/firebase.json",
+      "sha256": "9c310ba5f1dd336b38322d81912d2051713ae64d1abdbe50a5f3635e6a403213"
+    },
+    {
+      "path": "gate4/auth-query/firestore.indexes.json",
+      "sha256": "4c0b2a463a52aa28ec77497bf89e227f296dabe757bc4c0f2c8da5b23749b1aa"
+    },
+    {
+      "path": "gate4/auth-query/firestore.rules",
+      "sha256": "a21a6db3969eb0e703cf75d766d3903472d1ee9ec8ace84123dc3093f5c4c492"
+    },
+    {
+      "path": "gate4/auth-query/package-lock.json",
+      "sha256": "334e28d0d8af548065b1cc20e8084f138a68bbed27265cd46c8e1a00d6b34f05"
+    },
+    {
+      "path": "gate4/auth-query/package.json",
+      "sha256": "7cb2869abc1a20e7cd59e96ea6ab84b3aa542ded6a5eb8d4d65b5db300739f94"
+    },
+    {
+      "path": "gate4/auth-query/read-model.mjs",
+      "sha256": "da1699a542074615ea6a232d89143065733e12a44f6e476358438581dc8966ad"
+    },
+    {
+      "path": "gate4/auth-query/run.ps1",
+      "sha256": "1300d33ae431b9151f9cc4bd590a482f9f80fb09875d3d4aa2a3d970b971c3fe"
+    },
+    {
+      "path": "gate4/auth-query/tests/gate4.test.mjs",
+      "sha256": "12ae84c73e7b585bbb4531f7dbb8efcd4fd04aeea22428487b76a2d536aba74a"
+    }
+  ],
+  "format": "taskify-security-regression-inputs-v1",
+  "candidateSha256": "a21a6db3969eb0e703cf75d766d3903472d1ee9ec8ace84123dc3093f5c4c492",
+  "preparedAt": "2026-10-20"
+}

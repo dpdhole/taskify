@@ -1,0 +1,111 @@
+{
+  "project": "demo-taskify-query-workload",
+  "inputs": [
+    {
+      "path": "cleanup.mjs",
+      "sha256": "e7ee62f8912a6ac3642268d2d9527cd20884672069830692c0901dfd1dbf3a41"
+    },
+    {
+      "path": "counters.mjs",
+      "sha256": "23c5f0bcbd39017d2908eb69e9a8b076fa69bfce5c82b2e591f8049ccd8962d8"
+    },
+    {
+      "path": "firebase.json",
+      "sha256": "9c310ba5f1dd336b38322d81912d2051713ae64d1abdbe50a5f3635e6a403213"
+    },
+    {
+      "path": "firestore.indexes.json",
+      "sha256": "631966a588f32433ea65cbd86241cc4e91976a0e22472546069e08e7be60d902"
+    },
+    {
+      "path": "firestore.rules",
+      "sha256": "2a4e633f092c1b66c1e098b68daf26f181043a3f0b40ff22bb583e5bf38b1c5d"
+    },
+    {
+      "path": "names.mjs",
+      "sha256": "dc3e40f221b3328827dc7835ad9fac0c4193c987f6662e6d84d42dfba6939bde"
+    },
+    {
+      "path": "online-commit.mjs",
+      "sha256": "096e2d8c22dcbc8003b975fe5230bba6261e82e530c14a85d7686d4d745137b4"
+    },
+    {
+      "path": "operations.mjs",
+      "sha256": "713738789f26b91974dd5ee1c8671f245b5470d88c4518d64bb50964b8948049"
+    },
+    {
+      "path": "operator-recovery.mjs",
+      "sha256": "ea426adb9bdbd32857358048ef0c6eabbb9e6e3cc9876cea8b37f4a5d8f58717"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "47b96f908ccf2de9d4b8498b7b138de926ad6b697573b296a98571fdfc1db553"
+    },
+    {
+      "path": "package.json",
+      "sha256": "bcba1e2a11e3741a4ac4940b4d6986917d83225e88c37b2e03eeeead1a4beb2a"
+    },
+    {
+      "path": "planned-dates.mjs",
+      "sha256": "62622a31d3e0cfa49ec1846a14163d75878fa4d74bc57c3b7c8cfdbfbce00560"
+    },
+    {
+      "path": "query-codec.mjs",
+      "sha256": "ef82e353dd3e4c3a2306f37e677a4ff06a9027966818b7483c578daa8092d90d"
+    },
+    {
+      "path": "query-engine.mjs",
+      "sha256": "bb90e0f441e94f976060fae12bdd7fd151cedc9ad58823ca1773cbf063c3895d"
+    },
+    {
+      "path": "read-model.mjs",
+      "sha256": "035f2858ce6d20d798a2bc02efdaee5d196295666c51b40fbd9a131b464fc306"
+    },
+    {
+      "path": "run.ps1",
+      "sha256": "f18466ae7c0b711d5bbcb40758d7a458bd412030f2ebe0796434c26a037cb5f0"
+    },
+    {
+      "path": "storage-model.mjs",
+      "sha256": "a8ce2a3521ed64283fd0203a8f6e4c4aa0ad2e4b2e157a946078fc2e4400cc30"
+    },
+    {
+      "path": "tests/01-security.test.mjs",
+      "sha256": "98ca269370c0f9894a20fa814954991d6e4f0b710c187ac87717d5b8f0c8fa0d"
+    },
+    {
+      "path": "tests/02-display.test.mjs",
+      "sha256": "cc492cf99d0a4670ca019a3e8c4e742a4490af371729514c36cce317ae654576"
+    },
+    {
+      "path": "tests/03-purge.test.mjs",
+      "sha256": "c949e1078fe7554f1eb205c44e283ff322fa42ee586e4be31a247fa48e15a866"
+    },
+    {
+      "path": "tests/04-read-auth.test.mjs",
+      "sha256": "7ea2f8c33ed25c6e1b99192cfd9d109c09cd3d66723a805aa7cfa2a83f8de6c8"
+    },
+    {
+      "path": "tests/05-query.test.mjs",
+      "sha256": "ea2a44df43666f5b800f20a4a68be060690467b41f4585ae94db08964fb5bf56"
+    },
+    {
+      "path": "tests/06-workload.test.mjs",
+      "sha256": "0a237d4b61136c03868c8aa87b4c6aedf2dec089e47505c12c1c71b3411f65f3"
+    },
+    {
+      "path": "tests/07-storage.test.mjs",
+      "sha256": "5d3262168c0786b9c17bae23e6ffe5e2a171ffcbf082b6091180b4c1b95725b0"
+    },
+    {
+      "path": "views.mjs",
+      "sha256": "a17e2efd465610f0be92aac001cbf69251cd501071d5bca2dbd53ab0fd49bbac"
+    },
+    {
+      "path": "workload-model.mjs",
+      "sha256": "40326e7ef27808a5a7f05eb790e7e025ed04fc91a4acb4a4dd4686a39931e04b"
+    }
+  ],
+  "runnerNote": "Node --test-force-exit is used after explicit SDK/HTTP cleanup because workload workers retained background handles; no tests are skipped or changed into expected failures.",
+  "recordedAt": "2026-10-20"
+}

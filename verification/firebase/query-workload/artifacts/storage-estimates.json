@@ -1,0 +1,135 @@
+{
+  "billingMeasurement": false,
+  "scope": "representative prototype fields; excludes unspecified Todo/link counts, retained trash and backups",
+  "cases": [
+    {
+      "commentTextBytes": 100,
+      "counts": {
+        "tasks": 6000,
+        "comments": 14195,
+        "events": 24131
+      },
+      "taskSize": {
+        "documentBytes": 405,
+        "automaticIndexes": {
+          "bytes": 5238,
+          "entries": 44
+        },
+        "withExemptions": {
+          "bytes": 5238,
+          "entries": 44
+        }
+      },
+      "commentSize": {
+        "documentBytes": 287,
+        "automaticIndexes": {
+          "bytes": 2028,
+          "entries": 12
+        },
+        "withExemptions": {
+          "bytes": 1542,
+          "entries": 10
+        }
+      },
+      "eventSize": {
+        "documentBytes": 982,
+        "automaticIndexes": {
+          "bytes": 18684,
+          "entries": 112
+        },
+        "withExemptions": {
+          "bytes": 2392,
+          "entries": 16
+        }
+      },
+      "estimatedDefaultIndexedBytes": 541279671,
+      "estimatedExemptedBytes": 141238649
+    },
+    {
+      "commentTextBytes": 1000,
+      "counts": {
+        "tasks": 6000,
+        "comments": 14195,
+        "events": 24131
+      },
+      "taskSize": {
+        "documentBytes": 405,
+        "automaticIndexes": {
+          "bytes": 5238,
+          "entries": 44
+        },
+        "withExemptions": {
+          "bytes": 5238,
+          "entries": 44
+        }
+      },
+      "commentSize": {
+        "documentBytes": 1187,
+        "automaticIndexes": {
+          "bytes": 3828,
+          "entries": 12
+        },
+        "withExemptions": {
+          "bytes": 1542,
+          "entries": 10
+        }
+      },
+      "eventSize": {
+        "documentBytes": 982,
+        "automaticIndexes": {
+          "bytes": 18684,
+          "entries": 112
+        },
+        "withExemptions": {
+          "bytes": 2392,
+          "entries": 16
+        }
+      },
+      "estimatedDefaultIndexedBytes": 579606171,
+      "estimatedExemptedBytes": 154014149
+    },
+    {
+      "commentTextBytes": 12000,
+      "counts": {
+        "tasks": 6000,
+        "comments": 14195,
+        "events": 24131
+      },
+      "taskSize": {
+        "documentBytes": 405,
+        "automaticIndexes": {
+          "bytes": 5238,
+          "entries": 44
+        },
+        "withExemptions": {
+          "bytes": 5238,
+          "entries": 44
+        }
+      },
+      "commentSize": {
+        "documentBytes": 12187,
+        "automaticIndexes": {
+          "bytes": 4826,
+          "entries": 12
+        },
+        "withExemptions": {
+          "bytes": 1542,
+          "entries": 10
+        }
+      },
+      "eventSize": {
+        "documentBytes": 982,
+        "automaticIndexes": {
+          "bytes": 18684,
+          "entries": 112
+        },
+        "withExemptions": {
+          "bytes": 2392,
+          "entries": 16
+        }
+      },
+      "estimatedDefaultIndexedBytes": 749917781,
+      "estimatedExemptedBytes": 310159149
+    }
+  ]
+}

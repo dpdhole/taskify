@@ -2,11 +2,13 @@
 
 20 October 2026. **Overall verdict: INCONCLUSIVE.** Browser-direct Firestore remains a conditionally feasible PoC/beta candidate. Core security experiments support continuing validation; complete product/platform acceptance has not been established.
 
+**Latest owner-decision assessment:** [complete query/workload findings](firebase-verification-assessment.md). The extended candidate ran **237 tests: 236 passed, 1 failed** at full Saved View persistence due to the Rules expression ceiling. This is a real candidate blocker, not a successful full-query verdict. The earlier 192-test candidate remains unchanged and passing in its represented scope.
+
 ## Authority and provenance
 
 Execution baseline: main `38a7fb7383ae99948f003d68fe7d77e8e4b20dfa`. Product requirements remain governed by [product specification §§17–18](../product_spec.md). The [gap analysis](firebase-validation-gap-analysis.md) defines the four gates. No `docs/decisions.md` exists at this baseline; no new architectural decision is inferred from passing tests.
 
-The owner authorized isolated local experiments, accepted the naming-policy compromise described below, and subsequently authorized preparing these experiments/findings for staging. No commit, push, provisioning, deployment, live OAuth, billing upgrade or production implementation is part of this record. The immutable legacy specification remains unchanged.
+The owner authorized isolated local experiments and committed their source/findings as `ea6280e` after review. No push, provisioning, deployment, live OAuth, billing upgrade or production implementation is claimed. Subsequent accepted deletion/recovery/retention decisions and the correction to account-level recovery scope are recorded in [accepted decisions](firebase-validation-decisions.md). The immutable legacy specification remains unchanged.
 
 ## Latest evidence and outputs
 
@@ -16,8 +18,10 @@ The owner authorized isolated local experiments, accepted the naming-policy comp
 | 2: entity authorization/integrity | 147 passed; zero failures; includes Gate 1's 101 tests | PASS for represented contracts with accepted naming limitation | [Gate 2](../../verification/firebase/gate2/entities/VALIDATION.md) |
 | 3: permanent deletion/recovery | 20 passed; zero failures | INCONCLUSIVE overall; represented deletion mechanism passed | [Gate 3](../../verification/firebase/gate3/purge-recovery/VALIDATION.md) |
 | 4: Auth, queries, Spark operation | 18 passed; zero failures | INCONCLUSIVE | [Gate 4](../../verification/firebase/gate4/auth-query/VALIDATION.md) |
+| Combined regression against inventory-enabled Rules | 192 passed; zero failures/skips | PASS for represented combined contracts; platform still INCONCLUSIVE | [Combined report](../../verification/firebase/regression/combined/VALIDATION.md) |
+| Extended query/workload candidate | 237 executed; 236 passed; 1 failed | FAIL for full query persistence; normal workload conditionally fits model | [Latest report](../../verification/firebase/query-workload/VALIDATION.md) |
 
-These are overlapping suites, not a cumulative test total. Historical 420-test callable-backend evidence is excluded. Gate 3 introduced inventories and changed Rules; the full earlier suites were not adapted/rerun as one combined regression against that final candidate. All evidence is finite local execution, not formal proof or deployed-policy validation.
+These are overlapping suites, not a cumulative test total. Historical 420-test callable-backend evidence is excluded. Following the owner's request, all 147 Gate 2 cases (including carried-forward Gate 1/date coverage), 20 Gate 3 cases, seven new cross-gate cases and 18 Gate 4 cases ran against one unchanged inventory-enabled Rules candidate: 192 passed. This closes the represented cross-gate regression gap, not missing product/query/schema coverage. All evidence is finite local execution, not formal proof or deployed-policy validation.
 
 Source, lockfiles, tests, selected logs, synthetic evidence and reproduction guidance are under [verification/firebase](../../verification/firebase/README.md). No dependency/runtime installation is committed. Historical candidate reports remain dated snapshots; this document supersedes their statements about which later gates have started.
 
@@ -42,9 +46,9 @@ Source, lockfiles, tests, selected logs, synthetic evidence and reproduction gui
 
 - Parent deletion does not cascade. Added protected per-Task inventories, independent purge jobs and bounded deletion. A synthetic 505-record hierarchy resumed after interruption at 260 deletions, removing the remaining 245. Both racing purge workers completed; repeated execution did not duplicate effects.
 - Single-Task export detects concurrent changes, including comment edits that do not increment Task version. Checksums detect corruption, not authenticity.
-- Browser historical import remains denied. Privileged recovery was simulated only inside the emulator; it restores hidden children before publishing the root, advances version and adds an administrative event. No production operator procedure or exception to browser integrity is approved.
-- Whole-account/project-loss recovery, dependency restoration, backup custody and operational runbook remain unvalidated. Current recovery requires the completed purge marker.
-- Ordinary Restore is unavailable after physical child deletion starts. Resolve the gap-analysis phrase “preserve soft Delete/Restore behavior until final purge.” Metadata-only tombstones persist; their retention needs agreement.
+- Browser historical import remains denied. Privileged recovery was simulated only inside the emulator; it restores hidden children before publishing the root, advances version and adds an administrative event. The owner accepted manual service-owner recovery for development/admin incidents; no specific live procedure or exception to browser integrity has been approved or validated.
+- The manual backup/export/recovery requirement still needs its scope agreed. Complete account/project-loss recovery was an assistant scope expansion, not an approved mandatory PoC criterion; it is withdrawn as a blocker. The tested single-Task recovery requires a completed purge marker.
+- The owner accepted irreversibility at the first physical child deletion: cancel the untouched purge before ordinary Restore; afterward manually resume deletion. Minimal metadata-only tombstone retention is accepted. These decisions add no test evidence.
 
 ### Gate 4
 
@@ -56,8 +60,8 @@ Source, lockfiles, tests, selected logs, synthetic evidence and reproduction gui
 
 ## Remaining path to a platform verdict
 
-1. Resolve permanent-deletion irreversibility, operational disaster recovery versus ordinary Taskify Restore, and tombstone retention. Decide whether a separately authorized offline owner-operated recovery process is acceptable or a browser-verifiable/attested backup design is required. Do not silently weaken history integrity.
-2. Complete account-level backup/recovery and the full local query/offline-write contract. Define a bounded beta workload and test read/reconnect behavior. Run combined adversarial and access-budget regressions against one candidate Rules/schema version.
+1. Apply the accepted irreversible-deletion, manual service-owner recovery and minimal tombstone decisions. Agree the appropriate scope of the existing manual backup/recovery requirement before implementing more recovery functionality; complete account recovery is not an approved PoC prerequisite.
+2. Combined regressions passed 192 cases, and the extended candidate retained those cases. Query computation and workload mechanisms now have local evidence, but a full Saved View save fails the expression limit; redesign/explicit scope decisions are required before complete query acceptance. Opens/device/Discussion inputs are confirmed, while capacity/cleanup remain conditional models. Ordinary mutations should remain one aggregate.
 3. Obtain separate authorization for real Google/browser session and production query/index validation against an owner-designated Spark test project. Specify permitted project configuration, account creation, provisioning and deployment actions before touching cloud resources.
 4. Issue PASS only when required guarantees and workload fit the approved free-only architecture; FAIL if an essential requirement demonstrably needs an unapproved capability; otherwise retain INCONCLUSIVE with exact missing evidence. No trusted hosted backend, Cloud Function or paid dependency is introduced as an implicit workaround.
 

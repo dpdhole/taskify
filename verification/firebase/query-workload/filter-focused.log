@@ -1,0 +1,46 @@
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-query-workload", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+!  emulators: It seems that you are running multiple instances of the emulator suite for project demo-taskify-query-workload. This may result in unexpected behavior.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-query-workload]: Serving hosting files from: public
++  hosting[demo-taskify-query-workload]: Local server: http://127.0.0.1:5000
+i  Running script: node --test --test-name-pattern="full Saved View" tests/06-workload.test.mjs
+TAP version 13
+# [2026-10-20T15:46:05.995Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d9452c6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L297, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L321, false for 'update' @ L297, false for 'update' @ L321
+# [2026-10-20T15:46:06.031Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d9452c8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L297, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L321, false for 'update' @ L297, false for 'update' @ L321
+# [2026-10-20T15:46:06.061Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d9452c9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L297, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L321, false for 'update' @ L297, false for 'update' @ L321
+# [2026-10-20T15:46:06.096Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d9452ca error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L297, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L321, false for 'update' @ L297, false for 'update' @ L321
+# [2026-10-20T15:46:06.130Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d9452cb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L297, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L321, false for 'update' @ L297, false for 'update' @ L321
+# [2026-10-20T15:46:06.168Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d9452cc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L297, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L321, false for 'update' @ L297, false for 'update' @ L321
+# Workload cleanup started
+# Workload cleanup complete
+# Subtest: full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+ok 1 - full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+  ---
+  duration_ms: 8406.8779
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8934.4117
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

@@ -1,0 +1,17 @@
+{
+  "fixture": "privileged synthetic",
+  "users": 12,
+  "tasksPerUser": 500,
+  "loadsPerUser": 6,
+  "coldLoads": 72,
+  "serverBackedMetadataDocumentsDelivered": 36504,
+  "collectionSubscriptions": 216,
+  "childReads": 0,
+  "latencyMs": {
+    "min": 502.9503999999997,
+    "median": 1374.8099000000002,
+    "p95": 1972.8619999999992,
+    "max": 2188.0141000000003
+  },
+  "billingMeasurement": false
+}

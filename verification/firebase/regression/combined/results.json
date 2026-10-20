@@ -1,0 +1,29 @@
+{
+  "rulesSha256": "a21a6db3969eb0e703cf75d766d3903472d1ee9ec8ace84123dc3093f5c4c492",
+  "exitCode": 0,
+  "breakdown": {
+    "carriedSecurity": 146,
+    "purgeAndCrossGate": 27,
+    "readAuthHosting": 18,
+    "display": 1
+  },
+  "date": "2026-10-20",
+  "skipped": 0,
+  "tests": 192,
+  "cancelled": 0,
+  "sourceRulesChanged": false,
+  "passed": 192,
+  "failed": 0,
+  "platformVerdict": "INCONCLUSIVE",
+  "runtime": {
+    "rulesUnitTesting": "4.0.1",
+    "java": "21.0.12.1",
+    "firebase": "11.10.0",
+    "node": "22.16.0",
+    "firestoreEmulator": "1.19.8",
+    "firebaseTools": "14.27.0"
+  },
+  "verdict": "PASS_REPRESENTED_COMBINED_CONTRACTS",
+  "runInputsSha256": "d8548ce4927e9eb80ecdbc5cd380f6f4edd8d4966fa03c91215d3c73ef24322e",
+  "durationMs": 154135.8993
+}

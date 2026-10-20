@@ -4,6 +4,10 @@ Isolated verification source and recorded local evidence, prepared for repositor
 
 Baseline: `dpdhole/taskify`, main, `38a7fb7383ae99948f003d68fe7d77e8e4b20dfa`. See [consolidated findings](../../docs/feasibility/firebase-validation-results.md) for authority, verdicts and open decisions.
 
+Subsequent owner decisions are recorded in [accepted decisions](../../docs/feasibility/firebase-validation-decisions.md). The [combined security regression report](regression/combined/VALIDATION.md) records **192 passed, zero failures/skips**, following [harness preparation/adaptation](regression/README.md). Complete account/project-loss recovery is unapproved scope, not a mandatory PoC blocker.
+
+**Latest candidate:** [query/workload validation](query-workload/VALIDATION.md), **236 passed / 1 failed out of 237**. Full Saved View persistence exceeds the Rules expression limit. Do not deploy/adopt that failed candidate. See the [owner-decision assessment](../../docs/feasibility/firebase-verification-assessment.md).
+
 | Directory | Recorded outcome | Role |
 |---|---|---|
 | `gate1/initial/` | 71 passed; overall INCONCLUSIVE due to date mismatch | Historical candidate, original Rules and failure evidence |
@@ -13,7 +17,7 @@ Baseline: `dpdhole/taskify`, main, `38a7fb7383ae99948f003d68fe7d77e8e4b20dfa`. S
 | `gate3/purge-recovery/` | 20 passed; overall INCONCLUSIVE | Deletion, single-Task export and emulator-only operator recovery |
 | `gate4/auth-query/` | 18 passed; overall INCONCLUSIVE | Metadata/reactivity, mock Auth and static Hosting |
 
-Counts overlap. Do not add them or interpret green assertions as full product acceptance. The latest Gate 3/4 Rules have not received a combined run of all preceding contracts. The name-integrity candidate is expected to exit nonzero; its failures are part of the findings.
+Counts overlap. Do not add them or interpret green assertions as full product acceptance. The subsequent 192-test combined run covers the represented preceding contracts against unchanged Gate 3/4 Rules, not the missing full product schema/query coverage. The name-integrity candidate is expected to exit nonzero; its failures are part of the findings.
 
 ## Reproduction
 

@@ -1,0 +1,23 @@
+{
+  "cloudOperations": false,
+  "failed": 1,
+  "inputSnapshot": "final-assessment-inputs.json",
+  "testForceExit": true,
+  "date": "2026-10-20",
+  "skipped": 0,
+  "durationMs": 168001.9699,
+  "rulesSha256": "2a4e633f092c1b66c1e098b68daf26f181043a3f0b40ff22bb583e5bf38b1c5d",
+  "platformVerdict": "INCONCLUSIVE",
+  "failure": [
+    {
+      "status": "FAIL",
+      "name": "full Saved View filters/date buckets persist while malformed and search/membership payloads are denied",
+      "number": 228
+    }
+  ],
+  "cancelled": 0,
+  "passed": 236,
+  "exitCode": 1,
+  "tests": 237,
+  "verdict": "FAIL_FULL_QUERY_PERSISTENCE_CANDIDATE"
+}

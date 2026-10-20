@@ -1,0 +1,56 @@
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-query-workload", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-query-workload]: Serving hosting files from: public
++  hosting[demo-taskify-query-workload]: Local server: http://127.0.0.1:5000
+i  Running script: node --test --test-concurrency=1 --test-name-pattern="full Saved View" tests/06-workload.test.mjs
+TAP version 13
+# [2026-10-20T16:09:39.799Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eea6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, false for 'update' @ L330
+# [2026-10-20T16:09:39.853Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eea7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, false for 'update' @ L330
+# [2026-10-20T16:09:39.890Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eea8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, false for 'update' @ L330
+# [2026-10-20T16:09:39.926Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eea9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, false for 'update' @ L330
+# [2026-10-20T16:09:39.958Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eeaa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, false for 'update' @ L330
+# [2026-10-20T16:09:39.996Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eeab error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, false for 'update' @ L330
+# [2026-10-20T16:09:40.051Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2d49eeac error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L330
+# Workload cleanup started
+# Workload cleanup complete
+# Subtest: full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+not ok 1 - full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+  ---
+  duration_ms: 8197.151
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\taskify\\verification\\firebase\\query-workload\\tests\\06-workload.test.mjs:58:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    false for 'update' @ L306, evaluation error at L330:21 for 'update' @ L330, false for 'update' @ L306, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L330
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8735.4484
+!  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node --test --test-concurrency=1 --test-name-pattern="full Saved View" tests/06-workload.test.mjs" exited with code 1

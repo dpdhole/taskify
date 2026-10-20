@@ -1,0 +1,202 @@
+TAP version 13
+# Subtest: all nine tri-state preference combinations produce the five approved classes
+ok 1 - all nine tri-state preference combinations produce the five approved classes
+  ---
+  duration_ms: 1.9354
+  type: 'test'
+  ...
+# Subtest: scope flags and closure reasons cover all six approved outcomes independently of deletion
+ok 2 - scope flags and closure reasons cover all six approved outcomes independently of deletion
+  ---
+  duration_ms: 1.6647
+  type: 'test'
+  ...
+# Subtest: Deleted Date set/notSet vocabulary agrees with persisted Rules contract
+ok 3 - Deleted Date set/notSet vocabulary agrees with persisted Rules contract
+  ---
+  duration_ms: 1.649
+  type: 'test'
+  ...
+# Subtest: Category/Location OR, dimensions AND, five-class and paused filters combine
+ok 4 - Category/Location OR, dimensions AND, five-class and paused filters combine
+  ---
+  duration_ms: 0.6909
+  type: 'test'
+  ...
+# Subtest: pause expiry is derived, independent of lifecycle and never mutates the Task
+ok 5 - pause expiry is derived, independent of lifecycle and never mutates the Task
+  ---
+  duration_ms: 0.3864
+  type: 'test'
+  ...
+# Subtest: calendar range Due: inclusive lower, exclusive upper and presence
+ok 6 - calendar range Due: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.7766
+  type: 'test'
+  ...
+# Subtest: calendar range PlannedStart: inclusive lower, exclusive upper and presence
+ok 7 - calendar range PlannedStart: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.3661
+  type: 'test'
+  ...
+# Subtest: calendar range ActualStart: inclusive lower, exclusive upper and presence
+ok 8 - calendar range ActualStart: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.3063
+  type: 'test'
+  ...
+# Subtest: calendar range ActualEnd: inclusive lower, exclusive upper and presence
+ok 9 - calendar range ActualEnd: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.6214
+  type: 'test'
+  ...
+# Subtest: calendar range DeletedAt: inclusive lower, exclusive upper and presence
+ok 10 - calendar range DeletedAt: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.7489
+  type: 'test'
+  ...
+# Subtest: calendar range CreatedAt: inclusive lower, exclusive upper and presence
+ok 11 - calendar range CreatedAt: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.3101
+  type: 'test'
+  ...
+# Subtest: calendar range UpdatedAt: inclusive lower, exclusive upper and presence
+ok 12 - calendar range UpdatedAt: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.2136
+  type: 'test'
+  ...
+# Subtest: calendar range PausedUntil: inclusive lower, exclusive upper and presence
+ok 13 - calendar range PausedUntil: inclusive lower, exclusive upper and presence
+  ---
+  duration_ms: 0.2029
+  type: 'test'
+  ...
+# Subtest: EOD Due groups/filters by selected India day rather than next-midnight instant
+ok 14 - EOD Due groups/filters by selected India day rather than next-midnight instant
+  ---
+  duration_ms: 0.8529
+  type: 'test'
+  ...
+# Subtest: global user-defined class order, zero groups and missing Location remain visible
+ok 15 - global user-defined class order, zero groups and missing Location remain visible
+  ---
+  duration_ms: 0.4443
+  type: 'test'
+  ...
+# Subtest: nonoverlapping date boundaries partition every day exactly once and retain empty groups
+ok 16 - nonoverlapping date boundaries partition every day exactly once and retain empty groups
+  ---
+  duration_ms: 0.7511
+  type: 'test'
+  ...
+# Subtest: Paused Until groups expired instants today, indefinite and unspecified separately
+ok 17 - Paused Until groups expired instants today, indefinite and unspecified separately
+  ---
+  duration_ms: 0.3074
+  type: 'test'
+  ...
+# Subtest: Deleted Date Today/Yesterday/2–7/8–30/Older boundaries are exclusive and exhaustive
+ok 18 - Deleted Date Today/Yesterday/2–7/8–30/Older boundaries are exclusive and exhaustive
+  ---
+  duration_ms: 36.3559
+  type: 'test'
+  ...
+# Subtest: all grouping and sort dimensions retain exclusive partition and deterministic null-last ordering
+ok 19 - all grouping and sort dimensions retain exclusive partition and deterministic null-last ordering
+  ---
+  duration_ms: 11.1559
+  type: 'test'
+  ...
+# Subtest: group change clears the conflicting filter; stored definition and Search remain independent
+ok 20 - group change clears the conflicting filter; stored definition and Search remain independent
+  ---
+  duration_ms: 0.6251
+  type: 'test'
+  ...
+# Subtest: default View focus evaluates full eligible population with its approved scope/grouping
+ok 21 - default View focus evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.3369
+  type: 'test'
+  ...
+# Subtest: default View scheduled evaluates full eligible population with its approved scope/grouping
+ok 22 - default View scheduled evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.2187
+  type: 'test'
+  ...
+# Subtest: default View priority evaluates full eligible population with its approved scope/grouping
+ok 23 - default View priority evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.148
+  type: 'test'
+  ...
+# Subtest: default View local evaluates full eligible population with its approved scope/grouping
+ok 24 - default View local evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.1481
+  type: 'test'
+  ...
+# Subtest: default View completed evaluates full eligible population with its approved scope/grouping
+ok 25 - default View completed evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.1628
+  type: 'test'
+  ...
+# Subtest: default View deleted evaluates full eligible population with its approved scope/grouping
+ok 26 - default View deleted evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.3692
+  type: 'test'
+  ...
+# Subtest: default View allTasks evaluates full eligible population with its approved scope/grouping
+ok 27 - default View allTasks evaluates full eligible population with its approved scope/grouping
+  ---
+  duration_ms: 0.1495
+  type: 'test'
+  ...
+# Subtest: burn rate uses distinct current Task state, excludes deletion and ignores historical closure multiplicity
+ok 28 - burn rate uses distinct current Task state, excludes deletion and ignores historical closure multiplicity
+  ---
+  duration_ms: 0.8067
+  type: 'test'
+  ...
+# Subtest: burn rate calendar weeks/months handle Monday boundary, year/leap changes and supported period ranges
+ok 29 - burn rate calendar weeks/months handle Monday boundary, year/leap changes and supported period ranges
+  ---
+  duration_ms: 0.3913
+  type: 'test'
+  ...
+# Subtest: invalid bucket/filter definitions fail closed instead of producing incomplete results
+ok 30 - invalid bucket/filter definitions fail closed instead of producing incomplete results
+  ---
+  duration_ms: 0.5784
+  type: 'test'
+  ...
+# Subtest: online commit does not enqueue offline writes or silently retry an unknown outcome
+ok 31 - online commit does not enqueue offline writes or silently retry an unknown outcome
+  ---
+  duration_ms: 23.6925
+  type: 'test'
+  ...
+# Subtest: capacity model uses agreed workload and exposes reconnect, payload and backlog sensitivities
+ok 32 - capacity model uses agreed workload and exposes reconnect, payload and backlog sensitivities
+  ---
+  duration_ms: 0.9158
+  type: 'test'
+  ...
+1..32
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 467.5181

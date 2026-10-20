@@ -4,6 +4,8 @@
 
 **Historical planning status (2026-10-19):** This document originally recorded a documentation-only handoff before experiment execution. The gate criteria below remain the validation checklist; dated historical evidence is not current browser-direct acceptance.
 
+**Latest update (2026-10-20):** [Query/workload assessment](firebase-verification-assessment.md) executed 237 tests: 236 passed, one valid full Saved View definition failed the 1,000-expression ceiling. This adds a concrete local Gate 4 candidate blocker. Query computation/load evidence and the confirmed workload model do not override that failure; no query cap or client-only integrity relaxation is accepted.
+
 ## Source baseline and evidence provenance
 
 - **Historical repository snapshot:** [commit 46108abcdff3a60ec812170ebd63a8bb3830b7f5](https://github.com/dpdhole/taskify/commit/46108abcdff3a60ec812170ebd63a8bb3830b7f5), before the simplified single-user redesign.
@@ -55,8 +57,9 @@ Using a minimal new Task schema, Activity event schema, client SDK and Firestore
 ### Gate 3 — Permanent deletion and recovery
 
 - Demonstrate Firestore **does not cascade-delete subcollections**; ensure any partial deletion leaves no exposed records and is idempotently recoverable.
-- Exercise failure and retry during Task → Todos/Discussion/Activity hierarchy cleanup; preserve soft Delete/Restore behavior until final purge.
+- Exercise failure and retry during Task → Todos/Discussion/Activity hierarchy cleanup. **Owner clarification, 2026-10-20:** cancellation and ordinary Restore remain possible before the first physical child deletion (cancel the untouched purge job first). After that point deletion is irreversible and interrupted purge is completed by a subsequent manual run. See [accepted decisions](firebase-validation-decisions.md).
 - Define an operationally feasible manual export/recovery plan using only approved Spark capabilities. Do not assume an atomic unlimited-child purge or paid managed backups.
+- The owner accepts manual service-owner recovery for development/admin incidents. Complete account/project-loss recovery was not specified or approved as a PoC prerequisite; clarify the manual method's scope before expanding it. Minimal content-free purge tombstone retention is accepted.
 
 ### Gate 4 — Authentication, queries and Spark-only operation
 
@@ -67,6 +70,8 @@ Using a minimal new Task schema, Activity event schema, client SDK and Firestore
 
 ## Handoff and scope boundaries
 
-**Next checkpoint:** Resolve Gate 3 recovery/deletion semantics, finish Gate 4's local query/offline-write and workload validation, and run combined adversarial regressions against the final candidate. Real Google/session and production index testing require separately scoped cloud authorization. Do not revive obsolete multi-user roles, email ownership, fixed Views, automatic lifecycle, or callable backend contracts.
+**Combined security checkpoint (2026-10-20):** [192 tests passed](../../verification/firebase/regression/combined/VALIDATION.md), zero failures/skips, against the unchanged inventory-enabled candidate. This covers represented earlier gate contracts and seven new inventory/purge/tombstone cases. Source-limit sweeps now accept three independent aggregates and deny four or more in the emulator; do not reuse earlier Gate 2 batch boundaries.
 
-**Current evidence:** local revised Task/Event, entity, deletion and read-model assertions are recorded in the findings, with exact scope and known limitations. The historical 420-test suite was not rerun or counted. **Still unverified:** complete final-schema combined security regression, account/project recovery, actual Google/session behavior, full query/index workload and Spark deployment. Experiment source is isolated under `verification/firebase`; application code, product requirements, cloud resources and the legacy specification remain unchanged.
+**Owner direction:** Full-query persistence is a core feature and intended Taskify differentiator. Prepare findings for commit before careful owner discussion of any de-scoping; no reduction or validation-boundary change is approved. Longer Trash retention is allowed, with duration/cap unspecified. **Next checkpoint after commit:** Owner discussion of the Saved View validation boundary before redesign: complete filter semantics remain required, while the precise depth of Rules validation versus fail-closed client preference validation needs clarification. The tested candidate is not accepted; neither alternative is implicitly approved. Clarify manual recovery scope and cleanup/Trash assumptions. Real Google/session and production index testing require separately scoped cloud authorization. Do not revive obsolete multi-user roles, email ownership, fixed Views, automatic lifecycle, or callable backend contracts.
+
+**Current evidence:** local revised Task/Event, entity, deletion and read-model assertions, including combined represented regressions, are recorded in the findings with exact scope and known limitations. The historical 420-test suite was not rerun or counted. **Still unverified:** full production schema/query coverage, the appropriately scoped manual recovery method, actual Google/session behavior, full query/index workload and Spark deployment. Complete account/project-loss recovery is unapproved scope, not a mandatory PoC blocker. Experiment source is isolated under `verification/firebase`; application code, cloud resources and the legacy specification remain unchanged.

@@ -1,0 +1,62 @@
+[
+  {
+    "aggregates": 1,
+    "writes": 3,
+    "accepted": true
+  },
+  {
+    "aggregates": 2,
+    "writes": 6,
+    "accepted": true
+  },
+  {
+    "aggregates": 3,
+    "writes": 9,
+    "accepted": true
+  },
+  {
+    "aggregates": 4,
+    "writes": 12,
+    "accepted": false
+  },
+  {
+    "aggregates": 5,
+    "writes": 15,
+    "accepted": false
+  },
+  {
+    "aggregates": 6,
+    "writes": 18,
+    "accepted": false
+  },
+  {
+    "aggregates": 7,
+    "writes": 21,
+    "accepted": false
+  },
+  {
+    "aggregates": 8,
+    "writes": 24,
+    "accepted": false
+  },
+  {
+    "aggregates": 9,
+    "writes": 27,
+    "accepted": false
+  },
+  {
+    "aggregates": 10,
+    "writes": 30,
+    "accepted": false
+  },
+  {
+    "aggregates": 11,
+    "writes": 33,
+    "accepted": false
+  },
+  {
+    "aggregates": 12,
+    "writes": 36,
+    "accepted": false
+  }
+]

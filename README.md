@@ -10,6 +10,7 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Working product specification](docs/product_spec.md) — consolidated simplified product behavior and explicitly open decisions.
 - [Legacy product specification](docs/product_spec_legacy.md) — historical reference only; not requirements for the redesign.
 - [Firebase Gate 1–4 findings](docs/feasibility/firebase-validation-results.md) — qualified local results, failures and unresolved feasibility blockers.
+- [Latest verification assessment for decision](docs/feasibility/firebase-verification-assessment.md) — full query/workload results and the failing Saved View candidate.
 - [Firebase experiments and evidence](verification/firebase/README.md) — isolated source, pinned dependencies, tests and reproduction guidance.
 
 The approved PoC/beta direction is a responsive browser client using Firebase Spark Authentication (Google), browser-direct Firestore and static Hosting through provider-independent persistence interfaces. Local feasibility experiments have run; overall feasibility remains INCONCLUSIVE, and no redesigned application or cloud deployment is claimed. Product specification §§17–18 govern the current architecture.

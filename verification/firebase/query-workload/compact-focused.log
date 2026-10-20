@@ -1,0 +1,63 @@
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-query-workload", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+!  emulators: It seems that you are running multiple instances of the emulator suite for project demo-taskify-query-workload. This may result in unexpected behavior.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-query-workload]: Serving hosting files from: public
++  hosting[demo-taskify-query-workload]: Local server: http://127.0.0.1:5000
+i  Running script: node --test --test-concurrency=1 --test-name-pattern="full Saved View|browser-direct REST" tests/06-workload.test.mjs
+TAP version 13
+# [2026-10-20T16:03:26.765Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866b7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, false for 'update' @ L332
+# [2026-10-20T16:03:26.808Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866b8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, false for 'update' @ L332
+# [2026-10-20T16:03:26.847Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866b9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, false for 'update' @ L332
+# [2026-10-20T16:03:26.880Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866ba error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, false for 'update' @ L332
+# [2026-10-20T16:03:26.910Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866bb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, false for 'update' @ L332
+# [2026-10-20T16:03:26.941Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866bc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, false for 'update' @ L332
+# [2026-10-20T16:03:26.993Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x3dd866bd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332
+# Subtest: full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+not ok 1 - full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+  ---
+  duration_ms: 8333.3779
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\taskify\\verification\\firebase\\query-workload\\tests\\06-workload.test.mjs:58:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332, false for 'update' @ L308, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L332
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# Workload cleanup started
+# Subtest: browser-direct REST commit uses Auth/Rules with no SDK queue; unknown acknowledgement is reconciled from cloud
+ok 2 - browser-direct REST commit uses Auth/Rules with no SDK queue; unknown acknowledgement is reconciled from cloud
+  ---
+  duration_ms: 619.2402
+  type: 'test'
+  ...
+# Workload cleanup complete
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9471.5309
+!  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node --test --test-concurrency=1 --test-name-pattern="full Saved View|browser-direct REST" tests/06-workload.test.mjs" exited with code 1

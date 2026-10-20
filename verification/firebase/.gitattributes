@@ -2,3 +2,6 @@
 ** -text whitespace=cr-at-eol
 # Historical snapshots retain original log/source whitespace intentionally.
 gate*/** whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+# Combined regression snapshots retain copied source and recorded log bytes too.
+regression/combined/** whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+query-workload/** whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

@@ -1,0 +1,92 @@
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-query-workload", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+!  emulators: It seems that you are running multiple instances of the emulator suite for project demo-taskify-query-workload. This may result in unexpected behavior.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-query-workload]: Serving hosting files from: public
++  hosting[demo-taskify-query-workload]: Local server: http://127.0.0.1:5000
+i  Running script: node --test tests/06-workload.test.mjs
+TAP version 13
+# Subtest: 12-user 6000-Task fixture: six complete cold loads per user with lazy child payloads
+ok 1 - 12-user 6000-Task fixture: six complete cold loads per user with lazy child payloads
+  ---
+  duration_ms: 19914.3543
+  type: 'test'
+  ...
+# Subtest: all seven Views, Search, sort and Dashboard share one store without refetching metadata
+ok 2 - all seven Views, Search, sort and Dashboard share one store without refetching metadata
+  ---
+  duration_ms: 292.668
+  type: 'test'
+  ...
+# [2026-10-20T15:43:31.973Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740640 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, evaluation error at L408:21 for 'update' @ L408, false for 'update' @ L298, false for 'update' @ L408
+# [2026-10-20T15:43:31.999Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740641 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, evaluation error at L408:21 for 'update' @ L408, false for 'update' @ L298, false for 'update' @ L408
+# [2026-10-20T15:43:32.023Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740642 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, evaluation error at L408:21 for 'update' @ L408, false for 'update' @ L298, false for 'update' @ L408
+# [2026-10-20T15:43:32.051Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740643 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, evaluation error at L408:21 for 'update' @ L408, false for 'update' @ L298, false for 'update' @ L408
+# [2026-10-20T15:43:32.079Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740644 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, evaluation error at L408:21 for 'update' @ L408, false for 'update' @ L298, false for 'update' @ L408
+# [2026-10-20T15:43:32.103Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740645 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, evaluation error at L408:21 for 'update' @ L408, false for 'update' @ L298, false for 'update' @ L408
+# Subtest: Important/Urgent preferences persist through Rules, retain no-event metadata contract and reject invalid values
+ok 3 - Important/Urgent preferences persist through Rules, retain no-event metadata contract and reject invalid values
+  ---
+  duration_ms: 429.9311
+  type: 'test'
+  ...
+# [2026-10-20T15:43:32.163Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2a740646 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L298, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L322, false for 'update' @ L298, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L322
+# Subtest: full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+not ok 4 - full Saved View filters/date buckets persist while malformed and search/membership payloads are denied
+  ---
+  duration_ms: 61.296
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\taskify\\verification\\firebase\\query-workload\\tests\\06-workload.test.mjs:49:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    false for 'update' @ L298, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L322, false for 'update' @ L298, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L322
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# Subtest: client selectors react to acknowledged preference edits and current classification labels
+ok 5 - client selectors react to acknowledged preference edits and current classification labels
+  ---
+  duration_ms: 539.7461
+  type: 'test'
+  ...
+# Subtest: bounded detail/history pages are fetched only on request and foreign users cannot enumerate them
+ok 6 - bounded detail/history pages are fetched only on request and foreign users cannot enumerate them
+  ---
+  duration_ms: 133.7061
+  type: 'test'
+  ...
+# Subtest: disconnect removes authoritative readiness and reconnect restores all eligible metadata
+ok 7 - disconnect removes authoritative readiness and reconnect restores all eligible metadata
+  ---
+  duration_ms: 302.6
+  type: 'test'
+  ...
+# Workload cleanup started
+# Workload cleanup complete
+# Subtest: browser-direct REST commit uses Auth/Rules with no SDK queue; unknown acknowledgement is reconciled from cloud
+ok 8 - browser-direct REST commit uses Auth/Rules with no SDK queue; unknown acknowledgement is reconciled from cloud
+  ---
+  duration_ms: 251.6309
+  type: 'test'
+  ...
+# Subtest: workload sensitivities record confirmed activity plus explicit unapproved sizing/usage inputs
+ok 9 - workload sensitivities record confirmed activity plus explicit unapproved sizing/usage inputs
+  ---
+  duration_ms: 2.0462
+  type: 'test'
+  ...
+i  firestore: Change detected, updating rules...
++  firestore: Rules updated.
+i  firestore: Change detected, updating rules...
++  firestore: Rules updated.
+i  firestore: Change detected, updating rules...
++  firestore: Rules updated.
