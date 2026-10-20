@@ -1,0 +1,42 @@
+[
+  {
+    "triples": 1,
+    "writes": 3,
+    "accepted": true
+  },
+  {
+    "triples": 2,
+    "writes": 6,
+    "accepted": true
+  },
+  {
+    "triples": 3,
+    "writes": 9,
+    "accepted": true
+  },
+  {
+    "triples": 4,
+    "writes": 12,
+    "accepted": true
+  },
+  {
+    "triples": 5,
+    "writes": 15,
+    "accepted": true
+  },
+  {
+    "triples": 6,
+    "writes": 18,
+    "accepted": true
+  },
+  {
+    "triples": 7,
+    "writes": 21,
+    "accepted": false
+  },
+  {
+    "triples": 8,
+    "writes": 24,
+    "accepted": false
+  }
+]

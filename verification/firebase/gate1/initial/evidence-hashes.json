@@ -1,0 +1,32 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "7E8FF60D4E3F939361F107A261C1FA5A16B2F6AE74DEF42E28AA8AE1B4A22BEA",
+    "Path": "D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\firestore.rules"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "7323F90B6ECBAA311FA81A4ED185B8CE7DD4D4205BAF1C2039CB8CE62BF00D46",
+    "Path": "D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\tests\\security.test.mjs"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "FF5062BA6076DC7AB9D24395201052359A5A0911C6A2C96AA267E9178DA72988",
+    "Path": "D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\package-lock.json"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "E97C98FAF7A7B42133ED9D183DF7641D60D7EEADBDC72C82695FE93822F46E4B",
+    "Path": "D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\final.log"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "2838DDB7A03E7E9786D4ABB24E6610231A63C713CC646E9131F6E09FA5296439",
+    "Path": "D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\transaction-evidence.json"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "24C37C167F765C9C62D84BCC4B87AEDBC34769C0726841567DC515F194A7224A",
+    "Path": "D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\budget-evidence.json"
+  }
+]

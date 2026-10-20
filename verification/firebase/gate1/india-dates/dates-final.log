@@ -1,0 +1,1466 @@
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-taskify-gate1", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/*.test.mjs
+TAP version 13
+# [2026-10-20T04:51:15.346Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a21f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L114, false for 'update' @ L120
+# [2026-10-20T04:51:15.409Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a220 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L114, false for 'update' @ L120
+# Subtest: authenticated owner can create Draft, but foreign and unauthenticated users cannot
+ok 1 - authenticated owner can create Draft, but foreign and unauthenticated users cannot
+  ---
+  duration_ms: 3055.191
+  type: 'test'
+  ...
+# [2026-10-20T04:51:15.592Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a222 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:15.626Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a223 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:15.661Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a224 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:15.697Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a225 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:15.729Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a226 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# Subtest: ordinary title/reference edit succeeds, but cannot smuggle audited changes
+ok 2 - ordinary title/reference edit succeeds, but cannot smuggle audited changes
+  ---
+  duration_ms: 316.6043
+  type: 'test'
+  ...
+# [2026-10-20T04:51:15.942Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a229 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-3"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:16.059Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a22b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# [2026-10-20T04:51:16.242Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a22e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L125
+# [2026-10-20T04:51:16.269Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a22f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L125
+# Subtest: Start requires a matching immutable event
+ok 3 - Start requires a matching immutable event
+  ---
+  duration_ms: 540.2788
+  type: 'test'
+  ...
+# Subtest: Schedule and paused Schedule satisfy different approved transitions
+ok 4 - Schedule and paused Schedule satisfy different approved transitions
+  ---
+  duration_ms: 316.1556
+  type: 'test'
+  ...
+# [2026-10-20T04:51:16.773Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a238 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: Pause and Edit Pause require an event and first-episode explanation
+ok 5 - Pause and Edit Pause require an event and first-episode explanation
+  ---
+  duration_ms: 567.408
+  type: 'test'
+  ...
+# Subtest: Start and Resume combinations preserve independent Pause semantics
+ok 6 - Start and Resume combinations preserve independent Pause semantics
+  ---
+  duration_ms: 394.5112
+  type: 'test'
+  ...
+# Subtest: Done, Close and Reopen preserve the approved lifecycle core
+ok 7 - Done, Close and Reopen preserve the approved lifecycle core
+  ---
+  duration_ms: 360.1199
+  type: 'test'
+  ...
+# [2026-10-20T04:51:17.996Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a255 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-11"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# Subtest: Audited date edits require events
+ok 8 - Audited date edits require events
+  ---
+  duration_ms: 163.0659
+  type: 'test'
+  ...
+# [2026-10-20T04:51:18.174Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a25a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# [2026-10-20T04:51:18.274Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a25d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:18.380Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a260 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# [2026-10-20T04:51:18.485Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a263 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:18.578Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a266 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: Reject mismatched actors, operation types and historical snapshots
+ok 9 - Reject mismatched actors, operation types and historical snapshots
+  ---
+  duration_ms: 507.3495
+  type: 'test'
+  ...
+# [2026-10-20T04:51:18.656Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a269 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L114, false for 'update' @ L120
+# [2026-10-20T04:51:18.705Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a26b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:18.835Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a26f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:18.888Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a271 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+ok 10 - Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+  ---
+  duration_ms: 309.1695
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.104Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a277 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:19.140Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a278 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: Reject event ID replay and stale Task versions
+ok 11 - Reject event ID replay and stale Task versions
+  ---
+  duration_ms: 251.8648
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.262Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a27b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L125
+# Subtest: Concurrent same-version batches: at most one commits
+ok 12 - Concurrent same-version batches: at most one commits
+  ---
+  duration_ms: 149.569
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.368Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a280 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: Rejected paired write commits neither document
+ok 13 - Rejected paired write commits neither document
+  ---
+  duration_ms: 143.6118
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.591Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a287 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: REGRESSION Resume Only cannot promote paused Draft without Actual Start
+ok 14 - REGRESSION Resume Only cannot promote paused Draft without Actual Start
+  ---
+  duration_ms: 157.3058
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.619Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a288 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# Subtest: REGRESSION inactive pause cannot retain pausedUntil
+ok 15 - REGRESSION inactive pause cannot retain pausedUntil
+  ---
+  duration_ms: 28.1358
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.671Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a28a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# Subtest: REGRESSION metadata update must participate in version integrity
+ok 16 - REGRESSION metadata update must participate in version integrity
+  ---
+  duration_ms: 51.7535
+  type: 'test'
+  ...
+# [2026-10-20T04:51:19.876Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a28f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L120
+# [2026-10-20T04:51:19.882Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a290 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L121
+# [2026-10-20T04:51:19.914Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a292 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L114, false for 'update' @ L120
+# [2026-10-20T04:51:20.006Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a294 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L120
+# [2026-10-20T04:51:20.013Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a295 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L121
+# [2026-10-20T04:51:20.044Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a297 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L114, false for 'update' @ L120
+# [2026-10-20T04:51:20.181Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a29a error. Code: 7 Message: 7 PERMISSION_DENIED: No matching allow statements
+# Subtest: owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+ok 17 - owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+  ---
+  duration_ms: 510.4646
+  type: 'test'
+  ...
+# [2026-10-20T04:51:20.296Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a29e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-24"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:20.420Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2a2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+ok 18 - pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 416.4266
+  type: 'test'
+  ...
+# [2026-10-20T04:51:20.724Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2ac error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-25"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:20.819Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+ok 19 - pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 371.6312
+  type: 'test'
+  ...
+# [2026-10-20T04:51:21.073Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2ba error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-26"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:21.181Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2be error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+ok 20 - pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 402.8359
+  type: 'test'
+  ...
+# [2026-10-20T04:51:21.537Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2ca error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-27"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:21.656Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2ce error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+ok 21 - pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 463.1718
+  type: 'test'
+  ...
+# [2026-10-20T04:51:22.015Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2da error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-28"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:22.141Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2de error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+ok 22 - pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 486.3675
+  type: 'test'
+  ...
+# [2026-10-20T04:51:22.426Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2e8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-29"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:22.528Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2ec error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+ok 23 - pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 381.9576
+  type: 'test'
+  ...
+# [2026-10-20T04:51:22.827Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2f6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-30"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:22.920Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a2fa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+ok 24 - pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 404.6652
+  type: 'test'
+  ...
+# [2026-10-20T04:51:23.266Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a306 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-31"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:23.366Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a30a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+ok 25 - pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 412.8701
+  type: 'test'
+  ...
+# [2026-10-20T04:51:23.631Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a314 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-32"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:23.745Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a318 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+ok 26 - pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 390.102
+  type: 'test'
+  ...
+# [2026-10-20T04:51:24.005Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a322 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-33"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:24.124Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a326 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+ok 27 - pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 376.45
+  type: 'test'
+  ...
+# [2026-10-20T04:51:24.464Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a332 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-34"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:24.562Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a336 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+ok 28 - pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 445.1288
+  type: 'test'
+  ...
+# Subtest: Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+ok 29 - Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+  ---
+  duration_ms: 534.328
+  type: 'test'
+  ...
+# Subtest: all five failure outcomes and repeated closure preserve original Actual Start and history
+ok 30 - all five failure outcomes and repeated closure preserve original Actual Start and history
+  ---
+  duration_ms: 2136.5537
+  type: 'test'
+  ...
+# [2026-10-20T04:51:27.712Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3a3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+ok 31 - Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+  ---
+  duration_ms: 307.3028
+  type: 'test'
+  ...
+# [2026-10-20T04:51:27.864Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3a8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:27.916Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3aa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:27.975Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3ac error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.020Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3ae error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.074Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.120Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3b2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.184Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3b4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.245Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3b6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.372Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3ba error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.689Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3c5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:28.735Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3c7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.785Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3c9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.848Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3cb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.894Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3cd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:28.957Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3cf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:29.009Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3d1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:29.066Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3d3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:29.114Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3d5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:29.225Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3d9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L121
+# Subtest: Closed and Deleted are read-only except their explicit permitted operations
+ok 32 - Closed and Deleted are read-only except their explicit permitted operations
+  ---
+  duration_ms: 1512.6967
+  type: 'test'
+  ...
+# [2026-10-20T04:51:29.359Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3dd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack owner rolls back both documents
+ok 33 - protected field/schema attack owner rolls back both documents
+  ---
+  duration_ms: 197.4181
+  type: 'test'
+  ...
+# [2026-10-20T04:51:29.546Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3e3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack createdAt rolls back both documents
+ok 34 - protected field/schema attack createdAt rolls back both documents
+  ---
+  duration_ms: 188.4407
+  type: 'test'
+  ...
+# [2026-10-20T04:51:29.718Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3e9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack updatedAt rolls back both documents
+ok 35 - protected field/schema attack updatedAt rolls back both documents
+  ---
+  duration_ms: 155.7287
+  type: 'test'
+  ...
+# [2026-10-20T04:51:29.893Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3ef error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: protected field/schema attack actualStart rolls back both documents
+ok 36 - protected field/schema attack actualStart rolls back both documents
+  ---
+  duration_ms: 191.1472
+  type: 'test'
+  ...
+# [2026-10-20T04:51:30.081Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3f5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: protected field/schema attack version skip rolls back both documents
+ok 37 - protected field/schema attack version skip rolls back both documents
+  ---
+  duration_ms: 175.3854
+  type: 'test'
+  ...
+# [2026-10-20T04:51:30.260Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a3fb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: protected field/schema attack version float rolls back both documents
+ok 38 - protected field/schema attack version float rolls back both documents
+  ---
+  duration_ms: 187.7445
+  type: 'test'
+  ...
+# [2026-10-20T04:51:30.450Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a401 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: protected field/schema attack unknown field rolls back both documents
+ok 39 - protected field/schema attack unknown field rolls back both documents
+  ---
+  duration_ms: 192.0606
+  type: 'test'
+  ...
+# [2026-10-20T04:51:30.639Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a407 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack missing field rolls back both documents
+ok 40 - protected field/schema attack missing field rolls back both documents
+  ---
+  duration_ms: 171.3224
+  type: 'test'
+  ...
+# [2026-10-20T04:51:30.791Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a40d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: protected field/schema attack legacy state rolls back both documents
+ok 41 - protected field/schema attack legacy state rolls back both documents
+  ---
+  duration_ms: 156.2127
+  type: 'test'
+  ...
+# [2026-10-20T04:51:30.953Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a413 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack inactive pause date rolls back both documents
+ok 42 - protected field/schema attack inactive pause date rolls back both documents
+  ---
+  duration_ms: 175.9337
+  type: 'test'
+  ...
+# [2026-10-20T04:51:31.139Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a419 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack open closure outcome rolls back both documents
+ok 43 - protected field/schema attack open closure outcome rolls back both documents
+  ---
+  duration_ms: 174.5631
+  type: 'test'
+  ...
+# [2026-10-20T04:51:31.299Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a41f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack open actual end rolls back both documents
+ok 44 - protected field/schema attack open actual end rolls back both documents
+  ---
+  duration_ms: 171.5351
+  type: 'test'
+  ...
+# [2026-10-20T04:51:31.486Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a425 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: protected field/schema attack reference overflow rolls back both documents
+ok 45 - protected field/schema attack reference overflow rolls back both documents
+  ---
+  duration_ms: 188.5939
+  type: 'test'
+  ...
+# [2026-10-20T04:51:31.678Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a42b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: protected field/schema attack closure timestamp spoof rolls back both documents
+ok 46 - protected field/schema attack closure timestamp spoof rolls back both documents
+  ---
+  duration_ms: 188.6413
+  type: 'test'
+  ...
+# [2026-10-20T04:51:31.834Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a431 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery owner rolls back both documents
+ok 47 - event forgery owner rolls back both documents
+  ---
+  duration_ms: 158.8357
+  type: 'test'
+  ...
+# [2026-10-20T04:51:32.007Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a437 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery taskId rolls back both documents
+ok 48 - event forgery taskId rolls back both documents
+  ---
+  duration_ms: 157.444
+  type: 'test'
+  ...
+# [2026-10-20T04:51:32.199Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a43d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery actor rolls back both documents
+ok 49 - event forgery actor rolls back both documents
+  ---
+  duration_ms: 205.0095
+  type: 'test'
+  ...
+# [2026-10-20T04:51:32.395Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a443 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery timestamp rolls back both documents
+ok 50 - event forgery timestamp rolls back both documents
+  ---
+  duration_ms: 191.5048
+  type: 'test'
+  ...
+# [2026-10-20T04:51:32.595Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a449 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# Subtest: event forgery toVersion rolls back both documents
+ok 51 - event forgery toVersion rolls back both documents
+  ---
+  duration_ms: 201.187
+  type: 'test'
+  ...
+# [2026-10-20T04:51:32.763Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a44f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery fromVersion rolls back both documents
+ok 52 - event forgery fromVersion rolls back both documents
+  ---
+  duration_ms: 170.4231
+  type: 'test'
+  ...
+# [2026-10-20T04:51:32.953Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a455 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# Subtest: event forgery missing comment rolls back both documents
+ok 53 - event forgery missing comment rolls back both documents
+  ---
+  duration_ms: 183.8917
+  type: 'test'
+  ...
+# [2026-10-20T04:51:33.123Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a45b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# Subtest: event forgery comment type rolls back both documents
+ok 54 - event forgery comment type rolls back both documents
+  ---
+  duration_ms: 164.3348
+  type: 'test'
+  ...
+# [2026-10-20T04:51:33.269Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a461 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# Subtest: event forgery attachment rolls back both documents
+ok 55 - event forgery attachment rolls back both documents
+  ---
+  duration_ms: 159.9167
+  type: 'test'
+  ...
+# [2026-10-20T04:51:33.450Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a467 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120, false for 'create' @ L124
+# Subtest: event forgery oversized comment rolls back both documents
+ok 56 - event forgery oversized comment rolls back both documents
+  ---
+  duration_ms: 158.034
+  type: 'test'
+  ...
+# [2026-10-20T04:51:33.604Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a46d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: event forgery type rolls back both documents
+ok 57 - event forgery type rolls back both documents
+  ---
+  duration_ms: 173.7498
+  type: 'test'
+  ...
+# [2026-10-20T04:51:33.775Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a473 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery before rolls back both documents
+ok 58 - event forgery before rolls back both documents
+  ---
+  duration_ms: 159.6643
+  type: 'test'
+  ...
+# [2026-10-20T04:51:33.946Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a479 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: event forgery after rolls back both documents
+ok 59 - event forgery after rolls back both documents
+  ---
+  duration_ms: 171.2059
+  type: 'test'
+  ...
+# [2026-10-20T04:51:34.025Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a47c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.048Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a47d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.070Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a47e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.096Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a47f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.119Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a480 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.143Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a481 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.174Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a482 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.200Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a483 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.231Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a484 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.254Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a485 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.279Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a486 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.311Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a487 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.335Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a488 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# [2026-10-20T04:51:34.356Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a489 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L124, false for 'update' @ L125
+# [2026-10-20T04:51:34.372Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a48b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L124, false for 'update' @ L125
+# Subtest: creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+ok 60 - creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+  ---
+  duration_ms: 374.3296
+  type: 'test'
+  ...
+# [2026-10-20T04:51:34.513Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a490 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:34.555Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a491 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# [2026-10-20T04:51:34.578Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a492 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# Subtest: metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+ok 61 - metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+  ---
+  duration_ms: 309.5433
+  type: 'test'
+  ...
+# [2026-10-20T04:51:34.759Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a499 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:34.908Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a49e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L125
+# [2026-10-20T04:51:34.936Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a49f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# [2026-10-20T04:51:35.001Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4a2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-75"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:35.081Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4a6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L124, false for 'update' @ L125
+# [2026-10-20T04:51:35.094Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4a7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L125
+# Subtest: deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+ok 62 - deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+  ---
+  duration_ms: 412.0845
+  type: 'test'
+  ...
+# [2026-10-20T04:51:35.182Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4aa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# [2026-10-20T04:51:35.352Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# [2026-10-20T04:51:35.476Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4b4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# [2026-10-20T04:51:35.575Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4b8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: semantic no-op operations and whitespace-only first-pause comments are rejected
+ok 63 - semantic no-op operations and whitespace-only first-pause comments are rejected
+  ---
+  duration_ms: 481.8554
+  type: 'test'
+  ...
+# Subtest: native SDK transaction conflict is rejected safely but is not automatically retried
+ok 64 - native SDK transaction conflict is rejected safely but is not automatically retried
+  ---
+  duration_ms: 170.996
+  type: 'test'
+  ...
+# Subtest: bounded adapter retry after confirmed version drift commits one Task change and one event
+ok 65 - bounded adapter retry after confirmed version drift commits one Task change and one event
+  ---
+  duration_ms: 172.0087
+  type: 'test'
+  ...
+# Subtest: adapter retry does not swallow invalid transitions or loop past its bound
+ok 66 - adapter retry does not swallow invalid transitions or loop past its bound
+  ---
+  duration_ms: 372.2546
+  type: 'test'
+  ...
+# [2026-10-20T04:51:36.383Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4dd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L125
+# Subtest: same-version batch race leaves exactly one event and one state effect
+ok 67 - same-version batch race leaves exactly one event and one state effect
+  ---
+  duration_ms: 155.1902
+  type: 'test'
+  ...
+# [2026-10-20T04:51:36.589Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a4e5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124
+# Subtest: mixed valid and invalid Tasks roll back entire batch
+ok 68 - mixed valid and invalid Tasks roll back entire batch
+  ---
+  duration_ms: 195.4091
+  type: 'test'
+  ...
+# [2026-10-20T04:51:42.076Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a596 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'update' @ L120, Service call error. Function: [exists], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-138"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L120
+# [2026-10-20T04:51:43.164Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a5b8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'create' @ L124, false for 'update' @ L120, false for 'update' @ L120, false for 'create' @ L124, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-148"
+#   }
+# }
+# ]. for 'create' @ L124
+# [2026-10-20T04:51:44.323Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a5dd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'update' @ L120, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'create' @ L124, false for 'create' @ L124, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'update' @ L120, false for 'create' @ L124, false for 'update' @ L120, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-160"
+#   }
+# }
+# ]. for 'create' @ L124
+# Subtest: Rules access budget sweep records accepted boundary and denied-batch rollback
+ok 69 - Rules access budget sweep records accepted boundary and denied-batch rollback
+  ---
+  duration_ms: 8215.4084
+  type: 'test'
+  ...
+# [2026-10-20T04:51:44.962Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a5ee error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date ordering rejects inverted instants and rolls back its event (prototype restriction)
+ok 70 - date ordering rejects inverted instants and rolls back its event (prototype restriction)
+  ---
+  duration_ms: 139.1904
+  type: 'test'
+  ...
+# Subtest: resolved domain gap: same-calendar-day Planned Start after Due is accepted
+ok 71 - resolved domain gap: same-calendar-day Planned Start after Due is accepted
+  ---
+  duration_ms: 93.8209
+  type: 'test'
+  ...
+# Subtest: India EOD and 16:00 resolve to correct UTC instants with original selected day
+ok 72 - India EOD and 16:00 resolve to correct UTC instants with original selected day
+  ---
+  duration_ms: 154.9583
+  type: 'test'
+  ...
+# Subtest: India display and overdue boundary stay unchanged when host timezone changes to London
+ok 73 - India display and overdue boundary stay unchanged when host timezone changes to London
+  ---
+  duration_ms: 30.1389
+  type: 'test'
+  ...
+# Subtest: same India calendar day permits reversed clock times even across UTC midnight
+ok 74 - same India calendar day permits reversed clock times even across UTC midnight
+  ---
+  duration_ms: 177.5753
+  type: 'test'
+  ...
+# [2026-10-20T04:51:45.528Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a601 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: same UTC day does not permit inverted India dates
+ok 75 - same UTC day does not permit inverted India dates
+  ---
+  duration_ms: 74.4282
+  type: 'test'
+  ...
+# [2026-10-20T04:51:45.608Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a604 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+ok 76 - EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+  ---
+  duration_ms: 317.8772
+  type: 'test'
+  ...
+# [2026-10-20T04:51:45.968Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a611 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery selected day before rejects Task and event together
+ok 77 - date schema forgery selected day before rejects Task and event together
+  ---
+  duration_ms: 177.2811
+  type: 'test'
+  ...
+# [2026-10-20T04:51:46.142Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a617 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery selected day after rejects Task and event together
+ok 78 - date schema forgery selected day after rejects Task and event together
+  ---
+  duration_ms: 172.8131
+  type: 'test'
+  ...
+# [2026-10-20T04:51:46.301Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a61d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery non-midnight day key rejects Task and event together
+ok 79 - date schema forgery non-midnight day key rejects Task and event together
+  ---
+  duration_ms: 159.7529
+  type: 'test'
+  ...
+# [2026-10-20T04:51:46.463Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a623 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: date schema forgery timestamp contradicts day rejects Task and event together
+ok 80 - date schema forgery timestamp contradicts day rejects Task and event together
+  ---
+  duration_ms: 158.4072
+  type: 'test'
+  ...
+# [2026-10-20T04:51:46.622Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a629 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: date schema forgery string timestamp rejects Task and event together
+ok 81 - date schema forgery string timestamp rejects Task and event together
+  ---
+  duration_ms: 159.9601
+  type: 'test'
+  ...
+# [2026-10-20T04:51:46.797Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a62f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: date schema forgery string day rejects Task and event together
+ok 82 - date schema forgery string day rejects Task and event together
+  ---
+  duration_ms: 189.9493
+  type: 'test'
+  ...
+# [2026-10-20T04:51:46.982Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a635 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery missing day rejects Task and event together
+ok 83 - date schema forgery missing day rejects Task and event together
+  ---
+  duration_ms: 171.8666
+  type: 'test'
+  ...
+# [2026-10-20T04:51:47.160Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a63b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery missing instant rejects Task and event together
+ok 84 - date schema forgery missing instant rejects Task and event together
+  ---
+  duration_ms: 192.3257
+  type: 'test'
+  ...
+# [2026-10-20T04:51:47.334Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a641 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery missing precision rejects Task and event together
+ok 85 - date schema forgery missing precision rejects Task and event together
+  ---
+  duration_ms: 170.1951
+  type: 'test'
+  ...
+# [2026-10-20T04:51:47.506Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a647 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery missing boundary rejects Task and event together
+ok 86 - date schema forgery missing boundary rejects Task and event together
+  ---
+  duration_ms: 156.5474
+  type: 'test'
+  ...
+# [2026-10-20T04:51:47.668Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a64d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery forged offset rejects Task and event together
+ok 87 - date schema forgery forged offset rejects Task and event together
+  ---
+  duration_ms: 162.1209
+  type: 'test'
+  ...
+# [2026-10-20T04:51:47.832Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a653 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery forged zone rejects Task and event together
+ok 88 - date schema forgery forged zone rejects Task and event together
+  ---
+  duration_ms: 172.3608
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.010Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a659 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery obsolete symbolic slot rejects Task and event together
+ok 89 - date schema forgery obsolete symbolic slot rejects Task and event together
+  ---
+  duration_ms: 171.4365
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.162Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a65f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery unknown key rejects Task and event together
+ok 90 - date schema forgery unknown key rejects Task and event together
+  ---
+  duration_ms: 163.236
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.326Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a665 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: date schema forgery date precision at 16h rejects Task and event together
+ok 91 - date schema forgery date precision at 16h rejects Task and event together
+  ---
+  duration_ms: 155.9659
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.502Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a66b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L120
+# Subtest: date schema forgery end-of-day at 16h rejects Task and event together
+ok 92 - date schema forgery end-of-day at 16h rejects Task and event together
+  ---
+  duration_ms: 167.3352
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.646Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a671 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date schema forgery non-boolean boundary rejects Task and event together
+ok 93 - date schema forgery non-boolean boundary rejects Task and event together
+  ---
+  duration_ms: 150.6255
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.787Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a676 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# [2026-10-20T04:51:48.860Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a679 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: date-only start requires India midnight and cannot use end-exclusive boundary
+ok 94 - date-only start requires India midnight and cannot use end-exclusive boundary
+  ---
+  duration_ms: 160.0665
+  type: 'test'
+  ...
+# [2026-10-20T04:51:48.948Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a67c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# Subtest: EOD selected-day forgery cannot turn a later start date into a valid pair
+ok 95 - EOD selected-day forgery cannot turn a later start date into a valid pair
+  ---
+  duration_ms: 88.3051
+  type: 'test'
+  ...
+# [2026-10-20T04:51:49.031Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a680 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L120:21 for 'update' @ L120, false for 'update' @ L120
+# [2026-10-20T04:51:49.155Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a685 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'update' @ L125
+# Subtest: planned date changes cannot bypass mandatory audit through ordinary metadata update
+ok 96 - planned date changes cannot bypass mandatory audit through ordinary metadata update
+  ---
+  duration_ms: 229.4833
+  type: 'test'
+  ...
+# [2026-10-20T04:51:49.198Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a687 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L110
+# [2026-10-20T04:51:49.213Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a688 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L110
+# [2026-10-20T04:51:49.228Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a689 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L110
+# [2026-10-20T04:51:49.244Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a68a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L110
+# [2026-10-20T04:51:49.265Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a68b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L110
+# [2026-10-20T04:51:49.322Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a68e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L107, false for 'update' @ L110
+# [2026-10-20T04:51:49.344Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a68f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L107, false for 'update' @ L110
+# [2026-10-20T04:51:49.371Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a690 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L107, false for 'update' @ L110
+# Subtest: fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+ok 97 - fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+  ---
+  duration_ms: 193.2009
+  type: 'test'
+  ...
+# [2026-10-20T04:51:49.438Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a693 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, evaluation error at L124:22 for 'create' @ L124, false for 'update' @ L125, false for 'create' @ L124, false for 'update' @ L120
+# [2026-10-20T04:51:49.460Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a694 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "no-policy"
+#   }
+# }
+# ]. for 'create' @ L114
+# Subtest: Task cannot override timezone, and dates fail closed without an account policy
+ok 98 - Task cannot override timezone, and dates fail closed without an account policy
+  ---
+  duration_ms: 89.0842
+  type: 'test'
+  ...
+# [2026-10-20T04:51:49.518Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x1000a696 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L114:21 for 'create' @ L114, evaluation error at L120:21 for 'update' @ L120, false for 'create' @ L114
+# Subtest: valid dates at creation are checked by the same Rules as updates
+ok 99 - valid dates at creation are checked by the same Rules as updates
+  ---
+  duration_ms: 57.0102
+  type: 'test'
+  ...
+# Subtest: date adapter handles leap day and year rollover and rejects invalid civil input
+ok 100 - date adapter handles leap day and year rollover and rejects invalid civil input
+  ---
+  duration_ms: 154.9698
+  type: 'test'
+  ...
+1..100
+# tests 100
+# suites 0
+# pass 100
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48248.6508
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

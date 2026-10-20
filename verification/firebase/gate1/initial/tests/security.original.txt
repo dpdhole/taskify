@@ -1,0 +1,157 @@
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
+let env;
+const uid = 'owner';
+const other = 'intruder';
+const sentinel = () => firebase.firestore.FieldValue.serverTimestamp();
+const stamp = () => firebase.firestore.Timestamp.fromDate(new Date('2030-01-01T00:00:00Z'));
+const path = id => `users/${uid}/tasks/${id}`;
+const eventPath = (id,eid) => `${path(id)}/activityEvents/${eid}`;
+const db = (user = uid) => env.authenticatedContext(user).firestore();
+const base = () => ({ ownerUid:uid, title:'Proof task', reference:'', lifecycle:'Draft', pauseReason:null,
+  pausedUntil:null, plannedStart:null, due:null, actualStart:null, actualEnd:null,
+  closureOutcome:null, version:0, lastEventId:'', createdAt:sentinel(), updatedAt:sentinel() });
+
+before(async () => {
+  env = await initializeTestEnvironment({projectId:'demo-taskify-gate1',firestore:{rules:fs.readFileSync(new URL('../firestore.rules',import.meta.url),'utf8')}});
+});
+after(async () => { if (env) await env.cleanup(); });
+
+let counter = 0;
+async function create() {
+  const id = `case-${++counter}`;
+  await assertSucceeds(db().doc(path(id)).set(base()));
+  return id;
+}
+const updateFor = (old, type, eid) => {
+  const next = {...old, version:old.version + 1,lastEventId:eid,updatedAt:sentinel()};
+  switch(type) {
+    case 'Start': next.lifecycle='InProgress';next.actualStart=sentinel();break;
+    case 'StartResume': next.lifecycle='InProgress';next.actualStart=sentinel();next.pauseReason=null;next.pausedUntil=null;break;
+    case 'Schedule': next.lifecycle='InProgress'; next.plannedStart=stamp();break;
+    case 'SchedulePause':next.plannedStart=stamp();next.pauseReason='Waiting';next.pausedUntil=stamp();break;
+    case 'Pause':next.pauseReason='Waiting';break;
+    case 'EditPause':next.pauseReason='Blocked';break;
+    case 'Resume':next.pauseReason=null;next.pausedUntil=null;break;
+    case 'ResumeStart':next.lifecycle='InProgress';next.pauseReason=null;next.pausedUntil=null;next.actualStart=sentinel();break;
+    case 'Done':next.lifecycle='Closed';next.closureOutcome='Done';next.actualEnd=sentinel();next.pauseReason=null;next.pausedUntil=null;break;
+    case 'Close':next.lifecycle='Closed';next.closureOutcome='Cancelled';next.actualEnd=sentinel();next.pauseReason=null;next.pausedUntil=null;break;
+    case 'Reopen':next.lifecycle='InProgress';next.closureOutcome=null;next.actualEnd=null;break;
+    case 'EditDates':next.due=stamp();break;
+    default: throw new Error(`unknown operation ${type}`);
+  }
+  return next;
+};
+async function paired(id, type, {expected='pass', actor=uid, eid, comment, mutateTask, mutateEvent, taskOnly=false, eventOnly=false, stale} = {}) {
+  const client = db(actor);
+  const ref = client.doc(path(id));
+  const beforeTask = stale ?? (await ref.get()).data();
+  const operationId = eid ?? `v${beforeTask.version+1}`;
+  const next = updateFor(beforeTask,type,operationId);
+  if (mutateTask) mutateTask(next,beforeTask);
+  const event = {ownerUid:uid,actorUid:uid,taskId:id,fromVersion:beforeTask.version,toVersion:next.version,
+    type:type==='SchedulePause'?'Schedule':type==='StartResume'?'Start':type==='ResumeStart'?'Resume':type,
+    comment:comment ?? (type==='Pause'?'Reason':type==='SchedulePause'?'Waiting to start':''),
+    before:beforeTask, after:next, createdAt:sentinel()};
+  if (mutateEvent) mutateEvent(event,next,beforeTask);
+  const batch=client.batch();
+  if (!eventOnly) batch.set(ref,next);
+  if (!taskOnly) batch.set(client.doc(eventPath(id,operationId)),event);
+  const op=batch.commit();
+  if (expected==='pass') await assertSucceeds(op); else await assertFails(op);
+  return {next,event,operationId};
+}
+
+// Each test isolates an independent Task, except tests that explicitly exercise transitions.
+test('authenticated owner can create Draft, but foreign and unauthenticated users cannot',async()=>{
+  await create();
+  await assertFails(db(other).doc(path('cross-user-create')).set(base()));
+  await assertFails(env.unauthenticatedContext().firestore().doc(path('anon-create')).set(base()));
+});
+test('ordinary title/reference edit succeeds, but cannot smuggle audited changes',async()=>{
+  const id=await create(); const ref=db().doc(path(id));
+  await assertSucceeds(ref.update({title:'New title',reference:'REF-1'}));
+  await assertFails(ref.update({lifecycle:'InProgress'}));
+  await assertFails(ref.update({title:'Attempt',actualStart:stamp()}));
+  await assertFails(ref.update({version:1}));
+  await assertFails(ref.update({ownerUid:other}));
+  await assertFails(ref.update({unknown:'field'}));
+});
+test('Start requires a matching immutable event',async()=>{
+  const id=await create();
+  await paired(id,'Start',{expected:'fail',taskOnly:true});
+  await paired(id,'Start',{expected:'fail',eventOnly:true});
+  await paired(id,'Start');
+  await assertFails(db().doc(eventPath(id,'v1')).update({comment:'altered'}));
+  await assertFails(db().doc(eventPath(id,'v1')).delete());
+});
+test('Schedule and paused Schedule satisfy different approved transitions',async()=>{
+  await paired(await create(),'Schedule');
+  await paired(await create(),'SchedulePause');
+});
+test('Pause and Edit Pause require an event and first-episode explanation',async()=>{
+  const id=await create();
+  await paired(id,'Pause',{expected:'fail',comment:''});
+  await paired(id,'Pause');
+  await paired(id,'EditPause');
+  await paired(id,'Resume');
+});
+test('Start and Resume combinations preserve independent Pause semantics',async()=>{
+  const id=await create();await paired(id,'Pause');await paired(id,'StartResume');
+  const separate=await create();await paired(separate,'Pause');await paired(separate,'ResumeStart');
+});
+test('Done, Close and Reopen preserve the approved lifecycle core',async()=>{
+  const done=await create();await paired(done,'Done');await paired(done,'Reopen');
+  const close=await create();await paired(close,'Close');await paired(close,'Reopen');
+});
+test('Audited date edits require events',async()=>{
+  const id=await create();
+  await paired(id,'EditDates',{taskOnly:true,expected:'fail'});
+  await paired(id,'EditDates');
+});
+test('Reject mismatched actors, operation types and historical snapshots',async()=>{
+  for(const edit of [
+    e=>{e.actorUid=other},
+    e=>{e.type='Done'},
+    e=>{e.fromVersion=99},
+    e=>{e.before={...e.before,title:'fake'}},
+    e=>{e.after={...e.after,title:'fake'}}
+  ]) await paired(await create(),'Start',{expected:'fail',mutateEvent:edit});
+});
+test('Reject unauthorized client writes, impossible transitions and mixed-field bypasses',async()=>{
+  const id=await create();
+  await paired(id,'Start',{expected:'fail',actor:other});
+  await paired(id,'Start',{expected:'fail',mutateTask:t=>{t.reference='smuggled'}});
+  await paired(id,'Start');
+  await paired(id,'Start',{expected:'fail'});
+  await paired(id,'Reopen',{expected:'fail'});
+});
+test('Reject event ID replay and stale Task versions',async()=>{
+  const id=await create();
+  const stale=(await db().doc(path(id)).get()).data();
+  await paired(id,'Start');
+  await paired(id,'EditDates',{expected:'fail',eid:'v1'});
+  await paired(id,'Start',{expected:'fail',stale,eid:'v2'});
+});
+test('Concurrent same-version batches: at most one commits',async()=>{
+  const id=await create();
+  const stale=(await db().doc(path(id)).get()).data();
+  const attempts=await Promise.allSettled([
+    paired(id,'Start',{stale,eid:'raceA'}),
+    paired(id,'Start',{stale,eid:'raceB'})
+  ]);
+  assert.equal(attempts.filter(x=>x.status==='fulfilled').length,1);
+  const snapshot=await db().doc(path(id)).get();
+  assert.equal(snapshot.data().version,1);
+});
+test('Rejected paired write commits neither document',async()=>{
+  const id=await create();
+  await paired(id,'Start',{expected:'fail',mutateEvent:e=>{e.actorUid=other}});
+  assert.equal((await db().doc(path(id)).get()).data().version,0);
+  assert.equal((await db().doc(eventPath(id,'v1')).get()).exists,false);
+});

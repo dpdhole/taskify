@@ -1,0 +1,353 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function owner(uid) { return request.auth != null && request.auth.uid == uid; }
+  function taskPath(uid,tid) { return /databases/$(database)/documents/users/$(uid)/tasks/$(tid); }
+  function eventPath(uid,tid,eid) { return /databases/$(database)/documents/users/$(uid)/tasks/$(tid)/activityEvents/$(eid); }
+  function fields() { return ['ownerUid','title','reference','categoryId','locationId','lastEffect','linkCount','lifecycle','pauseReason','pausedUntil','plannedStart','due','actualStart','actualEnd','closureOutcome','deletedAt','version','lastEventId','createdAt','updatedAt']; }
+  function validPlanned(v,isDue,offset) {
+   let local=v.at+duration.value(offset,'m');
+   let midnight=local.time()==duration.value(0,'s');
+   let selected=(v.endExclusive ? local-duration.value(1,'ns') : local).date();
+   return v.keys().hasOnly(['at','day','precision','endExclusive']) && v.keys().hasAll(['at','day','precision','endExclusive']) &&
+    v.at is timestamp && v.day is timestamp && v.precision in ['date','time'] && v.endExclusive is bool &&
+    v.day==selected &&
+    (isDue ? (!v.endExclusive || midnight) && (v.precision!='date' || (v.endExclusive && midnight))
+           : !v.endExclusive && (v.precision!='date' || midnight));
+  }
+  function shape(t,checkDates) {
+   let policy=get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+   return policy.timeZone=='Asia/Kolkata' && policy.utcOffsetMinutes==330 && t.keys().hasOnly(fields()) && t.keys().hasAll(fields()) &&
+    t.categoryId is string && (t.locationId==null || t.locationId is string) && (t.lastEffect==null || t.lastEffect is map) && t.linkCount is int && t.linkCount>=0 && t.linkCount<=10 && t.ownerUid is string && t.title is string && t.title.size()>0 && t.title.size()<=500 &&
+    t.reference is string && t.reference.size()<=255 &&
+    t.version is int && t.version>=0 && t.version<2147483647 && t.lastEventId is string &&
+    t.createdAt is timestamp && t.updatedAt is timestamp &&
+    t.lifecycle in ['Draft','InProgress','Closed'] &&
+    (t.pauseReason == null || t.pauseReason in ['Waiting','Blocked','OnHold','Other']) &&
+    (t.pausedUntil == null || t.pausedUntil is timestamp) &&
+    (t.pauseReason != null || t.pausedUntil == null) &&
+    (!checkDates || t.plannedStart == null || validPlanned(t.plannedStart,false,policy.utcOffsetMinutes)) &&
+    (!checkDates || t.due == null || validPlanned(t.due,true,policy.utcOffsetMinutes)) &&
+    (!checkDates || t.plannedStart == null || t.due == null || t.plannedStart.day <= t.due.day) &&
+    (t.actualStart == null || t.actualStart is timestamp) &&
+    (t.actualEnd == null || t.actualEnd is timestamp) &&
+    (t.deletedAt == null || t.deletedAt is timestamp) &&
+    (t.lifecycle == 'Closed'
+     ? t.closureOutcome in ['Done','Cancelled','UnableToComplete','NoLongerApplicable','Duplicate','Other'] && t.actualEnd != null && t.pauseReason == null && t.pausedUntil == null
+     : t.closureOutcome == null && t.actualEnd == null);
+  }
+  function delta(a,b) { return b.diff(a).affectedKeys(); }
+  function opFields(op) {
+   return {
+    'Start':['lifecycle','actualStart','pauseReason','pausedUntil'],
+    'Schedule':['lifecycle','plannedStart','due','pauseReason','pausedUntil'],
+    'Pause':['pauseReason','pausedUntil'], 'EditPause':['pauseReason','pausedUntil'],
+    'Resume':['lifecycle','actualStart','pauseReason','pausedUntil'],
+    'Done':['lifecycle','closureOutcome','actualEnd','pauseReason','pausedUntil'],
+    'Close':['lifecycle','closureOutcome','actualEnd','pauseReason','pausedUntil'],
+    'Reopen':['lifecycle','closureOutcome','actualEnd'],
+    'Entity':['lifecycle','actualStart','lastEffect','linkCount'], 'EditDates':['plannedStart','due'], 'Delete':['deletedAt'], 'Restore':['deletedAt']
+   }[op];
+  }
+  function operation(op,a,b,comment) {
+   return delta(a,b).hasOnly(opFields(op).concat(['version','lastEventId','updatedAt'])) &&
+    delta(a,b).hasAny(opFields(op)) &&
+    (a.deletedAt == null ? op != 'Restore' : op == 'Restore') &&
+    (op == 'Entity' ? childEffect(request.auth.uid,resource.id,a,b) : op == 'Start' ? a.lifecycle != 'Closed' && a.actualStart == null && b.lifecycle == 'InProgress' && b.actualStart == request.time &&
+      ((b.pauseReason == a.pauseReason && b.pausedUntil == a.pausedUntil) || (b.pauseReason == null && b.pausedUntil == null)) :
+     op == 'Schedule' ? a.lifecycle == 'Draft' && b.plannedStart != null &&
+      ((b.lifecycle == 'InProgress' && b.pauseReason == null && b.pausedUntil == null) ||
+       (b.lifecycle == 'Draft' && b.pauseReason == 'Waiting' && b.pausedUntil == b.plannedStart.at && comment == 'Waiting to start')) :
+     op == 'Pause' ? a.lifecycle != 'Closed' && a.pauseReason == null && b.pauseReason != null && comment.matches('.*[^\\s].*') :
+     op == 'EditPause' ? a.lifecycle != 'Closed' && a.pauseReason != null && b.pauseReason != null :
+     op == 'Resume' ? a.lifecycle != 'Closed' && a.pauseReason != null && b.pauseReason == null && b.pausedUntil == null &&
+      ((b.lifecycle == a.lifecycle && b.actualStart == a.actualStart) ||
+       (a.actualStart == null && b.actualStart == request.time && b.lifecycle == 'InProgress')) :
+     op == 'Done' ? a.lifecycle != 'Closed' && b.lifecycle == 'Closed' && b.closureOutcome == 'Done' && b.actualEnd == request.time :
+     op == 'Close' ? a.lifecycle != 'Closed' && b.lifecycle == 'Closed' && b.closureOutcome in ['Cancelled','UnableToComplete','NoLongerApplicable','Duplicate','Other'] && b.actualEnd == request.time :
+     op == 'Reopen' ? a.lifecycle == 'Closed' && b.lifecycle == 'InProgress' && b.closureOutcome == null && b.actualEnd == null :
+     op == 'EditDates' ? a.lifecycle != 'Closed' :
+     op == 'Delete' ? b.deletedAt == request.time :
+     op == 'Restore' ? b.deletedAt == null : false);
+  }
+  function ordinary(a,b) {
+   return a.lifecycle != 'Closed' && a.deletedAt == null &&
+    delta(a,b).hasOnly(['title','reference','categoryId','locationId','version','updatedAt']) && delta(a,b).hasAny(['title','reference','categoryId','locationId']);
+  }
+  function audited(uid,tid,a,b) {
+   let ep = eventPath(uid,tid,b.lastEventId);
+   let e = getAfter(ep).data;
+   return b.lastEventId == 'v'+string(b.version) && !exists(ep) &&
+    e.before == a && e.after == b && (e.type=='Entity' ? auditEffect(uid,tid,b,e):e.effectBefore==null && e.effectAfter==null) && operation(e.type,a,b,e.comment);
+  }
+  function updateTask(uid,tid) {
+   let a=resource.data;
+   let b=request.resource.data;
+   return shape(b,delta(a,b).hasAny(['plannedStart','due'])) && a.ownerUid == uid && b.ownerUid == uid && b.createdAt == a.createdAt &&
+    b.version == a.version+1 && b.updatedAt == request.time && changedReferences(uid,a,b) &&
+    (b.lastEventId == a.lastEventId ? ordinary(a,b) : audited(uid,tid,a,b));
+  }
+  function eventCreate(uid,tid,eid) {
+   let e=request.resource.data;
+   let tp=taskPath(uid,tid);
+   let a=get(tp).data;
+   let b=getAfter(tp).data;
+   return e.keys().hasOnly(['ownerUid','actorUid','taskId','fromVersion','toVersion','type','comment','before','after','createdAt','effectBefore','effectAfter']) &&
+    e.keys().hasAll(['ownerUid','actorUid','taskId','fromVersion','toVersion','type','comment','before','after','createdAt','effectBefore','effectAfter']) &&
+    e.ownerUid == uid && e.actorUid == uid && e.taskId == tid &&
+    e.type is string && e.comment is string && e.comment.size()<=2000 &&
+    e.fromVersion is int && e.toVersion is int && e.fromVersion == a.version && e.toVersion == a.version+1 &&
+    e.before == a && e.after == b && e.createdAt == request.time &&
+    b.lastEventId == eid && eid == 'v'+string(b.version) && b.version == e.toVersion;
+   // The increment proves the Task changes in this write set. Its own rule validates operation/shape.
+  }
+  function childPath(uid,tid,kind,id) { return /databases/$(database)/documents/users/$(uid)/tasks/$(tid)/$(kind)/$(id); }
+  function editable(t) { return t.lifecycle!='Closed' && t.deletedAt==null; }
+  function startedByActivity(a,b,qualifies) {
+   let starts=qualifies && a.actualStart==null && (a.lifecycle=='InProgress' || a.pauseReason==null);
+   return b.lifecycle==(qualifies && a.lifecycle=='Draft' && a.pauseReason==null ? 'InProgress':a.lifecycle) &&
+    b.actualStart==(starts ? request.time:a.actualStart);
+  }
+  function childEffect(uid,tid,a,b) {
+   let x=b.lastEffect;
+   let cp=childPath(uid,tid,x.kind,x.id);
+   let qualifies=(x.kind in ['discussionEntries','discussionLinks'] && x.action=='create') || (x.kind=='todos' && x.action=='close');
+   let countDelta=x.kind=='discussionLinks' ? (x.action=='create'?1:(x.action=='delete'?-1:0)):0;
+   return editable(a) && x.keys().hasOnly(['kind','id','action','version']) && x.keys().hasAll(['kind','id','action','version']) && x.version==b.version &&
+    x.kind in ['discussionEntries','discussionLinks','todos'] && x.id is string && x.id.size()>0 &&
+    x.action in ['create','edit','close','reopen','delete'] &&
+    startedByActivity(a,b,qualifies) && b.linkCount==a.linkCount+countDelta &&
+    (x.action=='delete' ? exists(cp) && !existsAfter(cp) :
+     existsAfter(cp) && getAfter(cp).data.taskVersion==b.version &&
+      (x.action=='create' ? !exists(cp):exists(cp) && get(cp).data.taskVersion!=b.version));
+  }
+  function auditEffect(uid,tid,b,e) {
+   let x=b.lastEffect;let cp=childPath(uid,tid,x.kind,x.id);
+   return x.kind=='discussionEntries' ? e.effectBefore==null && e.effectAfter==null :
+    e.effectBefore==(x.action=='create'?null:get(cp).data) && e.effectAfter==(x.action=='delete'?null:getAfter(cp).data);
+  }
+  function childPair(uid,tid,kind,id,action) {
+   let a=get(taskPath(uid,tid)).data;
+   let b=getAfter(taskPath(uid,tid)).data;
+   return editable(a) && editable(b) && b.version==a.version+1 &&
+    b.lastEffect=={'kind':kind,'id':id,'action':action,'version':b.version} && b.lastEventId!=a.lastEventId;
+  }
+  function childBase(d,uid,tid) { return d.ownerUid==uid && d.taskId==tid && d.createdAt is timestamp && d.updatedAt==request.time && d.taskVersion is int; }
+  function childCreate(uid,tid,kind,id) {
+   let d=request.resource.data;
+   return childBase(d,uid,tid) && d.createdAt==request.time &&
+    d.taskVersion==getAfter(taskPath(uid,tid)).data.version && childPair(uid,tid,kind,id,'create') &&
+    (kind=='discussionEntries' ? d.keys().hasOnly(['ownerUid','taskId','text','createdAt','updatedAt','taskVersion']) && d.text is string && d.text.size()>0 :
+     kind=='discussionLinks' ? linkShape(d) :todoShape(d) && !d.closed && d.closedAt==null);
+  }
+  function linkShape(d) {
+   return d.keys().hasOnly(['ownerUid','taskId','title','url','createdAt','updatedAt','taskVersion']) &&
+    d.title is string && d.url is string && d.url.matches('https?://[^\\s]+');
+  }
+  function todoShape(d) {
+   return d.keys().hasOnly(['ownerUid','taskId','title','closed','closedAt','order','createdAt','updatedAt','taskVersion']) &&
+    d.title is string && d.title.size()>0 && d.closed is bool && d.order is int &&
+    (d.closed ? d.closedAt is timestamp:d.closedAt==null);
+  }
+  function childUpdate(uid,tid,kind,id) {
+   let a=resource.data;
+   let b=request.resource.data;
+   let action=kind=='todos' ? (a.closed!=b.closed ? (b.closed?'close':'reopen'):'edit'):'edit';
+   return childBase(b,uid,tid) && a.ownerUid==uid && b.createdAt==a.createdAt &&
+    (kind=='discussionEntries' ? editable(get(taskPath(uid,tid)).data) && editable(getAfter(taskPath(uid,tid)).data) &&
+      request.time<a.createdAt+duration.value(30,'m') && delta(a,b).hasOnly(['text','updatedAt']) &&
+      delta(a,b).hasAny(['text']) && b.text is string && b.text.size()>0 :
+     b.taskVersion==getAfter(taskPath(uid,tid)).data.version && childPair(uid,tid,kind,id,action) &&
+      (kind=='discussionLinks' ? linkShape(b) && delta(a,b).hasOnly(['title','url','updatedAt','taskVersion']) && delta(a,b).hasAny(['title','url']) :
+       todoShape(b) && (action=='edit' ? !a.closed && delta(a,b).hasOnly(['title','order','updatedAt','taskVersion']) && delta(a,b).hasAny(['title','order']) :
+        delta(a,b).hasOnly(['closed','closedAt','updatedAt','taskVersion']) && (b.closed ? b.closedAt==request.time:b.closedAt==null))));
+  }
+  function childDelete(uid,tid,kind,id) {
+   let d=resource.data;
+   return d.ownerUid==uid &&
+    (kind=='discussionEntries' ? editable(get(taskPath(uid,tid)).data) && editable(getAfter(taskPath(uid,tid)).data) && request.time<d.createdAt+duration.value(30,'m') :
+     (kind!='todos' || !d.closed) && childPair(uid,tid,kind,id,'delete'));
+  }
+  function classificationPath(uid,kind,id) { return /databases/$(database)/documents/users/$(uid)/$(kind)/$(id); }
+  function activeReference(uid,kind,id) { let c=getAfter(classificationPath(uid,kind,id)).data; return c.ownerUid==uid && !c.archived; }
+  function newReferences(uid,b) { return existsAfter(classificationPath(uid,'categories','uncategorized')) && activeReference(uid,'categories',b.categoryId) && (b.locationId==null || activeReference(uid,'locations',b.locationId)); }
+  function changedReferences(uid,a,b) { return (b.categoryId==a.categoryId || activeReference(uid,'categories',b.categoryId)) &&
+   (b.locationId==a.locationId || b.locationId==null || activeReference(uid,'locations',b.locationId)); }
+
+  function orderPath(uid,kind) { return /databases/$(database)/documents/users/$(uid)/orders/$(kind); }
+  function manifestPath(uid) { return /databases/$(database)/documents/users/$(uid)/provisioning/views; }
+  function nameKeyPath(uid,kind,key) { let digest=hashing.sha256(key).toHexString(); return /databases/$(database)/documents/users/$(uid)/nameKeys/$(kind)/keys/$(digest); }
+  // Owner accepted client-side NFC and grapheme enforcement. Lower/trim and literal-key reservations remain enforced here.
+  function namedShape(d,uid) {
+   return d.keys().hasOnly(['ownerUid','name','nameKey','icon','archived','version','createdAt','updatedAt']) &&
+    d.keys().hasAll(['ownerUid','name','nameKey','icon','archived','version','createdAt','updatedAt']) &&
+    d.ownerUid==uid && d.name is string && d.name.size()>0 && d.name==d.name.trim() && d.nameKey==d.name.lower() &&
+    d.icon is string && d.archived is bool && d.version is int && d.createdAt is timestamp && d.updatedAt==request.time;
+  }
+  function orderedCreate(uid,kind,id) {
+   let a=get(orderPath(uid,kind)).data;
+   let b=getAfter(orderPath(uid,kind)).data;
+   return b.ids==a.ids.concat([id]) && b.version==a.version+1;
+  }
+  function reserved(uid,kind,id,key) { let g=getAfter(nameKeyPath(uid,kind,key)).data; return g.ownerUid==uid && g.entityId==id && g.nameKey==key; }
+  function namedCreate(uid,kind,id) {
+   let d=request.resource.data;
+   return namedShape(d,uid) && d.version==0 && d.createdAt==request.time && !d.archived &&
+    (kind!='categories' || (id=='uncategorized' ? d.name=='Uncategorized' && d.icon=='label':d.nameKey!='uncategorized')) &&
+    orderedCreate(uid,kind,id) && reserved(uid,kind,id,d.nameKey) && !exists(nameKeyPath(uid,kind,d.nameKey));
+  }
+  function namedUpdate(uid,kind,id) {
+   let a=resource.data;let b=request.resource.data;
+   return namedShape(b,uid) && b.createdAt==a.createdAt && b.version==a.version+1 &&
+    (kind!='categories' || (id=='uncategorized' ? b.name=='Uncategorized' && b.icon=='label' && !b.archived:b.nameKey!='uncategorized')) &&
+    (b.nameKey==a.nameKey || (!existsAfter(nameKeyPath(uid,kind,a.nameKey)) && reserved(uid,kind,id,b.nameKey) && !exists(nameKeyPath(uid,kind,b.nameKey))));
+  }
+  function keyCreate(uid,kind,digest) {
+   let g=request.resource.data;
+   let cp=classificationPath(uid,kind,g.entityId);
+   let b=getAfter(cp).data;
+   return g.keys().hasOnly(['ownerUid','entityId','nameKey']) && g.keys().hasAll(['ownerUid','entityId','nameKey']) &&
+    g.ownerUid==uid && g.nameKey is string && g.entityId is string && digest==hashing.sha256(g.nameKey).toHexString() &&
+    b.ownerUid==uid && b.nameKey==g.nameKey && (!exists(cp) || get(cp).data.nameKey!=g.nameKey);
+  }
+  function keyDelete(uid,kind) {
+   let g=resource.data;
+   let cp=classificationPath(uid,kind,g.entityId);
+   return g.ownerUid==uid && get(cp).data.nameKey==g.nameKey && getAfter(cp).data.nameKey!=g.nameKey;
+  }
+  function orderShape(d,uid) { return d.keys().hasOnly(['ownerUid','ids','version']) && d.keys().hasAll(['ownerUid','ids','version']) &&
+   d.ownerUid==uid && d.ids is list && d.ids.size()==d.ids.toSet().size() && d.version is int; }
+  function orderUpdate(uid,kind) {
+   let a=resource.data;let b=request.resource.data;
+   let added=b.ids.removeAll(a.ids);let removed=a.ids.removeAll(b.ids);
+   return orderShape(b,uid) && b.version==a.version+1 &&
+    (added.size()==0 && removed.size()==0 ? true :
+     added.size()==1 && removed.size()==0 ? b.ids==a.ids.concat(added) && !exists(classificationPath(uid,kind,added[0])) && existsAfter(classificationPath(uid,kind,added[0])) :
+     kind=='savedViews' && added.size()==0 && removed.size()==1 && exists(classificationPath(uid,kind,removed[0])) && !existsAfter(classificationPath(uid,kind,removed[0])));
+  }
+  function viewIds() { return ['focus','scheduled','priority','local','completed','deleted','allTasks']; }
+  function viewQuery(group,sort,dir,closed,deleted,reasons,deletedFilter) {
+   return {'groupBy':group,'sortField':sort,'sortDirection':dir,'includeClosed':closed,'includeDeleted':deleted,'closureReasons':reasons,'deletedFilter':deletedFilter};
+  }
+  function defaultQuery(id) {
+   return id=='focus'?viewQuery('Due','Due','asc',false,false,[],null):
+    id=='scheduled'?viewQuery('PlannedStart','PlannedStart','asc',false,false,[],null):
+    id=='priority'?viewQuery('Priority','Due','asc',false,false,[],null):
+    id=='local'?viewQuery('Location','Due','asc',false,false,[],null):
+    id=='completed'?viewQuery('ActualEnd','ActualEnd','desc',true,false,['Done'],null):
+    id=='deleted'?viewQuery('DeletedAt','DeletedAt','desc',true,true,[],'set'):viewQuery('Category','Due','asc',false,false,[],null);
+  }
+  function defaultView(uid,id) {
+   return {'ownerUid':uid,'name':{'focus':'Focus','scheduled':'Scheduled','priority':'Priority','local':'Local','completed':'Completed','deleted':'Deleted','allTasks':'All Tasks'}[id],
+    'query':defaultQuery(id),'showOnHome':true,'version':0,'createdAt':request.time,'updatedAt':request.time};
+  }
+  function queryShape(q) {
+   return q.keys().hasOnly(['groupBy','sortField','sortDirection','includeClosed','includeDeleted','closureReasons','deletedFilter']) &&
+    q.keys().hasAll(['groupBy','sortField','sortDirection','includeClosed','includeDeleted','closureReasons','deletedFilter']) &&
+    q.groupBy in ['Category','Due','PlannedStart','Priority','Location','ActualEnd','DeletedAt'] && q.sortField in ['Title','Due','PlannedStart','ActualEnd','DeletedAt'] &&
+    q.sortDirection in ['asc','desc'] && q.includeClosed is bool && q.includeDeleted is bool && q.closureReasons is list &&
+    q.closureReasons.hasOnly(['Done','Cancelled','UnableToComplete','NoLongerApplicable','Duplicate','Other']) && q.deletedFilter in [null,'set','notSet'];
+  }
+  function viewShape(d,uid) { return d.keys().hasOnly(['ownerUid','name','query','showOnHome','version','createdAt','updatedAt']) &&
+   d.keys().hasAll(['ownerUid','name','query','showOnHome','version','createdAt','updatedAt']) && d.ownerUid==uid &&
+   d.name is string && d.name.size()>0 && d.showOnHome is bool && d.version is int && d.createdAt is timestamp && d.updatedAt==request.time && queryShape(d.query); }
+  function viewCreate(uid,id) {
+   let d=request.resource.data;
+   let order=getAfter(orderPath(uid,'savedViews')).data;
+   // Version zero can exist only with the complete initial set. Deleting any ordinary seed increments it.
+   // The manifest checks all seven initial definitions; each seed need only require its initial order.
+   return viewShape(d,uid) && d.version==0 && d.createdAt==request.time && d.showOnHome &&
+    (order.version==0 ? id in viewIds():id!='allTasks' && orderedCreate(uid,'savedViews',id));
+  }
+  function manifestCreate(uid) {
+   let d=request.resource.data;
+   return d=={'ownerUid':uid,'version':1,'createdAt':request.time} &&
+    getAfter(classificationPath(uid,'savedViews','focus')).data==defaultView(uid,'focus') &&
+    getAfter(classificationPath(uid,'savedViews','scheduled')).data==defaultView(uid,'scheduled') &&
+    getAfter(classificationPath(uid,'savedViews','priority')).data==defaultView(uid,'priority') &&
+    getAfter(classificationPath(uid,'savedViews','local')).data==defaultView(uid,'local') &&
+    getAfter(classificationPath(uid,'savedViews','completed')).data==defaultView(uid,'completed') &&
+    getAfter(classificationPath(uid,'savedViews','deleted')).data==defaultView(uid,'deleted') &&
+    getAfter(classificationPath(uid,'savedViews','allTasks')).data==defaultView(uid,'allTasks') &&
+    getAfter(orderPath(uid,'savedViews')).data.ids==viewIds();
+  }
+  match /users/{uid}/{kind}/{id} {
+   allow read: if owner(uid) && kind in ['categories','locations'];
+   allow create: if owner(uid) && kind in ['categories','locations'] && namedCreate(uid,kind,id);
+   allow update: if owner(uid) && kind in ['categories','locations'] && namedUpdate(uid,kind,id);
+   allow delete: if false;
+  }
+  match /users/{uid}/nameKeys/{kind}/keys/{digest} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && kind in ['categories','locations'] && keyCreate(uid,kind,digest);
+   allow update: if false;
+   allow delete: if owner(uid) && kind in ['categories','locations'] && keyDelete(uid,kind);
+  }
+  match /users/{uid}/orders/{kind} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && kind in ['categories','locations','savedViews'] && orderShape(request.resource.data,uid) && request.resource.data.version==0 &&
+    (kind=='savedViews' ? request.resource.data.ids==viewIds() && existsAfter(manifestPath(uid)):request.resource.data.ids.size()==0);
+   allow update: if owner(uid) && kind in ['categories','locations','savedViews'] && orderUpdate(uid,kind);
+   allow delete: if false;
+  }
+  match /users/{uid}/provisioning/views {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && manifestCreate(uid);
+   allow update,delete: if false;
+  }
+  match /users/{uid}/savedViews/{id} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && viewCreate(uid,id);
+   allow update: if owner(uid) && id!='allTasks' && viewShape(request.resource.data,uid) && request.resource.data.createdAt==resource.data.createdAt && request.resource.data.version==resource.data.version+1;
+   allow delete: if owner(uid) && id!='allTasks' && getAfter(orderPath(uid,'savedViews')).data.ids==get(orderPath(uid,'savedViews')).data.ids.removeAll([id]);
+  }
+
+  match /users/{uid}/settings/preferences {
+   allow read: if owner(uid);
+   allow create,update: if owner(uid) && request.resource.data.keys().hasOnly(['ownerUid','viewDiscardWarning','version']) &&
+    request.resource.data.keys().hasAll(['ownerUid','viewDiscardWarning','version']) && request.resource.data.ownerUid==uid &&
+    request.resource.data.viewDiscardWarning is bool && request.resource.data.version is int &&
+    (resource==null ? request.resource.data.version==0:request.resource.data.version==resource.data.version+1);
+   allow delete: if false;
+  }
+  // Fixed India-zone policy for this probe. Other zones are unsupported, never approximated by arbitrary offsets.
+  match /users/{uid} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && request.resource.data.keys().hasOnly(['ownerUid','timeZone','utcOffsetMinutes']) &&
+    request.resource.data.keys().hasAll(['ownerUid','timeZone','utcOffsetMinutes']) && request.resource.data.ownerUid==uid &&
+    request.resource.data.timeZone=='Asia/Kolkata' && request.resource.data.utcOffsetMinutes is int && request.resource.data.utcOffsetMinutes==330;
+   allow update,delete: if false;
+  }
+  match /users/{uid}/tasks/{tid} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && shape(request.resource.data,true) &&
+    newReferences(uid,request.resource.data) && request.resource.data.lastEffect==null && request.resource.data.linkCount==0 && request.resource.data.ownerUid == uid && request.resource.data.lifecycle == 'Draft' &&
+    request.resource.data.pauseReason == null && request.resource.data.pausedUntil == null &&
+    request.resource.data.actualStart == null && request.resource.data.actualEnd == null &&
+    request.resource.data.deletedAt == null && request.resource.data.version == 0 && request.resource.data.lastEventId == '' &&
+    request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+   allow update: if owner(uid) && updateTask(uid,tid);
+   allow delete: if false;
+   match /{kind}/{id} {
+    allow read: if owner(uid) && kind in ['discussionEntries','discussionLinks','todos'] && exists(taskPath(uid,tid));
+    allow create: if owner(uid) && kind in ['discussionEntries','discussionLinks','todos'] && childCreate(uid,tid,kind,id);
+    allow update: if owner(uid) && kind in ['discussionEntries','discussionLinks','todos'] && childUpdate(uid,tid,kind,id);
+    allow delete: if owner(uid) && kind in ['discussionEntries','discussionLinks','todos'] && childDelete(uid,tid,kind,id);
+   }
+   match /activityEvents/{eid} {
+    allow read: if owner(uid);
+    allow create: if owner(uid) && eventCreate(uid,tid,eid);
+    allow update,delete: if false;
+   }
+  }
+ }
+}
+
+
+
+
+
+
+
+
+

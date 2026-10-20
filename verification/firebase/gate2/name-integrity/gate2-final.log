@@ -1,0 +1,362 @@
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-taskify-gate2", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/*.test.mjs
+TAP version 13
+# Subtest: categories: owner creates entity and unique name guard atomically
+ok 1 - categories: owner creates entity and unique name guard atomically
+  ---
+  duration_ms: 1937.9449
+  type: 'test'
+  ...
+# [2026-10-20T05:01:16.276Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a03d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "nameGuards"
+#   }
+#   segments {
+#     simple: "categories"
+#   }
+#   segments {
+#     simple: "keys"
+#   }
+#   segments {
+#     simple: "missing-1"
+#   }
+# }
+# ]. for 'create' @ L28
+# [2026-10-20T05:01:16.426Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a040 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "categories"
+#   }
+#   segments {
+#     simple: "entity-3"
+#   }
+# }
+# ]. for 'create' @ L35
+# Subtest: categories: missing entity or missing name guard rejects and rolls back
+ok 2 - categories: missing entity or missing name guard rejects and rolls back
+  ---
+  duration_ms: 313.4699
+  type: 'test'
+  ...
+# [2026-10-20T05:01:16.621Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a044 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'update' @ L36
+# [2026-10-20T05:01:16.680Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a045 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: categories: identical and case-only duplicate names rejected
+ok 3 - categories: identical and case-only duplicate names rejected
+  ---
+  duration_ms: 170.425
+  type: 'test'
+  ...
+# [2026-10-20T05:01:16.837Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a048 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: categories: archived names remain reserved
+ok 4 - categories: archived names remain reserved
+  ---
+  duration_ms: 155.7498
+  type: 'test'
+  ...
+# [2026-10-20T05:01:16.872Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a049 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L28, false for 'update' @ L29
+# [2026-10-20T05:01:16.922Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a04a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# [2026-10-20T05:01:16.987Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a04b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# [2026-10-20T05:01:17.030Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a04c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# [2026-10-20T05:01:17.074Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a04d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, false for 'create' @ L35, false for 'update' @ L36
+# Subtest: categories: spoofed owner, arbitrary key, mismatched guard and foreign actor rejected
+ok 5 - categories: spoofed owner, arbitrary key, mismatched guard and foreign actor rejected
+  ---
+  duration_ms: 238.9788
+  type: 'test'
+  ...
+# [2026-10-20T05:01:17.190Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a04f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: categories: exact-key concurrent claims yield one entity and guard
+ok 6 - categories: exact-key concurrent claims yield one entity and guard
+  ---
+  duration_ms: 180.7707
+  type: 'test'
+  ...
+# [2026-10-20T05:01:17.360Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a053 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: categories: ASCII length 30 accepted; 31 rejected
+ok 7 - categories: ASCII length 30 accepted; 31 rejected
+  ---
+  duration_ms: 103.2614
+  type: 'test'
+  ...
+# Subtest: categories: required NFC-equivalent duplicate must be rejected
+not ok 8 - categories: required NFC-equivalent duplicate must be rejected
+  ---
+  duration_ms: 185.1092
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\name-integrity\\tests\\names.test.mjs:41:2'
+  failureType: 'testCodeFailure'
+  error: 'NFC-equivalent duplicate committed through two distinct name guards'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Work/taskify/codex/gate2/name-integrity/tests/names.test.mjs:47:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# [2026-10-20T05:01:17.636Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a057 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: categories: required valid 10-grapheme emoji name must be accepted
+not ok 9 - categories: required valid 10-grapheme emoji name must be accepted
+  ---
+  duration_ms: 90.5729
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\name-integrity\\tests\\names.test.mjs:49:2'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# Subtest: locations: owner creates entity and unique name guard atomically
+ok 10 - locations: owner creates entity and unique name guard atomically
+  ---
+  duration_ms: 101.3013
+  type: 'test'
+  ...
+# [2026-10-20T05:01:17.779Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a05a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "nameGuards"
+#   }
+#   segments {
+#     simple: "locations"
+#   }
+#   segments {
+#     simple: "keys"
+#   }
+#   segments {
+#     simple: "missing-21"
+#   }
+# }
+# ]. for 'create' @ L28
+# [2026-10-20T05:01:17.893Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a05d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "locations"
+#   }
+#   segments {
+#     simple: "entity-23"
+#   }
+# }
+# ]. for 'create' @ L35
+# Subtest: locations: missing entity or missing name guard rejects and rolls back
+ok 11 - locations: missing entity or missing name guard rejects and rolls back
+  ---
+  duration_ms: 218.1829
+  type: 'test'
+  ...
+# [2026-10-20T05:01:18.039Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a061 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'update' @ L36
+# [2026-10-20T05:01:18.077Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a062 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'update' @ L36
+# Subtest: locations: identical and case-only duplicate names rejected
+ok 12 - locations: identical and case-only duplicate names rejected
+  ---
+  duration_ms: 120.3062
+  type: 'test'
+  ...
+# [2026-10-20T05:01:18.189Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a065 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: locations: archived names remain reserved
+ok 13 - locations: archived names remain reserved
+  ---
+  duration_ms: 112.2711
+  type: 'test'
+  ...
+# [2026-10-20T05:01:18.219Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a066 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L28, false for 'update' @ L29
+# [2026-10-20T05:01:18.255Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a067 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# [2026-10-20T05:01:18.290Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a068 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L35
+# [2026-10-20T05:01:18.323Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a069 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "locations"
+#   }
+#   segments {
+#     simple: "wrong"
+#   }
+# }
+# ]. for 'create' @ L35
+# [2026-10-20T05:01:18.353Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a06a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, false for 'create' @ L35, false for 'update' @ L36
+# Subtest: locations: spoofed owner, arbitrary key, mismatched guard and foreign actor rejected
+ok 14 - locations: spoofed owner, arbitrary key, mismatched guard and foreign actor rejected
+  ---
+  duration_ms: 163.4653
+  type: 'test'
+  ...
+# [2026-10-20T05:01:18.406Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a06c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'update' @ L36
+# Subtest: locations: exact-key concurrent claims yield one entity and guard
+ok 15 - locations: exact-key concurrent claims yield one entity and guard
+  ---
+  duration_ms: 93.8546
+  type: 'test'
+  ...
+# [2026-10-20T05:01:18.519Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a070 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L28
+# Subtest: locations: ASCII length 30 accepted; 31 rejected
+ok 16 - locations: ASCII length 30 accepted; 31 rejected
+  ---
+  duration_ms: 72.6041
+  type: 'test'
+  ...
+# Subtest: locations: required NFC-equivalent duplicate must be rejected
+not ok 17 - locations: required NFC-equivalent duplicate must be rejected
+  ---
+  duration_ms: 102.4899
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\name-integrity\\tests\\names.test.mjs:41:2'
+  failureType: 'testCodeFailure'
+  error: 'NFC-equivalent duplicate committed through two distinct name guards'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Work/taskify/codex/gate2/name-integrity/tests/names.test.mjs:47:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# [2026-10-20T05:01:18.658Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a074 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L35, false for 'create' @ L28
+# Subtest: locations: required valid 10-grapheme emoji name must be accepted
+not ok 18 - locations: required valid 10-grapheme emoji name must be accepted
+  ---
+  duration_ms: 36.1818
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\name-integrity\\tests\\names.test.mjs:49:2'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, false for 'create' @ L35, false for 'create' @ L28
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# [2026-10-20T05:01:18.832Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a078 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L36
+# [2026-10-20T05:01:18.859Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a079 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L36
+# Subtest: ownership protects entity and guard reads; name guard cannot be independently edited or deleted
+ok 19 - ownership protects entity and guard reads; name guard cannot be independently edited or deleted
+  ---
+  duration_ms: 200.0519
+  type: 'test'
+  ...
+# [2026-10-20T05:01:19.071Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5951a07a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, Function not found error: Name: [normalize]. for 'create' @ L28
+# Subtest: Unicode normalize capability: deployed expression fails on an otherwise valid write
+ok 20 - Unicode normalize capability: deployed expression fails on an otherwise valid write
+  ---
+  duration_ms: 213.1725
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 16
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5379.6153
+!  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node --test tests/*.test.mjs" exited with code 1

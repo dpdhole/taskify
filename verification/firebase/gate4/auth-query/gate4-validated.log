@@ -1,0 +1,145 @@
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-gate4", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-gate4]: Serving hosting files from: public
++  hosting[demo-taskify-gate4]: Local server: http://127.0.0.1:5000
+i  Running script: node --test tests/*.test.mjs
+TAP version 13
+# Subtest: owner Task list includes the complete 1203-document population without pagination limits
+ok 1 - owner Task list includes the complete 1203-document population without pagination limits
+  ---
+  duration_ms: 5539.2701
+  type: 'test'
+  ...
+# Subtest: anonymous, foreign UID and cross-user collection-group reads are denied
+ok 2 - anonymous, foreign UID and cross-user collection-group reads are denied
+  ---
+  duration_ms: 215.9027
+  type: 'test'
+  ...
+# [2026-10-20T07:09:09.905Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x34ba921f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L374, false for 'update' @ L377
+# [2026-10-20T07:09:09.922Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x34ba9220 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L374, false for 'update' @ L377
+# [2026-10-20T07:09:09.960Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x34ba9221 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, false for 'create' @ L381, false for 'update' @ L277, false for 'update' @ L387
+# [2026-10-20T07:09:09.981Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x34ba9222 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, false for 'create' @ L381, false for 'update' @ L277, false for 'update' @ L387
+# Subtest: missing root ownership and forged ownerUid writes are rejected
+ok 3 - missing root ownership and forged ownerUid writes are rejected
+  ---
+  duration_ms: 120.5083
+  type: 'test'
+  ...
+# Subtest: read ownership follows trusted UID path even if an administrator corrupts the stored ownerUid
+ok 4 - read ownership follows trusted UID path even if an administrator corrupts the stored ownerUid
+  ---
+  duration_ms: 165.3252
+  type: 'test'
+  ...
+# Subtest: whole-population Search finds the final record while list loads no Discussion or Activity
+ok 5 - whole-population Search finds the final record while list loads no Discussion or Activity
+  ---
+  duration_ms: 442.8774
+  type: 'test'
+  ...
+# Subtest: single-phrase Search trims, ignores case, ORs fields and ANDs structured eligibility
+ok 6 - single-phrase Search trims, ignores case, ORs fields and ANDs structured eligibility
+  ---
+  duration_ms: 0.6221
+  type: 'test'
+  ...
+# Subtest: Include Closed and Include Deleted are independent; closure reason selections reactivate explicitly
+ok 7 - Include Closed and Include Deleted are independent; closure reason selections reactivate explicitly
+  ---
+  duration_ms: 0.9511
+  type: 'test'
+  ...
+# Subtest: OR within dimensions, AND across dimensions; grouped dimension cannot filter itself
+ok 8 - OR within dimensions, AND across dimensions; grouped dimension cannot filter itself
+  ---
+  duration_ms: 0.4798
+  type: 'test'
+  ...
+# Subtest: category partition preserves ordered zero groups and counts every matching Task once
+ok 9 - category partition preserves ordered zero groups and counts every matching Task once
+  ---
+  duration_ms: 0.9162
+  type: 'test'
+  ...
+# Subtest: authoritative remote changes reconcile membership, classification labels and counts through shared state
+ok 10 - authoritative remote changes reconcile membership, classification labels and counts through shared state
+  ---
+  duration_ms: 898.9092
+  type: 'test'
+  ...
+# Subtest: logout clears data immediately and changing UID cannot publish prior-user listener data
+ok 11 - logout clears data immediately and changing UID cannot publish prior-user listener data
+  ---
+  duration_ms: 474.7331
+  type: 'test'
+  ...
+# Subtest: listener permission failures never advertise complete results
+ok 12 - listener permission failures never advertise complete results
+  ---
+  duration_ms: 28.1623
+  type: 'test'
+  ...
+# Subtest: Search submit and navigation preserve detail-back context but clear on other navigation
+ok 13 - Search submit and navigation preserve detail-back context but clear on other navigation
+  ---
+  duration_ms: 0.4707
+  type: 'test'
+  ...
+# Subtest: server profile and Saved View ownership remain enforced for current paths
+ok 14 - server profile and Saved View ownership remain enforced for current paths
+  ---
+  duration_ms: 193.6149
+  type: 'test'
+  ...
+# Subtest: mock Google Auth signs in repeatedly, authorizes own Firestore path and denies access after sign-out
+ok 15 - mock Google Auth signs in repeatedly, authorizes own Firestore path and denies access after sign-out
+  ---
+  duration_ms: 177.0574
+  type: 'test'
+  ...
+# [2026-10-20T07:09:13.349Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x34ba9239 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L387:21 for 'update' @ L387, false for 'update' @ L277, false for 'update' @ L387
+# Subtest: acknowledged browser metadata update reconciles Search and grouping without manual refresh; stale update rejected
+ok 16 - acknowledged browser metadata update reconciles Search and grouping without manual refresh; stale update rejected
+  ---
+  duration_ms: 1028.7673
+  type: 'test'
+  ...
+# Subtest: cache-only and pending snapshots cannot become an authoritative complete population
+ok 17 - cache-only and pending snapshots cannot become an authoritative complete population
+  ---
+  duration_ms: 1.1497
+  type: 'test'
+  ...
+i  hosting: 127.0.0.1 - - [20/Oct/2026:07:09:13 +0000] "GET / HTTP/1.1" 200 262 "-" "node"
+i  hosting: 127.0.0.1 - - [20/Oct/2026:07:09:13 +0000] "GET /tasks/example HTTP/1.1" 200 262 "-" "node"
+# Subtest: static Hosting emulator serves entrypoint and SPA fallback without a function or API
+ok 18 - static Hosting emulator serves entrypoint and SPA fallback without a function or API
+  ---
+  duration_ms: 34.4497
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9870.4595
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

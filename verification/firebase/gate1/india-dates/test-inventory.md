@@ -1,0 +1,105 @@
+# Final executed tests
+
+100 emulator tests plus one separate display test passed.
+
+- 1. authenticated owner can create Draft, but foreign and unauthenticated users cannot
+- 2. ordinary title/reference edit succeeds, but cannot smuggle audited changes
+- 3. Start requires a matching immutable event
+- 4. Schedule and paused Schedule satisfy different approved transitions
+- 5. Pause and Edit Pause require an event and first-episode explanation
+- 6. Start and Resume combinations preserve independent Pause semantics
+- 7. Done, Close and Reopen preserve the approved lifecycle core
+- 8. Audited date edits require events
+- 9. Reject mismatched actors, operation types and historical snapshots
+- 10. Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+- 11. Reject event ID replay and stale Task versions
+- 12. Concurrent same-version batches: at most one commits
+- 13. Rejected paired write commits neither document
+- 14. REGRESSION Resume Only cannot promote paused Draft without Actual Start
+- 15. REGRESSION inactive pause cannot retain pausedUntil
+- 16. REGRESSION metadata update must participate in version integrity
+- 17. owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+- 18. pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+- 19. pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+- 20. pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+- 21. pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+- 22. pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+- 23. pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+- 24. pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+- 25. pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+- 26. pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+- 27. pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+- 28. pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+- 29. Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+- 30. all five failure outcomes and repeated closure preserve original Actual Start and history
+- 31. Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+- 32. Closed and Deleted are read-only except their explicit permitted operations
+- 33. protected field/schema attack owner rolls back both documents
+- 34. protected field/schema attack createdAt rolls back both documents
+- 35. protected field/schema attack updatedAt rolls back both documents
+- 36. protected field/schema attack actualStart rolls back both documents
+- 37. protected field/schema attack version skip rolls back both documents
+- 38. protected field/schema attack version float rolls back both documents
+- 39. protected field/schema attack unknown field rolls back both documents
+- 40. protected field/schema attack missing field rolls back both documents
+- 41. protected field/schema attack legacy state rolls back both documents
+- 42. protected field/schema attack inactive pause date rolls back both documents
+- 43. protected field/schema attack open closure outcome rolls back both documents
+- 44. protected field/schema attack open actual end rolls back both documents
+- 45. protected field/schema attack reference overflow rolls back both documents
+- 46. protected field/schema attack closure timestamp spoof rolls back both documents
+- 47. event forgery owner rolls back both documents
+- 48. event forgery taskId rolls back both documents
+- 49. event forgery actor rolls back both documents
+- 50. event forgery timestamp rolls back both documents
+- 51. event forgery toVersion rolls back both documents
+- 52. event forgery fromVersion rolls back both documents
+- 53. event forgery missing comment rolls back both documents
+- 54. event forgery comment type rolls back both documents
+- 55. event forgery attachment rolls back both documents
+- 56. event forgery oversized comment rolls back both documents
+- 57. event forgery type rolls back both documents
+- 58. event forgery before rolls back both documents
+- 59. event forgery after rolls back both documents
+- 60. creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+- 61. metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+- 62. deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+- 63. semantic no-op operations and whitespace-only first-pause comments are rejected
+- 64. native SDK transaction conflict is rejected safely but is not automatically retried
+- 65. bounded adapter retry after confirmed version drift commits one Task change and one event
+- 66. adapter retry does not swallow invalid transitions or loop past its bound
+- 67. same-version batch race leaves exactly one event and one state effect
+- 68. mixed valid and invalid Tasks roll back entire batch
+- 69. Rules access budget sweep records accepted boundary and denied-batch rollback
+- 70. date ordering rejects inverted instants and rolls back its event (prototype restriction)
+- 71. resolved domain gap: same-calendar-day Planned Start after Due is accepted
+- 72. India EOD and 16:00 resolve to correct UTC instants with original selected day
+- 73. India display and overdue boundary stay unchanged when host timezone changes to London
+- 74. same India calendar day permits reversed clock times even across UTC midnight
+- 75. same UTC day does not permit inverted India dates
+- 76. EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+- 77. date schema forgery selected day before rejects Task and event together
+- 78. date schema forgery selected day after rejects Task and event together
+- 79. date schema forgery non-midnight day key rejects Task and event together
+- 80. date schema forgery timestamp contradicts day rejects Task and event together
+- 81. date schema forgery string timestamp rejects Task and event together
+- 82. date schema forgery string day rejects Task and event together
+- 83. date schema forgery missing day rejects Task and event together
+- 84. date schema forgery missing instant rejects Task and event together
+- 85. date schema forgery missing precision rejects Task and event together
+- 86. date schema forgery missing boundary rejects Task and event together
+- 87. date schema forgery forged offset rejects Task and event together
+- 88. date schema forgery forged zone rejects Task and event together
+- 89. date schema forgery obsolete symbolic slot rejects Task and event together
+- 90. date schema forgery unknown key rejects Task and event together
+- 91. date schema forgery date precision at 16h rejects Task and event together
+- 92. date schema forgery end-of-day at 16h rejects Task and event together
+- 93. date schema forgery non-boolean boundary rejects Task and event together
+- 94. date-only start requires India midnight and cannot use end-exclusive boundary
+- 95. EOD selected-day forgery cannot turn a later start date into a valid pair
+- 96. planned date changes cannot bypass mandatory audit through ordinary metadata update
+- 97. fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+- 98. Task cannot override timezone, and dates fail closed without an account policy
+- 99. valid dates at creation are checked by the same Rules as updates
+- 100. date adapter handles leap day and year rollover and rejects invalid civil input
+- Display: travel preserves displayed selected EOD day and India 16:00 deadline

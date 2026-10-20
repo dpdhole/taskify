@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function owner(uid) { return request.auth != null && request.auth.uid == uid; }
+  function taskPath(uid,tid) { return /databases/$(database)/documents/users/$(uid)/tasks/$(tid); }
+  function eventPath(uid,tid,eid) { return /databases/$(database)/documents/users/$(uid)/tasks/$(tid)/activityEvents/$(eid); }
+  function fields() { return ['ownerUid','title','reference','lifecycle','pauseReason','pausedUntil','plannedStart','due','actualStart','actualEnd','closureOutcome','deletedAt','version','lastEventId','createdAt','updatedAt']; }
+  function shape(t) {
+   return t.keys().hasOnly(fields()) && t.keys().hasAll(fields()) &&
+    t.ownerUid is string && t.title is string && t.title.size()>0 && t.title.size()<=500 &&
+    t.reference is string && t.reference.size()<=255 &&
+    t.version is int && t.version>=0 && t.version<2147483647 && t.lastEventId is string &&
+    t.createdAt is timestamp && t.updatedAt is timestamp &&
+    t.lifecycle in ['Draft','InProgress','Closed'] &&
+    (t.pauseReason == null || t.pauseReason in ['Waiting','Blocked','OnHold','Other']) &&
+    (t.pausedUntil == null || t.pausedUntil is timestamp) &&
+    (t.pauseReason != null || t.pausedUntil == null) &&
+    (t.plannedStart == null || t.plannedStart is timestamp) &&
+    (t.due == null || t.due is timestamp) &&
+    (t.plannedStart == null || t.due == null || t.plannedStart <= t.due) &&
+    (t.actualStart == null || t.actualStart is timestamp) &&
+    (t.actualEnd == null || t.actualEnd is timestamp) &&
+    (t.deletedAt == null || t.deletedAt is timestamp) &&
+    (t.lifecycle == 'Closed'
+     ? t.closureOutcome in ['Done','Cancelled','UnableToComplete','NoLongerApplicable','Duplicate','Other'] && t.actualEnd != null && t.pauseReason == null && t.pausedUntil == null
+     : t.closureOutcome == null && t.actualEnd == null);
+  }
+  function delta(a,b) { return b.diff(a).affectedKeys(); }
+  function opFields(op) {
+   return {
+    'Start':['lifecycle','actualStart','pauseReason','pausedUntil'],
+    'Schedule':['lifecycle','plannedStart','due','pauseReason','pausedUntil'],
+    'Pause':['pauseReason','pausedUntil'], 'EditPause':['pauseReason','pausedUntil'],
+    'Resume':['lifecycle','actualStart','pauseReason','pausedUntil'],
+    'Done':['lifecycle','closureOutcome','actualEnd','pauseReason','pausedUntil'],
+    'Close':['lifecycle','closureOutcome','actualEnd','pauseReason','pausedUntil'],
+    'Reopen':['lifecycle','closureOutcome','actualEnd'],
+    'EditDates':['plannedStart','due'], 'Delete':['deletedAt'], 'Restore':['deletedAt']
+   }[op];
+  }
+  function operation(op,a,b,comment) {
+   return delta(a,b).hasOnly(opFields(op).concat(['version','lastEventId','updatedAt'])) &&
+    delta(a,b).hasAny(opFields(op)) &&
+    (a.deletedAt == null ? op != 'Restore' : op == 'Restore') &&
+    (op == 'Start' ? a.lifecycle != 'Closed' && a.actualStart == null && b.lifecycle == 'InProgress' && b.actualStart == request.time &&
+      ((b.pauseReason == a.pauseReason && b.pausedUntil == a.pausedUntil) || (b.pauseReason == null && b.pausedUntil == null)) :
+     op == 'Schedule' ? a.lifecycle == 'Draft' && b.plannedStart != null &&
+      ((b.lifecycle == 'InProgress' && b.pauseReason == null && b.pausedUntil == null) ||
+       (b.lifecycle == 'Draft' && b.pauseReason == 'Waiting' && b.pausedUntil == b.plannedStart && comment == 'Waiting to start')) :
+     op == 'Pause' ? a.lifecycle != 'Closed' && a.pauseReason == null && b.pauseReason != null && comment.matches('.*[^\\s].*') :
+     op == 'EditPause' ? a.lifecycle != 'Closed' && a.pauseReason != null && b.pauseReason != null :
+     op == 'Resume' ? a.lifecycle != 'Closed' && a.pauseReason != null && b.pauseReason == null && b.pausedUntil == null &&
+      ((b.lifecycle == a.lifecycle && b.actualStart == a.actualStart) ||
+       (a.actualStart == null && b.actualStart == request.time && b.lifecycle == 'InProgress')) :
+     op == 'Done' ? a.lifecycle != 'Closed' && b.lifecycle == 'Closed' && b.closureOutcome == 'Done' && b.actualEnd == request.time :
+     op == 'Close' ? a.lifecycle != 'Closed' && b.lifecycle == 'Closed' && b.closureOutcome in ['Cancelled','UnableToComplete','NoLongerApplicable','Duplicate','Other'] && b.actualEnd == request.time :
+     op == 'Reopen' ? a.lifecycle == 'Closed' && b.lifecycle == 'InProgress' && b.closureOutcome == null && b.actualEnd == null :
+     op == 'EditDates' ? a.lifecycle != 'Closed' :
+     op == 'Delete' ? b.deletedAt == request.time :
+     op == 'Restore' ? b.deletedAt == null : false);
+  }
+  function ordinary(a,b) {
+   return a.lifecycle != 'Closed' && a.deletedAt == null &&
+    delta(a,b).hasOnly(['title','reference','version','updatedAt']) && delta(a,b).hasAny(['title','reference']);
+  }
+  function audited(uid,tid,a,b) {
+   let ep = eventPath(uid,tid,b.lastEventId);
+   let e = getAfter(ep).data;
+   return b.lastEventId == 'v'+string(b.version) && !exists(ep) &&
+    e.before == a && e.after == b && operation(e.type,a,b,e.comment);
+  }
+  function updateTask(uid,tid) {
+   let a=resource.data;
+   let b=request.resource.data;
+   return shape(b) && a.ownerUid == uid && b.ownerUid == uid && b.createdAt == a.createdAt &&
+    b.version == a.version+1 && b.updatedAt == request.time &&
+    (b.lastEventId == a.lastEventId ? ordinary(a,b) : audited(uid,tid,a,b));
+  }
+  function eventCreate(uid,tid,eid) {
+   let e=request.resource.data;
+   let tp=taskPath(uid,tid);
+   let a=get(tp).data;
+   let b=getAfter(tp).data;
+   return e.keys().hasOnly(['ownerUid','actorUid','taskId','fromVersion','toVersion','type','comment','before','after','createdAt']) &&
+    e.keys().hasAll(['ownerUid','actorUid','taskId','fromVersion','toVersion','type','comment','before','after','createdAt']) &&
+    e.ownerUid == uid && e.actorUid == uid && e.taskId == tid &&
+    e.type is string && e.comment is string && e.comment.size()<=2000 &&
+    e.fromVersion is int && e.toVersion is int && e.fromVersion == a.version && e.toVersion == a.version+1 &&
+    e.before == a && e.after == b && e.createdAt == request.time &&
+    b.lastEventId == eid && eid == 'v'+string(b.version) && b.version == e.toVersion;
+   // The increment proves the Task changes in this write set. Its own rule validates operation/shape.
+  }
+  match /users/{uid}/tasks/{tid} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && shape(request.resource.data) &&
+    request.resource.data.ownerUid == uid && request.resource.data.lifecycle == 'Draft' &&
+    request.resource.data.pauseReason == null && request.resource.data.pausedUntil == null &&
+    request.resource.data.actualStart == null && request.resource.data.actualEnd == null &&
+    request.resource.data.deletedAt == null && request.resource.data.version == 0 && request.resource.data.lastEventId == '' &&
+    request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+   allow update: if owner(uid) && updateTask(uid,tid);
+   allow delete: if false;
+   match /activityEvents/{eid} {
+    allow read: if owner(uid);
+    allow create: if owner(uid) && eventCreate(uid,tid,eid);
+    allow update,delete: if false;
+   }
+  }
+ }
+}
+

@@ -1,0 +1,230 @@
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-taskify-gate3", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/*.test.mjs
+TAP version 13
+# [2026-10-20T06:58:19.565Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991aa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L381:21 for 'create' @ L381, false for 'update' @ L277, evaluation error at L387:21 for 'update' @ L387, false for 'create' @ L391, evaluation error at L397:22 for 'create' @ L397, false for 'update' @ L392, false for 'update' @ L398, false for 'create' @ L391, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "inventories"
+#   }
+#   segments {
+#     simple: "gate3-1"
+#   }
+# }
+# ]. for 'create' @ L397
+# [2026-10-20T06:58:20.147Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991b3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L360
+# [2026-10-20T06:58:20.187Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991b4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, false for 'delete' @ L361
+# Subtest: inventory is atomic with event/child creation; direct or forged counters rejected
+ok 1 - inventory is atomic with event/child creation; direct or forged counters rejected
+  ---
+  duration_ms: 5166.8685
+  type: 'test'
+  ...
+# [2026-10-20T06:58:21.188Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991c9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L388:21 for 'delete' @ L388, false for 'delete' @ L278, false for 'delete' @ L388
+# [2026-10-20T06:58:21.272Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991cb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L365:21 for 'create' @ L365, false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'create' @ L276, false for 'create' @ L365
+# Subtest: soft Delete/Restore retains full hierarchy before irreversible purge starts
+ok 2 - soft Delete/Restore retains full hierarchy before irreversible purge starts
+  ---
+  duration_ms: 1096.5169
+  type: 'test'
+  ...
+# [2026-10-20T06:58:21.891Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991dd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L381:21 for 'create' @ L381, false for 'update' @ L277, evaluation error at L387:21 for 'update' @ L387, false for 'create' @ L391, evaluation error at L397:22 for 'create' @ L397, false for 'update' @ L392, false for 'update' @ L398, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L360, false for 'create' @ L391, false for 'create' @ L397, false for 'update' @ L277, false for 'update' @ L387
+# [2026-10-20T06:58:21.956Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991df error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L388:21 for 'delete' @ L388, false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:22.437Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991ec error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L367:21 for 'delete' @ L367, false for 'delete' @ L278, false for 'delete' @ L367
+# [2026-10-20T06:58:22.536Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991ef error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L381:21 for 'create' @ L381, false for 'update' @ L277, evaluation error at L387:21 for 'update' @ L387, false for 'create' @ L391, evaluation error at L397:22 for 'create' @ L397, false for 'update' @ L392, false for 'update' @ L398, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L387
+# Subtest: purge freezes edits, cannot complete early, and is cancellable only before any deletion
+ok 3 - purge freezes edits, cannot complete early, and is cancellable only before any deletion
+  ---
+  duration_ms: 1250.4813
+  type: 'test'
+  ...
+# [2026-10-20T06:58:22.911Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991fa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L393, evaluation error at L399:22 for 'delete' @ L399, false for 'delete' @ L393, false for 'delete' @ L399
+# [2026-10-20T06:58:22.925Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991fb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L392, false for 'update' @ L398
+# [2026-10-20T06:58:23.044Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572991fe error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L393:22 for 'delete' @ L393, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'delete' @ L393
+# Subtest: normal Activity events remain immutable and children cannot be hard-deleted outside purge
+ok 4 - normal Activity events remain immutable and children cannot be hard-deleted outside purge
+  ---
+  duration_ms: 539.234
+  type: 'test'
+  ...
+# Subtest: interruption after partial child deletion resumes idempotently and removes every known child
+ok 5 - interruption after partial child deletion resumes idempotently and removes every known child
+  ---
+  duration_ms: 1480.5408
+  type: 'test'
+  ...
+# [2026-10-20T06:58:25.700Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299226 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L381:21 for 'create' @ L381, false for 'update' @ L277, evaluation error at L387:21 for 'update' @ L387, false for 'create' @ L276, false for 'create' @ L381
+# [2026-10-20T06:58:25.836Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729922b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L367:21 for 'delete' @ L367, false for 'delete' @ L278, false for 'delete' @ L367
+# Subtest: tombstone prevents ID reuse and completed hierarchy is inaccessible even to the owner
+ok 6 - tombstone prevents ID reuse and completed hierarchy is inaccessible even to the owner
+  ---
+  duration_ms: 1279.6005
+  type: 'test'
+  ...
+# [2026-10-20T06:58:26.355Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729923c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:26.481Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729923e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, false for 'update' @ L366
+# Subtest: ownership covers purge jobs, inventory, orphan cleanup and child enumeration
+ok 7 - ownership covers purge jobs, inventory, orphan cleanup and child enumeration
+  ---
+  duration_ms: 683.1658
+  type: 'test'
+  ...
+# Subtest: Firestore does not cascade: privileged parent removal leaves children; marked orphan purge resumes safely
+ok 8 - Firestore does not cascade: privileged parent removal leaves children; marked orphan purge resumes safely
+  ---
+  duration_ms: 1674.4176
+  type: 'test'
+  ...
+# Subtest: export round trip preserves nested nanosecond timestamps and counts
+ok 9 - export round trip preserves nested nanosecond timestamps and counts
+  ---
+  duration_ms: 547.4982
+  type: 'test'
+  ...
+# Subtest: comment edits advance inventory revision and force export retry even without a Task version change
+ok 10 - comment edits advance inventory revision and force export retry even without a Task version change
+  ---
+  duration_ms: 722.5045
+  type: 'test'
+  ...
+# Subtest: rapidly changing exports fail rather than emitting an inconsistent snapshot
+ok 11 - rapidly changing exports fail rather than emitting an inconsistent snapshot
+  ---
+  duration_ms: 885.047
+  type: 'test'
+  ...
+# Subtest: local archive validation rejects corruption, cross-user/path injection, duplicates and missing records before restore
+ok 12 - local archive validation rejects corruption, cross-user/path injection, duplicates and missing records before restore
+  ---
+  duration_ms: 481.9405
+  type: 'test'
+  ...
+# [2026-10-20T06:58:32.049Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572992af error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, false for 'create' @ L381, false for 'update' @ L277, false for 'update' @ L387
+# [2026-10-20T06:58:32.079Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572992b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L391, false for 'create' @ L397, false for 'update' @ L392, false for 'update' @ L398
+# Subtest: ordinary browser import cannot recreate historical Task/events or undo a completed purge
+ok 13 - ordinary browser import cannot recreate historical Task/events or undo a completed purge
+  ---
+  duration_ms: 1247.2148
+  type: 'test'
+  ...
+# [2026-10-20T06:58:33.914Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572992d5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L381:21 for 'create' @ L381, false for 'update' @ L277, evaluation error at L387:21 for 'update' @ L387, false for 'create' @ L391, evaluation error at L397:22 for 'create' @ L397, false for 'update' @ L392, false for 'update' @ L398, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L387
+# Subtest: operator recovery is resumable, publishes root last, preserves source records and rejects stale clients
+ok 14 - operator recovery is resumable, publishes root last, preserves source records and rejects stale clients
+  ---
+  duration_ms: 2034.6024
+  type: 'test'
+  ...
+# [2026-10-20T06:58:34.766Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x572992f3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L388:21 for 'delete' @ L388, false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# Subtest: failed finalization and lost acknowledgement retries do not double-delete or decrement counters
+ok 15 - failed finalization and lost acknowledgement retries do not double-delete or decrement counters
+  ---
+  duration_ms: 1283.1324
+  type: 'test'
+  ...
+# [2026-10-20T06:58:35.831Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299307 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:35.850Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299308 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:35.873Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299309 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:35.892Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729930a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:35.912Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729930b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:35.955Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729930d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L360
+# [2026-10-20T06:58:35.973Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5729930e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L388:21 for 'delete' @ L388, false for 'delete' @ L278, false for 'delete' @ L388
+# Subtest: parent and purge marker cannot be completed by forged zero counts, timestamps or state transitions
+ok 16 - parent and purge marker cannot be completed by forged zero counts, timestamps or state transitions
+  ---
+  duration_ms: 599.8487
+  type: 'test'
+  ...
+# Subtest: strict account-wide cleanup age checks equality, closed/deleted independence and month-end clamping
+ok 17 - strict account-wide cleanup age checks equality, closed/deleted independence and month-end clamping
+  ---
+  duration_ms: 0.7513
+  type: 'test'
+  ...
+# [2026-10-20T06:58:36.406Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299320 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L276, evaluation error at L365:21 for 'create' @ L365, false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'update' @ L277, false for 'update' @ L366
+# [2026-10-20T06:58:36.485Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299321 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L393:22 for 'delete' @ L393, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'delete' @ L393, false for 'update' @ L277, false for 'update' @ L360
+# [2026-10-20T06:58:36.576Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299322 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L393:22 for 'delete' @ L393, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'delete' @ L393
+# [2026-10-20T06:58:36.641Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299323 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L393, evaluation error at L399:22 for 'delete' @ L399, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'delete' @ L393, false for 'delete' @ L399, false for 'update' @ L277, false for 'update' @ L360
+# [2026-10-20T06:58:36.715Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299324 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L393, evaluation error at L399:22 for 'delete' @ L399, false for 'create' @ L276, evaluation error at L360:28 for 'create' @ L360, false for 'update' @ L277, evaluation error at L360:28 for 'update' @ L360, false for 'update' @ L277, false for 'update' @ L360
+# [2026-10-20T06:58:36.791Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x57299325 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L278, evaluation error at L388:21 for 'delete' @ L388, false for 'update' @ L277, evaluation error at L366:21 for 'update' @ L366, false for 'delete' @ L278, Null value error. for 'delete' @ L388
+# Subtest: racing purge workers and repeated acknowledged steps do not duplicate mandatory effects
+ok 18 - racing purge workers and repeated acknowledged steps do not duplicate mandatory effects
+  ---
+  duration_ms: 914.4287
+  type: 'test'
+  ...
+# Subtest: interrupted operator restore refuses switching archives and keeps staged records hidden
+ok 19 - interrupted operator restore refuses switching archives and keeps staged records hidden
+  ---
+  duration_ms: 1487.5152
+  type: 'test'
+  ...
+# Subtest: large synthetic hierarchy exceeds 500 records and drains through bounded resumable writes
+ok 20 - large synthetic hierarchy exceeds 500 records and drains through bounded resumable writes
+  ---
+  duration_ms: 31981.8367
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 56085.7376
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

@@ -1,0 +1,22 @@
+{
+  "first": "Café",
+  "second": "Café",
+  "firstCodePoints": [
+    67,
+    97,
+    102,
+    233
+  ],
+  "secondCodePoints": [
+    67,
+    97,
+    102,
+    101,
+    769
+  ],
+  "normalizedEqual": true,
+  "secondCommitted": true,
+  "storedName": "Café",
+  "firstKey": "café",
+  "secondKey": "café"
+}

@@ -2,6 +2,17 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-20 — Local Firebase Gates 1–4 executed; overall feasibility INCONCLUSIVE
+
+- **Current evidence:** [consolidated findings](feasibility/firebase-validation-results.md) and [isolated experiment source/evidence](../verification/firebase/README.md), executed against baseline `38a7fb7383ae99948f003d68fe7d77e8e4b20dfa`. The dated entries below retain historical status; statements that no experiment has run describe their original date.
+- **Gate 1:** 101 tests passed after the fixed-India planned-date correction; PASS for represented Task/event/date contracts. General timezones/DST, final creation-event policy and global command deduplication are not established.
+- **Gate 2:** 147 tests passed, including 101 carried forward; PASS for represented entity contracts with the owner's accepted client-only NFC/grapheme policy. Malicious-client Unicode normalization/grapheme enforcement remains a known limitation.
+- **Gate 3:** 20 tests passed; tested resumable deletion works, including a 505-child fixture. Overall INCONCLUSIVE: account/project recovery, offline operator policy, partial-purge Restore boundary and tombstone retention remain unresolved.
+- **Gate 4:** 18 tests passed for local ownership, metadata/Search/reactivity, mock Auth and static Hosting. Overall INCONCLUSIVE: real Google/session restoration, complete queries/offline-write handling, production indexes and a bounded Spark workload remain unvalidated.
+- **Evidence limits:** overlapping counts must not be summed. No combined full regression against the final inventory-enabled Rules, production deployment or complete platform acceptance is claimed. The old 420-test callable suite is not evidence for these contracts.
+- **Authority:** owner authorized local experiments, the naming compromise, and preparation/staging of experiment findings. No commit, push, cloud provisioning/deployment, paid service, production architecture change or specification amendment is implied. Product specification and immutable legacy file remain unchanged.
+- **Next checkpoint:** resolve recovery/deletion semantics, complete local validation and combined regressions, then separately authorize a scoped real-Google/Spark test. See the findings document for the verdict process.
+
 ## 2026-10-19 — Legacy Firebase validation review and handoff
 
 - **Historical evidence reviewed:** Commit `46108abcdff3a60ec812170ebd63a8bb3830b7f5` records a local 420-test verification set (116 API unit, 63 Admin Firestore integration, 174 Security Rules, 39 query/index, 28 callable HTTP). Results are **historical local evidence** and were not rerun against the simplified client-direct Firebase architecture.

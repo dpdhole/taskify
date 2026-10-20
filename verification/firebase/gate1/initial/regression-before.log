@@ -1,0 +1,242 @@
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-taskify-gate1", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/*.test.mjs
+TAP version 13
+# [2026-10-20T04:20:20.063Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0b8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L115, false for 'update' @ L122
+# [2026-10-20T04:20:20.121Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0b9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L115, false for 'update' @ L122
+# Subtest: authenticated owner can create Draft, but foreign and unauthenticated users cannot
+ok 1 - authenticated owner can create Draft, but foreign and unauthenticated users cannot
+  ---
+  duration_ms: 2730.0227
+  type: 'test'
+  ...
+# [2026-10-20T04:20:20.322Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0bb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, false for 'update' @ L122
+# [2026-10-20T04:20:20.360Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0bc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, false for 'update' @ L122
+# [2026-10-20T04:20:20.409Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0bd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, false for 'update' @ L122
+# [2026-10-20T04:20:20.460Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0be error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, false for 'update' @ L122
+# [2026-10-20T04:20:20.506Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0bf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, false for 'update' @ L122
+# Subtest: ordinary title/reference edit succeeds, but cannot smuggle audited changes
+ok 2 - ordinary title/reference edit succeeds, but cannot smuggle audited changes
+  ---
+  duration_ms: 384.2627
+  type: 'test'
+  ...
+# [2026-10-20T04:20:20.753Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0c2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-3"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L122
+# [2026-10-20T04:20:20.835Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0c4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'create' @ L127
+# [2026-10-20T04:20:21.005Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0c7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L128
+# [2026-10-20T04:20:21.038Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0c8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L128
+# Subtest: Start requires a matching immutable event
+ok 3 - Start requires a matching immutable event
+  ---
+  duration_ms: 530.7032
+  type: 'test'
+  ...
+# Subtest: Schedule and paused Schedule satisfy different approved transitions
+ok 4 - Schedule and paused Schedule satisfy different approved transitions
+  ---
+  duration_ms: 279.7981
+  type: 'test'
+  ...
+# [2026-10-20T04:20:21.429Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0d1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'create' @ L127
+# Subtest: Pause and Edit Pause require an event and first-episode explanation
+ok 5 - Pause and Edit Pause require an event and first-episode explanation
+  ---
+  duration_ms: 314.6493
+  type: 'test'
+  ...
+# Subtest: Start and Resume combinations preserve independent Pause semantics
+ok 6 - Start and Resume combinations preserve independent Pause semantics
+  ---
+  duration_ms: 307.0186
+  type: 'test'
+  ...
+# Subtest: Done, Close and Reopen preserve the approved lifecycle core
+ok 7 - Done, Close and Reopen preserve the approved lifecycle core
+  ---
+  duration_ms: 298.2856
+  type: 'test'
+  ...
+# [2026-10-20T04:20:22.322Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0ee error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-11"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L122
+# Subtest: Audited date edits require events
+ok 8 - Audited date edits require events
+  ---
+  duration_ms: 136.4798
+  type: 'test'
+  ...
+# [2026-10-20T04:20:22.457Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0f3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# [2026-10-20T04:20:22.546Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0f6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# [2026-10-20T04:20:22.648Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0f9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# [2026-10-20T04:20:22.732Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0fc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# [2026-10-20T04:20:22.831Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f0ff error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# Subtest: Reject mismatched actors, operation types and historical snapshots
+ok 9 - Reject mismatched actors, operation types and historical snapshots
+  ---
+  duration_ms: 456.2025
+  type: 'test'
+  ...
+# Subtest: Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+not ok 10 - Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+  ---
+  duration_ms: 66.2497
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\tests\\security.test.mjs:126:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    
+    false for 'get' @ L114
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# [2026-10-20T04:20:23.091Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f107 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# [2026-10-20T04:20:23.123Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f108 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# Subtest: Reject event ID replay and stale Task versions
+ok 11 - Reject event ID replay and stale Task versions
+  ---
+  duration_ms: 225.1791
+  type: 'test'
+  ...
+# [2026-10-20T04:20:23.258Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f10c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# Subtest: Concurrent same-version batches: at most one commits
+ok 12 - Concurrent same-version batches: at most one commits
+  ---
+  duration_ms: 160.2979
+  type: 'test'
+  ...
+# [2026-10-20T04:20:23.371Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f110 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'create' @ L127
+# Subtest: Rejected paired write commits neither document
+ok 13 - Rejected paired write commits neither document
+  ---
+  duration_ms: 147.307
+  type: 'test'
+  ...
+# [2026-10-20T04:20:23.559Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f117 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L127, false for 'update' @ L128, false for 'update' @ L122
+# Subtest: REGRESSION Resume Only cannot promote paused Draft without Actual Start
+ok 14 - REGRESSION Resume Only cannot promote paused Draft without Actual Start
+  ---
+  duration_ms: 127.3976
+  type: 'test'
+  ...
+# [2026-10-20T04:20:23.584Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2485f118 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L115:24 for 'create' @ L115, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L122, false for 'create' @ L115
+# Subtest: REGRESSION inactive pause cannot retain pausedUntil
+ok 15 - REGRESSION inactive pause cannot retain pausedUntil
+  ---
+  duration_ms: 25.659
+  type: 'test'
+  ...
+# Subtest: REGRESSION metadata update must participate in version integrity
+not ok 16 - REGRESSION metadata update must participate in version integrity
+  ---
+  duration_ms: 52.6914
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate1\\taskify-gate1\\tests\\security.test.mjs:166:1'
+  failureType: 'testCodeFailure'
+  error: 'Expected request to fail, but it succeeded.'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    pr.then._a (file:///D:/Work/taskify/codex/gate1/taskify-gate1/node_modules/@firebase/rules-unit-testing/dist/esm/index.esm.js:571:31)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async TestContext.<anonymous> (file:///D:/Work/taskify/codex/gate1/taskify-gate1/tests/security.test.mjs:168:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 14
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6779.9918
+!  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node --test tests/*.test.mjs" exited with code 1

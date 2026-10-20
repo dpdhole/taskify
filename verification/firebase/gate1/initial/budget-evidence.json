@@ -1,0 +1,50 @@
+[
+  {
+    "pairs": 1,
+    "accepted": true
+  },
+  {
+    "pairs": 2,
+    "accepted": true
+  },
+  {
+    "pairs": 3,
+    "accepted": true
+  },
+  {
+    "pairs": 4,
+    "accepted": true
+  },
+  {
+    "pairs": 5,
+    "accepted": true
+  },
+  {
+    "pairs": 6,
+    "accepted": true
+  },
+  {
+    "pairs": 7,
+    "accepted": true
+  },
+  {
+    "pairs": 8,
+    "accepted": true
+  },
+  {
+    "pairs": 9,
+    "accepted": true
+  },
+  {
+    "pairs": 10,
+    "accepted": true
+  },
+  {
+    "pairs": 11,
+    "accepted": false
+  },
+  {
+    "pairs": 12,
+    "accepted": false
+  }
+]

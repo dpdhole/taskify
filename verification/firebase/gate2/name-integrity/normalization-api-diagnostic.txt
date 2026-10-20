@@ -1,0 +1,2 @@
+FirebaseError: [code=permission-denied]: 7 PERMISSION_DENIED: 
+evaluation error at L28:21 for 'create' @ L28, evaluation error at L29:21 for 'update' @ L29, evaluation error at L35:21 for 'create' @ L35, false for 'update' @ L36, Function not found error: Name: [normalize]. for 'create' @ L28

@@ -1,0 +1,57 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "56748F5737AE1A9B292F3EE1CB77E7B15DDD93A03F3A8A950C3A0C18CFB81ABE",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\firestore.rules"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "DC3E40F221B3328827DC7835AD9FAC0C4193C987F6662E6D84D42DFBA6939BDE",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\names.mjs"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "A17E2EFD465610F0BE92AAC001CBF69251CD501071D5BCA2DBD53AB0FD49BBAC",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\views.mjs"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "62622A31D3E0CFA49EC1846A14163D75878FA4D74BC57C3B7C8CFDBFBCE00560",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\planned-dates.mjs"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "B941EE628CB1A61E022AC5D7169A08C2C9029A676C6BFBEE058E86F2353A166C",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "CC492CF99D0A4670CA019A3E8C4E742A4490AF371729514C36CCE317AE654576",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\display.test.mjs"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "C73FB4027A7BBE3F3744BE71A6578D1F82E647376EE3B0C1BD265422533FD943",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\package-lock.json"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "967AA319E267BB1334EE92408185FCDDECCF8F467FE6EE30724B7593A0408CCE",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\gate2-final.log"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "63A61782745613732AD98AEFD8167F1D078C76331E103593BD01884161B0C019",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\budget-evidence.json"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "E83AEF3AB0C649BF473C0A375788D5E217074393F82CCB6428003345F90E9C47",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\child-budget-evidence.json"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "2838DDB7A03E7E9786D4ABB24E6610231A63C713CC646E9131F6E09FA5296439",
+    "Path": "D:\\Work\\taskify\\codex\\gate2\\entities\\transaction-evidence.json"
+  }
+]

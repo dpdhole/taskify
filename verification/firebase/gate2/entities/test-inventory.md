@@ -1,0 +1,151 @@
+# Exact final test inventory
+
+147 observed-behavior assertions passed; one confirms the explicitly accepted client-name-policy bypass.
+
+- 1. travel preserves displayed selected EOD day and India 16:00 deadline
+- 2. authenticated owner can create Draft, but foreign and unauthenticated users cannot
+- 3. ordinary title/reference edit succeeds, but cannot smuggle audited changes
+- 4. Start requires a matching immutable event
+- 5. Schedule and paused Schedule satisfy different approved transitions
+- 6. Pause and Edit Pause require an event and first-episode explanation
+- 7. Start and Resume combinations preserve independent Pause semantics
+- 8. Done, Close and Reopen preserve the approved lifecycle core
+- 9. Audited date edits require events
+- 10. Reject mismatched actors, operation types and historical snapshots
+- 11. Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+- 12. Reject event ID replay and stale Task versions
+- 13. Concurrent same-version batches: at most one commits
+- 14. Rejected paired write commits neither document
+- 15. REGRESSION Resume Only cannot promote paused Draft without Actual Start
+- 16. REGRESSION inactive pause cannot retain pausedUntil
+- 17. REGRESSION metadata update must participate in version integrity
+- 18. owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+- 19. pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+- 20. pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+- 21. pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+- 22. pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+- 23. pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+- 24. pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+- 25. pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+- 26. pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+- 27. pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+- 28. pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+- 29. pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+- 30. Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+- 31. all five failure outcomes and repeated closure preserve original Actual Start and history
+- 32. Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+- 33. Closed and Deleted are read-only except their explicit permitted operations
+- 34. protected field/schema attack owner rolls back both documents
+- 35. protected field/schema attack createdAt rolls back both documents
+- 36. protected field/schema attack updatedAt rolls back both documents
+- 37. protected field/schema attack actualStart rolls back both documents
+- 38. protected field/schema attack version skip rolls back both documents
+- 39. protected field/schema attack version float rolls back both documents
+- 40. protected field/schema attack unknown field rolls back both documents
+- 41. protected field/schema attack missing field rolls back both documents
+- 42. protected field/schema attack legacy state rolls back both documents
+- 43. protected field/schema attack inactive pause date rolls back both documents
+- 44. protected field/schema attack open closure outcome rolls back both documents
+- 45. protected field/schema attack open actual end rolls back both documents
+- 46. protected field/schema attack reference overflow rolls back both documents
+- 47. protected field/schema attack closure timestamp spoof rolls back both documents
+- 48. event forgery owner rolls back both documents
+- 49. event forgery taskId rolls back both documents
+- 50. event forgery actor rolls back both documents
+- 51. event forgery timestamp rolls back both documents
+- 52. event forgery toVersion rolls back both documents
+- 53. event forgery fromVersion rolls back both documents
+- 54. event forgery missing comment rolls back both documents
+- 55. event forgery comment type rolls back both documents
+- 56. event forgery attachment rolls back both documents
+- 57. event forgery oversized comment rolls back both documents
+- 58. event forgery type rolls back both documents
+- 59. event forgery before rolls back both documents
+- 60. event forgery after rolls back both documents
+- 61. creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+- 62. metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+- 63. deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+- 64. semantic no-op operations and whitespace-only first-pause comments are rejected
+- 65. native SDK transaction conflict is rejected safely but is not automatically retried
+- 66. bounded adapter retry after confirmed version drift commits one Task change and one event
+- 67. adapter retry does not swallow invalid transitions or loop past its bound
+- 68. same-version batch race leaves exactly one event and one state effect
+- 69. mixed valid and invalid Tasks roll back entire batch
+- 70. Rules access budget sweep records accepted boundary and denied-batch rollback
+- 71. date ordering rejects inverted instants and rolls back its event (prototype restriction)
+- 72. resolved domain gap: same-calendar-day Planned Start after Due is accepted
+- 73. India EOD and 16:00 resolve to correct UTC instants with original selected day
+- 74. India display and overdue boundary stay unchanged when host timezone changes to London
+- 75. same India calendar day permits reversed clock times even across UTC midnight
+- 76. same UTC day does not permit inverted India dates
+- 77. EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+- 78. date schema forgery selected day before rejects Task and event together
+- 79. date schema forgery selected day after rejects Task and event together
+- 80. date schema forgery non-midnight day key rejects Task and event together
+- 81. date schema forgery timestamp contradicts day rejects Task and event together
+- 82. date schema forgery string timestamp rejects Task and event together
+- 83. date schema forgery string day rejects Task and event together
+- 84. date schema forgery missing day rejects Task and event together
+- 85. date schema forgery missing instant rejects Task and event together
+- 86. date schema forgery missing precision rejects Task and event together
+- 87. date schema forgery missing boundary rejects Task and event together
+- 88. date schema forgery forged offset rejects Task and event together
+- 89. date schema forgery forged zone rejects Task and event together
+- 90. date schema forgery obsolete symbolic slot rejects Task and event together
+- 91. date schema forgery unknown key rejects Task and event together
+- 92. date schema forgery date precision at 16h rejects Task and event together
+- 93. date schema forgery end-of-day at 16h rejects Task and event together
+- 94. date schema forgery non-boolean boundary rejects Task and event together
+- 95. date-only start requires India midnight and cannot use end-exclusive boundary
+- 96. EOD selected-day forgery cannot turn a later start date into a valid pair
+- 97. planned date changes cannot bypass mandatory audit through ordinary metadata update
+- 98. fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+- 99. Task cannot override timezone, and dates fail closed without an account policy
+- 100. valid dates at creation are checked by the same Rules as updates
+- 101. date adapter handles leap day and year rollover and rejects invalid civil input
+- 102. Gate2 discussionEntries: create requires exact child + Task + event, no partial writes
+- 103. Gate2 discussionLinks: create requires exact child + Task + event, no partial writes
+- 104. Gate2 todos: create requires exact child + Task + event, no partial writes
+- 105. Gate2 implicit activity discussionEntries on Draft
+- 106. Gate2 implicit activity discussionEntries on DraftPaused
+- 107. Gate2 implicit activity discussionEntries on Scheduled
+- 108. Gate2 implicit activity discussionEntries on InProgressPaused
+- 109. Gate2 implicit activity discussionLinks on Draft
+- 110. Gate2 implicit activity discussionLinks on DraftPaused
+- 111. Gate2 implicit activity discussionLinks on Scheduled
+- 112. Gate2 implicit activity discussionLinks on InProgressPaused
+- 113. Gate2 implicit activity todos on Draft
+- 114. Gate2 implicit activity todos on DraftPaused
+- 115. Gate2 implicit activity todos on Scheduled
+- 116. Gate2 implicit activity todos on InProgressPaused
+- 117. Gate2 Todo rename/close/reopen/delete preserve title history, state and Actual Start
+- 118. Gate2 forged implicit Start, child timestamp, owner, reference and audit payload rejected
+- 119. Gate2 discussionEntries: Closed/Deleted Task read-only before and after batch
+- 120. Gate2 discussionLinks: Closed/Deleted Task read-only before and after batch
+- 121. Gate2 todos: Closed/Deleted Task read-only before and after batch
+- 122. Gate2 comments edit/delete within 30 minutes; original timestamp/actor/order fields immutable
+- 123. Gate2 comments have no prototype character cap and are plain-text data
+- 124. Gate2 no Todo comment/attachment fields or nested entries, nor Activity attachment/user-post writes
+- 125. Gate2 links: only HTTP(S), ten total slots, edit/delete paired and counts correct
+- 126. Gate2 child changes reject stale root versions and competing mutations leave one effect
+- 127. Gate2 categories: Unicode adapter, exact reservations, rename, archive and order integrity
+- 128. Gate2 locations: Unicode adapter, exact reservations, rename, archive and order integrity
+- 129. Gate2 accepted limitation: crafted owner can bypass NFC/grapheme client policy only in own namespace
+- 130. Gate2 Uncategorized label/icon/archive/delete protections and classification ownership
+- 131. Gate2 active classification references required for new assignment; archived existing references retained
+- 132. Gate2 competing normalized-name claims create one classification; loser has no entity/order residue
+- 133. Gate2 provisioning rejects incomplete/forged presets and commits exactly seven valid views
+- 134. Gate2 All Tasks definition immutable, always on Home, but global order can move it
+- 135. Gate2 ordinary presets/custom views editable and deletable; deletion never changes Tasks
+- 136. Gate2 Saved View shape, grouping, ephemeral search, stale versions and ownership enforced
+- 137. Gate2 racing initial provisioning yields one complete seven-view set
+- 138. Gate2 stale child-effect pointer cannot piggyback a rename on an unrelated Start event
+- 139. Gate2 closed Todo completion cannot be replayed and fake child audit snapshots roll back
+- 140. Gate2 child may not write a second sibling using one mandatory effect
+- 141. Gate2 classifications reject forged hash/guard, missing old reservation release, and protected default aliases
+- 142. Gate2 child reads isolated by owner; orphan parents and link-count forgery rejected
+- 143. Gate2 Todo order edits do not start work; child timestamps and Task closure cannot be smuggled
+- 144. Gate2 owner preferences persist with version checks; cross-user and timezone override writes denied
+- 145. Gate2 classification assignment observes after-state archival and rolls back both writes
+- 146. Gate2 triple-write access budget sweep: accepted batches complete; denied batches leave no effects
+- 147. Gate2 provisioning adapter recovers from racing setup and never resets user modifications

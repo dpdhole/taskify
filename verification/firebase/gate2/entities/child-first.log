@@ -1,0 +1,1831 @@
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-taskify-gate2", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/*.test.mjs
+TAP version 13
+# Subtest: travel preserves displayed selected EOD day and India 16:00 deadline
+ok 1 - travel preserves displayed selected EOD day and India 16:00 deadline
+  ---
+  duration_ms: 29.5131
+  type: 'test'
+  ...
+# [2026-10-20T05:21:44.942Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b32 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, false for 'create' @ L313, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:45.004Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b33 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, false for 'create' @ L313, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: authenticated owner can create Draft, but foreign and unauthenticated users cannot
+ok 2 - authenticated owner can create Draft, but foreign and unauthenticated users cannot
+  ---
+  duration_ms: 4855.8479
+  type: 'test'
+  ...
+# [2026-10-20T05:21:45.208Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b35 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:45.250Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b36 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:45.289Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b37 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:45.326Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b38 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:45.365Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b39 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: ordinary title/reference edit succeeds, but cannot smuggle audited changes
+ok 3 - ordinary title/reference edit succeeds, but cannot smuggle audited changes
+  ---
+  duration_ms: 360.743
+  type: 'test'
+  ...
+# [2026-10-20T05:21:45.557Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b3c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-3"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:45.656Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b3e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:21:45.820Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b41 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L324, false for 'update' @ L330
+# [2026-10-20T05:21:45.864Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b42 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L325, false for 'delete' @ L330
+# Subtest: Start requires a matching immutable event
+ok 4 - Start requires a matching immutable event
+  ---
+  duration_ms: 497.6489
+  type: 'test'
+  ...
+# Subtest: Schedule and paused Schedule satisfy different approved transitions
+ok 5 - Schedule and paused Schedule satisfy different approved transitions
+  ---
+  duration_ms: 352.4844
+  type: 'test'
+  ...
+# [2026-10-20T05:21:46.393Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b4b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Pause and Edit Pause require an event and first-episode explanation
+ok 6 - Pause and Edit Pause require an event and first-episode explanation
+  ---
+  duration_ms: 457.9351
+  type: 'test'
+  ...
+# Subtest: Start and Resume combinations preserve independent Pause semantics
+ok 7 - Start and Resume combinations preserve independent Pause semantics
+  ---
+  duration_ms: 377.4174
+  type: 'test'
+  ...
+# Subtest: Done, Close and Reopen preserve the approved lifecycle core
+ok 8 - Done, Close and Reopen preserve the approved lifecycle core
+  ---
+  duration_ms: 372.9374
+  type: 'test'
+  ...
+# [2026-10-20T05:21:47.531Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b68 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-11"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# Subtest: Audited date edits require events
+ok 9 - Audited date edits require events
+  ---
+  duration_ms: 174.6878
+  type: 'test'
+  ...
+# [2026-10-20T05:21:47.704Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b6d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:21:47.811Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b70 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:47.902Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b73 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:21:48.013Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b76 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:21:48.107Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b79 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: Reject mismatched actors, operation types and historical snapshots
+ok 10 - Reject mismatched actors, operation types and historical snapshots
+  ---
+  duration_ms: 506.8674
+  type: 'test'
+  ...
+# [2026-10-20T05:21:48.198Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b7c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, false for 'create' @ L313, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:48.253Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b7e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:48.383Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b82 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:48.443Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b84 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+ok 11 - Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+  ---
+  duration_ms: 335.7477
+  type: 'test'
+  ...
+# [2026-10-20T05:21:48.628Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b8a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L324, false for 'update' @ L330
+# [2026-10-20T05:21:48.666Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b8b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: Reject event ID replay and stale Task versions
+ok 12 - Reject event ID replay and stale Task versions
+  ---
+  duration_ms: 222.5739
+  type: 'test'
+  ...
+# [2026-10-20T05:21:48.789Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b8e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Concurrent same-version batches: at most one commits
+ok 13 - Concurrent same-version batches: at most one commits
+  ---
+  duration_ms: 155.8614
+  type: 'test'
+  ...
+# [2026-10-20T05:21:48.919Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b93 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: Rejected paired write commits neither document
+ok 14 - Rejected paired write commits neither document
+  ---
+  duration_ms: 155.7652
+  type: 'test'
+  ...
+# [2026-10-20T05:21:49.137Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b9a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: REGRESSION Resume Only cannot promote paused Draft without Actual Start
+ok 15 - REGRESSION Resume Only cannot promote paused Draft without Actual Start
+  ---
+  duration_ms: 159.2708
+  type: 'test'
+  ...
+# [2026-10-20T05:21:49.165Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b9b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# Subtest: REGRESSION inactive pause cannot retain pausedUntil
+ok 16 - REGRESSION inactive pause cannot retain pausedUntil
+  ---
+  duration_ms: 27.075
+  type: 'test'
+  ...
+# [2026-10-20T05:21:49.219Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14b9d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: REGRESSION metadata update must participate in version integrity
+ok 17 - REGRESSION metadata update must participate in version integrity
+  ---
+  duration_ms: 54.367
+  type: 'test'
+  ...
+# [2026-10-20T05:21:49.461Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ba2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:49.472Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ba3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L276, false for 'delete' @ L320
+# [2026-10-20T05:21:49.516Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ba5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, false for 'create' @ L313, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:49.615Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ba7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:49.626Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ba8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L276, false for 'delete' @ L320
+# [2026-10-20T05:21:49.681Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14baa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, false for 'create' @ L313, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:49.816Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bad error. Code: 7 Message: 7 PERMISSION_DENIED: No matching allow statements
+# Subtest: owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+ok 18 - owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+  ---
+  duration_ms: 597.3005
+  type: 'test'
+  ...
+# [2026-10-20T05:21:49.936Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bb1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-24"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:50.048Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bb5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+ok 19 - pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 439.9067
+  type: 'test'
+  ...
+# [2026-10-20T05:21:50.385Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bbf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-25"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:50.489Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bc3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+ok 20 - pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 413.8378
+  type: 'test'
+  ...
+# [2026-10-20T05:21:50.797Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bcd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-26"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:50.920Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bd1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+ok 21 - pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 445.0652
+  type: 'test'
+  ...
+# [2026-10-20T05:21:51.309Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bdd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-27"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:51.426Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14be1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+ok 22 - pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 491.586
+  type: 'test'
+  ...
+# [2026-10-20T05:21:51.780Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bed error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-28"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:51.900Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bf1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+ok 23 - pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 515.8511
+  type: 'test'
+  ...
+# [2026-10-20T05:21:52.252Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bfb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-29"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:52.370Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14bff error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+ok 24 - pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 410.8431
+  type: 'test'
+  ...
+# [2026-10-20T05:21:52.654Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c09 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-30"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:52.767Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c0d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+ok 25 - pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 397.3072
+  type: 'test'
+  ...
+# [2026-10-20T05:21:53.120Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c19 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-31"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:53.225Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c1d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+ok 26 - pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 490.2817
+  type: 'test'
+  ...
+# [2026-10-20T05:21:53.554Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c27 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-32"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:53.671Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c2b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+ok 27 - pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 409.2576
+  type: 'test'
+  ...
+# [2026-10-20T05:21:53.935Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c35 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-33"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:54.029Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c39 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+ok 28 - pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 378.3698
+  type: 'test'
+  ...
+# [2026-10-20T05:21:54.403Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c45 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-34"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v2"
+#   }
+# }
+# ]. for 'update' @ L319
+# [2026-10-20T05:21:54.524Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14c49 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+ok 29 - pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+  ---
+  duration_ms: 493.4586
+  type: 'test'
+  ...
+# Subtest: Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+ok 30 - Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+  ---
+  duration_ms: 539.6943
+  type: 'test'
+  ...
+# Subtest: all five failure outcomes and repeated closure preserve original Actual Start and history
+ok 31 - all five failure outcomes and repeated closure preserve original Actual Start and history
+  ---
+  duration_ms: 2389.032
+  type: 'test'
+  ...
+# [2026-10-20T05:21:57.928Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cb6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+ok 32 - Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+  ---
+  duration_ms: 295.4221
+  type: 'test'
+  ...
+# [2026-10-20T05:21:58.072Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cbb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.133Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cbd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.183Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cbf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.231Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cc1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.295Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cc3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.354Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cc5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.422Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cc7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.482Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cc9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.600Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ccd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.905Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cd8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:58.956Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cda error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.011Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cdc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.068Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cde error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.131Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ce0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.197Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ce2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.240Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ce4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.309Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ce6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.385Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ce8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:21:59.472Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cec error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L276, false for 'delete' @ L320
+# Subtest: Closed and Deleted are read-only except their explicit permitted operations
+ok 33 - Closed and Deleted are read-only except their explicit permitted operations
+  ---
+  duration_ms: 1543.8102
+  type: 'test'
+  ...
+# [2026-10-20T05:21:59.577Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cf0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack owner rolls back both documents
+ok 34 - protected field/schema attack owner rolls back both documents
+  ---
+  duration_ms: 172.0945
+  type: 'test'
+  ...
+# [2026-10-20T05:21:59.749Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cf6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack createdAt rolls back both documents
+ok 35 - protected field/schema attack createdAt rolls back both documents
+  ---
+  duration_ms: 171.5486
+  type: 'test'
+  ...
+# [2026-10-20T05:21:59.930Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14cfc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack updatedAt rolls back both documents
+ok 36 - protected field/schema attack updatedAt rolls back both documents
+  ---
+  duration_ms: 166.2018
+  type: 'test'
+  ...
+# [2026-10-20T05:22:00.099Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d02 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack actualStart rolls back both documents
+ok 37 - protected field/schema attack actualStart rolls back both documents
+  ---
+  duration_ms: 169.0655
+  type: 'test'
+  ...
+# [2026-10-20T05:22:00.271Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d08 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack version skip rolls back both documents
+ok 38 - protected field/schema attack version skip rolls back both documents
+  ---
+  duration_ms: 172.9742
+  type: 'test'
+  ...
+# [2026-10-20T05:22:00.451Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d0e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack version float rolls back both documents
+ok 39 - protected field/schema attack version float rolls back both documents
+  ---
+  duration_ms: 190.6907
+  type: 'test'
+  ...
+# [2026-10-20T05:22:00.617Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d14 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack unknown field rolls back both documents
+ok 40 - protected field/schema attack unknown field rolls back both documents
+  ---
+  duration_ms: 155.6674
+  type: 'test'
+  ...
+# [2026-10-20T05:22:00.761Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d1a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack missing field rolls back both documents
+ok 41 - protected field/schema attack missing field rolls back both documents
+  ---
+  duration_ms: 149.4383
+  type: 'test'
+  ...
+# [2026-10-20T05:22:00.939Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d20 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack legacy state rolls back both documents
+ok 42 - protected field/schema attack legacy state rolls back both documents
+  ---
+  duration_ms: 172.7015
+  type: 'test'
+  ...
+# [2026-10-20T05:22:01.081Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d26 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack inactive pause date rolls back both documents
+ok 43 - protected field/schema attack inactive pause date rolls back both documents
+  ---
+  duration_ms: 155.1077
+  type: 'test'
+  ...
+# [2026-10-20T05:22:01.253Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d2c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack open closure outcome rolls back both documents
+ok 44 - protected field/schema attack open closure outcome rolls back both documents
+  ---
+  duration_ms: 173.9938
+  type: 'test'
+  ...
+# [2026-10-20T05:22:01.430Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d32 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack open actual end rolls back both documents
+ok 45 - protected field/schema attack open actual end rolls back both documents
+  ---
+  duration_ms: 171.4487
+  type: 'test'
+  ...
+# [2026-10-20T05:22:01.586Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d38 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack reference overflow rolls back both documents
+ok 46 - protected field/schema attack reference overflow rolls back both documents
+  ---
+  duration_ms: 159.9432
+  type: 'test'
+  ...
+# [2026-10-20T05:22:01.763Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d3e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: protected field/schema attack closure timestamp spoof rolls back both documents
+ok 47 - protected field/schema attack closure timestamp spoof rolls back both documents
+  ---
+  duration_ms: 161.9229
+  type: 'test'
+  ...
+# [2026-10-20T05:22:01.925Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d44 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery owner rolls back both documents
+ok 48 - event forgery owner rolls back both documents
+  ---
+  duration_ms: 172.2902
+  type: 'test'
+  ...
+# [2026-10-20T05:22:02.096Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d4a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery taskId rolls back both documents
+ok 49 - event forgery taskId rolls back both documents
+  ---
+  duration_ms: 175.159
+  type: 'test'
+  ...
+# [2026-10-20T05:22:02.269Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d50 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery actor rolls back both documents
+ok 50 - event forgery actor rolls back both documents
+  ---
+  duration_ms: 172.0189
+  type: 'test'
+  ...
+# [2026-10-20T05:22:02.426Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d56 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery timestamp rolls back both documents
+ok 51 - event forgery timestamp rolls back both documents
+  ---
+  duration_ms: 158.17
+  type: 'test'
+  ...
+# [2026-10-20T05:22:02.612Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d5c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery toVersion rolls back both documents
+ok 52 - event forgery toVersion rolls back both documents
+  ---
+  duration_ms: 189.0678
+  type: 'test'
+  ...
+# [2026-10-20T05:22:02.806Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d62 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery fromVersion rolls back both documents
+ok 53 - event forgery fromVersion rolls back both documents
+  ---
+  duration_ms: 186.3063
+  type: 'test'
+  ...
+# [2026-10-20T05:22:02.971Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d68 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery missing comment rolls back both documents
+ok 54 - event forgery missing comment rolls back both documents
+  ---
+  duration_ms: 159.0176
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.138Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d6e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery comment type rolls back both documents
+ok 55 - event forgery comment type rolls back both documents
+  ---
+  duration_ms: 162.6442
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.300Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d74 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery attachment rolls back both documents
+ok 56 - event forgery attachment rolls back both documents
+  ---
+  duration_ms: 156.5723
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.463Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d7a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: event forgery oversized comment rolls back both documents
+ok 57 - event forgery oversized comment rolls back both documents
+  ---
+  duration_ms: 157.9992
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.598Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d80 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: event forgery type rolls back both documents
+ok 58 - event forgery type rolls back both documents
+  ---
+  duration_ms: 156.3421
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.756Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d86 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: event forgery before rolls back both documents
+ok 59 - event forgery before rolls back both documents
+  ---
+  duration_ms: 148.7587
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.906Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d8c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: event forgery after rolls back both documents
+ok 60 - event forgery after rolls back both documents
+  ---
+  duration_ms: 153.4945
+  type: 'test'
+  ...
+# [2026-10-20T05:22:03.990Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d8f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.018Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d90 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.042Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d91 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.066Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d92 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.092Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d93 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.120Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d94 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.156Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d95 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.183Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d96 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.219Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d97 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.241Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d98 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.268Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d99 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.291Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d9a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.323Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d9b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# [2026-10-20T05:22:04.350Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d9c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330
+# [2026-10-20T05:22:04.367Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14d9e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330
+# Subtest: creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+ok 61 - creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+  ---
+  duration_ms: 402.6304
+  type: 'test'
+  ...
+# [2026-10-20T05:22:04.500Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14da3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:04.528Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14da4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:04.549Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14da5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+ok 62 - metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+  ---
+  duration_ms: 282.0296
+  type: 'test'
+  ...
+# [2026-10-20T05:22:04.719Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14dac error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:22:04.862Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14db1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:04.895Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14db2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:22:04.973Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14db5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:22:05.067Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14db9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330
+# [2026-10-20T05:22:05.078Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14dba error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L324, false for 'update' @ L330
+# Subtest: deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+ok 63 - deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+  ---
+  duration_ms: 428.9004
+  type: 'test'
+  ...
+# [2026-10-20T05:22:05.158Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14dbd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:05.338Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14dc3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:05.447Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14dc7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:05.565Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14dcb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: semantic no-op operations and whitespace-only first-pause comments are rejected
+ok 64 - semantic no-op operations and whitespace-only first-pause comments are rejected
+  ---
+  duration_ms: 486.6308
+  type: 'test'
+  ...
+# Subtest: native SDK transaction conflict is rejected safely but is not automatically retried
+ok 65 - native SDK transaction conflict is rejected safely but is not automatically retried
+  ---
+  duration_ms: 174.7166
+  type: 'test'
+  ...
+# Subtest: bounded adapter retry after confirmed version drift commits one Task change and one event
+ok 66 - bounded adapter retry after confirmed version drift commits one Task change and one event
+  ---
+  duration_ms: 174.0527
+  type: 'test'
+  ...
+# Subtest: adapter retry does not swallow invalid transitions or loop past its bound
+ok 67 - adapter retry does not swallow invalid transitions or loop past its bound
+  ---
+  duration_ms: 390.4665
+  type: 'test'
+  ...
+# [2026-10-20T05:22:06.401Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14df1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: same-version batch race leaves exactly one event and one state effect
+ok 68 - same-version batch race leaves exactly one event and one state effect
+  ---
+  duration_ms: 146.9895
+  type: 'test'
+  ...
+# [2026-10-20T05:22:06.603Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14df8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329
+# Subtest: mixed valid and invalid Tasks roll back entire batch
+ok 69 - mixed valid and invalid Tasks roll back entire batch
+  ---
+  duration_ms: 217.6942
+  type: 'test'
+  ...
+# [2026-10-20T05:22:12.007Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ea9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-132"
+#   }
+# }
+# ]. for 'create' @ L329
+# [2026-10-20T05:22:13.097Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ecb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-141"
+#   }
+# }
+# ]. for 'create' @ L329
+# [2026-10-20T05:22:14.378Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ef0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-151"
+#   }
+# }
+# ]. for 'create' @ L329
+# Subtest: Rules access budget sweep records accepted boundary and denied-batch rollback
+ok 70 - Rules access budget sweep records accepted boundary and denied-batch rollback
+  ---
+  duration_ms: 8281.2522
+  type: 'test'
+  ...
+# [2026-10-20T05:22:15.053Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f01 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date ordering rejects inverted instants and rolls back its event (prototype restriction)
+ok 71 - date ordering rejects inverted instants and rolls back its event (prototype restriction)
+  ---
+  duration_ms: 125.4885
+  type: 'test'
+  ...
+# Subtest: resolved domain gap: same-calendar-day Planned Start after Due is accepted
+ok 72 - resolved domain gap: same-calendar-day Planned Start after Due is accepted
+  ---
+  duration_ms: 80.3361
+  type: 'test'
+  ...
+# Subtest: India EOD and 16:00 resolve to correct UTC instants with original selected day
+ok 73 - India EOD and 16:00 resolve to correct UTC instants with original selected day
+  ---
+  duration_ms: 171.8944
+  type: 'test'
+  ...
+# Subtest: India display and overdue boundary stay unchanged when host timezone changes to London
+ok 74 - India display and overdue boundary stay unchanged when host timezone changes to London
+  ---
+  duration_ms: 10.3626
+  type: 'test'
+  ...
+# Subtest: same India calendar day permits reversed clock times even across UTC midnight
+ok 75 - same India calendar day permits reversed clock times even across UTC midnight
+  ---
+  duration_ms: 159.5093
+  type: 'test'
+  ...
+# [2026-10-20T05:22:15.577Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f14 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: same UTC day does not permit inverted India dates
+ok 76 - same UTC day does not permit inverted India dates
+  ---
+  duration_ms: 78.0009
+  type: 'test'
+  ...
+# [2026-10-20T05:22:15.655Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f17 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+ok 77 - EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+  ---
+  duration_ms: 364.417
+  type: 'test'
+  ...
+# [2026-10-20T05:22:16.039Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f24 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery selected day before rejects Task and event together
+ok 78 - date schema forgery selected day before rejects Task and event together
+  ---
+  duration_ms: 158.5803
+  type: 'test'
+  ...
+# [2026-10-20T05:22:16.203Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f2a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery selected day after rejects Task and event together
+ok 79 - date schema forgery selected day after rejects Task and event together
+  ---
+  duration_ms: 158.1079
+  type: 'test'
+  ...
+# [2026-10-20T05:22:16.351Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f30 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery non-midnight day key rejects Task and event together
+ok 80 - date schema forgery non-midnight day key rejects Task and event together
+  ---
+  duration_ms: 159.4324
+  type: 'test'
+  ...
+# [2026-10-20T05:22:16.522Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f36 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery timestamp contradicts day rejects Task and event together
+ok 81 - date schema forgery timestamp contradicts day rejects Task and event together
+  ---
+  duration_ms: 158.3587
+  type: 'test'
+  ...
+# [2026-10-20T05:22:16.698Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f3c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery string timestamp rejects Task and event together
+ok 82 - date schema forgery string timestamp rejects Task and event together
+  ---
+  duration_ms: 189.2119
+  type: 'test'
+  ...
+# [2026-10-20T05:22:16.894Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f42 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery string day rejects Task and event together
+ok 83 - date schema forgery string day rejects Task and event together
+  ---
+  duration_ms: 189.7999
+  type: 'test'
+  ...
+# [2026-10-20T05:22:17.054Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f48 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery missing day rejects Task and event together
+ok 84 - date schema forgery missing day rejects Task and event together
+  ---
+  duration_ms: 173.6337
+  type: 'test'
+  ...
+# [2026-10-20T05:22:17.243Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f4e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery missing instant rejects Task and event together
+ok 85 - date schema forgery missing instant rejects Task and event together
+  ---
+  duration_ms: 162.2811
+  type: 'test'
+  ...
+# [2026-10-20T05:22:17.408Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f54 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery missing precision rejects Task and event together
+ok 86 - date schema forgery missing precision rejects Task and event together
+  ---
+  duration_ms: 190.9103
+  type: 'test'
+  ...
+# [2026-10-20T05:22:17.602Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f5a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery missing boundary rejects Task and event together
+ok 87 - date schema forgery missing boundary rejects Task and event together
+  ---
+  duration_ms: 158.9332
+  type: 'test'
+  ...
+# [2026-10-20T05:22:17.744Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f60 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery forged offset rejects Task and event together
+ok 88 - date schema forgery forged offset rejects Task and event together
+  ---
+  duration_ms: 156.0972
+  type: 'test'
+  ...
+# [2026-10-20T05:22:17.907Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f66 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery forged zone rejects Task and event together
+ok 89 - date schema forgery forged zone rejects Task and event together
+  ---
+  duration_ms: 174.7949
+  type: 'test'
+  ...
+# [2026-10-20T05:22:18.071Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f6c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery obsolete symbolic slot rejects Task and event together
+ok 90 - date schema forgery obsolete symbolic slot rejects Task and event together
+  ---
+  duration_ms: 175.5153
+  type: 'test'
+  ...
+# [2026-10-20T05:22:18.254Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f72 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery unknown key rejects Task and event together
+ok 91 - date schema forgery unknown key rejects Task and event together
+  ---
+  duration_ms: 151.5222
+  type: 'test'
+  ...
+# [2026-10-20T05:22:18.405Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f78 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery date precision at 16h rejects Task and event together
+ok 92 - date schema forgery date precision at 16h rejects Task and event together
+  ---
+  duration_ms: 161.5326
+  type: 'test'
+  ...
+# [2026-10-20T05:22:18.572Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f7e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery end-of-day at 16h rejects Task and event together
+ok 93 - date schema forgery end-of-day at 16h rejects Task and event together
+  ---
+  duration_ms: 163.2203
+  type: 'test'
+  ...
+# [2026-10-20T05:22:18.746Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f84 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date schema forgery non-boolean boundary rejects Task and event together
+ok 94 - date schema forgery non-boolean boundary rejects Task and event together
+  ---
+  duration_ms: 174.0835
+  type: 'test'
+  ...
+# [2026-10-20T05:22:18.874Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f89 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:18.949Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f8c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: date-only start requires India midnight and cannot use end-exclusive boundary
+ok 95 - date-only start requires India midnight and cannot use end-exclusive boundary
+  ---
+  duration_ms: 150.0768
+  type: 'test'
+  ...
+# [2026-10-20T05:22:19.037Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f8f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: EOD selected-day forgery cannot turn a later start date into a valid pair
+ok 96 - EOD selected-day forgery cannot turn a later start date into a valid pair
+  ---
+  duration_ms: 87.9379
+  type: 'test'
+  ...
+# [2026-10-20T05:22:19.155Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f93 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:19.286Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f98 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: planned date changes cannot bypass mandatory audit through ordinary metadata update
+ok 97 - planned date changes cannot bypass mandatory audit through ordinary metadata update
+  ---
+  duration_ms: 268.849
+  type: 'test'
+  ...
+# [2026-10-20T05:22:19.328Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f9a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L309
+# [2026-10-20T05:22:19.341Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f9b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L309
+# [2026-10-20T05:22:19.358Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f9c error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L309
+# [2026-10-20T05:22:19.373Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f9d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'delete' @ L309
+# [2026-10-20T05:22:19.396Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14f9e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'update' @ L309
+# [2026-10-20T05:22:19.481Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fa1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L306, false for 'update' @ L309
+# [2026-10-20T05:22:19.503Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fa2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L306, false for 'update' @ L309
+# [2026-10-20T05:22:19.532Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fa3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L306, false for 'update' @ L309
+# Subtest: fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+ok 98 - fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+  ---
+  duration_ms: 225.8117
+  type: 'test'
+  ...
+# [2026-10-20T05:22:19.615Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fa6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:19.638Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fa7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, Service call error. Function: [get], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "no-policy"
+#   }
+# }
+# ]. for 'create' @ L313
+# Subtest: Task cannot override timezone, and dates fail closed without an account policy
+ok 99 - Task cannot override timezone, and dates fail closed without an account policy
+  ---
+  duration_ms: 106.6926
+  type: 'test'
+  ...
+# [2026-10-20T05:22:19.690Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fa9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L274, false for 'create' @ L313
+# Subtest: valid dates at creation are checked by the same Rules as updates
+ok 100 - valid dates at creation are checked by the same Rules as updates
+  ---
+  duration_ms: 52.1522
+  type: 'test'
+  ...
+# Subtest: date adapter handles leap day and year rollover and rejects invalid civil input
+ok 101 - date adapter handles leap day and year rollover and rejects invalid civil input
+  ---
+  duration_ms: 150.2128
+  type: 'test'
+  ...
+# [2026-10-20T05:22:19.982Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fb4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:20.170Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fba error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323
+# [2026-10-20T05:22:20.348Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fc0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-198"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# Subtest: Gate2 discussionEntries: create requires exact child + Task + event, no partial writes
+ok 102 - Gate2 discussionEntries: create requires exact child + Task + event, no partial writes
+  ---
+  duration_ms: 727.0199
+  type: 'test'
+  ...
+# [2026-10-20T05:22:20.700Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fcc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:20.899Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fd2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329
+# [2026-10-20T05:22:21.094Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fd8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-203"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# Subtest: Gate2 discussionLinks: create requires exact child + Task + event, no partial writes
+ok 103 - Gate2 discussionLinks: create requires exact child + Task + event, no partial writes
+  ---
+  duration_ms: 729.3363
+  type: 'test'
+  ...
+# [2026-10-20T05:22:21.438Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fe4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:21.607Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14fea error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323
+# [2026-10-20T05:22:21.784Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd14ff0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'update' @ L275, Service call error. Function: [getAfter], Argument: [path_value {
+#   segments {
+#     simple: "databases"
+#   }
+#   segments {
+#     simple: "(default)"
+#   }
+#   segments {
+#     simple: "documents"
+#   }
+#   segments {
+#     simple: "users"
+#   }
+#   segments {
+#     simple: "owner"
+#   }
+#   segments {
+#     simple: "tasks"
+#   }
+#   segments {
+#     simple: "case-208"
+#   }
+#   segments {
+#     simple: "activityEvents"
+#   }
+#   segments {
+#     simple: "v1"
+#   }
+# }
+# ]. for 'update' @ L319
+# Subtest: Gate2 todos: create requires exact child + Task + event, no partial writes
+ok 104 - Gate2 todos: create requires exact child + Task + event, no partial writes
+  ---
+  duration_ms: 677.5745
+  type: 'test'
+  ...
+# Subtest: Gate2 implicit activity discussionEntries on Draft
+ok 105 - Gate2 implicit activity discussionEntries on Draft
+  ---
+  duration_ms: 142.9619
+  type: 'test'
+  ...
+# Subtest: Gate2 implicit activity discussionEntries on DraftPaused
+ok 106 - Gate2 implicit activity discussionEntries on DraftPaused
+  ---
+  duration_ms: 203.0129
+  type: 'test'
+  ...
+# [2026-10-20T05:22:22.473Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15009 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+# Subtest: Gate2 implicit activity discussionEntries on Scheduled
+not ok 107 - Gate2 implicit activity discussionEntries on Scheduled
+  ---
+  duration_ms: 151.547
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs:629:141'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# [2026-10-20T05:22:22.675Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15011 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+# Subtest: Gate2 implicit activity discussionEntries on InProgressPaused
+not ok 108 - Gate2 implicit activity discussionEntries on InProgressPaused
+  ---
+  duration_ms: 201.4828
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs:629:141'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# Subtest: Gate2 implicit activity discussionLinks on Draft
+ok 109 - Gate2 implicit activity discussionLinks on Draft
+  ---
+  duration_ms: 154.3604
+  type: 'test'
+  ...
+# Subtest: Gate2 implicit activity discussionLinks on DraftPaused
+ok 110 - Gate2 implicit activity discussionLinks on DraftPaused
+  ---
+  duration_ms: 159.1636
+  type: 'test'
+  ...
+# [2026-10-20T05:22:23.174Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15023 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+# Subtest: Gate2 implicit activity discussionLinks on Scheduled
+not ok 111 - Gate2 implicit activity discussionLinks on Scheduled
+  ---
+  duration_ms: 186.1393
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs:629:141'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# [2026-10-20T05:22:23.414Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1502b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+# Subtest: Gate2 implicit activity discussionLinks on InProgressPaused
+not ok 112 - Gate2 implicit activity discussionLinks on InProgressPaused
+  ---
+  duration_ms: 239.6823
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs:629:141'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# Subtest: Gate2 implicit activity todos on Draft
+ok 113 - Gate2 implicit activity todos on Draft
+  ---
+  duration_ms: 233.1467
+  type: 'test'
+  ...
+# Subtest: Gate2 implicit activity todos on DraftPaused
+ok 114 - Gate2 implicit activity todos on DraftPaused
+  ---
+  duration_ms: 279.8326
+  type: 'test'
+  ...
+# [2026-10-20T05:22:24.109Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15043 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+# Subtest: Gate2 implicit activity todos on Scheduled
+not ok 115 - Gate2 implicit activity todos on Scheduled
+  ---
+  duration_ms: 181.3605
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs:629:141'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# [2026-10-20T05:22:24.315Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1504b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+# Subtest: Gate2 implicit activity todos on InProgressPaused
+not ok 116 - Gate2 implicit activity todos on InProgressPaused
+  ---
+  duration_ms: 206.2295
+  type: 'test'
+  location: 'D:\\Work\\taskify\\codex\\gate2\\entities\\tests\\security.test.mjs:629:141'
+  failureType: 'testCodeFailure'
+  error: |-
+    7 PERMISSION_DENIED: 
+    evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'update' @ L319
+  code: 'permission-denied'
+  name: 'FirebaseError'
+  ...
+# [2026-10-20T05:22:24.787Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1505b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L324
+# [2026-10-20T05:22:24.885Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1505e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L325:22 for 'delete' @ L325, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'delete' @ L325
+# Subtest: Gate2 Todo rename/close/reopen/delete preserve title history, state and Actual Start
+ok 117 - Gate2 Todo rename/close/reopen/delete preserve title history, state and Actual Start
+  ---
+  duration_ms: 797.3451
+  type: 'test'
+  ...
+# [2026-10-20T05:22:25.213Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1506a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323
+# [2026-10-20T05:22:25.348Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1506f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319, false for 'create' @ L323
+# [2026-10-20T05:22:25.490Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15074 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:25.628Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15079 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:25.782Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1507e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:25.936Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15083 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:26.050Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15088 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:26.183Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1508d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, false for 'update' @ L324
+# [2026-10-20T05:22:26.395Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15094 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Gate2 forged implicit Start, child timestamp, owner, reference and audit payload rejected
+ok 118 - Gate2 forged implicit Start, child timestamp, owner, reference and audit payload rejected
+  ---
+  duration_ms: 1282.3015
+  type: 'test'
+  ...
+# [2026-10-20T05:22:26.577Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1509a error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:26.793Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150a1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:26.980Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150a9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:27.003Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150aa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L325:22 for 'delete' @ L325, false for 'delete' @ L325
+# Subtest: Gate2 discussionEntries: Closed/Deleted Task read-only before and after batch
+ok 119 - Gate2 discussionEntries: Closed/Deleted Task read-only before and after batch
+  ---
+  duration_ms: 607.8735
+  type: 'test'
+  ...
+# [2026-10-20T05:22:27.161Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# [2026-10-20T05:22:27.341Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150b7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:27.643Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150c1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L324
+# [2026-10-20T05:22:27.670Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150c2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L325:22 for 'delete' @ L325, false for 'delete' @ L325
+# Subtest: Gate2 discussionLinks: Closed/Deleted Task read-only before and after batch
+ok 120 - Gate2 discussionLinks: Closed/Deleted Task read-only before and after batch
+  ---
+  duration_ms: 666.56
+  type: 'test'
+  ...
+# [2026-10-20T05:22:27.843Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150c8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:28.028Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150cf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:28.301Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150d9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L324
+# [2026-10-20T05:22:28.322Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150da error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L325:22 for 'delete' @ L325, false for 'delete' @ L325
+# Subtest: Gate2 todos: Closed/Deleted Task read-only before and after batch
+ok 121 - Gate2 todos: Closed/Deleted Task read-only before and after batch
+  ---
+  duration_ms: 652.0207
+  type: 'test'
+  ...
+# [2026-10-20T05:22:28.473Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150e0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:28.492Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150e1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:28.505Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150e2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:28.511Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150e3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:28.520Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150e4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:28.684Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150ea error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L324:22 for 'update' @ L324, false for 'update' @ L324
+# [2026-10-20T05:22:28.691Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150eb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L325:22 for 'delete' @ L325, false for 'delete' @ L325
+# Subtest: Gate2 comments edit/delete within 30 minutes; original timestamp/actor/order fields immutable
+ok 122 - Gate2 comments edit/delete within 30 minutes; original timestamp/actor/order fields immutable
+  ---
+  duration_ms: 369.1189
+  type: 'test'
+  ...
+# Subtest: Gate2 comments have no prototype character cap and are plain-text data
+ok 123 - Gate2 comments have no prototype character cap and are plain-text data
+  ---
+  duration_ms: 130.4706
+  type: 'test'
+  ...
+# [2026-10-20T05:22:29.012Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150f7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L324
+# [2026-10-20T05:22:29.095Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150fa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L324
+# [2026-10-20T05:22:29.192Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd150fd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L324
+# [2026-10-20T05:22:29.284Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15100 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L275, false for 'update' @ L319, false for 'update' @ L324
+# [2026-10-20T05:22:29.307Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15101 error. Code: 7 Message: 7 PERMISSION_DENIED: No matching allow statements
+# [2026-10-20T05:22:29.330Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15102 error. Code: 7 Message: 7 PERMISSION_DENIED: No matching allow statements
+# [2026-10-20T05:22:29.348Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15103 error. Code: 7 Message: 7 PERMISSION_DENIED: No matching allow statements
+# [2026-10-20T05:22:29.373Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15104 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# false for 'create' @ L323, false for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330
+# Subtest: Gate2 no Todo comment/attachment fields or nested entries, nor Activity attachment/user-post writes
+ok 124 - Gate2 no Todo comment/attachment fields or nested entries, nor Activity attachment/user-post writes
+  ---
+  duration_ms: 551.6486
+  type: 'test'
+  ...
+# [2026-10-20T05:22:29.476Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15108 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:29.559Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1510b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:29.646Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd1510e error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323
+# [2026-10-20T05:22:30.654Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15130 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'create' @ L323, false for 'create' @ L329, false for 'create' @ L323, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Gate2 links: only HTTP(S), ten total slots, edit/delete paired and counts correct
+ok 125 - Gate2 links: only HTTP(S), ten total slots, edit/delete paired and counts correct
+  ---
+  duration_ms: 1572.1693
+  type: 'test'
+  ...
+# [2026-10-20T05:22:31.077Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x5cd15141 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+# evaluation error at L323:22 for 'create' @ L323, evaluation error at L324:22 for 'update' @ L324, false for 'create' @ L274, evaluation error at L313:21 for 'create' @ L313, false for 'update' @ L275, evaluation error at L319:21 for 'update' @ L319, false for 'create' @ L323, evaluation error at L329:22 for 'create' @ L329, false for 'update' @ L324, false for 'update' @ L330, false for 'update' @ L275, false for 'update' @ L319
+# Subtest: Gate2 child changes reject stale root versions and competing mutations leave one effect
+ok 126 - Gate2 child changes reject stale root versions and competing mutations leave one effect
+  ---
+  duration_ms: 255.34
+  type: 'test'
+  ...
+1..126
+# tests 126
+# suites 0
+# pass 120
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 76537.506
+!  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node --test tests/*.test.mjs" exited with code 1

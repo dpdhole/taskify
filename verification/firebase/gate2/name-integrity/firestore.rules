@@ -1,0 +1,39 @@
+rules_version='2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function owner(uid) { return request.auth!=null && request.auth.uid==uid; }
+  function entityPath(uid,kind,id) { return /databases/$(database)/documents/users/$(uid)/$(kind)/$(id); }
+  function guardPath(uid,kind,key) { return /databases/$(database)/documents/users/$(uid)/nameGuards/$(kind)/keys/$(key); }
+  function entity(uid,kind,id) {
+   let n=request.resource.data;
+   let gp=guardPath(uid,kind,n.nameKey);
+   let g=getAfter(gp).data;
+   return kind in ['categories','locations'] &&
+    n.keys().hasOnly(['ownerUid','name','nameKey','archived','order','createdAt']) && n.keys().hasAll(['ownerUid','name','nameKey','archived','order','createdAt']) &&
+    n.ownerUid==uid && n.name is string && n.name==n.name.trim() && n.name.size()>0 && n.name.size()<=30 &&
+    n.nameKey is string && n.nameKey==n.name.lower() && n.archived==false && n.order is int && n.createdAt==request.time &&
+    !exists(gp) && g.ownerUid==uid && g.kind==kind && g.entityId==id && g.nameKey==n.nameKey;
+  }
+  function guard(uid,kind,key) {
+   let g=request.resource.data;
+   let ep=entityPath(uid,kind,g.entityId);
+   let e=getAfter(ep).data;
+   return kind in ['categories','locations'] &&
+    g.keys().hasOnly(['ownerUid','kind','entityId','nameKey']) && g.keys().hasAll(['ownerUid','kind','entityId','nameKey']) &&
+    g.ownerUid==uid && g.kind==kind && g.nameKey==key && g.entityId is string && !exists(ep) &&
+    e.ownerUid==uid && e.nameKey==key;
+  }
+  match /users/{uid}/{kind}/{id} {
+   allow read: if owner(uid) && kind in ['categories','locations'];
+   allow create: if owner(uid) && entity(uid,kind,id);
+   allow update: if owner(uid) && kind in ['categories','locations'] && resource.data.ownerUid==uid &&
+    request.resource.data.diff(resource.data).affectedKeys().hasOnly(['archived']) && request.resource.data.archived is bool;
+   allow delete: if false;
+  }
+  match /users/{uid}/nameGuards/{kind}/keys/{key} {
+   allow read: if owner(uid);
+   allow create: if owner(uid) && guard(uid,kind,key);
+   allow update,delete: if false;
+  }
+ }
+}

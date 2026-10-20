@@ -1,6 +1,8 @@
 # Firebase legacy validation gap analysis — revised Spark PoC/beta
 
-**Status:** Documentation-only handoff and test planning (2026-10-19). No revised Firestore Security Rules, domain operations, Firebase resources, deployment or validation tests have been created or executed.
+**Current status (2026-10-20):** The four local feasibility experiments have executed. See [Gate 1–4 findings](firebase-validation-results.md) and [source/evidence](../../verification/firebase/README.md). Gates 1–2 have qualified local PASS results; Gates 3–4 and overall platform feasibility remain INCONCLUSIVE. No Firebase cloud provisioning/deployment or production implementation is claimed.
+
+**Historical planning status (2026-10-19):** This document originally recorded a documentation-only handoff before experiment execution. The gate criteria below remain the validation checklist; dated historical evidence is not current browser-direct acceptance.
 
 ## Source baseline and evidence provenance
 
@@ -65,6 +67,6 @@ Using a minimal new Task schema, Activity event schema, client SDK and Firestore
 
 ## Handoff and scope boundaries
 
-**Next implementation checkpoint:** A *separately approved* minimal **Gate 1 security/atomicity feasibility PoC**, then Gate 2 entity rules, Gate 3 deletion, Gate 4 auth/query/Spark. Reuse the historical test-harness design where appropriate, but do not revive obsolete multi-user roles, email ownership, fixed Views, automatic lifecycle, or callable backend contracts.
+**Next checkpoint:** Resolve Gate 3 recovery/deletion semantics, finish Gate 4's local query/offline-write and workload validation, and run combined adversarial regressions against the final candidate. Real Google/session and production index testing require separately scoped cloud authorization. Do not revive obsolete multi-user roles, email ownership, fixed Views, automatic lifecycle, or callable backend contracts.
 
-**Currently verified:** historical 420-test suite in its documented local scope, not rerun here. **Currently unverified:** revised client-side Rules, Task/Event pairing, deletion, actual Google Auth, physical Firestore schema and Spark deployment. No project code, rules, resources or legacy specification changed as part of this handoff.
+**Current evidence:** local revised Task/Event, entity, deletion and read-model assertions are recorded in the findings, with exact scope and known limitations. The historical 420-test suite was not rerun or counted. **Still unverified:** complete final-schema combined security regression, account/project recovery, actual Google/session behavior, full query/index workload and Spark deployment. Experiment source is isolated under `verification/firebase`; application code, product requirements, cloud resources and the legacy specification remain unchanged.
