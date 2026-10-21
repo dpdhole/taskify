@@ -765,3 +765,53 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 - **Mobile:** overlay drawer with context-dependent mutually exclusive accordion expansion; bottom-right adaptive Create FAB; contextual Task Detail/Settings headers are icon-only with title/context below (§19).
 - **Desktop/tablet:** collapsible rail and expanded sidebar, always-open navigation sections, top-of-navigation Create action, branded workspace header and inline Search. Hover preview is available only when a hover-capable pointer exists; persistent expansion and explicit Close support touch.
 - **No domain divergence:** the same Task, View, Search, Dashboard and navigation-origin semantics apply across layouts. No implementation, tests or deployment are claimed.
+
+
+## 21. Responsive screen patterns and account experience (owner-agreed UX direction, 2026-10-21)
+
+This section supplements §§17–20 and supersedes conflicting presentation-only provisions below. It records approved high-level UX direction, not implementation. Exact fields, permissions, breakpoints, error behavior and accessibility remain slice-level.
+
+### 21.1 Home Dashboard
+- Burn-rate chart uses full available content width; retain §17.6 metrics, period controls, orientation and data rules.
+- Dashboard-enabled Saved View charts form a responsive one-, two-, then three-column grid in global View order, left-to-right then top-to-bottom. Protected All Tasks remains included.
+- **All Dashboard charts remain expanded at all widths.** This supersedes §17.6's collapsible sections, initial first-only expansion and session expansion retention. Cards grow with legends.
+- Pie slice or legend selection opens the unchanged View, expands and scrolls to the corresponding group, including zero-count groups. No additional filter is applied.
+
+### 21.2 Shared All Tasks / Saved Views workspace
+- Present Tasks as a grouped table with collapsible group-divider rows displaying label and matching count. Counts are independent of expansion. Preserve mandatory Group By and within-group sorting (§17.5).
+- **All groups default collapsed** on ordinary View entry; independently toggleable. Wider screens show additional table columns; narrow screens wrap/stack each Task row into labeled value pairs. Responsive visibility never changes query or sort semantics.
+- Dashboard drill-down expands and scrolls to its target group; other groups remain normally collapsed unless restoring navigation context.
+- Task View → Task Detail → Back restores originating View, expanded groups, search and scroll/list position, subject to existing unsaved-View navigation semantics. Normal entry to another View starts collapsed.
+- Column selection, stacked-field order and row actions are slice-level.
+
+### 21.3 Create
+- Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More expands the same form to full-screen Advanced Create, retaining entered values.
+- Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More expands the same form to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
+- Both modes share Task defaults, validation and submission. Detailed fields, dimensions, dismissal and unsaved-change behavior remain slice-level.
+
+### 21.4 Settings management and forms
+- Views, Categories and Locations share an ordered-record management pattern: narrow screens use sortable vertical lists with drill-down details/actions; wide screens use sortable tables with visible relevant details/actions. Manual order is authoritative, not column sort order.
+- Desktop reorder via drag/drop; small-screen reorder via Move Up/Down. For entity types permitting creation, positional (+) before/between entries inserts at that logical position, with end-of-list Add. Desktop positional affordances appear on hover/focus. Reuse existing ordering sequence rules.
+- Ordering changes remain provisional until **explicit Save Order**. Leaving with unsaved ordering prompts Save / Discard / Stay. Non-order edits can persist separately.
+- Settings → Views does **not** directly Create/Insert Saved Views. §17.5 Save As remains the creation route. Existing rename, Dashboard inclusion, reorder, delete and protected All Tasks rules remain. Clone → rename → edit is a candidate workflow for slice evaluation, not an approved feature.
+- Archive is the domain concept where supported; muted/transparent presentation does not introduce a separate Hidden domain state. Dashboard Show-on-Home is distinct from archive. Entity-specific delete/archive dependencies and confirmation remain slice-level.
+- Preferences: simple responsive single-form interaction, mobile stacked and desktop width-constrained. Additional drawer entries only if justified later.
+- Cleanup: simple form for selecting and executing the §17.9 manual account-wide operations, with processing/progress feedback, success/partial-failure, and retry/recovery. Do not assume precise progress or background/resumable execution without §18 Firebase Spark feasibility validation.
+- My Account: responsive user-info form including name/photo, identity/linked providers, possibly core account preferences, Logout and a separated Delete Account action. Delete/recovery semantics deferred. Profile data and authentication identity are distinct.
+
+### 21.5 Login, identity and workspace initialization
+- Shared branded hero and centered Google/Apple sign-in controls across all screen widths. Authentication persists on device until Logout or invalidation.
+- First access displays workspace-provisioning status/progress; returning access displays loading while fetching initial Task population. Provisioning must be idempotent and safely retryable; detailed recovery remains slice-level.
+- Initialize display name and photo from available social profile data; do not assume values always exist or overwrite user edits automatically.
+- Verified identical email across providers should resolve to the same Taskify account through secure account resolution/credential linking. Firebase does not guarantee automatic linking; Apple private relay can produce different email addresses. Never trust an unverified email claim as authorization. Exact linking UX and security deferred.
+- Email OTP is a candidate alternative, not an active approved login channel. Google + Apple extends §18's earlier Google-only Firebase Spark PoC/beta baseline; provider feasibility must be validated.
+
+### 21.6 Task Detail responsive sections
+- Retain contextual Back/action bar (§§19–20), mobile full-page and desktop side-panel-by-default expandable presentation where compatible.
+- **Mobile order:** action bar; Title/Reference; status and planning dates; Task preferences; description preview with Show All; Todo CRUD checklist; Discussion latest five complete entries with More and new-entry field; external-link Attachments list with Add; Activity Log.
+- **Desktop/wider:** action bar and Title/Reference span width, then two columns. Left: longer description preview, Todo management, external-link attachment management. Right: status/planning, Task preferences, Discussion management, Activity Log viewer.
+- Section content can grow; precise description/history expansion deferred. Visual placement does not change ownership: Todo Task-owned; Discussion entries and their attached external links Discussion-owned; Activity Log immutable structured system history.
+- Attachments presentation aggregates Discussion-owned external links and **independent Task-associated external links**. The independent link ownership/record contract is deferred to the slice; do not create fake Discussion entries. No binary uploads in PoC/beta.
+
+### 21.7 Scope
+All decisions above are high-level UX direction, not implemented/tested state. Slice-level work includes responsive breakpoints, actions, field definitions, authorization, accessibility, errors, Firebase Rules/data feasibility and persistence. No code, infrastructure or migration change is authorized by this section.
