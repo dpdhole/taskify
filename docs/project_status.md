@@ -2,6 +2,16 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-21 — Responsive screen UX consolidation committed
+
+- **Controlling UX addition:** `docs/product_spec.md` §21 consolidates owner-agreed high-level Dashboard, Task Views, Create, Settings, authentication and Task Detail behavior. This is documentation only.
+- **Dashboard supersession:** full-width burn-rate and always-expanded responsive 1/2/3-column Saved View chart grid replace §17.6's collapsible Home chart sections and expansion-session behavior. Pie/legend drill-down still opens the unchanged View and expands/scrolls to its target group.
+- **Task Views:** grouped responsive table, with stacked label:value rows on narrow screens; normal View entry has all groups collapsed. Task Detail Back restores expansion, scroll, search and origin context.
+- **Create and Settings:** mobile Quick Create sheet → full-screen Advanced; desktop centered Quick modal → large centered Advanced. Views/Categories/Locations use sortable list/table management with explicit Save Order; Preferences, Cleanup and My Account use responsive forms. Cleanup requires processing feedback and retry/recovery design.
+- **Identity:** Google and Apple sign-in with shared hero, persistent device auth, provisioning/loading feedback and secure same-verified-email account resolution intent. Email OTP is only a candidate. Firebase Spark provider feasibility and linking contracts require validation.
+- **Task Detail:** mobile ordered sections and desktop two-column composition. External-link Attachments aggregate Discussion-owned and independent Task-associated links; independent-link ownership/data model remains for slice design. Binary uploads are outside PoC/beta.
+- **Status:** UX direction documented, **not implemented, tested, deployed or migrated**. Remaining slice work: forms/actions, breakpoints, accessibility, data integrity, identity linking and cleanup recovery.
+
 ## 2026-10-21 — Larger-screen and desktop shell UX recorded
 
 - **Owner-agreed responsive shell:** `docs/product_spec.md` §20 governs desktop/tablet adaptations to §19: top-of-navigation Create (no FAB), collapsed icon rail with icons in natural expanded-layout positions, hover-triggered temporary overlay preview (mouse-out closes), and burger-controlled persistent expansion that pushes/resizes main content. Explicit Close returns to rail, especially on touch/tablet.
