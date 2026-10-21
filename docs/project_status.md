@@ -2,6 +2,13 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-21 — Mobile-first application shell UX recorded
+
+- **Owner-agreed mobile shell direction:** Standard Home/Task View header uses burger, left-aligned contextual title and header Search; Task Detail/Settings use Back-only icon action header with title/context below, variable primary actions and overflow.
+- **Drawer:** left overlay, Home always visible, mutually exclusive Task Views/Settings inline sections, default expansion derived from active task-versus-settings context. Views follow the same global user order as Dashboard, with protected All Tasks last by default and reorderable. Settings includes Views, Categories, Locations, Preferences, Cleanup and My Account; Task Views also offers a Manage Views link.
+- **Search/Create:** expandable header Search retaining §17.8 semantics; right-anchored adaptive Create FAB on Home/Task Views only, extending with label when idle, collapsing to fixed-position icon on scroll, fading to approximately 20% on rapid/sustained scroll without disabling interaction. Quick Create bottom sheet has Title, defaulted Category and Location, and More expands to full-screen.
+- **Authority:** Details in `docs/product_spec.md` §19. These are agreed UX specifications, **not implemented or verified**. Desktop shell design, exact task action lists, styling, thresholds and other slice mechanics remain open. §19 supersedes §18.1's older mobile bottom Search/Create and top-right Settings placement, without changing §17 functional contracts.
+
 ## 2026-10-19 — Legacy Firebase validation review and handoff
 
 - **Historical evidence reviewed:** Commit `46108abcdff3a60ec812170ebd63a8bb3830b7f5` records a local 420-test verification set (116 API unit, 63 Admin Firestore integration, 174 Security Rules, 39 query/index, 28 callable HTTP). Results are **historical local evidence** and were not rerun against the simplified client-direct Firebase architecture.
