@@ -2,6 +2,13 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-21 — Larger-screen and desktop shell UX recorded
+
+- **Owner-agreed responsive shell:** `docs/product_spec.md` §20 governs desktop/tablet adaptations to §19: top-of-navigation Create (no FAB), collapsed icon rail with icons in natural expanded-layout positions, hover-triggered temporary overlay preview (mouse-out closes), and burger-controlled persistent expansion that pushes/resizes main content. Explicit Close returns to rail, especially on touch/tablet.
+- **Desktop navigation:** Task Views and Settings sections remain open, navigation scrolls independently, global View ordering and protected All Tasks semantics are unchanged. Persistent expansion survives page navigation and the current browser session; a new session defaults to collapsed rail.
+- **Desktop headers:** Standard header contains burger, branding, contextual title and single-line explicit-submit Search. Task Detail retains Back action bar with more visible actions before overflow, with title/context below; Settings uses Back, title and overflow only.
+- **Status:** owner-agreed design direction documented, **not implemented/tested**. Breakpoints, accessibility, animations, action sets and touch/pointer coexistence deferred to slices.
+
 ## 2026-10-21 — Mobile-first application shell UX recorded
 
 - **Owner-agreed mobile shell direction:** Standard Home/Task View header uses burger, left-aligned contextual title and header Search; Task Detail/Settings use Back-only icon action header with title/context below, variable primary actions and overflow.
