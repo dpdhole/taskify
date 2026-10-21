@@ -736,3 +736,32 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 
 - **Desktop:** preserve the established responsive Task Detail direction (side panel by default, expandable to full page) and the high-level Gmail-inspired navigation concept. **Do not infer that the mobile accordion, FAB animation, icon-only contextual header or drawer behavior applies unchanged to desktop.** Desktop shell/sidebar/header specifics remain open for dedicated design.
 - These are **documented owner-agreed mobile UX directions**, not proof of coded, tested or deployed UI. Exact responsive breakpoints, visual styling, screen action lists, accessibility and implementation mechanics are deferred to vertical slices.
+
+
+## 20. Larger-screen and desktop application shell (owner-agreed UX direction, 2026-10-21)
+
+**Scope:** This section refines §19 for larger screens, desktop and touch tablets. These are approved discussion-level UX directions, not implemented or usability-verified behavior. Responsive breakpoint values, animation thresholds and exact per-screen actions remain deferred.
+
+### 20.1 Navigation rail, overlay preview and persistent sidebar
+
+- Replace the mobile floating Create action with a **Create action at the top of desktop/tablet navigation**; no FAB in this layout.
+- A burger control toggles the sidebar's **persistent expanded/collapsed state**. Persistent expansion **pushes/resizes the main content**; collapse returns to a narrow icon rail and restores workspace width.
+- When the pointer **hovers over the collapsed rail**, the full navigation drawer opens as a **temporary overlay over main content**, without resizing it. On **mouse-out**, the preview closes back to rail mode. Hover preview is distinct from persistent expansion.
+- A **Close icon** returns the persistently expanded sidebar to rail mode; it is particularly necessary for touch/tablet devices without mouse hover. It does not imply navigation away.
+- On larger screens the **Task Views and Settings sections are always open**, rather than mutually exclusive mobile accordions. The navigation content is independently scrollable.
+- In collapsed rail mode, display the available navigation/section icons (including Create, Home, Task Views and Settings) **at the same natural vertical positions they occupy in the expanded navigation**. Preserve expanded layout spacing and alignment; hide labels rather than collecting icons into a separate toolbar. Individual Saved View entries are not required to become separate icons in the rail; exact icon treatment for nested items remains a visual design detail.
+- Preserve the same global Saved View/All Tasks ordering and protected system-View distinction specified in §17.5 and §19.2.
+- **State retention:** persistent expanded/collapsed preference survives application navigation and remains stable within the current browser session; on a **new browser session**, initialize in **collapsed rail mode**. Temporary hover expansion is not retained.
+
+### 20.2 Header, Search and contextual pages
+
+- Larger-screen **standard workspace header**: burger, **Taskify branding and contextual page/View title**, then a **single-line Search form**. Search remains explicit-submit and temporary/View-scoped per §17.8; this is a control-placement difference, not a new search experience.
+- **Task Detail** retains its own contextual top action bar with **Back**, exposing **more available primary/secondary actions before the overflow menu** than mobile width permits. **Title and context remain below** the action bar. Existing desktop Task Detail side-panel-by-default / expandable-to-full-page behavior remains governed by §9.3 and §12 as not superseded by §17–19.
+- **Settings and subpages** use a contextual header with **Back, title and overflow only** in the larger-screen layout. This is intentionally distinct from the mobile icon-only Settings header, where title/context are below the bar (§19.1).
+- Detailed command availability, action ordering, panel geometry, responsive thresholds, accessibility and touch/hover coexistence remain slice-level design work.
+
+### 20.3 Explicit cross-device distinctions
+
+- **Mobile:** overlay drawer with context-dependent mutually exclusive accordion expansion; bottom-right adaptive Create FAB; contextual Task Detail/Settings headers are icon-only with title/context below (§19).
+- **Desktop/tablet:** collapsible rail and expanded sidebar, always-open navigation sections, top-of-navigation Create action, branded workspace header and inline Search. Hover preview is available only when a hover-capable pointer exists; persistent expansion and explicit Close support touch.
+- **No domain divergence:** the same Task, View, Search, Dashboard and navigation-origin semantics apply across layouts. No implementation, tests or deployment are claimed.
