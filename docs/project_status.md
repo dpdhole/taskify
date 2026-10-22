@@ -2,6 +2,14 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-22 — Small feature-focused slice order and starter Tasks agreed
+
+- [Implementation plan](implementation_plan.md) records 30 planned slices: foundation/compatibility/identity, initial Task journey and starter Tasks, complete queries/persistence, lifecycle/work content, Dashboard/settings and cleanup/release integration. Rows split further if detailed scope becomes broad; no slice has started.
+- Product specification §23 records Learn usage (full description/checklist), Explore settings (medium description/no Todos), and Find Documentation (short description/links), provisioned once as ordinary Tasks with safe retries. Templates evolve for new provisioning without rewriting existing user content or recreating deleted examples.
+- User documentation and applicable provisioning-template updates accompany every feature slice. Slice 9 introduces descriptions/manual pages; slices 18/20 add checklists/dedicated links. Guidance describes available features, not unfinished roadmap items.
+- Small end-to-end slices are the core theme; audited events and ownership/deletion integrity accompany each feature, not final cleanup/viewer work. Full-query persistence precedes richer content/charts. User backup/recovery remains FUTURE.
+- Owner authorized preparing/staging this plan for review only. Next is slice 1 detailing and scope agreement; no product implementation, commit/push, cloud provisioning or deployment is implied. Overall feasibility remains INCONCLUSIVE.
+
 ## 2026-10-22 — Architecture documentation reconciled for staging
 
 - Product specification §22 consolidates the owner-agreed high-level architecture policies; [architecture](architecture.md) details the accepted stack/boundaries, topology, compatibility, schemas, release/rollback and deferred work. README and feasibility summaries link the current baseline.

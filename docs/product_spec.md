@@ -864,3 +864,35 @@ for slices. These decisions govern conflicting earlier assumptions:
 
 No exact production schema, independent-link model, deployment project/region, new
 dependency, migration or implementation slice is selected by this consolidation.
+
+## 23. Starter Tasks and documentation delivery (owner-agreed, 2026-10-22)
+
+Account initialization provisions three ordinary user-owned Tasks demonstrating
+different levels of Taskify usage:
+
+| Task | Content |
+|---|---|
+| Learn usage | Full description with related Todo/checklist items and completion instructions |
+| Explore settings | Medium description; no Todos |
+| Find Documentation | Short description with relevant user-manual links |
+
+Create them once, idempotently, with safe resumption of interrupted initialization.
+They are ordinary editable Draft Tasks, unpaused, without imposed due dates, using
+applicable defaults and normal View/count/lifecycle/delete/restore semantics.
+Checklist items are manually completed; detailed instructions belong in the Task
+description rather than extending Todo fields. Explain ordinary lifecycle effects.
+
+Documentation is part of feature implementation. Update manual guidance and
+provisioning templates as slices progress, teaching available features only and
+using real links. Templates serve new provisioning; do not overwrite existing
+user content/checklist progress, backfill automatically or recreate deleted examples.
+Description URLs may precede independent external-link support; do not invent fake
+Discussion entries to supply links.
+
+The [agreed slice plan](implementation_plan.md) stages descriptions/manual pages,
+then Todo checklists and dedicated links with their features. Early provisioning
+does not depend on completing the whole app. Small feature-focused end-to-end
+slices are the core delivery theme; broad rows split further during detailing.
+Each applicable slice includes responsive behavior, integrity/compatibility,
+recovery, tests, user guidance and template updates. See the plan for order and
+dependencies, not a blanket authorization to implement, commit or deploy.

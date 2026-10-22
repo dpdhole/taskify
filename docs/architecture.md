@@ -4,7 +4,7 @@
 
 ## Authority and status
 
-[Project status](project_status.md), [product specification §§17–22](product_spec.md)
+[Project status](project_status.md), [product specification §§17–23](product_spec.md)
 and [accepted feasibility decisions](feasibility/firebase-validation-decisions.md)
 control this document. **Accepted baseline** below consolidates those decisions.
 Items explicitly marked **proposed** are design recommendations for review, not
@@ -470,7 +470,11 @@ Remaining work falls into three categories:
 
 The next development step is selection and detailing of an implementation slice,
 not creation of a server tier or implementation of all deferred design at once.
-No new slice is selected or authorized by this review checkpoint.
+The subsequent [agreed slice plan](implementation_plan.md) establishes the feature
+order, three onboarding Tasks and per-slice manual/template delivery. Slice 1 is
+next for detailing; agreement of the order does not authorize execution. Scope
+each feature narrowly while carrying security, compatibility and deletion contracts
+from its introduction; Activity recording is not deferred to the viewer slice.
 
 ## Evidence and verification still needed
 
