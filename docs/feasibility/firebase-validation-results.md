@@ -6,6 +6,24 @@
 
 **Previous owner-decision assessment:** [complete query/workload findings](firebase-verification-assessment.md). The extended candidate ran **237 tests: 236 passed, 1 failed** at full Saved View persistence due to the Rules expression ceiling. This is a real candidate blocker, not a successful full-query verdict. The earlier 192-test candidate remains unchanged and passing in its represented scope.
 
+## 22 October 2026 — Backup/recovery scope amendment
+
+User-driven backup/export/recovery is deferred to **FUTURE** and is not a PoC/beta
+prerequisite. Earlier open-scope/prerequisite statements below are superseded by
+the [accepted decision](firebase-validation-decisions.md) and amended specification
+§18.5. Exceptional trusted-owner manual recovery remains an operational approach;
+ordinary mutation recovery and safe interrupted deletion remain required.
+This changes scope, not recorded test results or the overall INCONCLUSIVE verdict.
+
+## 22 October 2026 — High-level architecture review
+
+The owner-agreed design baseline is consolidated in [specification §22](../product_spec.md)
+and [architecture](../architecture.md). Compatibility/release/schema and application
+policies are resolved at high level, while implementation and browser/provider/index/
+quota evidence remain open. The frozen helper still lacks explicit upper app-bound
+enforcement. No historical result is relabelled or new runtime verification claimed;
+overall platform feasibility remains INCONCLUSIVE.
+
 ## Authority and provenance
 
 Execution baseline: main `38a7fb7383ae99948f003d68fe7d77e8e4b20dfa`. Product requirements remain governed by [product specification §§17–18](../product_spec.md). The [gap analysis](firebase-validation-gap-analysis.md) defines the four gates. No `docs/decisions.md` exists at this baseline; no new architectural decision is inferred from passing tests.

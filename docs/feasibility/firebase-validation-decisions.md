@@ -2,6 +2,35 @@
 
 Recorded 20 October 2026 following owner review of Gates 1–4. These are explicit discussion decisions, not new test evidence or implementation approval. Historical experiment reports remain unchanged. Overall feasibility remains INCONCLUSIVE.
 
+## 22 October 2026 — User backup/recovery deferred to FUTURE
+
+Owner agrees user-driven backup/export/recovery is needed as a future capability
+but defers implementation to **FUTURE**. PoC/beta may operate without it; no user
+backup/recovery implementation or demonstration is a prerequisite. Product
+specification §18.5 is amended accordingly. This resolves/supersedes the earlier
+open manual-method scope and prerequisite statements below.
+
+Selected-Task recovery with owned history/content and safe classification
+references is the discussed scope direction. Exceptional trusted-owner manual
+recovery remains an operational approach, not a routine backup service or guaranteed
+recovery of unexported data. No schedule, retention, full account/project recovery
+or recovery-time/data-loss commitment is introduced. Future mechanics remain for
+design. Ordinary mutation recovery, consistency and interrupted-deletion safety
+are unchanged. This decision adds no test evidence or implementation authorization.
+
+## 22 October 2026 — Architecture review completed
+
+The owner agreed compatibility bounds/lifecycle, coordinated deployment and
+data-aware rollback, schema versions/safe upgrades, identity linking, metadata
+completeness, integrity-preserving conflicts, acknowledgement reconciliation,
+safe retry, quota handling, reusable TypeScript boundaries and layered validation.
+See [specification §22](../product_spec.md) and [architecture](../architecture.md)
+for current policy and remaining slice work. These are design decisions, not new
+runtime guarantees. Upper app-bound enforcement and browser integration remain
+absent from the frozen helper; live provider/index/quota validation remains open.
+The old backup-method prerequisite is superseded by the FUTURE deferral above.
+No commit, cloud action or product slice is implied.
+
 ## Accepted decisions
 
 | Topic | Accepted contract | Validation consequence |
@@ -26,7 +55,7 @@ Future proposals that expand scope, acceptance criteria or gate blockers must be
 
 The owner explicitly confirmed full-query persistence is a core Taskify feature and intended differentiator over other Todo/Task managers. Saving and reloading complete supported View definitions remains required. The failing candidate is not accepted, and no filter reduction, persistence deferral or validation-boundary change is approved. Record and commit the experiment findings before analysing de-scoping carefully with the owner. This priority is product direction, not evidence of a competitive market comparison.
 
-## Still open
+## Open items at the 20 October checkpoint — later amendments above apply
 
 - Appropriate scope, evidence and readiness stage for the explicitly required manual backup/export/recovery method.
 - Real Google OAuth/session and production index validation, requiring separately scoped cloud authorization.

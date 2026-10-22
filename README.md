@@ -2,18 +2,21 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Product and architecture specification migration in progress. The older Firebase implementation is preserved in Git history; the redesigned application has not been implemented or deployed.
+**Status:** High-level architecture review completed; agreed policies are documented, with implementation details deferred to slices. Overall platform feasibility remains INCONCLUSIVE. The older Firebase implementation is preserved in Git history; the redesigned application has not been implemented or deployed.
 
 ## Documentation
 
 - [Project status and current discussion baseline](docs/project_status.md) — canonical entry point, agreed direction and open decisions.
 - [Working product specification](docs/product_spec.md) — consolidated simplified product behavior and explicitly open decisions.
+- [Architecture, stack and deployment strategy](docs/architecture.md) — agreed layers, stack boundaries, client/schema compatibility, release/rollback policies and remaining slice/validation work.
 - [Legacy product specification](docs/product_spec_legacy.md) — historical reference only; not requirements for the redesign.
 - [Firebase Gate 1–4 findings](docs/feasibility/firebase-validation-results.md) — qualified local results, failures and unresolved feasibility blockers.
 - [Latest verification assessment for decision](docs/feasibility/firebase-verification-assessment.md) — query/workload findings and the passing client query/compatibility follow-on.
 - [Firebase experiments and evidence](verification/firebase/README.md) — isolated source, pinned dependencies, tests and reproduction guidance.
 
-The approved PoC/beta direction is a responsive browser client using Firebase Spark Authentication (Google), browser-direct Firestore and static Hosting through provider-independent persistence interfaces. Local feasibility experiments have run; overall feasibility remains INCONCLUSIVE, and no redesigned application or cloud deployment is claimed. Product specification §§17–18 govern the current architecture.
+The approved PoC/beta direction is a responsive browser client using Firebase Spark Authentication, browser-direct Firestore and static Hosting through provider-independent persistence interfaces. Google and Apple sign-in intent is recorded in §21.5; provider feasibility and secure linking remain unverified. Local feasibility experiments have run; overall feasibility remains INCONCLUSIVE, and no redesigned application or cloud deployment is claimed. Product specification §§17–21 govern the current architecture and UX.
+
+The approved policy consolidation is recorded in product specification §22 and the architecture overview. TypeScript business logic is separated from UI and persistence for possible future server reuse; no server tier is approved. User-driven backup/recovery is **FUTURE**, not a PoC/beta prerequisite.
 
 ## Historical implementation
 

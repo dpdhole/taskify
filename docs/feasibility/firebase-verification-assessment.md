@@ -2,6 +2,25 @@
 
 20 October 2026. **Latest accepted-boundary candidate: 247/247 local tests passed. Overall Firebase Spark feasibility remains INCONCLUSIVE; production acceptance is not established.**
 
+## 22 October 2026 — Backup/recovery scope amendment
+
+User-driven backup/export/recovery is deferred to **FUTURE**; PoC/beta may operate
+without it. Earlier open-scope/prerequisite statements below are superseded by
+the [accepted decision](firebase-validation-decisions.md). Exceptional trusted-owner
+manual recovery remains an operational approach, not a guaranteed backup service.
+Ordinary write recovery and interrupted-deletion integrity remain required.
+No new tests or overall platform acceptance are claimed.
+
+## 22 October 2026 — High-level architecture review
+
+[Specification §22](../product_spec.md) and [architecture](../architecture.md)
+record agreed compatibility, release/rollback, schema, identity, read/write and
+validation policies. These resolve high-level design choices, not the missing
+implementation or platform evidence. Explicit upper app-bound enforcement remains
+unimplemented/untested; Google/Apple linking and real browser/index/quota validation
+remain open. Earlier checkpoint recommendations below are historical where
+superseded. No new runtime tests or cloud actions are claimed.
+
 ## Subsequent owner decision
 
 The owner subsequently accepted client-side detailed Saved View validation with high-level server integrity checks for PoC/beta, plus version compatibility checks and safe schema upgrades. Full-query functionality is retained. The recommendations and unapproved alternatives below describe the prior checkpoint; this explicit acceptance supersedes them. The [new isolated candidate](../../verification/firebase/client-query-compatibility/VALIDATION.md) passed **247/247** with zero failures/skips/cancellations, exit 0. Complete query save/reload/reconfigure and Save As now pass; all 192 inherited security regressions passed. Safe/concurrent legacy upgrades, unknown-schema rejection and compatibility gate checks passed. The expression-limit blocker is resolved for this representation under the accepted boundary. The earlier 236/237 result below remains historical evidence, not the current candidate verdict. Browser integration and actual cloud validation remain open.

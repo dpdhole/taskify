@@ -691,7 +691,7 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 - Soft deletion marks **Deleted Date** and retains Task hierarchy; Restore clears it. Closed/Deleted read-only semantics and Cleanup eligibility remain as specified in §17.
 - Deleting a Firestore Task document does **not** cascade to subcollections. An arbitrarily large Task with Todos, Discussion entries and Activity events cannot be assumed removable in a single bounded client transaction. **Permanent deletion requires an explicitly validated idempotent, recoverable multi-step deletion design**, including partial failures, authorization, and ensuring inaccessible orphaned subcollections are handled. Do not claim an atomic Task-and-all-children purge on Spark.
 - No binary file cleanup is required in the PoC/beta link-only scope; file-first deletion rules remain relevant if uploads are introduced later.
-- Before implementing domain slices, validate Firebase Spark availability/quotas, rule size/access limits, atomic Task+event mutation and conflict rejection, client metadata loading/cost, and a usable no-cost manual backup/export/recovery method. No successful test or provisioning is claimed.
+- Before implementing domain slices, validate Firebase Spark availability/quotas, rule size/access limits, atomic Task+event mutation and conflict rejection, and client metadata loading/cost. **Owner scope amendment (22 October 2026): user-driven backup/export/recovery is a required future capability, with implementation deferred to FUTURE. PoC/beta may proceed without user backup/recovery; its implementation or demonstration is not a PoC/beta prerequisite.** Exceptional trusted-owner manual recovery remains the accepted operational approach, not a guaranteed backup service. This supersedes the earlier prerequisite for a usable manual backup/export/recovery method; ordinary write recovery, integrity and interrupted-purge safety remain required. No new successful test or provisioning is claimed.
 
 ### 18.6 Explicit supersessions and retained decisions
 
@@ -815,3 +815,52 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 
 ### 21.7 Scope
 All decisions above are high-level UX direction, not implemented/tested state. Slice-level work includes responsive breakpoints, actions, field definitions, authorization, accessibility, errors, Firebase Rules/data feasibility and persistence. No code, infrastructure or migration change is authorized by this section.
+
+## 22. High-level architecture policy consolidation (owner-agreed, 2026-10-22)
+
+The owner reviewed and accepted the policies consolidated in [architecture.md](architecture.md).
+This section refines §§17–21 without claiming implementation, deployment or overall
+platform acceptance. Detailed interfaces, schemas, tools and interactions remain
+for slices. These decisions govern conflicting earlier assumptions:
+
+- **Stack/boundaries:** TypeScript UI/application/domain/adapters, static browser
+  delivery and provider-independent ports. Keep business logic separate from UI
+  and provider SDKs for possible future server reuse; no server tier is approved.
+  Choose framework/build/store together in the first implementation slice.
+- **Compatibility:** authoritative checks use inclusive minimum/maximum app releases,
+  understood contract format, matching environment, readable retained schemas and
+  permitted write schemas. Server release is traceability, not a separate support
+  range. Check at boot and resume/reconnect; observe contract changes while open.
+  Mutations honor revocable readiness without a network fetch per write. Rules
+  independently enforce integrity against modified clients and deployment races.
+- **Release/schema evolution:** coordinate client/Rules/indexes/contract/schema
+  versions; stage compatible readers before new writers. Retire support only when
+  retained data and clients permit. Roll back only to a build compatible with current
+  data/policy; otherwise use a forward fix or separately approved recovery. Version
+  independently evolving record families separately from concurrency counters.
+  Explicit decoders and deliberately invoked, tested, transactional/idempotent,
+  meaning-preserving upgrades retain semantics. Reads do not implicitly write;
+  immutable events are not rewritten for schema modernization.
+- **Identity:** stable authenticated-ID ownership and proof of both identities for
+  linking. Verified matching email is a resolution hint, not merge authorization.
+  No automatic duplicate-account/data merge; provisioning is retryable/idempotent.
+- **Read state:** shared eligible metadata drives Search/Views/charts. Required
+  metadata/labels load and validate before complete results; cached/partial results
+  are not authoritative. Reconcile on reconnect and isolate state on account changes.
+  Detail payloads remain on demand; completeness does not mandate refetch on every
+  navigation or imply an atomic cross-collection snapshot.
+- **Conflicts/writes:** offer Reload latest, Apply my changes where safe, or Cancel.
+  Reapplication preserves unrelated edits and never supersedes integrity/consistency,
+  current version checks or lifecycle/event invariants. Prevent accidental duplicate
+  submissions; no offline queue. Lost acknowledgement means unknown outcome:
+  reconcile before safe retry. Success requires cloud confirmation.
+- **Quota/validation:** benchmark limits/optimizations in slices, including retained
+  and Trash volume; no speculative cap. Provide useful failure/recovery behavior.
+  Validate domain, adapters/Rules, browser flows and release compatibility separately.
+  Diagnostics exclude Task content, credentials and tokens. Emulator results alone
+  do not establish release readiness; live provider/index/quota evidence remains open.
+- **Backup/recovery:** user-driven mechanics are deferred to **FUTURE**; PoC/beta
+  can operate without them (§18.5). Write recovery and safe interrupted deletion remain required.
+
+No exact production schema, independent-link model, deployment project/region, new
+dependency, migration or implementation slice is selected by this consolidation.

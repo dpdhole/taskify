@@ -2,6 +2,98 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-22 — Architecture documentation reconciled for staging
+
+- Product specification §22 consolidates the owner-agreed high-level architecture policies; [architecture](architecture.md) details the accepted stack/boundaries, topology, compatibility, schemas, release/rollback and deferred work. README and feasibility summaries link the current baseline.
+- User backup/recovery is FUTURE, not a PoC/beta prerequisite. Slice design and unverified platform/browser/provider behavior remain explicitly open; overall feasibility remains INCONCLUSIVE.
+- Documentation only. The owner authorized staging for commit preparation, not committing/pushing or beginning a new implementation slice. Historical test evidence and the immutable legacy specification remain unchanged.
+
+## 2026-10-22 — Validation policy agreed; high-level architecture review checkpoint
+
+- Owner agrees independent domain tests, adapter/adversarial Rules checks, critical browser/compatibility/conflict/recovery validation, coordinated release matrix/rollback checks and diagnostics without Task content or credentials/tokens. Start with reproducible local checks; exact tools/checks and CI remain slice details.
+- Emulator results alone do not establish release readiness; browser and separately authorized live identity/index evidence remain distinct.
+- [Architecture](architecture.md) records reviewed high-level policy gaps as resolved, with remaining slice design, unverified feasibility/integration and deployment-specific decisions explicitly separated. User backup/recovery remains FUTURE and is not a PoC/beta prerequisite.
+- This is a design/documentation checkpoint, not completed architecture implementation or platform acceptance. Overall feasibility remains INCONCLUSIVE; no new implementation slice, commit, push, cloud setup or deployment is authorized.
+
+## 2026-10-22 — Reusable business-layer boundaries agreed
+
+- Owner accepts plain TypeScript domain/application code separated from UI and provider SDKs, explicit persistence/identity/clock/ID boundaries, runtime input validation and atomic whole-operation contracts.
+- Possible future server reuse follows the same business code plus server adapters/API transport. A server tier would require separate authorization and independent authentication, authorization, integrity and direct-write policy; reuse does not imply zero-change migration.
+- Recorded in [architecture](architecture.md). Exact modules/ports remain slice details; no speculative server package, product implementation or deployment is introduced.
+
+## 2026-10-22 — TypeScript and stack-selection baseline agreed
+
+- Owner agrees TypeScript for UI, application/domain services and persistence adapters, static responsive browser delivery and provider-specific SDK isolation behind adapters. UI uses application services.
+- Select UI framework/build tool/state library together in the first implementation slice; pin application dependencies separately from frozen experiment tools. Recorded in [architecture](architecture.md); no server tier, new dependency, runtime code or deployment is introduced.
+
+## 2026-10-22 — Quota and performance policy reaffirmed
+
+- Owner retains benchmark-informed slice detailing, evidence-based limits, loading optimizations and clear failure/retry behavior; no speculative account cap.
+- Test retained Task volume including Trash and unfinished accumulation. The 500-Task fixture and Closed retention are not capacity ceilings. Thresholds/optimizations remain slice work; production indexes and actual quota usage remain unverified.
+- Recorded in [architecture](architecture.md). Documentation only; no new limits, runtime changes, benchmarks or cloud actions.
+
+## 2026-10-22 — User backup/recovery deferred to FUTURE
+
+- Owner records the need for user-driven backup/export/recovery mechanics but explicitly defers implementation to FUTURE. PoC/beta may operate without user backup/recovery; it is not a prerequisite or acceptance blocker.
+- Selected-Task recovery is the discussed scope direction; trusted-owner exceptional manual recovery remains an operational approach, without routine backup, full account/project-loss recovery, schedule/retention or recovery guarantees.
+- Product specification §18.5, [architecture](architecture.md) and [accepted decisions](feasibility/firebase-validation-decisions.md) record this amendment. Earlier entries describing unresolved backup-method scope/prerequisites are superseded. Ordinary write recovery, integrity and interrupted-purge safety remain required. Documentation only; no implementation or new verification.
+
+## 2026-10-22 — Mutation acknowledgement and recovery policy agreed
+
+- Owner agrees pending feedback/duplicate-submit prevention, known-offline rejection without queuing while preserving input, and success only after cloud acknowledgement or authoritative reconciliation.
+- Lost acknowledgement means unknown outcome; reconcile before retry or conflict reapplication. Retry only when operation-specific checks make it safe; permanent rejection explains failure and preserves recoverable input without automatic loops.
+- Recorded in [architecture](architecture.md). Identifiers, bounded retries and reconciliation mechanics remain slice details; no universal exactly-once guarantee, runtime implementation or new passing tests are claimed.
+
+## 2026-10-22 — Version-conflict user choices agreed
+
+- Owner agrees Reload latest, Apply my changes where safe, or Cancel/keep editing. Explain concurrent changes, warn before discarding input and preserve input on cancellation.
+- Overwrite never supersedes integrity/consistency. Reapplication uses latest state and fresh version checks, preserves unrelated concurrent changes and obeys Rules, lifecycle and atomic/event invariants. A new conflict may occur; invalid actions remain unavailable rather than forcing stale state.
+- Recorded in [architecture](architecture.md). The subsequent entry above resolves the remaining acknowledgement/lost-ack/retry policy. No runtime implementation or tests occurred.
+
+## 2026-10-22 — Metadata loading and cache policy agreed
+
+- Owner agrees one eligible metadata store for Search/Views/Dashboard, completeness only after required metadata and labels load/validate, and cache/partial results never presented as authoritative. Scope expansion loads missing data before complete results; detail payloads remain on demand.
+- Cloud-acknowledged changes update shared membership/order/counts together; reconnect reconciles before current/complete status. Logout/account switching clears or isolates user state.
+- Completeness does not require full refetch on every navigation. Cache/listener/pagination choices remain benchmark-informed slice details; separate collection listeners do not imply transactional read consistency. Recorded in [architecture](architecture.md); documentation only, with no new implementation or tests.
+
+## 2026-10-22 — Identity and account linking policy agreed
+
+- Owner agrees stable authenticated-ID ownership rather than email ownership, authenticated proof of both identities for linking, and verified matching email as a resolution hint rather than merge authorization. Different/private email uses explicit linking from an authenticated account.
+- Google/Apple intent remains subject to feasibility validation. No automatic merge of existing duplicate accounts or their Tasks/data is approved; recovery requires a separately defined process.
+- Provisioning must be idempotent/retryable without duplicate defaults. Provider configuration, linking/re-authentication screens and recovery mechanics remain slice details. Recorded in [architecture](architecture.md); no runtime implementation, cloud configuration or new verification occurred.
+
+## 2026-10-22 — Schema and upgrade policy agreed
+
+- Owner agrees independent versions for independently evolving record families, separate from concurrency counters; explicit legacy decoders and safe rejection of unknown/malformed records; writes use a schema permitted by the active contract.
+- Only deliberately invoked, implemented/tested, meaning-preserving upgrades are allowed. Reads do not implicitly write. Upgrades are transactional/idempotent and preserve concurrent edits or report conflicts; immutable Activity Events are decoded rather than rewritten for schema modernization.
+- Prefer lazy upgrades where safe and planned migrations for cross-record invariants. Exact families, triggers and migration mechanics remain slice details. Recorded in [architecture](architecture.md); no runtime changes, migration or new verification occurred.
+
+## 2026-10-22 — Deployment and rollback policy agreed
+
+- Owner agrees coordinated release records linking client build, Rules/indexes, contract and schema support; compatible policy/index expansion precedes client publication and support advertisement after prerequisite verification.
+- New-schema writes require readable support in all supported clients; retirement depends on retained data and client support. Prefer additive changes/readers before new writers; breaking transitions need an explicit plan, without automatic destructive conversion.
+- Rollback floor is the oldest build compatible with current data schemas and policy. Otherwise use a forward fix or separately approved recovery; Hosting rollback alone does not undo data.
+- Recorded in [architecture](architecture.md). The later schema entry above resolves upgrade policy; exact commands, automation and release checks remain slice details. Documentation only; no deployment, runtime implementation or new verification occurred.
+
+## 2026-10-22 — Compatibility lifecycle policy agreed
+
+- Owner agrees authoritative boot checks before workspace loading/provisioning/mutations, suspended new operations during resume/reconnect checks, and observation of contract changes while open with readiness revocation on incompatibility.
+- Unavailable/incompatible checks block new operations, preserve unsaved input and offer retry/update guidance. Submitted writes require cloud-outcome reconciliation, not assumed cancellation or blind retry. No network compatibility fetch before every write is required; operations honor the shared gate and Rules retain integrity enforcement.
+- High-level policy resolved in [architecture](architecture.md). The later deployment entry above resolves ordering and rollback; listener mechanisms, timing, recovery screens and implementation/testing remain slice work. Documentation only, with no new runtime guarantees claimed.
+
+## 2026-10-22 — Compatibility contract checks agreed
+
+- Owner agrees inclusive minimum/maximum app releases, understood contract format, matching environment, readable retained schema population and permitted write schemas. Server release is deployment traceability; no separate client-maintained server-release range is required.
+- An early new client may temporarily show release-unavailable/retry; avoid repeated automatic reloads. Rules independently enforce integrity against modified clients.
+- High-level contract decision resolved in [architecture](architecture.md); the later entries above resolve lifecycle, rollout and schema-upgrade policy. Detailed mechanics remain slice work. Upper app-bound enforcement is still unimplemented/untested; no new runtime verification is claimed.
+
+## 2026-10-22 — High-level architecture and compatibility strategy documented
+
+- [Architecture overview](architecture.md) consolidates the accepted layers, Firebase Spark stack, runtime/deployment topology and logical ownership; framework/build/store choices remain open. Google/Apple intent follows §21.5, with feasibility/linking unverified.
+- Proposed release strategy separates app/server releases, contract format/revision, record/query schemas and concurrency counters. It describes explicit upper/lower client bounds, server support, schema-family compatibility, revocable lifecycle checks, coordinated publication and data-aware rollback.
+- These mechanics were recorded as design proposals; the subsequent agreement above resolves the contract-check subset. The frozen helper still lacks client-ahead enforcement and application-wide browser integration. High-level gaps and slice responsibilities are recorded; overall feasibility remains INCONCLUSIVE.
+- Documentation only: no experiment source, historical evidence, product/legacy specification, production configuration or runtime code changed. No commit, push, provisioning or deployment authorized by this update.
+
 ## 2026-10-21 — Responsive screen UX consolidation committed
 
 - **Controlling UX addition:** `docs/product_spec.md` §21 consolidates owner-agreed high-level Dashboard, Task Views, Create, Settings, authentication and Task Detail behavior. This is documentation only.
