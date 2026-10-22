@@ -2,7 +2,9 @@
 
 20 October 2026. **Overall verdict: INCONCLUSIVE.** Browser-direct Firestore remains a conditionally feasible PoC/beta candidate. Core security experiments support continuing validation; complete product/platform acceptance has not been established.
 
-**Latest owner-decision assessment:** [complete query/workload findings](firebase-verification-assessment.md). The extended candidate ran **237 tests: 236 passed, 1 failed** at full Saved View persistence due to the Rules expression ceiling. This is a real candidate blocker, not a successful full-query verdict. The earlier 192-test candidate remains unchanged and passing in its represented scope.
+**Latest local result:** [client query and compatibility](../../verification/firebase/client-query-compatibility/VALIDATION.md) passed **247/247**, zero failures/skips/cancellations, exit 0. Full-query persistence works in this representation under the owner-accepted client semantic-validation boundary; all 192 inherited security regressions passed. Compatibility blocking and safe/concurrent schema upgrades passed. Overall platform acceptance remains INCONCLUSIVE.
+
+**Previous owner-decision assessment:** [complete query/workload findings](firebase-verification-assessment.md). The extended candidate ran **237 tests: 236 passed, 1 failed** at full Saved View persistence due to the Rules expression ceiling. This is a real candidate blocker, not a successful full-query verdict. The earlier 192-test candidate remains unchanged and passing in its represented scope.
 
 ## Authority and provenance
 
@@ -19,6 +21,7 @@ The owner authorized isolated local experiments and committed their source/findi
 | 3: permanent deletion/recovery | 20 passed; zero failures | INCONCLUSIVE overall; represented deletion mechanism passed | [Gate 3](../../verification/firebase/gate3/purge-recovery/VALIDATION.md) |
 | 4: Auth, queries, Spark operation | 18 passed; zero failures | INCONCLUSIVE | [Gate 4](../../verification/firebase/gate4/auth-query/VALIDATION.md) |
 | Combined regression against inventory-enabled Rules | 192 passed; zero failures/skips | PASS for represented combined contracts; platform still INCONCLUSIVE | [Combined report](../../verification/firebase/regression/combined/VALIDATION.md) |
+| Client query/compatibility candidate | 247 passed; zero failures/skips/cancellations | PASS for represented accepted boundary; platform still INCONCLUSIVE | [Latest report](../../verification/firebase/client-query-compatibility/VALIDATION.md) |
 | Extended query/workload candidate | 237 executed; 236 passed; 1 failed | FAIL for full query persistence; normal workload conditionally fits model | [Latest report](../../verification/firebase/query-workload/VALIDATION.md) |
 
 These are overlapping suites, not a cumulative test total. Historical 420-test callable-backend evidence is excluded. Following the owner's request, all 147 Gate 2 cases (including carried-forward Gate 1/date coverage), 20 Gate 3 cases, seven new cross-gate cases and 18 Gate 4 cases ran against one unchanged inventory-enabled Rules candidate: 192 passed. This closes the represented cross-gate regression gap, not missing product/query/schema coverage. All evidence is finite local execution, not formal proof or deployed-policy validation.

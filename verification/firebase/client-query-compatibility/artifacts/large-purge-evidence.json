@@ -1,0 +1,8 @@
+{
+  "fixture": "privileged synthetic",
+  "initialRecords": 505,
+  "interruptedAfter": 260,
+  "resumedDeletes": 245,
+  "completed": true,
+  "perDeleteDocuments": 2
+}

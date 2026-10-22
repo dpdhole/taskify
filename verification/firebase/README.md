@@ -6,7 +6,9 @@ Baseline: `dpdhole/taskify`, main, `38a7fb7383ae99948f003d68fe7d77e8e4b20dfa`. S
 
 Subsequent owner decisions are recorded in [accepted decisions](../../docs/feasibility/firebase-validation-decisions.md). The [combined security regression report](regression/combined/VALIDATION.md) records **192 passed, zero failures/skips**, following [harness preparation/adaptation](regression/README.md). Complete account/project-loss recovery is unapproved scope, not a mandatory PoC blocker.
 
-**Latest candidate:** [query/workload validation](query-workload/VALIDATION.md), **236 passed / 1 failed out of 237**. Full Saved View persistence exceeds the Rules expression limit. Do not deploy/adopt that failed candidate. See the [owner-decision assessment](../../docs/feasibility/firebase-verification-assessment.md).
+**Latest candidate:** [client query/compatibility](client-query-compatibility/VALIDATION.md), **247/247 passed**, zero failures/skips/cancellations, exit 0. Full-query persistence passes with owner-accepted client semantic validation and server integrity checks. Compatibility and safe schema-upgrade tests pass; overall platform feasibility remains INCONCLUSIVE.
+
+**Previous candidate:** [query/workload validation](query-workload/VALIDATION.md), **236 passed / 1 failed out of 237**. Full Saved View persistence exceeds the Rules expression limit. Do not deploy/adopt that failed candidate. See the [owner-decision assessment](../../docs/feasibility/firebase-verification-assessment.md).
 
 | Directory | Recorded outcome | Role |
 |---|---|---|

@@ -1,0 +1,349 @@
+{
+  "quota": {
+    "reads": 50000,
+    "writes": 20000,
+    "deletes": 20000,
+    "storage": 1073741824,
+    "egress": 10737418240,
+    "hostingBytesPerDay": 360000000
+  },
+  "confirmed": {
+    "users": [
+      10,
+      12
+    ],
+    "newTasksPerUserPerDay": [
+      3,
+      5
+    ],
+    "activePerUser": [
+      20,
+      30
+    ],
+    "discussionPerActiveTaskPerWeek": [
+      2,
+      3
+    ],
+    "opensPerUserPerDay": [
+      4,
+      6
+    ],
+    "devicesOrTabs": 1,
+    "closedRetention": "three calendar months after closure",
+    "cleanup": "manual"
+  },
+  "scenarioOnlyInputs": [
+    "500 retained Task fixture",
+    "7 classification documents",
+    "12 ancillary documents per fresh load",
+    "3 or 10 detail pages per user/day",
+    "25 records/page",
+    "10 metadata updates per user/day",
+    "one Start/new Task and 80% Close/new Task",
+    "1KB Task/comment and 2.4KB event",
+    "92-day sizing window",
+    "write Rules dependent-doc estimates 5/create,5/auditedTask,6/comment,2/metadata; maximum budgets 10/20/20/10",
+    "index size multipliers 2/4; detailed single-field estimates also retained",
+    "manual cleanup examples assume 8 children/Task and do not set a schedule"
+  ],
+  "cleanupExamples": [
+    {
+      "tasks": 60,
+      "childrenPerTask": 8,
+      "children": 480,
+      "writesIncludingSoftDelete": 780,
+      "deletes": 540,
+      "sourceEstimatedReads": 5040,
+      "maximumBudgetReads": 14880,
+      "assumption": "illustrative eligible backlog; not an approved cleanup schedule"
+    },
+    {
+      "tasks": 250,
+      "childrenPerTask": 8,
+      "children": 2000,
+      "writesIncludingSoftDelete": 3250,
+      "deletes": 2250,
+      "sourceEstimatedReads": 21000,
+      "maximumBudgetReads": 62000,
+      "assumption": "illustrative eligible backlog; not an approved cleanup schedule"
+    },
+    {
+      "tasks": 1000,
+      "childrenPerTask": 8,
+      "children": 8000,
+      "writesIncludingSoftDelete": 13000,
+      "deletes": 9000,
+      "sourceEstimatedReads": 84000,
+      "maximumBudgetReads": 248000,
+      "assumption": "illustrative eligible backlog; not an approved cleanup schedule"
+    }
+  ],
+  "scenarios": {
+    "expectedLow": {
+      "inputs": {
+        "users": 10,
+        "newPerDay": 3,
+        "active": 20,
+        "discussionPerWeek": 2,
+        "opens": 4,
+        "retained": 310,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 0,
+        "detailPagesPerUser": 3,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 1000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 30,
+      "commentsPerDay": 57.142857142857146,
+      "eventsPerDay": 111.14285714285714,
+      "clientAndDetailRuleReads": 14182,
+      "sourceEstimatedWriteRuleReads": 963,
+      "maximumBudgetWriteRuleReads": 3523,
+      "conservativeMaximumReadBudget": 17704,
+      "estimatedReadsPerDay": 15144,
+      "estimatedWritesPerDay": 521,
+      "estimatedDocumentBytes": 32897486,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 65794972,
+        "fourTimes": 131589943
+      },
+      "estimatedMonthlyEgressBytes": 426000000,
+      "readsRemaining": 34856,
+      "readQuotaExceeded": false,
+      "writeQuotaExceeded": false
+    },
+    "expectedHigh": {
+      "inputs": {
+        "users": 12,
+        "newPerDay": 5,
+        "active": 30,
+        "discussionPerWeek": 3,
+        "opens": 6,
+        "retained": 500,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 0,
+        "detailPagesPerUser": 3,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 1000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 60,
+      "commentsPerDay": 154.28571428571428,
+      "eventsPerDay": 262.2857142857143,
+      "clientAndDetailRuleReads": 38747,
+      "sourceEstimatedWriteRuleReads": 2006,
+      "maximumBudgetWriteRuleReads": 7046,
+      "conservativeMaximumReadBudget": 45792,
+      "estimatedReadsPerDay": 40752,
+      "estimatedWritesPerDay": 1122,
+      "estimatedDocumentBytes": 78106972,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 156213943,
+        "fourTimes": 312427886
+      },
+      "estimatedMonthlyEgressBytes": 1144800000,
+      "readsRemaining": 9248,
+      "readQuotaExceeded": false,
+      "writeQuotaExceeded": false
+    },
+    "extraReconnects": {
+      "inputs": {
+        "users": 12,
+        "newPerDay": 5,
+        "active": 30,
+        "discussionPerWeek": 3,
+        "opens": 6,
+        "retained": 500,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 3,
+        "detailPagesPerUser": 3,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 1000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 60,
+      "commentsPerDay": 154.28571428571428,
+      "eventsPerDay": 262.2857142857143,
+      "clientAndDetailRuleReads": 57431,
+      "sourceEstimatedWriteRuleReads": 2006,
+      "maximumBudgetWriteRuleReads": 7046,
+      "conservativeMaximumReadBudget": 64476,
+      "estimatedReadsPerDay": 59436,
+      "estimatedWritesPerDay": 1122,
+      "estimatedDocumentBytes": 78106972,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 156213943,
+        "fourTimes": 312427886
+      },
+      "estimatedMonthlyEgressBytes": 1684800000,
+      "readsRemaining": -9436,
+      "readQuotaExceeded": true,
+      "writeQuotaExceeded": false
+    },
+    "twoSimultaneousDevices": {
+      "inputs": {
+        "users": 12,
+        "newPerDay": 5,
+        "active": 30,
+        "discussionPerWeek": 3,
+        "opens": 12,
+        "retained": 500,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 0,
+        "detailPagesPerUser": 3,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 1000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 60,
+      "commentsPerDay": 154.28571428571428,
+      "eventsPerDay": 262.2857142857143,
+      "clientAndDetailRuleReads": 76115,
+      "sourceEstimatedWriteRuleReads": 2006,
+      "maximumBudgetWriteRuleReads": 7046,
+      "conservativeMaximumReadBudget": 83160,
+      "estimatedReadsPerDay": 78120,
+      "estimatedWritesPerDay": 1122,
+      "estimatedDocumentBytes": 78106972,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 156213943,
+        "fourTimes": 312427886
+      },
+      "estimatedMonthlyEgressBytes": 2224800000,
+      "readsRemaining": -28120,
+      "readQuotaExceeded": true,
+      "writeQuotaExceeded": false
+    },
+    "oneYearUnfinishedCarryover": {
+      "inputs": {
+        "users": 12,
+        "newPerDay": 5,
+        "active": 30,
+        "discussionPerWeek": 3,
+        "opens": 6,
+        "retained": 733,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 0,
+        "detailPagesPerUser": 3,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 1000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 60,
+      "commentsPerDay": 154.28571428571428,
+      "eventsPerDay": 262.2857142857143,
+      "clientAndDetailRuleReads": 55523,
+      "sourceEstimatedWriteRuleReads": 2006,
+      "maximumBudgetWriteRuleReads": 7046,
+      "conservativeMaximumReadBudget": 62568,
+      "estimatedReadsPerDay": 57528,
+      "estimatedWritesPerDay": 1122,
+      "estimatedDocumentBytes": 80902972,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 161805943,
+        "fourTimes": 323611886
+      },
+      "estimatedMonthlyEgressBytes": 1648080000,
+      "readsRemaining": -7528,
+      "readQuotaExceeded": true,
+      "writeQuotaExceeded": false
+    },
+    "largeComments": {
+      "inputs": {
+        "users": 12,
+        "newPerDay": 5,
+        "active": 30,
+        "discussionPerWeek": 3,
+        "opens": 6,
+        "retained": 500,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 0,
+        "detailPagesPerUser": 3,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 12000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 60,
+      "commentsPerDay": 154.28571428571428,
+      "eventsPerDay": 262.2857142857143,
+      "clientAndDetailRuleReads": 38747,
+      "sourceEstimatedWriteRuleReads": 2006,
+      "maximumBudgetWriteRuleReads": 7046,
+      "conservativeMaximumReadBudget": 45792,
+      "estimatedReadsPerDay": 40752,
+      "estimatedWritesPerDay": 1122,
+      "estimatedDocumentBytes": 234244115,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 468488229,
+        "fourTimes": 936976458
+      },
+      "estimatedMonthlyEgressBytes": 1404000000,
+      "readsRemaining": 9248,
+      "readQuotaExceeded": false,
+      "writeQuotaExceeded": false
+    },
+    "tenDetailPages": {
+      "inputs": {
+        "users": 12,
+        "newPerDay": 5,
+        "active": 30,
+        "discussionPerWeek": 3,
+        "opens": 6,
+        "retained": 500,
+        "classificationDocs": 7,
+        "ancillaryDocs": 12,
+        "extraReconnects": 0,
+        "detailPagesPerUser": 10,
+        "pageSize": 25,
+        "metadataUpdatesPerUser": 10,
+        "taskBytes": 1000,
+        "commentBytes": 1000,
+        "eventBytes": 2400,
+        "retentionDays": 92
+      },
+      "createdPerDay": 60,
+      "commentsPerDay": 154.28571428571428,
+      "eventsPerDay": 262.2857142857143,
+      "clientAndDetailRuleReads": 40931,
+      "sourceEstimatedWriteRuleReads": 2006,
+      "maximumBudgetWriteRuleReads": 7046,
+      "conservativeMaximumReadBudget": 47976,
+      "estimatedReadsPerDay": 42936,
+      "estimatedWritesPerDay": 1122,
+      "estimatedDocumentBytes": 78106972,
+      "storageWithIndexSensitivity": {
+        "twoTimes": 156213943,
+        "fourTimes": 312427886
+      },
+      "estimatedMonthlyEgressBytes": 1296000000,
+      "readsRemaining": 7064,
+      "readQuotaExceeded": false,
+      "writeQuotaExceeded": false
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "count": 500,
+  "jsonBytes": 343391,
+  "sample": {
+    "ownerUid": "load-00",
+    "categoryId": "c2",
+    "locationId": null,
+    "lastEffect": null,
+    "linkCount": 0,
+    "title": "Task 0 validation fixture",
+    "reference": "REF-0",
+    "important": null,
+    "urgent": null,
+    "lifecycle": "Draft",
+    "pauseReason": "Waiting",
+    "pausedUntil": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1792492200,
+      "nanoseconds": 0
+    },
+    "plannedStart": null,
+    "due": null,
+    "actualStart": null,
+    "actualEnd": null,
+    "closureOutcome": null,
+    "deletedAt": null,
+    "version": 0,
+    "lastEventId": "",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1792492200,
+      "nanoseconds": 0
+    },
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1792492200,
+      "nanoseconds": 0
+    },
+    "id": "t0000"
+  }
+}

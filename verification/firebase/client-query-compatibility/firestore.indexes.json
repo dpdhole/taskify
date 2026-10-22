@@ -1,0 +1,30 @@
+{
+  "fieldOverrides": [
+    {
+      "collectionGroup": "activityEvents",
+      "fieldPath": "before",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "activityEvents",
+      "fieldPath": "after",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "activityEvents",
+      "fieldPath": "effectBefore",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "activityEvents",
+      "fieldPath": "effectAfter",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "discussionEntries",
+      "fieldPath": "text",
+      "indexes": []
+    }
+  ],
+  "indexes": []
+}

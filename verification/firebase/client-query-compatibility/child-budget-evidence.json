@@ -1,0 +1,42 @@
+[
+  {
+    "aggregates": 1,
+    "writes": 4,
+    "accepted": true
+  },
+  {
+    "aggregates": 2,
+    "writes": 8,
+    "accepted": true
+  },
+  {
+    "aggregates": 3,
+    "writes": 12,
+    "accepted": true
+  },
+  {
+    "aggregates": 4,
+    "writes": 16,
+    "accepted": false
+  },
+  {
+    "aggregates": 5,
+    "writes": 20,
+    "accepted": false
+  },
+  {
+    "aggregates": 6,
+    "writes": 24,
+    "accepted": false
+  },
+  {
+    "aggregates": 7,
+    "writes": 28,
+    "accepted": false
+  },
+  {
+    "aggregates": 8,
+    "writes": 32,
+    "accepted": false
+  }
+]

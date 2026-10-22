@@ -1,0 +1,251 @@
+# Final executed test inventory
+
+247 passed; zero failures, skips or cancellations. Counts overlap preceding suites.
+
+- **PASS 1** — authenticated owner can create Draft, but foreign and unauthenticated users cannot
+- **PASS 2** — ordinary title/reference edit succeeds, but cannot smuggle audited changes
+- **PASS 3** — Start requires a matching immutable event
+- **PASS 4** — Schedule and paused Schedule satisfy different approved transitions
+- **PASS 5** — Pause and Edit Pause require an event and first-episode explanation
+- **PASS 6** — Start and Resume combinations preserve independent Pause semantics
+- **PASS 7** — Done, Close and Reopen preserve the approved lifecycle core
+- **PASS 8** — Audited date edits require events
+- **PASS 9** — Reject mismatched actors, operation types and historical snapshots
+- **PASS 10** — Reject unauthorized client writes, impossible transitions and mixed-field bypasses
+- **PASS 11** — Reject event ID replay and stale Task versions
+- **PASS 12** — Concurrent same-version batches: at most one commits
+- **PASS 13** — Rejected paired write commits neither document
+- **PASS 14** — REGRESSION Resume Only cannot promote paused Draft without Actual Start
+- **PASS 15** — REGRESSION inactive pause cannot retain pausedUntil
+- **PASS 16** — REGRESSION metadata update must participate in version integrity
+- **PASS 17** — owner reads and lists Tasks/events; anonymous and foreign reads and writes denied
+- **PASS 18** — pairing/rollback matrix Start: Task-only and event-only rejected; exact pair accepted
+- **PASS 19** — pairing/rollback matrix Schedule: Task-only and event-only rejected; exact pair accepted
+- **PASS 20** — pairing/rollback matrix Pause: Task-only and event-only rejected; exact pair accepted
+- **PASS 21** — pairing/rollback matrix EditPause: Task-only and event-only rejected; exact pair accepted
+- **PASS 22** — pairing/rollback matrix Resume: Task-only and event-only rejected; exact pair accepted
+- **PASS 23** — pairing/rollback matrix Done: Task-only and event-only rejected; exact pair accepted
+- **PASS 24** — pairing/rollback matrix Close: Task-only and event-only rejected; exact pair accepted
+- **PASS 25** — pairing/rollback matrix Reopen: Task-only and event-only rejected; exact pair accepted
+- **PASS 26** — pairing/rollback matrix EditDates: Task-only and event-only rejected; exact pair accepted
+- **PASS 27** — pairing/rollback matrix Delete: Task-only and event-only rejected; exact pair accepted
+- **PASS 28** — pairing/rollback matrix Restore: Task-only and event-only rejected; exact pair accepted
+- **PASS 29** — Start Only preserves pause; Resume Only preserves Draft and empty Actual Start
+- **PASS 30** — all five failure outcomes and repeated closure preserve original Actual Start and history
+- **PASS 31** — Schedule Pause has system comment; rescheduling preserves independent pausedUntil
+- **PASS 32** — Closed and Deleted are read-only except their explicit permitted operations
+- **PASS 33** — protected field/schema attack owner rolls back both documents
+- **PASS 34** — protected field/schema attack createdAt rolls back both documents
+- **PASS 35** — protected field/schema attack updatedAt rolls back both documents
+- **PASS 36** — protected field/schema attack actualStart rolls back both documents
+- **PASS 37** — protected field/schema attack version skip rolls back both documents
+- **PASS 38** — protected field/schema attack version float rolls back both documents
+- **PASS 39** — protected field/schema attack unknown field rolls back both documents
+- **PASS 40** — protected field/schema attack missing field rolls back both documents
+- **PASS 41** — protected field/schema attack legacy state rolls back both documents
+- **PASS 42** — protected field/schema attack inactive pause date rolls back both documents
+- **PASS 43** — protected field/schema attack open closure outcome rolls back both documents
+- **PASS 44** — protected field/schema attack open actual end rolls back both documents
+- **PASS 45** — protected field/schema attack reference overflow rolls back both documents
+- **PASS 46** — protected field/schema attack closure timestamp spoof rolls back both documents
+- **PASS 47** — event forgery owner rolls back both documents
+- **PASS 48** — event forgery taskId rolls back both documents
+- **PASS 49** — event forgery actor rolls back both documents
+- **PASS 50** — event forgery timestamp rolls back both documents
+- **PASS 51** — event forgery toVersion rolls back both documents
+- **PASS 52** — event forgery fromVersion rolls back both documents
+- **PASS 53** — event forgery missing comment rolls back both documents
+- **PASS 54** — event forgery comment type rolls back both documents
+- **PASS 55** — event forgery attachment rolls back both documents
+- **PASS 56** — event forgery oversized comment rolls back both documents
+- **PASS 57** — event forgery type rolls back both documents
+- **PASS 58** — event forgery before rolls back both documents
+- **PASS 59** — event forgery after rolls back both documents
+- **PASS 60** — creation cannot inject protected or obsolete state; Task and orphan event cannot be created together
+- **PASS 61** — metadata edits version and timestamp atomically; stale metadata and audited snapshots are rejected
+- **PASS 62** — deterministic event IDs reject aliases, replay, wrong-parent events and additional effects
+- **PASS 63** — semantic no-op operations and whitespace-only first-pause comments are rejected
+- **PASS 64** — native SDK transaction conflict is rejected safely but is not automatically retried
+- **PASS 65** — bounded adapter retry after confirmed version drift commits one Task change and one event
+- **PASS 66** — adapter retry does not swallow invalid transitions or loop past its bound
+- **PASS 67** — same-version batch race leaves exactly one event and one state effect
+- **PASS 68** — mixed valid and invalid Tasks roll back entire batch
+- **PASS 69** — Rules access budget sweep records accepted boundary and denied-batch rollback
+- **PASS 70** — date ordering rejects inverted instants and rolls back its event (prototype restriction)
+- **PASS 71** — resolved domain gap: same-calendar-day Planned Start after Due is accepted
+- **PASS 72** — India EOD and 16:00 resolve to correct UTC instants with original selected day
+- **PASS 73** — India display and overdue boundary stay unchanged when host timezone changes to London
+- **PASS 74** — same India calendar day permits reversed clock times even across UTC midnight
+- **PASS 75** — same UTC day does not permit inverted India dates
+- **PASS 76** — EOD boundary belongs to selected previous day; exact midnight belongs to its entered day
+- **PASS 77** — date schema forgery selected day before rejects Task and event together
+- **PASS 78** — date schema forgery selected day after rejects Task and event together
+- **PASS 79** — date schema forgery non-midnight day key rejects Task and event together
+- **PASS 80** — date schema forgery timestamp contradicts day rejects Task and event together
+- **PASS 81** — date schema forgery string timestamp rejects Task and event together
+- **PASS 82** — date schema forgery string day rejects Task and event together
+- **PASS 83** — date schema forgery missing day rejects Task and event together
+- **PASS 84** — date schema forgery missing instant rejects Task and event together
+- **PASS 85** — date schema forgery missing precision rejects Task and event together
+- **PASS 86** — date schema forgery missing boundary rejects Task and event together
+- **PASS 87** — date schema forgery forged offset rejects Task and event together
+- **PASS 88** — date schema forgery forged zone rejects Task and event together
+- **PASS 89** — date schema forgery obsolete symbolic slot rejects Task and event together
+- **PASS 90** — date schema forgery unknown key rejects Task and event together
+- **PASS 91** — date schema forgery date precision at 16h rejects Task and event together
+- **PASS 92** — date schema forgery end-of-day at 16h rejects Task and event together
+- **PASS 93** — date schema forgery non-boolean boundary rejects Task and event together
+- **PASS 94** — date-only start requires India midnight and cannot use end-exclusive boundary
+- **PASS 95** — EOD selected-day forgery cannot turn a later start date into a valid pair
+- **PASS 96** — planned date changes cannot bypass mandatory audit through ordinary metadata update
+- **PASS 97** — fixed account policy rejects owner relocation, forged offsets, deletion and foreign writes
+- **PASS 98** — Task cannot override timezone, and dates fail closed without an account policy
+- **PASS 99** — valid dates at creation are checked by the same Rules as updates
+- **PASS 100** — date adapter handles leap day and year rollover and rejects invalid civil input
+- **PASS 101** — Gate2 discussionEntries: create requires exact child + Task + event, no partial writes
+- **PASS 102** — Gate2 discussionLinks: create requires exact child + Task + event, no partial writes
+- **PASS 103** — Gate2 todos: create requires exact child + Task + event, no partial writes
+- **PASS 104** — Gate2 implicit activity discussionEntries on Draft
+- **PASS 105** — Gate2 implicit activity discussionEntries on DraftPaused
+- **PASS 106** — Gate2 implicit activity discussionEntries on Scheduled
+- **PASS 107** — Gate2 implicit activity discussionEntries on InProgressPaused
+- **PASS 108** — Gate2 implicit activity discussionLinks on Draft
+- **PASS 109** — Gate2 implicit activity discussionLinks on DraftPaused
+- **PASS 110** — Gate2 implicit activity discussionLinks on Scheduled
+- **PASS 111** — Gate2 implicit activity discussionLinks on InProgressPaused
+- **PASS 112** — Gate2 implicit activity todos on Draft
+- **PASS 113** — Gate2 implicit activity todos on DraftPaused
+- **PASS 114** — Gate2 implicit activity todos on Scheduled
+- **PASS 115** — Gate2 implicit activity todos on InProgressPaused
+- **PASS 116** — Gate2 Todo rename/close/reopen/delete preserve title history, state and Actual Start
+- **PASS 117** — Gate2 forged implicit Start, child timestamp, owner, reference and audit payload rejected
+- **PASS 118** — Gate2 discussionEntries: Closed/Deleted Task read-only before and after batch
+- **PASS 119** — Gate2 discussionLinks: Closed/Deleted Task read-only before and after batch
+- **PASS 120** — Gate2 todos: Closed/Deleted Task read-only before and after batch
+- **PASS 121** — Gate2 comments edit/delete within 30 minutes; original timestamp/actor/order fields immutable
+- **PASS 122** — Gate2 comments have no prototype character cap and are plain-text data
+- **PASS 123** — Gate2 no Todo comment/attachment fields or nested entries, nor Activity attachment/user-post writes
+- **PASS 124** — Gate2 links: only HTTP(S), ten total slots, edit/delete paired and counts correct
+- **PASS 125** — Gate2 child changes reject stale root versions and competing mutations leave one effect
+- **PASS 126** — Gate2 categories: Unicode adapter, exact reservations, rename, archive and order integrity
+- **PASS 127** — Gate2 locations: Unicode adapter, exact reservations, rename, archive and order integrity
+- **PASS 128** — Gate2 accepted limitation: crafted owner can bypass NFC/grapheme client policy only in own namespace
+- **PASS 129** — Gate2 Uncategorized label/icon/archive/delete protections and classification ownership
+- **PASS 130** — Gate2 active classification references required for new assignment; archived existing references retained
+- **PASS 131** — Gate2 competing normalized-name claims create one classification; loser has no entity/order residue
+- **PASS 132** — Gate2 provisioning rejects incomplete/forged presets and commits exactly seven valid views
+- **PASS 133** — Gate2 All Tasks definition immutable, always on Home, but global order can move it
+- **PASS 134** — Gate2 ordinary presets/custom views editable and deletable; deletion never changes Tasks
+- **PASS 135** — Gate2 Saved View shape, grouping, ephemeral search, stale versions and ownership enforced
+- **PASS 136** — Gate2 racing initial provisioning yields one complete seven-view set
+- **PASS 137** — Gate2 stale child-effect pointer cannot piggyback a rename on an unrelated Start event
+- **PASS 138** — Gate2 closed Todo completion cannot be replayed and fake child audit snapshots roll back
+- **PASS 139** — Gate2 child may not write a second sibling using one mandatory effect
+- **PASS 140** — Gate2 classifications reject forged hash/guard, missing old reservation release, and protected default aliases
+- **PASS 141** — Gate2 child reads isolated by owner; orphan parents and link-count forgery rejected
+- **PASS 142** — Gate2 Todo order edits do not start work; child timestamps and Task closure cannot be smuggled
+- **PASS 143** — Gate2 owner preferences persist with version checks; cross-user and timezone override writes denied
+- **PASS 144** — Gate2 classification assignment observes after-state archival and rolls back both writes
+- **PASS 145** — inventory-enabled four-write child budget sweep: accepted batches complete; denied batches leave no effects
+- **PASS 146** — Gate2 provisioning adapter recovers from racing setup and never resets user modifications
+- **PASS 147** — travel preserves displayed selected EOD day and India 16:00 deadline
+- **PASS 148** — inventory is atomic with event/child creation; direct or forged counters rejected
+- **PASS 149** — soft Delete/Restore retains full hierarchy before irreversible purge starts
+- **PASS 150** — purge freezes edits, cannot complete early, and is cancellable only before any deletion
+- **PASS 151** — normal Activity events remain immutable and children cannot be hard-deleted outside purge
+- **PASS 152** — interruption after partial child deletion resumes idempotently and removes every known child
+- **PASS 153** — tombstone prevents ID reuse and completed hierarchy is inaccessible even to the owner
+- **PASS 154** — ownership covers purge jobs, inventory, orphan cleanup and child enumeration
+- **PASS 155** — Firestore does not cascade: privileged parent removal leaves children; marked orphan purge resumes safely
+- **PASS 156** — export round trip preserves nested nanosecond timestamps and counts
+- **PASS 157** — comment edits advance inventory revision and force export retry even without a Task version change
+- **PASS 158** — rapidly changing exports fail rather than emitting an inconsistent snapshot
+- **PASS 159** — local archive validation rejects corruption, cross-user/path injection, duplicates and missing records before restore
+- **PASS 160** — ordinary browser import cannot recreate historical Task/events or undo a completed purge
+- **PASS 161** — operator recovery is resumable, publishes root last, preserves source records and rejects stale clients
+- **PASS 162** — failed finalization and lost acknowledgement retries do not double-delete or decrement counters
+- **PASS 163** — parent and purge marker cannot be completed by forged zero counts, timestamps or state transitions
+- **PASS 164** — strict account-wide cleanup age checks equality, closed/deleted independence and month-end clamping
+- **PASS 165** — racing purge workers and repeated acknowledged steps do not duplicate mandatory effects
+- **PASS 166** — interrupted operator restore refuses switching archives and keeps staged records hidden
+- **PASS 167** — large synthetic hierarchy exceeds 500 records and drains through bounded resumable writes
+- **PASS 168** — cross-gate inventory forgery matrix rolls back valid Task/event controls completely
+- **PASS 169** — metadata-only edits cannot manufacture inventory changes without a child witness
+- **PASS 170** — comment edits require a changed zero-delta inventory witness and leave Task version unchanged
+- **PASS 171** — one inventory witness cannot authorize deletion of two siblings in the same collection
+- **PASS 172** — purge cancellation cannot piggyback on a physical deletion and expose a partial Task
+- **PASS 173** — completed tombstone has an exact content-free schema and cannot be edited or reused
+- **PASS 174** — purge-frozen Task rejects metadata, lifecycle and child creation without partial inventory effects
+- **PASS 175** — owner Task list includes the complete 1203-document population without pagination limits
+- **PASS 176** — anonymous, foreign UID and cross-user collection-group reads are denied
+- **PASS 177** — missing root ownership and forged ownerUid writes are rejected
+- **PASS 178** — read ownership follows trusted UID path even if an administrator corrupts the stored ownerUid
+- **PASS 179** — whole-population Search finds the final record while list loads no Discussion or Activity
+- **PASS 180** — single-phrase Search trims, ignores case, ORs fields and ANDs structured eligibility
+- **PASS 181** — Include Closed and Include Deleted are independent; closure reason selections reactivate explicitly
+- **PASS 182** — OR within dimensions, AND across dimensions; grouped dimension cannot filter itself
+- **PASS 183** — category partition preserves ordered zero groups and counts every matching Task once
+- **PASS 184** — authoritative remote changes reconcile membership, classification labels and counts through shared state
+- **PASS 185** — logout clears data immediately and changing UID cannot publish prior-user listener data
+- **PASS 186** — listener permission failures never advertise complete results
+- **PASS 187** — Search submit and navigation preserve detail-back context but clear on other navigation
+- **PASS 188** — server profile and Saved View ownership remain enforced for current paths
+- **PASS 189** — mock Google Auth signs in repeatedly, authorizes own Firestore path and denies access after sign-out
+- **PASS 190** — acknowledged browser metadata update reconciles Search and grouping without manual refresh; stale update rejected
+- **PASS 191** — cache-only and pending snapshots cannot become an authoritative complete population
+- **PASS 192** — static Hosting emulator serves entrypoint and SPA fallback without a function or API
+- **PASS 193** — all nine tri-state preference combinations produce the five approved classes
+- **PASS 194** — scope flags and closure reasons cover all six approved outcomes independently of deletion
+- **PASS 195** — Deleted Date set/notSet vocabulary agrees with persisted Rules contract
+- **PASS 196** — Category/Location OR, dimensions AND, five-class and paused filters combine
+- **PASS 197** — pause expiry is derived, independent of lifecycle and never mutates the Task
+- **PASS 198** — calendar range Due: inclusive lower, exclusive upper and presence
+- **PASS 199** — calendar range PlannedStart: inclusive lower, exclusive upper and presence
+- **PASS 200** — calendar range ActualStart: inclusive lower, exclusive upper and presence
+- **PASS 201** — calendar range ActualEnd: inclusive lower, exclusive upper and presence
+- **PASS 202** — calendar range DeletedAt: inclusive lower, exclusive upper and presence
+- **PASS 203** — calendar range CreatedAt: inclusive lower, exclusive upper and presence
+- **PASS 204** — calendar range UpdatedAt: inclusive lower, exclusive upper and presence
+- **PASS 205** — calendar range PausedUntil: inclusive lower, exclusive upper and presence
+- **PASS 206** — EOD Due groups/filters by selected India day rather than next-midnight instant
+- **PASS 207** — global user-defined class order, zero groups and missing Location remain visible
+- **PASS 208** — nonoverlapping date boundaries partition every day exactly once and retain empty groups
+- **PASS 209** — Paused Until groups expired instants today, indefinite and unspecified separately
+- **PASS 210** — Deleted Date Today/Yesterday/2–7/8–30/Older boundaries are exclusive and exhaustive
+- **PASS 211** — all grouping and sort dimensions retain exclusive partition and deterministic null-last ordering
+- **PASS 212** — group change clears the conflicting filter; stored definition and Search remain independent
+- **PASS 213** — default View focus evaluates full eligible population with its approved scope/grouping
+- **PASS 214** — default View scheduled evaluates full eligible population with its approved scope/grouping
+- **PASS 215** — default View priority evaluates full eligible population with its approved scope/grouping
+- **PASS 216** — default View local evaluates full eligible population with its approved scope/grouping
+- **PASS 217** — default View completed evaluates full eligible population with its approved scope/grouping
+- **PASS 218** — default View deleted evaluates full eligible population with its approved scope/grouping
+- **PASS 219** — default View allTasks evaluates full eligible population with its approved scope/grouping
+- **PASS 220** — burn rate uses distinct current Task state, excludes deletion and ignores historical closure multiplicity
+- **PASS 221** — burn rate calendar weeks/months handle Monday boundary, year/leap changes and supported period ranges
+- **PASS 222** — invalid bucket/filter definitions fail closed instead of producing incomplete results
+- **PASS 223** — online commit does not enqueue offline writes or silently retry an unknown outcome
+- **PASS 224** — capacity model uses agreed workload and exposes reconnect, payload and backlog sensitivities
+- **PASS 225** — 12-user 6000-Task fixture: six complete cold loads per user with lazy child payloads
+- **PASS 226** — all seven Views, Search, sort and Dashboard share one store without refetching metadata
+- **PASS 227** — Important/Urgent preferences persist through Rules, retain no-event metadata contract and reject invalid values
+- **PASS 228** — client selectors react to acknowledged preference edits and current classification labels
+- **PASS 229** — bounded detail/history pages are fetched only on request and foreign users cannot enumerate them
+- **PASS 230** — disconnect removes authoritative readiness and reconnect restores all eligible metadata
+- **PASS 231** — browser-direct REST commit uses Auth/Rules with no SDK queue; unknown acknowledgement is reconciled from cloud
+- **PASS 232** — workload sensitivities record confirmed activity plus explicit unapproved sizing/usage inputs
+- **PASS 233** — storage estimator reproduces official simple document and single-field index examples
+- **PASS 234** — map snapshots create index fanout; parent exemptions remove all descendant indexes
+- **PASS 235** — capacity estimates include write Rules dependencies and keep manual cleanup separate
+- **PASS 236** — provider query date triples preserve logical named fields exactly without persisting Search
+- **PASS 237** — compatible boot reads server contract; old app, unknown schema and unavailable contract block all gated work
+- **PASS 238** — resume/reconnect recheck disables previously compatible session after minimum release increases
+- **PASS 239** — browser cannot change compatibility contract; unauthenticated read denied
+- **PASS 240** — full query saves, reloads, renames and reconfigures without losing any filter
+- **PASS 241** — accepted boundary: owner can store malformed bounded payload; client refuses it without fallback results
+- **PASS 242** — envelope rejects oversize, future schema, foreign owner, immutable timestamps and protected All Tasks
+- **PASS 243** — safe legacy upgrade preserves meaning and metadata; repeated upgrade is a no-op
+- **PASS 244** — unknown newer and malformed legacy definitions are not silently migrated
+- **PASS 245** — Save As creates full-query View only with atomic order append; failed creation leaves no partial state
+- **PASS 246** — concurrent upgrades commit at most once and preserve concurrent-safe version integrity
+- **PASS 247** — complete compact legacy query upgrades losslessly; future schema migration refuses writes

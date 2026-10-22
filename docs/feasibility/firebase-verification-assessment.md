@@ -1,6 +1,14 @@
 # Firebase verification assessment for owner decision
 
-20 October 2026. **HOLD complete query acceptance. Overall Firebase Spark feasibility remains INCONCLUSIVE; the core browser-direct security mechanism remains conditionally supported.**
+20 October 2026. **Latest accepted-boundary candidate: 247/247 local tests passed. Overall Firebase Spark feasibility remains INCONCLUSIVE; production acceptance is not established.**
+
+## Subsequent owner decision
+
+The owner subsequently accepted client-side detailed Saved View validation with high-level server integrity checks for PoC/beta, plus version compatibility checks and safe schema upgrades. Full-query functionality is retained. The recommendations and unapproved alternatives below describe the prior checkpoint; this explicit acceptance supersedes them. The [new isolated candidate](../../verification/firebase/client-query-compatibility/VALIDATION.md) passed **247/247** with zero failures/skips/cancellations, exit 0. Complete query save/reload/reconfigure and Save As now pass; all 192 inherited security regressions passed. Safe/concurrent legacy upgrades, unknown-schema rejection and compatibility gate checks passed. The expression-limit blocker is resolved for this representation under the accepted boundary. The earlier 236/237 result below remains historical evidence, not the current candidate verdict. Browser integration and actual cloud validation remain open.
+
+## 21 October decision — retain integrity, benchmark within slices
+
+Further server-side constraint relaxation is abandoned; the accepted Saved View boundary remains. Handle quota-related limits and useful blocking/recovery behavior during slice detailing after benchmarks in slice testing/validation, rather than imposing speculative limits now. The 247/247 local result is unchanged. Explicit blocking of a client ahead of the supported server release remains an implementation/verification gap; the current helper checks minimum release and schema compatibility, not that upper boundary. Web-only PoC/beta and compatible version provisioning remain the intended release policy; mobile/public API are future scope.
 
 ## Evidence across the four gates
 
@@ -15,7 +23,7 @@ The preserved combined candidate passed **192/192**. The latest extended query/w
 
 Full details: [latest validation report](../../verification/firebase/query-workload/VALIDATION.md), [test inventory](../../verification/firebase/query-workload/test-inventory.md), [accepted decisions](firebase-validation-decisions.md), [prior combined regression](../../verification/firebase/regression/combined/VALIDATION.md).
 
-## Decision-driving issue
+## Previous candidate failure — resolved by accepted-boundary experiment
 
 **The tested single-document Saved View query representation is not acceptable for the complete filter contract.** Test 228 attempts a valid definition with all eight date ranges active, other dimensions and the grouped dimension excluded from filtering. The emulator rejects its valid save at the **1,000-expression ceiling**. Later assertions in that case do not run. Sparse invalid-query probes reject, but that does not compensate for a valid operation being unavailable.
 
@@ -56,14 +64,14 @@ The generic one-shot direct Firestore REST commit prototype demonstrates known-o
 
 **Full-query persistence is a core Taskify feature and intended differentiator over other Todo/Task managers.** The complete supported query must remain saveable and reloadable. This is owner-stated product positioning, not a verified market comparison. No de-scoping or alternative validation boundary is accepted. Prepare the findings for commit first; analyse any de-scoping carefully with the owner after that commit. The proposals below remain unapproved discussion alternatives, not authorization for redesign.
 
-## Recommended decision
+## Recommendations at prior checkpoint — boundary subsequently accepted
 
 1. **Retain Firebase Spark as the candidate platform; hold approval of the latest full-query persistence design.** Current evidence does not justify introducing a backend, Functions or a paid upgrade.
 2. **Decide the Saved View validation boundary before further redesign.** Option A retains strict server validation of all filter internals and tests a smaller per-dimension representation with version linkage/read-budget checks. Option B keeps ownership, protected All Tasks, version/order and definition-envelope checks in Rules, with strict fail-closed client validation of filter semantics. Option B must leave Task security independent of View data and handle malformed owner-authored definitions safely. Neither option has been approved or implemented; all query functionality is retained in both.
 3. For user-owned View preferences, Option B is the simpler proposal to discuss; it is a new validation-boundary choice, not an already accepted compromise. Choose Option A if complete server-side preference semantics are required. A functional filter deferral is another explicit scope change and is not recommended by default.
 4. After the local blocker is resolved, separately authorize a small live Google/session/index exercise. Before beta, agree the manual recovery-method scope and validate actual usage/cleanup behavior. Complete account-level recovery is not silently reintroduced.
 
-The owner is deciding the next experiment, not approving production deployment. All changes are local and uncommitted; there was no cloud provisioning, deployment, push, paid dependency or change to product/legacy specifications. Git baseline remains `ea6280e`.
+The owner is deciding the next experiment, not approving production deployment. The prior checkpoint was subsequently committed as `ab782d3`. The accepted-boundary follow-on is local and uncommitted; there was no cloud provisioning, deployment, push, paid dependency or change to product/legacy specifications.
 
 ## Evidence limits
 

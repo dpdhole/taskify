@@ -22,7 +22,7 @@ The assistant expanded that requirement and incorrectly presented complete accou
 
 Future proposals that expand scope, acceptance criteria or gate blockers must be identified and clarified before dependent work proceeds. Do not infer scope from general best practice.
 
-## Full-query persistence — owner priority
+## Full-query persistence — owner priority at preceding checkpoint
 
 The owner explicitly confirmed full-query persistence is a core Taskify feature and intended differentiator over other Todo/Task managers. Saving and reloading complete supported View definitions remains required. The failing candidate is not accepted, and no filter reduction, persistence deferral or validation-boundary change is approved. Record and commit the experiment findings before analysing de-scoping carefully with the owner. This priority is product direction, not evidence of a competitive market comparison.
 
@@ -30,9 +30,29 @@ The owner explicitly confirmed full-query persistence is a core Taskify feature 
 
 - Appropriate scope, evidence and readiness stage for the explicitly required manual backup/export/recovery method.
 - Real Google OAuth/session and production index validation, requiring separately scoped cloud authorization.
-- The latest query/workload experiment ran 237 tests: 236 passed, one valid full-filter Saved View save failed the Rules expression ceiling. Discussion/opens/device inputs are now confirmed; read-budget/cleanup/retained-history assumptions remain conditional. The owner confirmed longer Trash retention is allowed; its duration and volume remain unspecified.
+- The preceding query/workload candidate ran 237 tests: 236 passed, one valid full-filter Saved View save failed the Rules expression ceiling; the accepted-boundary follow-on now passes 247/247. Discussion/opens/device inputs are now confirmed; read-budget/cleanup/retained-history assumptions remain conditional. The owner confirmed longer Trash retention is allowed; its duration and volume remain unspecified.
 - Final creation-event policy, full production schema/payload bounds and semantic deduplication beyond version-bound effects.
 
-## Current authorized step
+## Earlier authorized checkpoint — superseded below
 
 The owner authorized completing local query/workload validation and presenting the full assessment for decision. The prior combined run passed 192 tests; the extended candidate retained them but failed full Saved View persistence (236/237 passing). No filter deferral, weaker integrity policy or follow-on persistence redesign is inferred as approved. This does not authorize a commit, push, deployment, production Rules change, live recovery or expansion into complete account backup implementation. See the [assessment](firebase-verification-assessment.md).
+
+## Accepted follow-on boundary and local verification
+
+The owner accepts trusting supported client code for detailed Saved View query semantics during PoC/beta, with high-level server integrity checks. Full-query persistence remains core; no query feature is removed. Task ownership, mutation integrity, event coupling and concurrency remain server-enforced independently of Views.
+
+Maintain app release, server compatibility contract and record schema versions. Prefer backward-compatible development and safe meaning-preserving upgrades. Block incompatible supported clients at boot; recheck on resume/reconnect. Boot blocking is a supported-client safeguard, not authentication against modified clients. Unknown or malformed definitions must not be silently interpreted or overwritten.
+
+Local compatibility/query persistence verification is authorized. The new experiment's payload bound and integer release identifiers are implementation fixtures, not final product limits. Earlier unapproved-boundary statements above describe the prior checkpoint and are superseded by this acceptance. No cloud deployment or production adoption is authorized.
+
+Local verification outcome: [247/247 passed](../../verification/firebase/client-query-compatibility/VALIDATION.md), zero failures/skips/cancellations, exit 0. Complete query persistence, high-level server protections, supported-client compatibility gating and safe/concurrent upgrades passed represented tests. All 192 inherited security regressions passed. This is not production/browser integration or overall platform acceptance.
+
+## 21 October 2026 — Stop further relaxation; slice-level quota handling
+
+The owner abandoned exploration of further server-side constraint relaxations. The previously accepted client-side detailed Saved View validation remains in effect. Existing server-enforced ownership, Task/event integrity, concurrency, reference and deletion protections remain; no additional relaxation is approved.
+
+Quota-related limits, useful blocking/recovery behavior and loading optimizations will be detailed in the relevant implementation slices after benchmarking during slice testing and validation. Do not introduce speculative usage limits or blocking policies at this feasibility checkpoint. Capacity estimates remain conditional, particularly with longer Trash retention; this decision does not certify uninterrupted Spark availability.
+
+PoC/beta targets the web client only; mobile clients and a public API are future scope. Release/deployment is intended to provision a compatible client/server/schema combination. Incompatible stale clients require refresh/update; compatible older clients may remain supported. A client ahead of the supported server release is intended to be blocked as a release/deployment issue. **Evidence gap:** the tested helper checks minimum app release and schema compatibility, but does not yet explicitly enforce an upper client/server release boundary. This is recorded as pending implementation/verification, not a passing test. Prefer backward-compatible development and safe, meaning-preserving schema upgrades.
+
+Current authorized action: update documentation and stage the latest local findings; await explicit commit instruction. No new runtime verification is required for this documentation-only follow-up, and none is claimed. No push, cloud operation or production implementation is authorized.

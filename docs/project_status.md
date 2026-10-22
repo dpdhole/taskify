@@ -2,6 +2,19 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-21 — Integrity policy retained; quota handling deferred to slice validation
+
+- Further server-constraint relaxation is abandoned. Accepted client-side Saved View semantic validation remains; existing server integrity protections stay in place.
+- Detail quota-related limits and useful blocking/recovery behavior within implementation slices, based on benchmarking during slice testing/validation. No speculative usage cap or new blocking policy is introduced now.
+- Web client only for PoC/beta; mobile/public API remain future scope. Version provisioning and safe compatibility are release responsibilities. Explicit client-ahead-of-server blocking remains an unimplemented/untested compatibility detail; the existing 247/247 result does not prove it.
+- Latest evidence remains **247/247 passing**, including 192 inherited security regressions. Overall platform feasibility remains INCONCLUSIVE. Latest findings are prepared for staging; await commit.
+
+## 2026-10-20 — Accepted client query validation and compatibility experiment
+
+- Owner accepts detailed Saved View semantic checking in supported client code for PoC/beta, with high-level server integrity checks. Full-query persistence remains required; Task security remains server-enforced.
+- Maintain server compatibility contract, app and schema versions; prefer backward compatibility and safe upgrades, block incompatible clients at boot and recheck on resume/reconnect.
+- New local verification passed **247/247**, zero failures/skips/cancellations, exit 0: [client query and compatibility report](../verification/firebase/client-query-compatibility/VALIDATION.md). Full-query persistence, Save As, malformed-definition rejection in the client, compatibility blocking and safe/concurrent legacy upgrades passed; all 192 inherited security cases passed. Earlier failing candidate remains preserved. No production/cloud change or new commit occurred. Overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-10-20 — Full-query persistence priority and findings checkpoint
 
 - Owner confirms full-query persistence is a core feature and intended differentiator over other Todo/Task managers. Complete supported View definitions must remain saveable/reloadable; the current candidate failure remains unresolved.

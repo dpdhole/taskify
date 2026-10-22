@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-20",
+  "project": "demo-taskify-client-query",
+  "tests": 247,
+  "passed": 247,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "durationMs": 183712.7742,
+  "exitCode": 0,
+  "scopeVerdict": "PASS for represented accepted boundary",
+  "platformVerdict": "INCONCLUSIVE",
+  "cloudOperations": false,
+  "inputSnapshot": "run-inputs.json",
+  "sourceInputs": 28,
+  "rulesSha256": "501ff25d31a199e80df7b2817c90cb5e3a37358fdb6b9ea46adb50a3dea25af6",
+  "testForceExit": true
+}
