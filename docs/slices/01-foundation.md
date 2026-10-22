@@ -1,9 +1,11 @@
 # Slice 1 — Foundation
 
-Status: **implemented and locally validated; owner review pending**.
+Status: **implementation and validation complete; closure prepared for owner review**.
 The owner accepted scope, stack, dependency conditions and all seven final
-implementation boundaries. Local application implementation/install have begun;
-no commit, push or deployment is authorized by this status. Authority: [slice plan](../implementation_plan.md),
+implementation boundaries. Foundation implementation is committed as `7ab542d`;
+Hosting setup and deployment results are committed as `70fbe98` and `1e40c16`.
+The separately authorized preview checkpoint passed. This closure preparation
+does not authorize another commit, push, live promotion or Slice2 implementation. Authority: [slice plan](../implementation_plan.md),
 [architecture](../architecture.md), [product specification](../product_spec.md).
 
 The [readiness analysis](readiness-check.md) is part of this slice, not
@@ -19,8 +21,8 @@ accepted pins/conditions; final implementation evidence is recorded separately.
 | 2 | Agree framework/build/router/store/test stack | Accepted by owner; matrix below |
 | 3 | Resolve/disposition dependency findings and choose exact pins | All five [dependency recommendations](01-foundation-dependencies.md) accepted; findings remain disclosed |
 | 4 | Detail source boundaries, local configuration, scripts and tests | All seven recommendations accepted |
-| 5 | Implement the agreed small architecture proof and tooling | Implemented locally |
-| 6 | Execute acceptance checks and review exact evidence | Final verify:all passed; [validation](01-foundation-validation.md); owner review pending |
+| 5 | Implement the agreed small architecture proof and tooling | Implemented and committed as `7ab542d` |
+| 6 | Execute acceptance checks and review exact evidence | Final verify:all passed; [validation](01-foundation-validation.md); closure review prepared |
 
 Decisions stay explicit. A later checkpoint does not silently approve an earlier
 proposal. A commit/push or cloud action requires its applicable authorization.
@@ -127,21 +129,43 @@ Exit review requires the agreed proof/checks to pass, the actual bundle exclusio
 to be verified, audit findings/conditions to remain documented and historical
 fingerprints to remain unchanged. See the separate validation report for checks actually executed.
 
-## Readiness items to carry into implementation
+## Readiness follow-through
 
-- Use a supported new-app runtime, separately from frozen Node22/SDK11 experiments.
-- Current latest TypeScript and lint support are mismatched; select compatible pins.
-- Candidate lock-only audit found 12 affected packages (8 high/4 moderate). The
-  accepted bounded treatment is in the dependency review; verify actual build
-  exclusions and retain findings. No blind overrides or audit fix --force.
-- No standard Playwright browser cache was found; browser tooling still needs
-  installation/verification once the implementation scope is agreed.
-- Current effective frozen-file attributes do not replace tracked fresh-checkout
-  rules. Avoid renormalizing evidence or immutable legacy content.
-- Git is locally clean at the analysis baseline, but two commits remain unpushed
-  after the prior GitHub-account permission failure. This is a push issue, not
-  authorization to change identity/credentials or an obstacle to local detailing.
+The [readiness check](readiness-check.md) and its original JSON remain historical
+inputs. Their implementation follow-through is complete:
 
-Scope/checks, stack/pins and advisory conditions are accepted. Local validation
-is complete; see [evidence](01-foundation-validation.md). Owner review is pending.
-Historical 247/247 results do not certify this new Foundation implementation.
+| Readiness item | Disposition |
+|---|---|
+| Supported runtime and compatible pins | Independent lockfile and selected Node24/TS6/lint stack installed and validated |
+| Candidate dependency findings | Actual audit still 12 packages; accepted bounded conditions documented; Hosting-only reassessment recorded in [preflight](hosting-preflight.md) |
+| Browser prerequisites | Isolated Chromium cache installed; local and actual hosted browser checks passed |
+| Frozen-file attributes | Tracked preservation rules and unchanged historical fingerprints verified; original log/evidence retained |
+| Separate package/tooling | Clean npm ci and reproducible checks passed without sibling node_modules |
+| Git publication | Source/setup/results committed locally; GitHub push remains a separate follow-up |
+
+## Closure review
+
+| Agreed deliverable | Evidence / result |
+|---|---|
+| Reproducible application and developer guidance | Independent package, lockfile, setup/commands and readiness disposition complete |
+| Layer separation and replaceable read adapters | Strict core types, boundary checks and isolated memory/Firebase proof passed |
+| Proof isolation, lifecycle and denied access | Unit/component, emulator integration, teardown/error and bundle exclusions passed |
+| Local acceptance checks | 18 unit/component, 4 integration and 4 Chromium tests passed in the recorded final run |
+| Additional Hosting checkpoint | Actual HTTPS/header/fallback/hash/exclusion checks, 390/1280px smoke, update and exact original-artifact restoration passed; [results](hosting-deployment.md) |
+| Known conditions | Advisory findings and proof-bundle warning retained; no claim of product/platform acceptance |
+
+No implementation work remains within the agreed Foundation scope. Closure
+updates are prepared for staging and owner review; no closure commit is created
+by this preparation. Original validation logs, JSON/input hashes and frozen
+experiments are not rewritten or recertified.
+
+Live promotion is **deferred until development matures and requires explicit
+owner approval before any live deployment**. It is not a Foundation closure
+blocker. GitHub push authentication/publication is a separate follow-up; known
+advisories require ongoing reassessment under their recorded conditions.
+
+The next planned slice is **Slice2 — Compatibility gate**. Product Auth/Firestore
+connectivity, compatibility enforcement, provisioning, Tasks, production schema/
+Rules/index validation and device/provider acceptance remain later-slice work,
+not unfinished Foundation requirements. User backup/recovery remains FUTURE.
+Overall platform feasibility remains INCONCLUSIVE.

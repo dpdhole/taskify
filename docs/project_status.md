@@ -2,13 +2,26 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-22 — Foundation closure prepared for staging and owner review
+
+- No implementation work remains in the agreed Foundation scope. The [closure review](slices/01-foundation.md#closure-review) consolidates accepted deliverables, original local validation, committed implementation/setup/results and the completed Hosting preview checkpoint.
+- Final recorded local checks: 18 unit/component, 4 integration and 4 Chromium tests passed. Separately recorded actual HTTPS/mobile/desktop/update/restoration checks passed. Original validation logs/evidence and frozen experiments remain unchanged.
+- Implementation/setup/results commits: `7ab542d`, `70fbe98`, `1e40c16`. This closure preparation updates documentation only; no closure commit, push or live promotion is performed.
+- Live promotion is deferred until development matures and requires explicit owner approval. It does not block closure. GitHub push authentication/publication and continued advisory reassessment are separate follow-ups; the 12 findings remain disclosed.
+- Next planned slice: Slice2 — Compatibility gate; not started or implicitly authorized by closure preparation. Overall platform feasibility remains INCONCLUSIVE; product/provider/schema/Rules/index validation remains later-slice work.
+
+## 2026-10-22 — Owner defers live promotion
+
+- Live promotion is deferred until development matures and requires explicit owner approval before any live deployment. Preview validation, slice completion and continued development do not authorize it. This deferral does not block Foundation closure or later slices.
+- Hosting deployment results/evidence were committed as `1e40c16`; no push or live promotion occurred. See the [deployment policy](hosting_deployment_plan.md).
+
 ## 2026-10-22 — Foundation Hosting preview verified and original artifact restored
 
 - [Preview](https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app) expires 29 October 2026 at 15:25:04 UTC. Clean local source commit `70fbe98`; no push or live promotion performed.
 - [Deployment results](slices/hosting-deployment.md) and [execution evidence](slices/hosting-deployment-evidence.json) record successful initial HTTPS/browser checks, rehearsal update, cached/fresh 390/1280px verification, exact first-artifact restoration and final checks after generated-key cleanup.
 - An initial rehearsal navigation timed out before mutation; the explicit rerun passed. Post-deployment comparison detected an auto-created Firebase browser key; the unused key was deleted and actual preview checks passed again.
 - Final cloud assertions: project ACTIVE, billing disabled/no linked account, empty database/Rules/apps/bucket/domain/key lists, Auth unconfigured, Functions API disabled, live timestamp/releases unchanged and no enabled-API changes.
-- Overall platform feasibility remains INCONCLUSIVE; product Auth/Firestore/index/compatibility validation remains open. Deployment results are documented but not staged/committed/pushed; live promotion is a separate owner decision.
+- Overall platform feasibility remains INCONCLUSIVE; product Auth/Firestore/index/compatibility validation remains open. Deployment results were subsequently committed as `1e40c16`; no push was performed. Live promotion is deferred under the owner decision above.
 
 ## 2026-10-22 — Earlier checkpoint: clean start completed; Hosting publication pending
 

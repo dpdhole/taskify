@@ -2,7 +2,7 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Foundation static skeleton and isolated architecture proof are implemented and locally validated, pending review. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
+**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; slice closure is prepared for owner review. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
 
 ## Documentation
 

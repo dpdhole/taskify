@@ -59,6 +59,12 @@ removed; provision new backend resources in their relevant later slices.
 
 ## Gates and boundaries
 
+- **Owner decision:** live promotion is deferred until development matures. Any
+  live deployment requires explicit owner approval at that time. Preview
+  validation, slice completion and approval to continue development do not
+  authorize live promotion. This deferral does not block Foundation closure or
+  subsequent development slices.
+
 - The owner authorized a clean start after inventory, superseding preservation.
   Database deletion, obsolete Rules, old domain binding and legacy browser-key
   deletion are complete. No legacy content is migrated. The default Hosting site
@@ -99,8 +105,8 @@ are executed and recorded against clean source commit `70fbe98`. Actual HTTPS,
 390/1280px browser checks, cache/header/fallback/hash checks and saved-artifact
 restoration passed. A rehearsal navigation timeout and an unexpected generated
 key were recorded; the unused key was deleted and final checks passed. No live
-release was created. Live promotion and committing the new results remain
-separate owner decisions.
+release was created. Results were committed as `1e40c16`. Live promotion is
+deferred until development matures and requires explicit owner approval.
 
 ## Official references
 

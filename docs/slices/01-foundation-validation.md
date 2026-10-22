@@ -1,7 +1,11 @@
 # Foundation slice — local validation
 
-22 October 2026. **Implemented and locally validated; ready for owner review.**
-No commit, push, live Firebase provisioning or deployment was performed.
+22 October 2026. **Original local acceptance run passed; implementation complete.**
+At this local-validation checkpoint, no commit, push, live Firebase provisioning
+or deployment had been performed. Subsequent implementation/setup/results commits
+and separately authorized preview verification are summarized in the
+[closure review](01-foundation.md#closure-review). This report preserves the
+original run and does not relabel its evidence as cloud validation.
 See [detailing](01-foundation.md), [developer setup](../development.md),
 [dependency conditions](01-foundation-dependencies.md), [readiness](readiness-check.md),
 [final log](01-foundation-validation.log) and [exact evidence/input hashes](01-foundation-validation-evidence.json).
@@ -84,8 +88,14 @@ log records the accepted final run. Failures are not counted as passing runs.
 - GitHub push authentication remains a separate machine issue. No credentials or
   remote access were changed during Foundation work.
 
-Next checkpoint: owner review of Foundation changes/evidence, then explicit commit
-instruction. Slice2 compatibility work and all other features remain unstarted.
+Current checkpoint: Foundation closure documentation is prepared for staging and
+owner review. Implementation is committed as `7ab542d`; separate Hosting setup
+and preview results are committed as `70fbe98` and `1e40c16`. See
+[actual Hosting results](hosting-deployment.md), including the Hosting-only
+advisory reassessment and recorded deployment findings. No new runtime result is
+claimed by this documentation update. Live promotion is deferred until development
+matures and requires explicit owner approval; it does not block Foundation
+closure. Slice2 compatibility work and product features remain unstarted.
 
 ## Commit preparation
 

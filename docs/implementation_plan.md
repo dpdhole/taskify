@@ -27,8 +27,9 @@ material domain/security changes return to owner discussion.
 
 ## Agreed sequence
 
-Slice1 is **implemented and locally validated, pending review**; see its
-[validation report](slices/01-foundation-validation.md). Other rows remain planned,
+Slice1 implementation and validation are **complete; closure is prepared for
+owner review**. See its [closure review](slices/01-foundation.md#closure-review)
+and [validation report](slices/01-foundation-validation.md). Other rows remain planned,
 not started. Split broad rows further during detailing.
 
 | Order | Slice | Deliverable |
@@ -158,9 +159,14 @@ tested update and exact original-artifact restoration, built from clean commit
 infrastructure checkpoint does not reorder product slices or validate product
 Auth/Firestore behavior.
 
-Readiness, scope/stack and dependency decisions are complete. Slice1 is implemented
-and locally validated; [Foundation review](slices/01-foundation-validation.md) is
-next. No commit or slice2 implementation is implied.
+Readiness, scope/stack, implementation and local validation are complete; the
+additional Hosting preview/update/restoration checkpoint passed. Foundation
+[closure documentation](slices/01-foundation.md#closure-review) is prepared for
+staging and owner review. No additional commit or Slice2 implementation is implied.
+Live promotion is deferred until development matures and requires explicit owner
+approval; it is not a Foundation closure blocker. Next planned work is detailing
+Slice2 — Compatibility gate. GitHub push and ongoing advisory reassessment remain
+separate follow-ups.
 Overall platform feasibility remains INCONCLUSIVE. Foundation tests are local
 proof evidence only; cloud cleanup has occurred, but no new product backend
 provisioning or live Hosting publication has occurred. The preview checkpoint

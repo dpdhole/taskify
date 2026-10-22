@@ -94,5 +94,7 @@ The existing 12-package dependency advisory disposition remains bounded and
 unresolved; deployment does not make the audit clean.
 
 Overall platform feasibility remains INCONCLUSIVE. User-driven backup/recovery
-remains FUTURE. Live promotion is a separate owner decision. This report/evidence
-update is not committed or pushed by the deployment action.
+remains FUTURE. The owner has deferred live promotion until development matures;
+explicit owner approval is required before any live deployment. This deferral is
+not a Foundation closure blocker. Results were subsequently committed as
+`1e40c16`; no push or live promotion followed from that commit.
