@@ -2,6 +2,30 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-21 — Responsive screen UX consolidation committed
+
+- **Controlling UX addition:** `docs/product_spec.md` §21 consolidates owner-agreed high-level Dashboard, Task Views, Create, Settings, authentication and Task Detail behavior. This is documentation only.
+- **Dashboard supersession:** full-width burn-rate and always-expanded responsive 1/2/3-column Saved View chart grid replace §17.6's collapsible Home chart sections and expansion-session behavior. Pie/legend drill-down still opens the unchanged View and expands/scrolls to its target group.
+- **Task Views:** grouped responsive table, with stacked label:value rows on narrow screens; normal View entry has all groups collapsed. Task Detail Back restores expansion, scroll, search and origin context.
+- **Create and Settings:** mobile Quick Create sheet → full-screen Advanced; desktop centered Quick modal → large centered Advanced. Views/Categories/Locations use sortable list/table management with explicit Save Order; Preferences, Cleanup and My Account use responsive forms. Cleanup requires processing feedback and retry/recovery design.
+- **Identity:** Google and Apple sign-in with shared hero, persistent device auth, provisioning/loading feedback and secure same-verified-email account resolution intent. Email OTP is only a candidate. Firebase Spark provider feasibility and linking contracts require validation.
+- **Task Detail:** mobile ordered sections and desktop two-column composition. External-link Attachments aggregate Discussion-owned and independent Task-associated links; independent-link ownership/data model remains for slice design. Binary uploads are outside PoC/beta.
+- **Status:** UX direction documented, **not implemented, tested, deployed or migrated**. Remaining slice work: forms/actions, breakpoints, accessibility, data integrity, identity linking and cleanup recovery.
+
+## 2026-10-21 — Larger-screen and desktop shell UX recorded
+
+- **Owner-agreed responsive shell:** `docs/product_spec.md` §20 governs desktop/tablet adaptations to §19: top-of-navigation Create (no FAB), collapsed icon rail with icons in natural expanded-layout positions, hover-triggered temporary overlay preview (mouse-out closes), and burger-controlled persistent expansion that pushes/resizes main content. Explicit Close returns to rail, especially on touch/tablet.
+- **Desktop navigation:** Task Views and Settings sections remain open, navigation scrolls independently, global View ordering and protected All Tasks semantics are unchanged. Persistent expansion survives page navigation and the current browser session; a new session defaults to collapsed rail.
+- **Desktop headers:** Standard header contains burger, branding, contextual title and single-line explicit-submit Search. Task Detail retains Back action bar with more visible actions before overflow, with title/context below; Settings uses Back, title and overflow only.
+- **Status:** owner-agreed design direction documented, **not implemented/tested**. Breakpoints, accessibility, animations, action sets and touch/pointer coexistence deferred to slices.
+
+## 2026-10-21 — Mobile-first application shell UX recorded
+
+- **Owner-agreed mobile shell direction:** Standard Home/Task View header uses burger, left-aligned contextual title and header Search; Task Detail/Settings use Back-only icon action header with title/context below, variable primary actions and overflow.
+- **Drawer:** left overlay, Home always visible, mutually exclusive Task Views/Settings inline sections, default expansion derived from active task-versus-settings context. Views follow the same global user order as Dashboard, with protected All Tasks last by default and reorderable. Settings includes Views, Categories, Locations, Preferences, Cleanup and My Account; Task Views also offers a Manage Views link.
+- **Search/Create:** expandable header Search retaining §17.8 semantics; right-anchored adaptive Create FAB on Home/Task Views only, extending with label when idle, collapsing to fixed-position icon on scroll, fading to approximately 20% on rapid/sustained scroll without disabling interaction. Quick Create bottom sheet has Title, defaulted Category and Location, and More expands to full-screen.
+- **Authority:** Details in `docs/product_spec.md` §19. These are agreed UX specifications, **not implemented or verified**. Desktop shell design, exact task action lists, styling, thresholds and other slice mechanics remain open. §19 supersedes §18.1's older mobile bottom Search/Create and top-right Settings placement, without changing §17 functional contracts.
+
 ## 2026-10-21 — Integrity policy retained; quota handling deferred to slice validation
 
 - Further server-constraint relaxation is abandoned. Accepted client-side Saved View semantic validation remains; existing server integrity protections stay in place.

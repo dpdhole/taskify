@@ -698,3 +698,120 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 - Historical §15's generic Task → Thread → Entry/attachments model is corrected: **Discussion alone owns comments/links, Todos are checklist records, Activity Log owns immutable structured event Entries.**
 - Historical separate hosted API, direct Google OAuth, Taskify-managed server sessions, Appwrite/Atlas-first approach and deep content search are **not** the PoC/beta baseline. Firebase Spark is the selected provider; MongoDB remains a historical evaluated alternative.
 - This high-level design remains consistent with §17 lifecycle, Saved View, Dashboard and lightweight Search rules; only the conflicting Todo/Discussion/Activity Log ownership and PoC/beta attachment delivery scope are superseded. Detailed UX, exact field types, collection indexes, Security Rules and backend adapter contract belong to slice-level design.
+
+
+## 19. Mobile-first application shell and navigation (owner-agreed UX direction, 2026-10-21)
+
+**Authority and scope:** Owner explicitly authorized documenting the mobile shell discussion. This section records agreed high-level UX behavior, not implementation, final visual design, or detailed slice action definitions. It refines and supersedes §18.1's older bottom Create/Search placement and top-right Profile/Settings entry for the **mobile shell**. The desktop layout remains to be designed. Existing §17 Task View, Search, Dashboard, Task Detail and domain rules remain authoritative.
+
+### 19.1 Header and navigation contexts
+
+- **Standard mobile header** on Home/Dashboard and all Task Views (All Tasks and ordinary Saved Views): hamburger on left, **left-aligned contextual page/View title**, Search icon on right. Long titles truncate. For Saved Views, the title area may expose an edit/configuration entry point; exact interaction is deferred. Do not use a permanent centered Taskify brand as the standard header title.
+- **Contextual mobile action header** on Task Detail and Settings/subpages: **Back on the left**, context-appropriate primary icon actions where useful, followed by a three-dot overflow for other available actions. The header itself is **icon-only**; page title and contextual metadata are placed **below** the action header. Do not force a fixed number of actions; 0–3 may be appropriate depending on context, lifecycle and available operations. Exact action set, authorization, placement and overflow hierarchy are slice decisions.
+- Task Detail and Settings use **Back-only navigation**: no hamburger in their contextual header. Back returns to the actual originating navigation context and restores the applicable workspace state according to the existing Task Detail/Task View contracts; direct-linked Task behavior follows browser history without inventing an origin.
+- Home is a **task-navigation context** for drawer expansion, although it remains a distinct Dashboard destination.
+
+### 19.2 Mobile navigation drawer
+
+- Hamburger opens a **left-side overlay drawer** above the main content, with a dismissible backdrop; opening it does not resize or reflow the underlying workspace. Mobile destination selection closes the drawer.
+- **Home remains permanently visible** outside collapsible sections. The two accordion sections are **Task Views** and **Settings**, with **at most one expanded** at a time; users may toggle sections manually while the drawer is open.
+- On opening the drawer, **Task Views expands** from Home, All Tasks, Saved Views, Task Detail or Task View search context. **Settings expands** from Settings or any Settings subpage. Expansion follows the active application context, rather than merely the section most recently opened. The other section collapses.
+- Task Views lists ordinary Saved Views and protected All Tasks in the **same global user-defined order** used by Home/Dashboard and Settings → Views. All Tasks defaults **last**, but users can reorder it; this does **not** make its system definition editable. Views are directly listed, not hidden behind a second navigation layer. A secondary **Manage Views** link at the end of this section opens the same Settings → Views management destination.
+- Settings expands inline to: **Views, Categories, Locations, Preferences, Cleanup, My Account**. The destination remains part of Settings, not a second management implementation. The exact account/sign-out placement is deferred to the Settings slice.
+- The drawer should support independently scrollable content on small devices or with many user-created Views. Detailed accessibility, gesture and focus behavior are deferred to the navigation slice.
+
+### 19.3 Search
+
+- The standard header Search icon opens an **expandable, header-anchored text form**, with explicit Submit, rather than navigating to a separate Search screen.
+- Search operates **in place** in the currently open Task View, including **All Tasks**. With no open Task View, a nonempty submission opens All Tasks and searches there. Empty submission and clearing, temporary state, matching fields, grouping, sorting, counts and navigation semantics remain exactly as specified in §17.8. Popup sizing, keyboard/focus and dismissal details are deferred.
+
+### 19.4 Create and adaptive floating action button
+
+- Global **Create** is a **bottom-right anchored floating action button (FAB)** on Home and Task Views, including All Tasks and Saved Views. It is **absent** from Task Detail and Settings/subpages. A duplicate Create entry at the top of the drawer was considered but **not adopted**; revisit only if usage warrants it.
+- **Initial/idle state:** extended, right-aligned FAB with icon and **Create** label. **Normal scrolling:** label slides/collapses inward, leaving the icon fixed at the same bottom-right position; icon size/emphasis may reduce. **Sustained or rapid scrolling:** retain the icon at approximately **20% opacity** rather than hiding it. On scroll reversal/idle, restore prominence and then the label. Keep the icon's position and effective touch target stable through transitions.
+- The faded icon remains actionable, not disabled; avoid stealing scrolling gestures. Precise scroll thresholds, transition timings, hit-area behavior and accessibility require validation in the UI slice. FAB is not shown while the Create sheet is active.
+- Create opens a **bottom quick-create sheet** containing **Title, Category and Location**; Category and Location are prepopulated with their applicable defaults. **More** expands the **same form** to full-screen mobile detailed creation, retaining entered values. Exact default selection rules, required fields, validation and additional form fields remain slice decisions.
+
+### 19.5 Desktop and implementation status
+
+- **Desktop:** preserve the established responsive Task Detail direction (side panel by default, expandable to full page) and the high-level Gmail-inspired navigation concept. **Do not infer that the mobile accordion, FAB animation, icon-only contextual header or drawer behavior applies unchanged to desktop.** Desktop shell/sidebar/header specifics remain open for dedicated design.
+- These are **documented owner-agreed mobile UX directions**, not proof of coded, tested or deployed UI. Exact responsive breakpoints, visual styling, screen action lists, accessibility and implementation mechanics are deferred to vertical slices.
+
+
+## 20. Larger-screen and desktop application shell (owner-agreed UX direction, 2026-10-21)
+
+**Scope:** This section refines §19 for larger screens, desktop and touch tablets. These are approved discussion-level UX directions, not implemented or usability-verified behavior. Responsive breakpoint values, animation thresholds and exact per-screen actions remain deferred.
+
+### 20.1 Navigation rail, overlay preview and persistent sidebar
+
+- Replace the mobile floating Create action with a **Create action at the top of desktop/tablet navigation**; no FAB in this layout.
+- A burger control toggles the sidebar's **persistent expanded/collapsed state**. Persistent expansion **pushes/resizes the main content**; collapse returns to a narrow icon rail and restores workspace width.
+- When the pointer **hovers over the collapsed rail**, the full navigation drawer opens as a **temporary overlay over main content**, without resizing it. On **mouse-out**, the preview closes back to rail mode. Hover preview is distinct from persistent expansion.
+- A **Close icon** returns the persistently expanded sidebar to rail mode; it is particularly necessary for touch/tablet devices without mouse hover. It does not imply navigation away.
+- On larger screens the **Task Views and Settings sections are always open**, rather than mutually exclusive mobile accordions. The navigation content is independently scrollable.
+- In collapsed rail mode, display the available navigation/section icons (including Create, Home, Task Views and Settings) **at the same natural vertical positions they occupy in the expanded navigation**. Preserve expanded layout spacing and alignment; hide labels rather than collecting icons into a separate toolbar. Individual Saved View entries are not required to become separate icons in the rail; exact icon treatment for nested items remains a visual design detail.
+- Preserve the same global Saved View/All Tasks ordering and protected system-View distinction specified in §17.5 and §19.2.
+- **State retention:** persistent expanded/collapsed preference survives application navigation and remains stable within the current browser session; on a **new browser session**, initialize in **collapsed rail mode**. Temporary hover expansion is not retained.
+
+### 20.2 Header, Search and contextual pages
+
+- Larger-screen **standard workspace header**: burger, **Taskify branding and contextual page/View title**, then a **single-line Search form**. Search remains explicit-submit and temporary/View-scoped per §17.8; this is a control-placement difference, not a new search experience.
+- **Task Detail** retains its own contextual top action bar with **Back**, exposing **more available primary/secondary actions before the overflow menu** than mobile width permits. **Title and context remain below** the action bar. Existing desktop Task Detail side-panel-by-default / expandable-to-full-page behavior remains governed by §9.3 and §12 as not superseded by §17–19.
+- **Settings and subpages** use a contextual header with **Back, title and overflow only** in the larger-screen layout. This is intentionally distinct from the mobile icon-only Settings header, where title/context are below the bar (§19.1).
+- Detailed command availability, action ordering, panel geometry, responsive thresholds, accessibility and touch/hover coexistence remain slice-level design work.
+
+### 20.3 Explicit cross-device distinctions
+
+- **Mobile:** overlay drawer with context-dependent mutually exclusive accordion expansion; bottom-right adaptive Create FAB; contextual Task Detail/Settings headers are icon-only with title/context below (§19).
+- **Desktop/tablet:** collapsible rail and expanded sidebar, always-open navigation sections, top-of-navigation Create action, branded workspace header and inline Search. Hover preview is available only when a hover-capable pointer exists; persistent expansion and explicit Close support touch.
+- **No domain divergence:** the same Task, View, Search, Dashboard and navigation-origin semantics apply across layouts. No implementation, tests or deployment are claimed.
+
+
+## 21. Responsive screen patterns and account experience (owner-agreed UX direction, 2026-10-21)
+
+This section supplements §§17–20 and supersedes conflicting presentation-only provisions below. It records approved high-level UX direction, not implementation. Exact fields, permissions, breakpoints, error behavior and accessibility remain slice-level.
+
+### 21.1 Home Dashboard
+- Burn-rate chart uses full available content width; retain §17.6 metrics, period controls, orientation and data rules.
+- Dashboard-enabled Saved View charts form a responsive one-, two-, then three-column grid in global View order, left-to-right then top-to-bottom. Protected All Tasks remains included.
+- **All Dashboard charts remain expanded at all widths.** This supersedes §17.6's collapsible sections, initial first-only expansion and session expansion retention. Cards grow with legends.
+- Pie slice or legend selection opens the unchanged View, expands and scrolls to the corresponding group, including zero-count groups. No additional filter is applied.
+
+### 21.2 Shared All Tasks / Saved Views workspace
+- Present Tasks as a grouped table with collapsible group-divider rows displaying label and matching count. Counts are independent of expansion. Preserve mandatory Group By and within-group sorting (§17.5).
+- **All groups default collapsed** on ordinary View entry; independently toggleable. Wider screens show additional table columns; narrow screens wrap/stack each Task row into labeled value pairs. Responsive visibility never changes query or sort semantics.
+- Dashboard drill-down expands and scrolls to its target group; other groups remain normally collapsed unless restoring navigation context.
+- Task View → Task Detail → Back restores originating View, expanded groups, search and scroll/list position, subject to existing unsaved-View navigation semantics. Normal entry to another View starts collapsed.
+- Column selection, stacked-field order and row actions are slice-level.
+
+### 21.3 Create
+- Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More expands the same form to full-screen Advanced Create, retaining entered values.
+- Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More expands the same form to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
+- Both modes share Task defaults, validation and submission. Detailed fields, dimensions, dismissal and unsaved-change behavior remain slice-level.
+
+### 21.4 Settings management and forms
+- Views, Categories and Locations share an ordered-record management pattern: narrow screens use sortable vertical lists with drill-down details/actions; wide screens use sortable tables with visible relevant details/actions. Manual order is authoritative, not column sort order.
+- Desktop reorder via drag/drop; small-screen reorder via Move Up/Down. For entity types permitting creation, positional (+) before/between entries inserts at that logical position, with end-of-list Add. Desktop positional affordances appear on hover/focus. Reuse existing ordering sequence rules.
+- Ordering changes remain provisional until **explicit Save Order**. Leaving with unsaved ordering prompts Save / Discard / Stay. Non-order edits can persist separately.
+- Settings → Views does **not** directly Create/Insert Saved Views. §17.5 Save As remains the creation route. Existing rename, Dashboard inclusion, reorder, delete and protected All Tasks rules remain. Clone → rename → edit is a candidate workflow for slice evaluation, not an approved feature.
+- Archive is the domain concept where supported; muted/transparent presentation does not introduce a separate Hidden domain state. Dashboard Show-on-Home is distinct from archive. Entity-specific delete/archive dependencies and confirmation remain slice-level.
+- Preferences: simple responsive single-form interaction, mobile stacked and desktop width-constrained. Additional drawer entries only if justified later.
+- Cleanup: simple form for selecting and executing the §17.9 manual account-wide operations, with processing/progress feedback, success/partial-failure, and retry/recovery. Do not assume precise progress or background/resumable execution without §18 Firebase Spark feasibility validation.
+- My Account: responsive user-info form including name/photo, identity/linked providers, possibly core account preferences, Logout and a separated Delete Account action. Delete/recovery semantics deferred. Profile data and authentication identity are distinct.
+
+### 21.5 Login, identity and workspace initialization
+- Shared branded hero and centered Google/Apple sign-in controls across all screen widths. Authentication persists on device until Logout or invalidation.
+- First access displays workspace-provisioning status/progress; returning access displays loading while fetching initial Task population. Provisioning must be idempotent and safely retryable; detailed recovery remains slice-level.
+- Initialize display name and photo from available social profile data; do not assume values always exist or overwrite user edits automatically.
+- Verified identical email across providers should resolve to the same Taskify account through secure account resolution/credential linking. Firebase does not guarantee automatic linking; Apple private relay can produce different email addresses. Never trust an unverified email claim as authorization. Exact linking UX and security deferred.
+- Email OTP is a candidate alternative, not an active approved login channel. Google + Apple extends §18's earlier Google-only Firebase Spark PoC/beta baseline; provider feasibility must be validated.
+
+### 21.6 Task Detail responsive sections
+- Retain contextual Back/action bar (§§19–20), mobile full-page and desktop side-panel-by-default expandable presentation where compatible.
+- **Mobile order:** action bar; Title/Reference; status and planning dates; Task preferences; description preview with Show All; Todo CRUD checklist; Discussion latest five complete entries with More and new-entry field; external-link Attachments list with Add; Activity Log.
+- **Desktop/wider:** action bar and Title/Reference span width, then two columns. Left: longer description preview, Todo management, external-link attachment management. Right: status/planning, Task preferences, Discussion management, Activity Log viewer.
+- Section content can grow; precise description/history expansion deferred. Visual placement does not change ownership: Todo Task-owned; Discussion entries and their attached external links Discussion-owned; Activity Log immutable structured system history.
+- Attachments presentation aggregates Discussion-owned external links and **independent Task-associated external links**. The independent link ownership/record contract is deferred to the slice; do not create fake Discussion entries. No binary uploads in PoC/beta.
+
+### 21.7 Scope
+All decisions above are high-level UX direction, not implemented/tested state. Slice-level work includes responsive breakpoints, actions, field definitions, authorization, accessibility, errors, Firebase Rules/data feasibility and persistence. No code, infrastructure or migration change is authorized by this section.
