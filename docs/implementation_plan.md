@@ -146,6 +146,8 @@ This plan does not add it to slice 26 or 30 by implication.
 
 ## Next checkpoint
 
-Agree the scope, stack options and evidence for slice 1 before implementation.
+The [readiness check](slices/readiness-check.md) is complete, with its
+[evidence summary](slices/readiness-evidence.json) included. Foundation slice will
+begin next with scope/stack agreement and dependency disposition before implementation.
 Overall platform feasibility remains INCONCLUSIVE. No runtime work, new passing
 tests, cloud setup or deployment is claimed by this plan.

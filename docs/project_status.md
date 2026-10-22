@@ -2,6 +2,12 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-22 — Readiness check complete; Foundation slice next
+
+- [Readiness check](slices/readiness-check.md) and [evidence summary](slices/readiness-evidence.json) record the completed pre-implementation analysis, including strict dependency resolution, audit findings, machine checks and frozen-input verification.
+- Foundation slice will begin next with scope/stack agreement and dependency disposition. Readiness analysis completion does not imply that candidate dependencies are approved or the Foundation proof is implemented.
+- No app scaffold, application dependency installation, production schema, compatibility gate or authentication implementation has started. User backup/recovery remains FUTURE. The Foundation detailing draft is excluded from this readiness commit as requested.
+
 ## 2026-10-22 — Small feature-focused slice order and starter Tasks agreed
 
 - [Implementation plan](implementation_plan.md) records 30 planned slices: foundation/compatibility/identity, initial Task journey and starter Tasks, complete queries/persistence, lifecycle/work content, Dashboard/settings and cleanup/release integration. Rows split further if detailed scope becomes broad; no slice has started.

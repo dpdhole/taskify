@@ -10,6 +10,7 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Working product specification](docs/product_spec.md) — consolidated simplified product behavior and explicitly open decisions.
 - [Architecture, stack and deployment strategy](docs/architecture.md) — agreed layers, stack boundaries, client/schema compatibility, release/rollback policies and remaining slice/validation work.
 - [Implementation slice plan](docs/implementation_plan.md) — agreed small feature-focused sequence, onboarding Tasks and documentation/provisioning work per slice; not execution authorization.
+- [Completed Foundation readiness check](docs/slices/readiness-check.md) — pre-implementation findings and candidate dependency evidence; Foundation scope/stack agreement is next.
 - [Legacy product specification](docs/product_spec_legacy.md) — historical reference only; not requirements for the redesign.
 - [Firebase Gate 1–4 findings](docs/feasibility/firebase-validation-results.md) — qualified local results, failures and unresolved feasibility blockers.
 - [Latest verification assessment for decision](docs/feasibility/firebase-verification-assessment.md) — query/workload findings and the passing client query/compatibility follow-on.
