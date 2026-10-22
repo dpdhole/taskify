@@ -1,6 +1,6 @@
 # Taskify — Product Specification
 
-> **WORKING SIMPLIFIED BASELINE · 2026-10-12.** This document consolidates product decisions explicitly agreed in the Taskify simplification discussion. It is the current **working product specification** on the revision branch, **not evidence of implementation** and not a blanket approval of unresolved design details. The historic, previously approved requirements are preserved in [product_spec_legacy.md](./product_spec_legacy.md) and Git history. [project_status.md](./project_status.md) records status and outstanding decisions.
+> **WORKING SIMPLIFIED BASELINE · 2026-10-12.** This document consolidates product decisions explicitly agreed in the Taskify simplification discussion. It is the current **working product specification** on the revision branch, **not evidence of implementation** and not a blanket approval of unresolved design details. The historic, previously approved requirements are preserved in [product_spec_legacy.md](product_spec_legacy.md) and Git history. [project_status.md](project_status.md) records status and outstanding decisions.
 
 ## 1. Product vision and boundaries
 
@@ -643,6 +643,16 @@ Remain valid unless explicitly superseded: Todo Thread ownership/states, attachm
 **Authority / status:** This section records the owner's agreed PoC/beta platform, corrected ownership model and high-level transaction requirements. It supersedes conflicting historical §15 logical/physical direction, §17 references to a pending backend, and earlier hosted-API / direct-Google-OAuth proposals. **Firestore collection layout is a proposed design, not a deployed or tested physical schema. Security-rule feasibility and deletion safety are explicit gates.** Do not interpret platform approval as approval to provision or deploy cloud resources.
 
 ### 18.1 Platform, application boundary and high-level navigation
+
+**Environment amendment (owner, 22 October 2026):** Firebase project
+`taskify-dev-dpdhole` (number `243252492098`) is the verified, active PoC/testing
+project with billing disabled. The owner subsequently instructed a clean start,
+superseding legacy preservation: the old Firestore database/data/indexes, Rules,
+custom-domain binding and browser API key were removed. See
+[clean-start results](slices/firebase-clean-start.md). No legacy data migration is planned.
+Project identity and the empty, non-deletable default Hosting container remain.
+The [Hosting-only checkpoint](hosting_deployment_plan.md) is locally prepared;
+publication and new product Auth/Firestore provisioning have not occurred.
 
 - **PoC/beta platform:** Firebase **Spark (no-cost)** capabilities only: Firebase Authentication with Google sign-in, Cloud Firestore, and static Firebase Hosting. No separate hosted Taskify API, server-managed Taskify sessions, Cloud Functions, Firebase App Hosting or Blaze upgrade in this release baseline. No runtime service requiring payment is an approved dependency.
 - **Client architecture:** web UI → client-side application/domain services and shared normalized Task store → provider-independent persistence ports → Firebase/Firestore adapter. The browser is **not** trusted: Firebase Auth supplies identity and Firestore Security Rules enforce per-user access and any expressible cross-document constraints. Provider independence applies to application code/contracts, not to the deployed Firebase security policy; one provider adapter is needed initially.

@@ -12,6 +12,8 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Implementation slice plan](docs/implementation_plan.md) — agreed small feature-focused sequence, onboarding Tasks and documentation/provisioning work per slice; not execution authorization.
 - [Developer setup](docs/development.md) — pinned toolchain, local commands, architecture boundaries and troubleshooting.
 - [Foundation validation](docs/slices/01-foundation-validation.md) — executed local checks, exact evidence and limitations.
+- [Firebase clean start](docs/slices/firebase-clean-start.md) — completed legacy application-resource reset and verified empty baseline.
+- [Hosting deployment plan](docs/hosting_deployment_plan.md) — Hosting-only checkpoint using the verified PoC project after the owner-authorized clean start; locally prepared, publication pending.
 - [Completed Foundation readiness check](docs/slices/readiness-check.md) — pre-implementation findings and candidate dependency evidence; historical inputs for the implemented Foundation slice.
 - [Legacy product specification](docs/product_spec_legacy.md) — historical reference only; not requirements for the redesign.
 - [Firebase Gate 1–4 findings](docs/feasibility/firebase-validation-results.md) — qualified local results, failures and unresolved feasibility blockers.

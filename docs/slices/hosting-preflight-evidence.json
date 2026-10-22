@@ -1,0 +1,140 @@
+{
+  "recordedAt": "2026-10-22T11:30:17.469Z",
+  "scope": "GET-only cloud inventory; local Hosting preparation and validation; no cloud mutations or publication",
+  "inventory": {
+    "checkedAt": "2026-10-22T11:20:49.267Z",
+    "operator": "dpdhole@gmail.com",
+    "projectId": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "mode": "GET-only resource metadata; no user-content reads or resource mutations",
+    "checks": {
+      "billing": {
+        "status": "ok",
+        "result": {
+          "billingEnabled": false,
+          "billingAccountLinked": false
+        }
+      },
+      "channels": {
+        "status": "ok",
+        "result": [
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+            "url": "https://taskify-dev-dpdhole.web.app",
+            "retainedReleaseCount": 2147483647
+          }
+        ]
+      },
+      "domains": {
+        "status": "ok",
+        "result": [
+          {
+            "site": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole",
+            "domainName": "dev.taskify.it.com",
+            "updateTime": "2026-10-07T13:41:52.747344055Z",
+            "provisioning": {
+              "certStatus": "CERT_ACTIVE",
+              "dnsStatus": "DNS_MATCH",
+              "expectedIps": [
+                "199.36.158.100"
+              ]
+            },
+            "status": "DOMAIN_ACTIVE"
+          }
+        ]
+      },
+      "firestore": {
+        "status": "ok",
+        "result": {
+          "databases": [
+            {
+              "name": "projects/taskify-dev-dpdhole/databases/(default)",
+              "locationId": "asia-south1",
+              "type": "FIRESTORE_NATIVE"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "status": "unverified",
+        "httpStatus": 403,
+        "message": "Request to https://cloudfunctions.googleapis.com/v2/projects/taskify-dev-dpdhole/locations/-/functions?pageSize=100 had HTTP Error: 403, Cloud Functions API has not been used in project taskify-dev-dpdhole before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/cloudfunctions.googleapis.com/overview?project=taskify-dev-dpdhole then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+      },
+      "storage": {
+        "status": "ok",
+        "result": {}
+      },
+      "authConfiguration": {
+        "status": "unverified",
+        "httpStatus": 404,
+        "message": "Request to https://identitytoolkit.googleapis.com/admin/v2/projects/taskify-dev-dpdhole/config had HTTP Error: 404, CONFIGURATION_NOT_FOUND"
+      },
+      "liveReleaseHistory": {
+        "status": "ok",
+        "result": {
+          "releases": [],
+          "nextPagePresent": false
+        }
+      }
+    }
+  },
+  "artifact": {
+    "release": {
+      "buildId": "2026-10-22T11-26-38-006Z",
+      "commit": "7ab542d8477b0f72bd3923abd73ba007523643c9",
+      "sourceDirty": true
+    },
+    "publishable": false,
+    "configSha256": "cbbd69964213879da3f6db941282d0dba9c1d4239d9bb70f363f2d35f01ca477",
+    "files": {
+      "index.html": "6f6b5393fc07a4687ae006100428eee3d6480ccef310da7797b395d61bc9fdfe",
+      "release.json": "22a0b18f76a7d2a5014149a435fba460046d18c09b81afce67b36b063b3d981f",
+      "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838",
+      "assets/index-to1_7bZT.js": "595a6b179b70cff55b80339523473cbf71b92701a43c99d8c81848c3be5e04e1"
+    }
+  },
+  "inputsSha256": {
+    "firebase.hosting.json": "cbbd69964213879da3f6db941282d0dba9c1d4239d9bb70f363f2d35f01ca477",
+    "tools/build-hosting.mjs": "2600bacd53dba8da4da231468fd7a5b163a90a70f2131458b96cea880b1feaac",
+    "tools/check-hosting.mjs": "d82d1ca2da792d3f9c930fafc059eeef596ae0b94b1a722fb1521d527b065459",
+    "tools/validate-hosting.mjs": "6e67cee74584732e77d9c8b5eb23ef757086c71c06fc70fc55596a4afc296dd4",
+    "package-lock.json": "b0eac2f2db40b42a27190adbda88f7c6854790b48505c761f4a69f2925f22e3e"
+  },
+  "audit": {
+    "high": 8,
+    "moderate": 4,
+    "critical": 0,
+    "total": 12,
+    "reportSha256": "cf30ea39092416810759b374e445c473e0685444f1a41827938f26ee4bb83cb4"
+  },
+  "validation": {
+    "command": "node tools/validate-hosting.mjs",
+    "exitCode": 0,
+    "viewports": [
+      390,
+      1280
+    ],
+    "checks": [
+      "root and deep-link refresh",
+      "HTML/asset/release SHA256",
+      "no-cache HTML and release metadata",
+      "immutable hashed assets",
+      "CSP/nosniff/referrer headers",
+      "excluded-file non-disclosure",
+      "no browser page or console errors",
+      "no external/backend/proof requests",
+      "no horizontal overflow"
+    ],
+    "dirtyWorkspaceGuard": "default build rejected before mutation as expected",
+    "lint": "passed on all three new tools",
+    "format": "passed on all three new tools and Hosting config"
+  },
+  "remaining": [
+    "review and commit",
+    "rebuild clean identified artifact",
+    "publish preview",
+    "validate actual hosted origin",
+    "update and exact artifact restoration",
+    "compare cloud metadata"
+  ]
+}

@@ -123,12 +123,16 @@ clients from using incompatible releases; it does not authenticate client code.
 The privileged operator is a manual release/recovery role, not a hosted backend.
 Administrative credentials must stay outside browser bundles.
 
-**Environment proposal:** retain local loopback emulators with `demo-` project
-IDs for development. A separately authorized owner-designated Spark validation
-project would exercise real sessions/indexes before beta. Exact project count,
-IDs, regions, domains and environment isolation remain undecided; creating any
-cloud environment requires separate authorization. Do not target old abandoned
-environments or infer a data migration from this design.
+**Environment direction:** retain local loopback emulators with `demo-` project
+IDs. Owner-designated PoC/testing project `taskify-dev-dpdhole` (number
+`243252492098`) is independently verified, active and has no linked billing
+account. The owner explicitly requested a clean start: legacy Firestore database,
+Rules, custom-domain binding and browser API key were removed; see
+[reset evidence](slices/firebase-clean-start.md). The empty default Hosting container
+remains because Firebase prohibits deleting it. New Auth/Firestore resources and
+configuration belong to their scoped slices; no legacy data migration is intended.
+The [Hosting checkpoint](hosting_deployment_plan.md) is locally prepared but not
+published; real Auth/index behavior remains unvalidated.
 
 **Owner-agreed release coordination:** maintain a release manifest linking the immutable
 client build ID, compatibility contract revision, server-policy release, Rules

@@ -1,0 +1,180 @@
+{
+  "verifiedAt": "2026-10-22T14:55:40.378Z",
+  "scope": "Application-resource clean start within the existing project; platform identity/default Hosting container retained",
+  "actions": {
+    "startedAt": "2026-10-22T11:36:18.619Z",
+    "projectId": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "authorization": "Owner explicitly requested no legacy preservation and a clean start",
+    "actions": [
+      {
+        "name": "Disable deletion protection on exact legacy Firestore database",
+        "startedAt": "2026-10-22T11:36:19.749Z",
+        "status": "completed",
+        "result": {
+          "operation": "projects/taskify-dev-dpdhole/databases/(default)/operations/BhABj470qBAG1ufqtAgMChAa",
+          "done": true
+        },
+        "completedAt": "2026-10-22T11:36:20.332Z"
+      },
+      {
+        "name": "Delete legacy Firestore database including data and indexes",
+        "startedAt": "2026-10-22T11:36:20.334Z",
+        "status": "completed",
+        "result": {
+          "operation": "projects/taskify-dev-dpdhole/databases/(default)/operations/A7qeuYAQBtbn7OQIDBoHEAAKEho",
+          "done": true
+        },
+        "verifiedAt": "2026-10-22T14:54:02.716Z"
+      },
+      {
+        "name": "Delete legacy Firestore Rules release",
+        "startedAt": "2026-10-22T14:54:33.226Z",
+        "status": "completed",
+        "result": {
+          "name": "/projects/taskify-dev-dpdhole/releases/cloud.firestore"
+        },
+        "completedAt": "2026-10-22T14:54:34.662Z"
+      },
+      {
+        "name": "Delete obsolete Firestore ruleset",
+        "startedAt": "2026-10-22T14:54:34.663Z",
+        "status": "completed",
+        "result": {
+          "name": "projects/taskify-dev-dpdhole/rulesets/5b64fef9-9e1a-4961-aae6-6689f330ecbd"
+        },
+        "completedAt": "2026-10-22T14:54:35.276Z"
+      },
+      {
+        "name": "Delete legacy custom-domain Hosting binding",
+        "startedAt": "2026-10-22T14:54:37.577Z",
+        "status": "completed",
+        "result": {
+          "operation": "projects/243252492098/sites/taskify-dev-dpdhole/customDomains/dev.taskify.it.com/operations/c9f7fae3-13f0-4636-b801-b833066f485d",
+          "done": true
+        },
+        "completedAt": "2026-10-22T14:54:39.217Z"
+      },
+      {
+        "name": "Delete legacy Firebase browser API key",
+        "startedAt": "2026-10-22T14:54:41.356Z",
+        "status": "completed",
+        "result": {
+          "operation": "operations/akmf.p12-243252492098-d5857864-b733-4a76-adec-401a3ca4584d",
+          "done": true
+        },
+        "completedAt": "2026-10-22T14:54:46.230Z"
+      }
+    ],
+    "resumedAt": "2026-10-22T14:54:29.551Z",
+    "completedAt": "2026-10-22T14:54:46.232Z"
+  },
+  "postReset": {
+    "project": {
+      "status": "ok",
+      "result": {
+        "projectId": "taskify-dev-dpdhole",
+        "projectNumber": "243252492098",
+        "state": "ACTIVE"
+      }
+    },
+    "billing": {
+      "status": "ok",
+      "result": {
+        "billingEnabled": false,
+        "billingAccountLinked": false
+      }
+    },
+    "databases": {
+      "status": "ok",
+      "result": {}
+    },
+    "rulesReleases": {
+      "status": "ok",
+      "result": {}
+    },
+    "rulesets": {
+      "status": "ok",
+      "result": {}
+    },
+    "customDomains": {
+      "status": "ok",
+      "result": {}
+    },
+    "legacyDomainList": {
+      "status": "ok",
+      "result": []
+    },
+    "apiKeys": {
+      "status": "ok",
+      "result": {
+        "keys": []
+      }
+    },
+    "deletedKeyState": {
+      "status": "ok",
+      "result": {
+        "name": "projects/243252492098/locations/global/keys/c210146e-e0a6-4cfe-bba3-12f0734dd8f1",
+        "deleteTime": "2026-10-22T14:54:43.518032Z"
+      }
+    },
+    "sites": {
+      "status": "ok",
+      "result": [
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole",
+          "defaultUrl": "https://taskify-dev-dpdhole.web.app",
+          "type": "DEFAULT_SITE"
+        }
+      ]
+    },
+    "channels": {
+      "status": "ok",
+      "result": [
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+          "url": "https://taskify-dev-dpdhole.web.app",
+          "createTime": "2026-10-07T11:52:48.877987847Z",
+          "updateTime": "2026-10-07T11:52:48.877987847Z",
+          "retainedReleaseCount": 2147483647
+        }
+      ]
+    },
+    "versions": {
+      "status": "ok",
+      "result": {}
+    },
+    "liveReleases": {
+      "status": "ok",
+      "result": {}
+    },
+    "storageBuckets": {
+      "status": "ok",
+      "result": {}
+    },
+    "webApps": {
+      "status": "ok",
+      "result": {}
+    },
+    "androidApps": {
+      "status": "ok",
+      "result": {}
+    },
+    "iosApps": {
+      "status": "ok",
+      "result": {}
+    }
+  },
+  "priorInventorySha256": "91a2dc77e0dd9f49930c5103b77177fb2ea0dea0c23bf945eb86d53e47c53ce8",
+  "limitations": [
+    "External DNS unchanged",
+    "Default Hosting site cannot be deleted",
+    "Auth configuration not found; Functions API disabled",
+    "Provider-managed deletion retention is not physical-erasure proof",
+    "IAM, system agents, enabled APIs and audit metadata outside application-resource reset"
+  ],
+  "verificationAssertions": {
+    "status": "passed",
+    "description": "All intended active resource lists empty, pagination exhausted, exact project identity ACTIVE, billing disabled, only empty default Hosting site/live channel present; browser key has deletion timestamp"
+  }
+}

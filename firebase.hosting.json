@@ -1,0 +1,53 @@
+{
+  "hosting": {
+    "site": "taskify-dev-dpdhole",
+    "public": "dist",
+    "ignore": [
+      "firebase.hosting.json",
+      "**/.*",
+      "**/node_modules/**",
+      "module-graph.json",
+      "**/*.map",
+      "foundation.html",
+      "**/*-debug.log"
+    ],
+    "headers": [
+      {
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "no-referrer"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+          }
+        ],
+        "regex": ".*"
+      },
+      {
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=31536000,immutable"
+          }
+        ],
+        "regex": "[/\\\\]assets[/\\\\].*"
+      }
+    ],
+    "rewrites": [
+      {
+        "destination": "/index.html",
+        "regex": ".*"
+      }
+    ]
+  }
+}
