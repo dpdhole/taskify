@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client", "@testing-library/jest-dom"],
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": ["*.ts", "tests", "tools", "src"]
+}

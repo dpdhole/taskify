@@ -2,6 +2,32 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-22 — Foundation commit preparation
+
+- Foundation source, pinned toolchain/configuration, meaningful tests, developer guidance and slice/readiness/dependency/validation documentation are prepared for staging. Generated dependencies/builds/caches/reports remain excluded.
+- Runtime/test inputs still match the validated fingerprints. A packaging-only Git-attribute rule preserves raw validation-log bytes; evidence records this separately without overwriting original tested hashes. Frozen verification/legacy content remains unchanged.
+- No runtime source change required repeating the passed checks. Commit/push are not performed by this preparation.
+
+## 2026-10-22 — Foundation implemented and locally validated; review pending
+
+- Owner accepted all seven final implementation boundaries after stack/pin/advisory decisions. Slice1 now has the React/Vite static skeleton, isolated read-only memory/Firebase proof, portable core/ports, per-instance store, strict types/import boundaries and reproducible local checks.
+- [Validation](slices/01-foundation-validation.md): clean npm ci and final verify:all exit0; 18 unit/component, 4 emulator integration and 4 Chromium tests passed. Normal/proof build isolation and reviewed Node/tooling exclusions passed. All256 frozen fingerprints and immutable legacy bytes remain unchanged.
+- The first local runner failed Windows Node lookup; a later browser run timed out in the dev-entry test. Corrections/diagnostics and the final no-retry pass are recorded, not hidden. Known12 dependency findings (8high/4moderate) remain under the accepted Foundation-only conditions; proof bundle size warning remains visible.
+- [Developer setup](development.md), [detailing](slices/01-foundation.md), readiness, dependency review and exact source/log evidence accompany the slice. Generated dependencies/builds/emulator logs/browser reports are ignored; historical experiments are untouched.
+- This is Foundation-only local evidence, not product authentication/compatibility/Task implementation or overall platform acceptance. Slice2 remains unstarted; overall feasibility remains INCONCLUSIVE. Owner review is next; no staging, commit, push, cloud setup or deployment was performed.
+
+## 2026-10-22 — Foundation dependency recommendations accepted
+
+- Owner accepted all five [dependency review](slices/01-foundation-dependencies.md) recommendations: compatible exact pins, browser-only Firebase imports with actual bundle verification, disclosed Foundation-only local-tooling advisory treatment, no blind overrides/downgrades and reassessment on dependency/exposure changes.
+- Findings remain reported, not patched or waived for production/server use. The isolated browser-graph proof is not Foundation runtime acceptance evidence.
+- [Foundation detailing](slices/01-foundation.md) now proposes the final narrow scope, source boundaries, proof isolation, local configuration, checks, browser evidence and preservation/documentation decisions. No app scaffold, application dependency installation, commit or deployment has started.
+
+## 2026-10-22 — Foundation stack accepted; dependency review next
+
+- Owner accepted the 12 stack recommendations: React/Vite static SPA, React Router data mode, Zustand vanilla store factories, plain TypeScript business code, CSS Modules/tokens, Vitest/Testing Library/Playwright, one package, Node24.21/npm11.19 and Firebase adapter isolation without a second query cache.
+- Exact versions require compatible pins and advisory disposition; tool acceptance does not silently accept unresolved dependency risk. [Foundation detailing](slices/01-foundation.md) records the matrix; readiness evidence remains unchanged as the historical candidate snapshot.
+- Dependency investigation is next. No app scaffold, installation, runtime code, commit/push or deployment is claimed by this update.
+
 ## 2026-10-22 — Readiness check complete; Foundation slice next
 
 - [Readiness check](slices/readiness-check.md) and [evidence summary](slices/readiness-evidence.json) record the completed pre-implementation analysis, including strict dependency resolution, audit findings, machine checks and frozen-input verification.

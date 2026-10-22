@@ -1,8 +1,9 @@
 # Taskify implementation slices
 
-22 October 2026. **Owner-agreed order; planning only.** No slice is implemented,
-started or authorized for execution by this document. The next activity is detailed
-design and scope agreement for slice 1. No commit, push or cloud deployment is implied.
+22 October 2026. **Owner-agreed order.** Slice1 Foundation was separately approved
+for implementation and is now locally validated, pending owner review. Slices2–30
+remain planned, not started. This plan is not blanket execution, commit or cloud
+deployment authorization.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -26,7 +27,9 @@ material domain/security changes return to owner discussion.
 
 ## Agreed sequence
 
-All rows are **planned, not started**. Split broad rows further during detailing.
+Slice1 is **implemented and locally validated, pending review**; see its
+[validation report](slices/01-foundation-validation.md). Other rows remain planned,
+not started. Split broad rows further during detailing.
 
 | Order | Slice | Deliverable |
 |---:|---|---|
@@ -146,8 +149,8 @@ This plan does not add it to slice 26 or 30 by implication.
 
 ## Next checkpoint
 
-The [readiness check](slices/readiness-check.md) is complete, with its
-[evidence summary](slices/readiness-evidence.json) included. Foundation slice will
-begin next with scope/stack agreement and dependency disposition before implementation.
-Overall platform feasibility remains INCONCLUSIVE. No runtime work, new passing
-tests, cloud setup or deployment is claimed by this plan.
+Readiness, scope/stack and dependency decisions are complete. Slice1 is implemented
+and locally validated; [Foundation review](slices/01-foundation-validation.md) is
+next. No commit or slice2 implementation is implied.
+Overall platform feasibility remains INCONCLUSIVE. Foundation tests are local
+proof evidence only; no cloud setup or deployment occurred.

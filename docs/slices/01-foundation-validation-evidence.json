@@ -1,0 +1,267 @@
+{
+  "date": "2026-10-22",
+  "scope": "Foundation synthetic local proof only; no Taskify features/cloud deployment",
+  "baselineCommit": "25791d5",
+  "command": "npm run verify:all",
+  "exitCode": 0,
+  "tools": {
+    "node": "24.21.0",
+    "npm": "11.19.0",
+    "java": "21.0.12.1",
+    "firebaseCli": "15.34.1",
+    "firestoreEmulator": "1.22.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "checks": {
+    "cleanInstall": "npm ci --ignore-scripts --no-audit --no-fund; exit 0",
+    "typecheck": "passed",
+    "sourceBoundaries": "9 TypeScript/TSX files passed; core excludes platform types; negative fixtures tested",
+    "lint": "passed",
+    "format": "passed",
+    "unitComponent": {
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    "integration": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "viewports": [
+        390,
+        1280
+      ]
+    },
+    "ordinaryBundle": {
+      "modules": 14,
+      "proofSdkModules": 0
+    },
+    "proofBundle": {
+      "modules": 115,
+      "forbiddenNodeToolingModules": 0
+    },
+    "frozenManifest": {
+      "entries": 256,
+      "mismatches": 0
+    },
+    "legacySpec": "unchanged"
+  },
+  "audit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 4,
+    "high": 8,
+    "critical": 0,
+    "total": 12,
+    "disposition": "Owner-accepted Foundation-only conditions; findings remain reported",
+    "affectedPackages": [
+      "@firebase/firestore",
+      "@firebase/firestore-compat",
+      "@firebase/rules-unit-testing",
+      "@google-cloud/pubsub",
+      "@grpc/grpc-js",
+      "@opentelemetry/core",
+      "braces",
+      "chokidar",
+      "firebase",
+      "firebase-tools",
+      "gaxios",
+      "uuid"
+    ]
+  },
+  "finalLog": {
+    "path": "01-foundation-validation.log",
+    "sha256": "df872b701223afe704f869b57564a2988041572c855771283eb01029f97d95c4"
+  },
+  "inputs": [
+    {
+      "path": ".gitattributes",
+      "sha256": "b6f414ffc01d729d4d66f2e10eca0c5d2efaf58589dd6d7062a3d44401d8a94a"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "29accce646931d737afeeead5696905aa92341e30b188382551933a21221cfc7"
+    },
+    {
+      "path": ".node-version",
+      "sha256": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f"
+    },
+    {
+      "path": ".npmrc",
+      "sha256": "2114d436e923579b7bd7472ccc3b72c42e9ce21ff20aff663315e7d5a9060e40"
+    },
+    {
+      "path": ".prettierrc.json",
+      "sha256": "e51419e8206a0a5493e85ef1f4dea080982dc9187992bb253220a93d0784f6b2"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha256": "95021cef6166c5e630ee0745dc19996f26b8143e7b6489821dd8f603ffe0343d"
+    },
+    {
+      "path": "firebase.local.json",
+      "sha256": "a0f4dd8826d1ef2030b806f338a5a9a17bad79a32765fb64aae22011863b1812"
+    },
+    {
+      "path": "foundation.html",
+      "sha256": "7fef5fd5c677945e73d51768fd862f51cdf492db640986e873d54ca088cb21cc"
+    },
+    {
+      "path": "index.html",
+      "sha256": "a6bba1c8553d741eb4be7b27c02b8fac363ca730a13fe3990bb99c6380d0d8dc"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "b0eac2f2db40b42a27190adbda88f7c6854790b48505c761f4a69f2925f22e3e"
+    },
+    {
+      "path": "package.json",
+      "sha256": "a9966d5b3196fd2ac86125143a7c06b68c2257e6905fe9009e0fd776540599c9"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "3c0c5cfb4828954a4a4ef8669534ac78b0ed3de9654c0ed20f89debf316cbd8c"
+    },
+    {
+      "path": "src/app/main.tsx",
+      "sha256": "fac0a2d74a0ad500856ef37a05faf40ee4377199e825ea1ff7317f52640c60d4"
+    },
+    {
+      "path": "src/app/proof.tsx",
+      "sha256": "49371ce3f8374d00615adadd770bc544ebec84d998f8c99d56462365a8bd333c"
+    },
+    {
+      "path": "src/application/probe-session.ts",
+      "sha256": "34b2498bd7c97ceef9f4295244c26d8c5c787c0b57576a8a2550bcd27383551b"
+    },
+    {
+      "path": "src/domain/probe.ts",
+      "sha256": "1fdf1ee392ae0c05273a91781b06f7702006b4f11528de6b7fb9be9ef2fa7582"
+    },
+    {
+      "path": "src/infrastructure/firebase/local-config.ts",
+      "sha256": "1155fc51b8e22f94c1fd46f28ffc07322ad63c48e74cecdf51bb3de9fd029484"
+    },
+    {
+      "path": "src/infrastructure/firebase/probe-reader.ts",
+      "sha256": "5293f7e2a3884587e38d01ae0acf018bc32a411e7a4ec1773e423cf333fc1503"
+    },
+    {
+      "path": "src/infrastructure/memory/probe-reader.ts",
+      "sha256": "4adaf04f7bd7fb7b11285440f73e862ae4dea5cd4375c9b8fd69d18ab901f535"
+    },
+    {
+      "path": "src/state/probe-store.ts",
+      "sha256": "c3ee9de0154417b04aaf9f8ceb771bbe4bd13a3824f040d124fefff61ec3ae24"
+    },
+    {
+      "path": "src/ui/ProofView.tsx",
+      "sha256": "5bb4cf2d6ece6e57546ab578d20c7d5ae35a29c3baf92a0ef620a2420e931b81"
+    },
+    {
+      "path": "src/ui/foundation.module.css",
+      "sha256": "c4f461a27f9e719d2fa2cd618a653bbf2a0bf17180545d0c3bd77894ea2d19ac"
+    },
+    {
+      "path": "tests/component/proof.test.tsx",
+      "sha256": "5e153dabd60209b838da895ae009fbcb36da7b5856359a03a072a8eeb18f4199"
+    },
+    {
+      "path": "tests/e2e/foundation.spec.ts",
+      "sha256": "19c737e152be9246809d1e4409cec2364bcebdfef84fe1faba59debb1f8a9b90"
+    },
+    {
+      "path": "tests/integration/emulator.test.ts",
+      "sha256": "e680b65879fc474583c225a6491a6f5e799e079a85e3044a068cf8b8aaf7945c"
+    },
+    {
+      "path": "tests/support/firestore.rules",
+      "sha256": "4ad1436ef6c8b2504ac406e813d57b3bd3216d880fb2400cba0b77af469d2bfd"
+    },
+    {
+      "path": "tests/support/setup.ts",
+      "sha256": "ae4b6b92c8c0f06526032b2dedeb4fb0e93b85af2a138a423386f2e36894a685"
+    },
+    {
+      "path": "tests/unit/preflight.test.ts",
+      "sha256": "b67e3a5c8fea3bc171f7d2cfcc0738702a8a1570f05135a16440fc0717a23c4d"
+    },
+    {
+      "path": "tests/unit/probe.test.ts",
+      "sha256": "6c948f2c1b16bff3cac321e44e6604fcfb35d3e13d2625f63ac5f09fdaf4a678"
+    },
+    {
+      "path": "tools/boundaries.mjs",
+      "sha256": "4d29ac92f1cdc025b0c0ef187a06088f53ed569f765d532b14eced70da8ee041"
+    },
+    {
+      "path": "tools/check-boundaries.mjs",
+      "sha256": "b875620b442e57811780c5957c5e5eae722c498465dc98d84ca06fa3f66d80a0"
+    },
+    {
+      "path": "tools/check-bundles.mjs",
+      "sha256": "1bf222059749220443123a68f8b4bc831256d2eeb46be940550d5c2b830f46b6"
+    },
+    {
+      "path": "tools/install-browser.mjs",
+      "sha256": "9cf3eeb8f9a5c980cd13ac15ef27df17bac7c47ec807d22d1c35f4d60a877e74"
+    },
+    {
+      "path": "tools/run-emulators.mjs",
+      "sha256": "f2555a7fed24cfe619ac4f5c5c6642bdd23c3e2e98001b4eabcefbf47d8b5dc5"
+    },
+    {
+      "path": "tools/run-local-tests.mjs",
+      "sha256": "9b78f7119c3b78fe76876ad2172d2198e002d9e11d0c4c1d32309d66c26c31b7"
+    },
+    {
+      "path": "tsconfig.core.json",
+      "sha256": "b0c622186db9dab7c1cc04b039642c34d45ea10ef4e7437bbe933e5fd3728dd0"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "abc361b4372cceb65bdbb887e4a20e55dce087cd53ee6a4e4573b41a4f898cb0"
+    },
+    {
+      "path": "tsconfig.node.json",
+      "sha256": "4426c473b9dc135811830b46c2a946f1b9ca7ed094336e9165acb764cdfe26a1"
+    },
+    {
+      "path": "vite.config.ts",
+      "sha256": "95fd2a0cd802b6f6d5fc07dab3cf743ffd6f1f5cff52c482a9f649ff5bed3d62"
+    },
+    {
+      "path": "vitest.config.ts",
+      "sha256": "53de48fe31013448be246008cc91b1fcfd864be52d9cf4552ca94703e37dd168"
+    },
+    {
+      "path": "vitest.integration.config.ts",
+      "sha256": "7fbdca4e58909daf419fa2fa019c1ac891cdb0a7bcc8a5d10929589cdc229b7a"
+    }
+  ],
+  "limitations": [
+    "No real Google/Apple sessions, product compatibility enforcement, complete production Rules/indexes or quota validation",
+    "Chromium local smoke only; no Safari/device acceptance",
+    "Synthetic read proof, not Task writes or a production schema",
+    "Vite proof bundle warning retained; no performance ceiling claimed",
+    "Prior failed runs recorded in report; no retry configured to conceal them"
+  ],
+  "postValidationPackagingChanges": [
+    {
+      "path": ".gitattributes",
+      "testedSha256": "b6f414ffc01d729d4d66f2e10eca0c5d2efaf58589dd6d7062a3d44401d8a94a",
+      "packagedSha256": "82e4e0ec37095583ecb777a72e9d64576185d250dd06c710f3688325ff07fdd3",
+      "reason": "Preserve raw validation-log bytes (CRLF and recorded whitespace) across Git staging/checkout; scope whitespace exceptions only to this evidence log.",
+      "runtimeBehaviorChanged": false
+    }
+  ]
+}

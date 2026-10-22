@@ -1,0 +1,6 @@
+rules_version = '2';
+service cloud.firestore {match /databases/{database}/documents {
+ // Synthetic local read probe only, not production Taskify Rules.
+ match /foundationProbe/status {allow get: if true; allow write, list: if false;}
+ match /{document=**} {allow read,write: if false;}
+}}

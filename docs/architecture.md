@@ -10,7 +10,9 @@ control this document. **Accepted baseline** below consolidates those decisions.
 Items explicitly marked **proposed** are design recommendations for review, not
 new approved product requirements or claims of implementation.
 
-The redesigned application has not been implemented or deployed. Overall Firebase
+The Foundation skeleton/proof is implemented and locally validated; see its
+[validation](slices/01-foundation-validation.md). Product features and cloud
+deployment remain unimplemented. Overall Firebase
 Spark feasibility remains **INCONCLUSIVE**. The isolated compatibility candidate
 passed 247/247 local tests; that result does not establish browser integration,
 live identity-provider behavior, production indexes or actual billed usage.
@@ -20,9 +22,9 @@ Frozen experiment files and the immutable legacy specification are unchanged.
 
 | Layer | Accepted baseline | Slice-level detail / open choice |
 |---|---|---|
-| Presentation | One responsive browser client for mobile and desktop layouts, following §§19–21 | UI framework, router, component system, styling and accessibility implementation are not selected |
+| Presentation | One responsive browser client for mobile and desktop layouts, following §§19–21 | React, React Router and CSS Modules/tokens selected in Foundation; product component/accessibility details remain slice work |
 | Application/domain | Client services orchestrate lifecycle operations, validation, navigation and provisioning | Command contracts, module boundaries and dependency composition |
-| Shared state | Shared normalized lightweight Task metadata; reactive filtering, grouping, sorting, Search and Dashboard calculations over the complete eligible population | Store library, loading completeness, reconciliation and cache lifetimes |
+| Shared state | Shared normalized lightweight Task metadata; reactive filtering, grouping, sorting, Search and Dashboard calculations over the complete eligible population | Zustand vanilla factory selected; product loading/reconciliation/cache contracts remain slice work |
 | Persistence boundary | Provider-independent application ports with an initial Firebase adapter | Port signatures and error/result contracts; Rules remain provider-specific |
 | Identity | Firebase Authentication; Google and Apple sign-in intent under §21.5; persistent device authentication | Provider feasibility and secure linking remain unverified; email OTP is only a candidate |
 | Data | Browser-direct Cloud Firestore, cloud-authoritative acknowledgements, no offline write synchronization | Production collections, indexes, write transport and reconnect handling |
@@ -34,9 +36,10 @@ Frozen experiment files and the immutable legacy specification are unchanged.
 **Owner-agreed stack baseline, 22 October 2026:** TypeScript for UI,
 application/domain services and persistence adapters; static responsive browser
 delivery. Provider-specific SDK calls stay inside adapters, and UI uses application
-services. Select framework, state library and build tool together in the first
-implementation slice; pin the application toolchain separately from frozen
-experiment dependencies. The experiment's Node 22.16.0,
+services. Foundation selected React/Vite, React Router data mode, Zustand vanilla stores,
+CSS Modules/tokens and Vitest/Testing Library/Playwright. Exact pins and accepted
+local-tooling advisory conditions are in the [dependency review](slices/01-foundation-dependencies.md).
+The application toolchain is separate from frozen experiment dependencies. The experiment's Node 22.16.0,
 Java 21.0.12.1, Firebase SDK 11.10.0, CLI 14.27.0 and emulator 1.19.8 identify
 reproduction tools, not an approved current production dependency set. Java and
 Node are local build/test tools, not separately hosted application services.
@@ -471,8 +474,8 @@ Remaining work falls into three categories:
 The next development step is selection and detailing of an implementation slice,
 not creation of a server tier or implementation of all deferred design at once.
 The subsequent [agreed slice plan](implementation_plan.md) establishes the feature
-order, three onboarding Tasks and per-slice manual/template delivery. Slice 1 is
-next for detailing; agreement of the order does not authorize execution. Scope
+order, three onboarding Tasks and per-slice manual/template delivery. Slice1 was subsequently approved, implemented and locally validated; owner review
+is next. Other slices remain unstarted; agreement of order does not authorize execution. Scope
 each feature narrowly while carrying security, compatibility and deletion contracts
 from its introduction; Activity recording is not deferred to the viewer slice.
 
