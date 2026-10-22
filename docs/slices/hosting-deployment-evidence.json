@@ -1,0 +1,409 @@
+{
+  "recordedAt": "2026-10-22T15:38:52.569Z",
+  "projectId": "taskify-dev-dpdhole",
+  "projectNumber": "243252492098",
+  "operator": "dpdhole@gmail.com",
+  "scope": "Hosting preview only; initial deployment, identified HTML rehearsal update and exact initial-artifact restoration",
+  "source": {
+    "commit": "70fbe98af307a0924f47b1d601f8e24f12eee285",
+    "cleanAtBuild": true,
+    "node": "v24.21.0",
+    "cli": "15.34.1",
+    "delivery": "Local committed build, not CI; no Git push performed; five commits ahead of current origin/main tracking ref"
+  },
+  "initialArtifact": {
+    "release": {
+      "buildId": "2026-10-22T15-19-29-132Z",
+      "commit": "70fbe98af307a0924f47b1d601f8e24f12eee285",
+      "sourceDirty": false
+    },
+    "publishable": true,
+    "configSha256": "cbbd69964213879da3f6db941282d0dba9c1d4239d9bb70f363f2d35f01ca477",
+    "files": {
+      "index.html": "6f6b5393fc07a4687ae006100428eee3d6480ccef310da7797b395d61bc9fdfe",
+      "release.json": "53ef6d557c3209321fffd1f503414b0bed8fc1f4d030bf466f08a3604a7c65a8",
+      "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838",
+      "assets/index-to1_7bZT.js": "595a6b179b70cff55b80339523473cbf71b92701a43c99d8c81848c3be5e04e1"
+    }
+  },
+  "updateArtifact": {
+    "release": {
+      "buildId": "2026-10-22T15-24-22-656Z",
+      "commit": "70fbe98af307a0924f47b1d601f8e24f12eee285",
+      "sourceDirty": false
+    },
+    "publishable": true,
+    "configSha256": "cbbd69964213879da3f6db941282d0dba9c1d4239d9bb70f363f2d35f01ca477",
+    "files": {
+      "index.html": "aa2b9df43d030f58df590b9f469d888cf72e3781dd64a4b15a65d0217d421f95",
+      "release.json": "d68f8df6288df6402b4623eb28967303c691787001ed925b48a1dd4fae4ba916",
+      "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838",
+      "assets/index-to1_7bZT.js": "595a6b179b70cff55b80339523473cbf71b92701a43c99d8c81848c3be5e04e1"
+    },
+    "transformation": "Inserted a deployment-rehearsal meta marker into generated HTML; application code unchanged"
+  },
+  "initialDeployment": {
+    "projectId": "taskify-dev-dpdhole",
+    "site": "taskify-dev-dpdhole",
+    "channel": "foundation-smoke",
+    "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+    "version": "b359a67f5014aedb",
+    "expireTime": "2026-10-29T15:20:06.596808622Z",
+    "sourceCommit": "70fbe98af307a0924f47b1d601f8e24f12eee285"
+  },
+  "restorationDeployment": {
+    "site": "taskify-dev-dpdhole",
+    "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+    "version": "2dc0cc644d30f778",
+    "expireTime": "2026-10-29T15:25:04.355376768Z"
+  },
+  "rehearsal": {
+    "startedAt": "2026-10-22T15:24:08.972Z",
+    "origin": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+    "sourceCommit": "70fbe98af307a0924f47b1d601f8e24f12eee285",
+    "initial": {
+      "projectId": "taskify-dev-dpdhole",
+      "site": "taskify-dev-dpdhole",
+      "channel": "foundation-smoke",
+      "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+      "version": "b359a67f5014aedb",
+      "expireTime": "2026-10-29T15:20:06.596808622Z",
+      "sourceCommit": "70fbe98af307a0924f47b1d601f8e24f12eee285"
+    },
+    "phases": [
+      {
+        "name": "cache initial artifact at mobile and desktop widths",
+        "startedAt": "2026-10-22T15:24:10.604Z",
+        "status": "passed",
+        "result": {
+          "widths": [
+            390,
+            1280
+          ]
+        },
+        "completedAt": "2026-10-22T15:24:20.670Z"
+      },
+      {
+        "name": "build identified rehearsal variant",
+        "startedAt": "2026-10-22T15:24:20.671Z",
+        "status": "passed",
+        "result": {
+          "release": {
+            "buildId": "2026-10-22T15-24-22-656Z",
+            "commit": "70fbe98af307a0924f47b1d601f8e24f12eee285",
+            "sourceDirty": false
+          },
+          "publishable": true,
+          "configSha256": "cbbd69964213879da3f6db941282d0dba9c1d4239d9bb70f363f2d35f01ca477",
+          "files": {
+            "index.html": "aa2b9df43d030f58df590b9f469d888cf72e3781dd64a4b15a65d0217d421f95",
+            "release.json": "d68f8df6288df6402b4623eb28967303c691787001ed925b48a1dd4fae4ba916",
+            "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838",
+            "assets/index-to1_7bZT.js": "595a6b179b70cff55b80339523473cbf71b92701a43c99d8c81848c3be5e04e1"
+          },
+          "transformation": "Inserted a deployment-rehearsal meta marker into generated HTML; application code unchanged"
+        },
+        "completedAt": "2026-10-22T15:24:22.770Z"
+      },
+      {
+        "name": "publish rehearsal update",
+        "startedAt": "2026-10-22T15:24:22.771Z",
+        "status": "passed",
+        "result": {
+          "site": "taskify-dev-dpdhole",
+          "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+          "version": "86af71d432f9c7b0",
+          "expireTime": "2026-10-29T15:24:29.331174062Z"
+        },
+        "completedAt": "2026-10-22T15:24:35.825Z"
+      },
+      {
+        "name": "updated HTTPS and cached browser checks",
+        "startedAt": "2026-10-22T15:24:35.828Z",
+        "status": "passed",
+        "result": {
+          "freshBrowser": "Hosting configuration: hashes, fallback, cache/security headers, exclusions and 390/1280px browser checks passed. ACTUAL HTTPS PREVIEW.",
+          "cachedBrowsers": [
+            {
+              "width": 390,
+              "documentSha256": "aa2b9df43d030f58df590b9f469d888cf72e3781dd64a4b15a65d0217d421f95",
+              "status": 200,
+              "marker": "update"
+            },
+            {
+              "width": 1280,
+              "documentSha256": "aa2b9df43d030f58df590b9f469d888cf72e3781dd64a4b15a65d0217d421f95",
+              "status": 200,
+              "marker": "update"
+            }
+          ]
+        },
+        "completedAt": "2026-10-22T15:24:57.802Z"
+      },
+      {
+        "name": "restore initial exact artifact",
+        "startedAt": "2026-10-22T15:24:57.825Z",
+        "status": "passed",
+        "result": {
+          "site": "taskify-dev-dpdhole",
+          "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+          "version": "2dc0cc644d30f778",
+          "expireTime": "2026-10-29T15:25:04.355376768Z"
+        },
+        "completedAt": "2026-10-22T15:25:09.449Z"
+      },
+      {
+        "name": "restored HTTPS and cached browser checks",
+        "startedAt": "2026-10-22T15:25:09.451Z",
+        "status": "passed",
+        "result": {
+          "freshBrowser": "Hosting configuration: hashes, fallback, cache/security headers, exclusions and 390/1280px browser checks passed. ACTUAL HTTPS PREVIEW.",
+          "cachedBrowsers": [
+            {
+              "width": 390,
+              "documentSha256": "6f6b5393fc07a4687ae006100428eee3d6480ccef310da7797b395d61bc9fdfe",
+              "status": 200,
+              "marker": null
+            },
+            {
+              "width": 1280,
+              "documentSha256": "6f6b5393fc07a4687ae006100428eee3d6480ccef310da7797b395d61bc9fdfe",
+              "status": 200,
+              "marker": null
+            }
+          ]
+        },
+        "completedAt": "2026-10-22T15:25:37.109Z"
+      }
+    ],
+    "completedAt": "2026-10-22T15:25:37.112Z"
+  },
+  "priorAttempt": {
+    "startedAt": "2026-10-22T15:22:56.813Z",
+    "origin": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+    "sourceCommit": "70fbe98af307a0924f47b1d601f8e24f12eee285",
+    "initial": {
+      "projectId": "taskify-dev-dpdhole",
+      "site": "taskify-dev-dpdhole",
+      "channel": "foundation-smoke",
+      "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+      "version": "b359a67f5014aedb",
+      "expireTime": "2026-10-29T15:20:06.596808622Z",
+      "sourceCommit": "70fbe98af307a0924f47b1d601f8e24f12eee285"
+    },
+    "phases": [
+      {
+        "name": "cache initial artifact at mobile and desktop widths",
+        "startedAt": "2026-10-22T15:22:58.557Z",
+        "status": "failed",
+        "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app/tasks/example\", waiting until \"load\"\u001b[22m\n"
+      }
+    ]
+  },
+  "generatedKeyCleanup": {
+    "deletedAt": "2026-10-22T15:27:29.882Z",
+    "name": "projects/243252492098/locations/global/keys/14a976f9-f944-4aef-b925-2e9ecefe7e60",
+    "createTime": "2026-10-22T15:20:08.884126Z",
+    "displayName": "Browser key (auto created by Firebase)",
+    "reason": "Unexpected Firebase auto-created key during Hosting-only deployment; ordinary browser bundle makes no Firebase calls",
+    "operation": "operations/akmf.p12-243252492098-aed3f210-3af6-4363-87be-5eb53f2ee11c",
+    "done": true,
+    "activeKeyCount": 0
+  },
+  "postDeployment": {
+    "checkedAt": "2026-10-22T15:28:24.478Z",
+    "checks": {
+      "project": {
+        "status": "ok",
+        "result": {
+          "projectId": "taskify-dev-dpdhole",
+          "projectNumber": "243252492098",
+          "state": "ACTIVE"
+        }
+      },
+      "billing": {
+        "status": "ok",
+        "result": {
+          "billingEnabled": false,
+          "billingAccountLinked": false
+        }
+      },
+      "databases": {
+        "status": "ok",
+        "result": {}
+      },
+      "rulesReleases": {
+        "status": "ok",
+        "result": {}
+      },
+      "rulesets": {
+        "status": "ok",
+        "result": {}
+      },
+      "customDomains": {
+        "status": "ok",
+        "result": {}
+      },
+      "apiKeys": {
+        "status": "ok",
+        "result": {
+          "keys": []
+        }
+      },
+      "webApps": {
+        "status": "ok",
+        "result": {}
+      },
+      "androidApps": {
+        "status": "ok",
+        "result": {}
+      },
+      "iosApps": {
+        "status": "ok",
+        "result": {}
+      },
+      "storageBuckets": {
+        "status": "ok",
+        "result": {}
+      },
+      "channels": {
+        "status": "ok",
+        "result": [
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/foundation-smoke",
+            "url": "https://taskify-dev-dpdhole--foundation-smoke-jpbwhoel.web.app",
+            "createTime": "2026-10-22T15:20:06.596808622Z",
+            "updateTime": "2026-10-22T15:25:08.440Z",
+            "expireTime": "2026-10-29T15:25:04.355376768Z",
+            "release": {
+              "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/foundation-smoke/releases/1792682708440000",
+              "releaseTime": "2026-10-22T15:25:08.440Z",
+              "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/2dc0cc644d30f778"
+            }
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+            "url": "https://taskify-dev-dpdhole.web.app",
+            "createTime": "2026-10-07T11:52:48.877987847Z",
+            "updateTime": "2026-10-07T11:52:48.877987847Z"
+          }
+        ]
+      },
+      "liveReleases": {
+        "status": "ok",
+        "result": {
+          "releases": []
+        }
+      },
+      "previewReleases": {
+        "status": "ok",
+        "result": {
+          "releases": [
+            {
+              "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/foundation-smoke/releases/1792682708440000",
+              "releaseTime": "2026-10-22T15:25:08.440Z",
+              "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/2dc0cc644d30f778"
+            },
+            {
+              "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/foundation-smoke/releases/1792682675011000",
+              "releaseTime": "2026-10-22T15:24:35.011Z",
+              "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/86af71d432f9c7b0"
+            },
+            {
+              "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/foundation-smoke/releases/1792682415330000",
+              "releaseTime": "2026-10-22T15:20:15.330Z",
+              "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/b359a67f5014aedb"
+            }
+          ]
+        }
+      },
+      "enabledServices": {
+        "status": "ok",
+        "result": {
+          "services": [
+            "analyticshub.googleapis.com",
+            "appengine.googleapis.com",
+            "apptopology.googleapis.com",
+            "bigquery.googleapis.com",
+            "bigqueryconnection.googleapis.com",
+            "bigquerydatapolicy.googleapis.com",
+            "bigquerydatatransfer.googleapis.com",
+            "bigquerymigration.googleapis.com",
+            "bigqueryreservation.googleapis.com",
+            "bigquerystorage.googleapis.com",
+            "cloudapis.googleapis.com",
+            "cloudresourcemanager.googleapis.com",
+            "cloudtrace.googleapis.com",
+            "dataform.googleapis.com",
+            "dataplex.googleapis.com",
+            "datastore.googleapis.com",
+            "deploymentmanager.googleapis.com",
+            "fcm.googleapis.com",
+            "firebase.googleapis.com",
+            "firebaseextensions.googleapis.com",
+            "firebasehosting.googleapis.com",
+            "firebaseinstallations.googleapis.com",
+            "firebaseremoteconfig.googleapis.com",
+            "firebaseremoteconfigrealtime.googleapis.com",
+            "firebaserules.googleapis.com",
+            "firestore.googleapis.com",
+            "identitytoolkit.googleapis.com",
+            "logging.googleapis.com",
+            "monitoring.googleapis.com",
+            "pubsub.googleapis.com",
+            "runtimeconfig.googleapis.com",
+            "securetoken.googleapis.com",
+            "servicemanagement.googleapis.com",
+            "serviceusage.googleapis.com",
+            "sql-component.googleapis.com",
+            "storage-api.googleapis.com",
+            "storage-component.googleapis.com",
+            "storage.googleapis.com",
+            "telemetry.googleapis.com",
+            "testing.googleapis.com"
+          ]
+        }
+      },
+      "authConfig": {
+        "status": "unverified",
+        "httpStatus": 404,
+        "message": "Request to https://identitytoolkit.googleapis.com/admin/v2/projects/taskify-dev-dpdhole/config had HTTP Error: 404, CONFIGURATION_NOT_FOUND"
+      },
+      "functions": {
+        "status": "unverified",
+        "httpStatus": 403,
+        "message": "Request to https://cloudfunctions.googleapis.com/v2/projects/taskify-dev-dpdhole/locations/-/functions had HTTP Error: 403, Cloud Functions API has not been used in project taskify-dev-dpdhole before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/cloudfunctions.googleapis.com/overview?project=taskify-dev-dpdhole then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+      }
+    },
+    "serviceDelta": {
+      "added": [],
+      "removed": []
+    },
+    "assertions": "passed: exact project/billing, empty backend/app/key/domain lists, unchanged live timestamp/no live releases, restored preview version, no enabled-API changes; Auth unconfigured/Functions API disabled"
+  },
+  "checks": {
+    "localHosting": "passed with clean committed initial artifact",
+    "initialHttps": "passed",
+    "updateFreshAndCachedBrowsers": "passed at 390/1280px",
+    "restorationFreshAndCachedBrowsers": "passed at 390/1280px",
+    "afterKeyCleanupHttps": "passed at 390/1280px",
+    "hashes": "HTML, release.json and JS/CSS match saved initial artifact after restoration",
+    "excludedPaths": "No diagnostics/proof/Rules/env/maps served; SPA HTML fallback allowed",
+    "browser": "No console/page errors, no horizontal overflow, no external/backend/proof requests",
+    "resourceBoundary": "Final baseline assertions passed; see postDeployment"
+  },
+  "scratchScriptSha256": {
+    "check-hosted.mjs": "5a9b9ff22381d2e52a69bb72f834d6fdf12aec3c26583306b681b4ad31cd3115",
+    "rehearse.mjs": "d2762c0dd7d392a2495d24b27653f1cbb70a9d54338dcca45e3199c4701b319d",
+    "post-check.cjs": "30391ac170bf89c535fd09c4d2c1fd981a434ba6cd13feec8becf27b77829fb5"
+  },
+  "limitations": [
+    "One initial rehearsal browser navigation timed out at 30 seconds before any update; recorded attempt retained; rerun used 60 seconds and explicit DOM readiness",
+    "Rehearsal variant changed public HTML metadata and release identity, not product code or CSS/JS behavior",
+    "Restoration was saved-byte republishing to a preview channel, not native live rollback or database recovery",
+    "Unexpected Firebase auto-created key was detected, deleted and followed by successful revalidation; do not claim deployment had zero temporary non-Hosting side effects",
+    "No Auth/Firestore product connectivity, security-rule/index or compatibility-contract validation",
+    "Overall platform feasibility remains INCONCLUSIVE; live promotion requires separate decision",
+    "Detailed artifact copies remain ignored/local; no user backup/recovery feature implemented"
+  ]
+}

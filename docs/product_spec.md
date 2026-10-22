@@ -651,8 +651,10 @@ superseding legacy preservation: the old Firestore database/data/indexes, Rules,
 custom-domain binding and browser API key were removed. See
 [clean-start results](slices/firebase-clean-start.md). No legacy data migration is planned.
 Project identity and the empty, non-deletable default Hosting container remain.
-The [Hosting-only checkpoint](hosting_deployment_plan.md) is locally prepared;
-publication and new product Auth/Firestore provisioning have not occurred.
+The [Hosting-only checkpoint](hosting_deployment_plan.md) now has a verified
+expiring preview, update and saved-artifact restoration; see
+[deployment results](slices/hosting-deployment.md). Live publication and new
+product Auth/Firestore provisioning have not occurred.
 
 - **PoC/beta platform:** Firebase **Spark (no-cost)** capabilities only: Firebase Authentication with Google sign-in, Cloud Firestore, and static Firebase Hosting. No separate hosted Taskify API, server-managed Taskify sessions, Cloud Functions, Firebase App Hosting or Blaze upgrade in this release baseline. No runtime service requiring payment is an approved dependency.
 - **Client architecture:** web UI → client-side application/domain services and shared normalized Task store → provider-independent persistence ports → Firebase/Firestore adapter. The browser is **not** trusted: Firebase Auth supplies identity and Firestore Security Rules enforce per-user access and any expressible cross-document constraints. Provider independence applies to application code/contracts, not to the deployed Firebase security policy; one provider adapter is needed initially.

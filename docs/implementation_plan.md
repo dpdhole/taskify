@@ -152,14 +152,16 @@ This plan does not add it to slice 26 or 30 by implication.
 The owner also requested a separate [Hosting-only deployment plan](hosting_deployment_plan.md)
 for project `taskify-dev-dpdhole` (`243252492098`). The owner authorized step-by-step
 implementation, then a [clean start](slices/firebase-clean-start.md): legacy application
-resources are removed and the empty default Hosting container remains. Local
-Hosting checks pass; publication awaits a reviewed clean commit and identified
-artifact. This infrastructure checkpoint does not reorder product slices or
-validate product Auth/Firestore behavior.
+resources are removed. The default site now has a verified expiring preview,
+tested update and exact original-artifact restoration, built from clean commit
+`70fbe98`; see [results](slices/hosting-deployment.md). Live remains empty. This
+infrastructure checkpoint does not reorder product slices or validate product
+Auth/Firestore behavior.
 
 Readiness, scope/stack and dependency decisions are complete. Slice1 is implemented
 and locally validated; [Foundation review](slices/01-foundation-validation.md) is
 next. No commit or slice2 implementation is implied.
 Overall platform feasibility remains INCONCLUSIVE. Foundation tests are local
 proof evidence only; cloud cleanup has occurred, but no new product backend
-provisioning or Hosting publication has occurred.
+provisioning or live Hosting publication has occurred. The preview checkpoint
+validates static delivery/deployment only.

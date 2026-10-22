@@ -1,9 +1,11 @@
 # Foundation Hosting deployment plan
 
-22 October 2026. **Implementation authorized: clean start completed and locally prepared; cloud publication pending.**
+22 October 2026. **Preview checkpoint completed: published, verified, updated and exact original artifact restored.**
 See [preflight results](slices/hosting-preflight.md). Authentication and GET-only metadata
 inspection occurred. The owner subsequently authorized removal of legacy resources;
-see [clean-start results](slices/firebase-clean-start.md). Cloud publication has not occurred.
+see [clean-start results](slices/firebase-clean-start.md).
+[Deployment results](slices/hosting-deployment.md) record the completed preview
+checkpoint and final cloud comparison; live promotion remains a separate decision.
 
 ## Owner-designated target
 
@@ -17,7 +19,8 @@ The earlier inventory is a historical snapshot. The owner explicitly instructed:
 "Do not preserve legacy resources. Perform clean start." Legacy Firestore, Rules,
 custom-domain binding and browser API key are now deleted and independently
 verified absent from active lists. The project identity and empty default Hosting
-container remain; publication permission and product Auth/Firestore behavior are unproven.
+container remain. Hosting publication permission is proven; product Auth/Firestore
+behavior remains unvalidated.
 
 ## Recommended approach
 
@@ -31,12 +34,13 @@ container remain; publication permission and product Auth/Firestore behavior are
 | 6 | Outcome | Validate Hosting delivery/process; do not claim Auth/Firestore connectivity or platform acceptance |
 
 Selected operator: `dpdhole@gmail.com`; existing site: `taskify-dev-dpdhole`;
-intended preview: `foundation-smoke`, seven days. No channel has been created.
-Live has no release history; the first validated preview artifact will establish
-the restoration baseline. The old domain binding and backend database/Rules are
+preview: `foundation-smoke`, seven days, now deployed and verified; final expiry
+is 29 October 2026, 15:25:04 UTC.
+Live has no release history; the saved first validated preview artifact established
+the restoration baseline and has been restored exactly. The old domain binding and backend database/Rules are
 removed; provision new backend resources in their relevant later slices.
 
-## Ordered steps
+## Ordered steps — preview checkpoint completed
 
 | Step | Action when implementation is authorized | Completion evidence |
 |---:|---|---|
@@ -68,6 +72,10 @@ removed; provision new backend resources in their relevant later slices.
 - Exclude module-graph.json, sourcemaps/debug output and unnecessary internal
   metadata. A minimal public build identifier may be added during implementation;
   it is not the future app/server compatibility contract.
+- Compare metadata after publication. This run observed an auto-created browser
+  key and removed it because the SDK-free build did not use it. Do not assume
+  every Hosting-only command is free of platform side effects; do not auto-delete
+  intentional keys needed by later SDK-backed slices.
 - Preview URLs are public and share their configured real backend resources.
   This ordinary build makes no Firebase calls, but future previews require
   deliberate backend isolation; a preview channel alone is not a sandbox.
@@ -86,11 +94,13 @@ removed; provision new backend resources in their relevant later slices.
 | Hosted-origin browser loading | Product Task behavior, quota fit or full client/server/schema rollout |
 
 Overall platform feasibility remains INCONCLUSIVE. User-driven backup/recovery
-remains FUTURE, not a new deployment prerequisite. Steps 1–4 are recorded, with
-Auth/Functions inspection limits and completed application-resource reset. Steps 5–6 are prepared and local checks for
-step 8 pass on a dirty, explicitly non-publishable artifact. Step 7 requires a
-reviewed clean commit; steps 9–12 remain pending. No live release exists to roll
-back; step 11 will restore the saved first preview artifact.
+remains FUTURE, not a new deployment prerequisite. All preview checkpoint steps
+are executed and recorded against clean source commit `70fbe98`. Actual HTTPS,
+390/1280px browser checks, cache/header/fallback/hash checks and saved-artifact
+restoration passed. A rehearsal navigation timeout and an unexpected generated
+key were recorded; the unused key was deleted and final checks passed. No live
+release was created. Live promotion and committing the new results remain
+separate owner decisions.
 
 ## Official references
 

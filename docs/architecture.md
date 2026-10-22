@@ -131,8 +131,10 @@ Rules, custom-domain binding and browser API key were removed; see
 [reset evidence](slices/firebase-clean-start.md). The empty default Hosting container
 remains because Firebase prohibits deleting it. New Auth/Firestore resources and
 configuration belong to their scoped slices; no legacy data migration is intended.
-The [Hosting checkpoint](hosting_deployment_plan.md) is locally prepared but not
-published; real Auth/index behavior remains unvalidated.
+The [Hosting checkpoint](hosting_deployment_plan.md) has a verified expiring
+preview, tested update and exact saved-artifact restoration; see
+[deployment evidence](slices/hosting-deployment.md). Live Hosting remains empty;
+real product Auth/index behavior remains unvalidated.
 
 **Owner-agreed release coordination:** maintain a release manifest linking the immutable
 client build ID, compatibility contract revision, server-policy release, Rules
