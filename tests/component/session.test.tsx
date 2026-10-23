@@ -167,3 +167,50 @@ it('keeps Microsoft redirect fallback tied to the selected provider and offers s
   ).not.toBeInTheDocument();
   t.dispose();
 });
+
+for (const provider of ['Google', 'Microsoft']) {
+  it(
+    provider +
+      ' cancellation does not render Logout while the closed popup promise is pending',
+    async () => {
+      const t = setup();
+      await t.restore(null);
+      let reject!: (reason: unknown) => void;
+      t.signIn.mockImplementation(
+        () =>
+          new Promise<void>((_resolve, failure) => {
+            reject = failure;
+          }),
+      );
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Continue with ' + provider }),
+      );
+      expect(
+        screen.getByRole('button', { name: 'Cancel sign-in' }),
+      ).toBeVisible();
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Cancel sign-in' }),
+      );
+      expect(screen.getByRole('status')).toHaveTextContent('signed out');
+      expect(
+        screen.queryByRole('button', { name: /^Logout$/ }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'Cancel sign-in' }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: 'Continue with ' + provider }),
+      ).toBeDisabled();
+      await act(async () => {
+        reject(new SessionError('cancelled'));
+      });
+      expect(
+        screen.queryByRole('button', { name: /^Logout$/ }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: 'Continue with ' + provider }),
+      ).toBeEnabled();
+      t.dispose();
+    },
+  );
+}

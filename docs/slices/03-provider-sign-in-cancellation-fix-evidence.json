@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-23",
+  "baselineCommit": "2a7332aa9928ce00af3344b9c4528a87c20c088e",
+  "issue": "Transient Logout after closing provider popup and cancelling sign-in",
+  "providers": [
+    "google",
+    "microsoft"
+  ],
+  "rootCause": "SDK sign-in promise can remain pending after cancellation confirms signed-out; pending alone enabled Logout",
+  "fix": "Pending provider promise alone cannot enable Logout while signed out; pending lock and genuine recovery remain",
+  "regressions": {
+    "reproducedBeforeFix": 4,
+    "additionalObserverRecoveryCases": 2,
+    "renderedView": "actual SessionView in jsdom"
+  },
+  "validation": {
+    "command": "npm run verify",
+    "exitCode": 0,
+    "unitComponentPassed": 118,
+    "builds": 4,
+    "typecheck": true,
+    "boundaries": true,
+    "lint": true,
+    "format": true,
+    "bundleIsolation": true,
+    "exclusions": []
+  },
+  "initialCheckLimitation": "Existing preflight test expected invalid Java path, but preview occupied5173; after explicitly requested server stop, full verification passed without exclusions",
+  "localPreview": {
+    "stoppedAtOwnerRequest": true,
+    "port": 5173,
+    "portFreeConfirmed": true
+  },
+  "review": {
+    "stagedForReview": true,
+    "committed": false,
+    "pushed": false,
+    "deployed": false
+  },
+  "sourceSha256": {
+    "src/application/session-controller.ts": "2bb66f6c58e33af4fdf9c6450c1b20b8185470ecb6eba22dc0c3dfcc2641a897",
+    "tests/unit/session-controller.test.ts": "b4231ba71dac0402a06a1c4ebed84f129d28a0a0cd971ac6f21932c9549d9a34",
+    "tests/component/session.test.tsx": "7f41f0927b5a11729ceaa6beba627d0cd663cf7df7de2ee9cd10bd5389f1d849"
+  },
+  "authBuild": {
+    "appVersion": "0.1.0",
+    "buildId": "2a7332aa9928-f98ba1aa44c534ec",
+    "commit": "2a7332aa9928ce00af3344b9c4528a87c20c088e",
+    "sourceDirty": true,
+    "builtAt": "2026-10-23T16:15:40.843Z"
+  }
+}

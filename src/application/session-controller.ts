@@ -123,7 +123,9 @@ export function createSessionController(
         !disposed &&
         !signOutPending &&
         !logout &&
-        (observed !== null || quarantine || signInPending),
+        (observed !== null ||
+          quarantine ||
+          (signInPending && state.status !== 'signed-out')),
     };
     for (const subscriber of subscribers) subscriber(state);
   }

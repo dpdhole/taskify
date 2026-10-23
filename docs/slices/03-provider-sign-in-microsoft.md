@@ -94,3 +94,11 @@ Local Auth settings remain ignored. The running preview must not be stopped for
 a test suite without explicit direction; the emulator runner correctly refuses
 occupied ports. Future Hosting requests must name dev/qc/uat/live. Staging does
 not authorize publication or promotion.
+
+## Subsequent cancellation correction
+
+The owner reported a transient Logout control after closing either provider popup
+and selecting Cancel sign-in. The [cancellation fix](03-provider-sign-in-cancellation-fix.md)
+records the controller correction, regressions and final validation. The earlier
+112-test implementation checkpoint above remains historical. The owner subsequently
+requested stopping the local preview; it is stopped, and the fix is staged for review.

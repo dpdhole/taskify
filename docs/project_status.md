@@ -2,6 +2,19 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Cancellation button fix prepared for review
+
+- Owner reported a transient Logout button after closing a Google/Microsoft popup
+  and selecting Cancel sign-in. The controller now prevents a pending SDK promise
+  alone from offering Logout once signed out. Six regressions cover both providers'
+  cancellation display and observer-failure recovery. [Fix record](slices/03-provider-sign-in-cancellation-fix.md).
+- Owner requested stopping the local preview and staging the correction. The owned
+  server is stopped and port 5173 is free. Full verification now passes all 118 tests and
+  four builds, including the preflight cases previously affected by that occupied
+  port. No provider/backend or deployment changes, commit or push.
+- Changes are staged for review; Slice3 acceptance and the existing dev release
+  remain unchanged. Real-provider acceptance and final login presentation remain open.
+
 ## 2026-10-23 — Microsoft checkpoint prepared for review
 
 - Owner requested documentation updates and staging. Microsoft implementation,

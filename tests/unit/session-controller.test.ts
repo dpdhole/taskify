@@ -367,3 +367,83 @@ for (const provider of ['google', 'microsoft'] as const) {
     },
   );
 }
+
+for (const provider of ['google', 'microsoft'] as const) {
+  it(
+    provider +
+      ' never offers Logout after cancellation is confirmed while popup close is still settling',
+    async () => {
+      const t = setup();
+      await t.finish(null);
+      const result = deferred<void>();
+      t.auth.signIn = vi.fn(() => result.promise);
+      const seen: { status: string; canLogout: boolean }[] = [];
+      const stop = t.session.subscribe((state) =>
+        seen.push({ status: state.status, canLogout: state.canLogout }),
+      );
+      const pending = t.session.signIn(provider, 'popup');
+      expect(t.session.getState()).toMatchObject({
+        status: 'signing-in',
+        canLogout: true,
+      });
+      // A closed popup can leave its SDK promise pending until the next close poll.
+      const cancelling = t.session.signOut();
+      t.watchers.at(-1)!.next(null);
+      t.signouts[0]!.resolve();
+      await cancelling;
+      expect(t.session.getState()).toMatchObject({
+        status: 'signed-out',
+        canLogout: false,
+        canSignIn: false,
+      });
+      t.gate.suspend('offline');
+      expect(t.session.getState().canLogout).toBe(false);
+      result.reject(new SessionError('cancelled'));
+      await pending;
+      expect(
+        seen
+          .filter((state) => state.status === 'signed-out')
+          .every((state) => !state.canLogout),
+      ).toBe(true);
+      expect(t.session.getState()).toMatchObject({
+        status: 'signed-out',
+        canLogout: false,
+        protectedReady: false,
+      });
+      stop();
+      t.session.dispose();
+      t.gate.dispose();
+    },
+  );
+}
+
+for (const provider of ['google', 'microsoft'] as const) {
+  it(
+    provider +
+      ' preserves sign-out recovery if the auth observer fails during an active attempt',
+    async () => {
+      const t = setup();
+      await t.finish(null);
+      const result = deferred<void>();
+      t.auth.signIn = vi.fn(() => result.promise);
+      const pending = t.session.signIn(provider, 'popup');
+      t.watchers[0]!.error();
+      expect(t.session.getState()).toMatchObject({
+        status: 'error',
+        canLogout: true,
+      });
+      const cancelling = t.session.signOut();
+      t.watchers.at(-1)!.next(null);
+      t.signouts[0]!.resolve();
+      await cancelling;
+      expect(t.session.getState()).toMatchObject({
+        status: 'signed-out',
+        canLogout: false,
+      });
+      result.reject(new SessionError('cancelled'));
+      await pending;
+      t.session.dispose();
+      t.gate.dispose();
+    },
+  );
+}

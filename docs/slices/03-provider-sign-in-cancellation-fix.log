@@ -1,0 +1,117 @@
+=== npm run verify: exit 0 ===
+
+> taskify@0.1.0 verify
+> npm run typecheck && npm run check:boundaries && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && npm run build:auth && node tools/check-bundles.mjs
+
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 25 files
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> taskify@0.1.0 test:unit
+> vitest run
+
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  12 passed (12)
+      Tests  118 passed (118)
+   Start at  21:45:15
+   Duration  12.20s (environment 44%, tests 29%, import 11%, setup 8%, transform 6%, worker 1%)
+
+
+> taskify@0.1.0 build
+> node node_modules/vite/bin/vite.js build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 48 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-DVq0IbIO.js   686.25 kB │ gzip: 210.23 kB
+
+✓ built in 298ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:proof
+> node node_modules/vite/bin/vite.js build --mode foundation
+
+vite v8.3.5 building client environment for foundation...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-proof/foundation.html                   0.41 kB │ gzip:   0.27 kB
+dist-proof/assets/foundation-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-proof/assets/foundation-DZgjg7Aa.js   785.08 kB │ gzip: 241.52 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 264ms
+
+> taskify@0.1.0 build:compatibility
+> node node_modules/vite/bin/vite.js build --mode compatibility
+
+vite v8.3.5 building client environment for compatibility...
+transforming...
+✓ 42 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-compatibility/compatibility.html                   0.42 kB │ gzip:   0.27 kB
+dist-compatibility/assets/compatibility-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-compatibility/assets/compatibility-CLPVoyQ-.js   701.75 kB │ gzip: 214.82 kB
+
+✓ built in 211ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:auth
+> node node_modules/vite/bin/vite.js build --mode auth
+
+vite v8.3.5 building client environment for auth...
+transforming...
+✓ 48 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-auth/index.html                   0.39 kB │ gzip:   0.26 kB
+dist-auth/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-auth/assets/index-DfTIiqlo.js   773.10 kB │ gzip: 237.11 kB
+
+✓ built in 250ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+dist: 47 modules; isolation verified
+dist-proof: 115 modules; isolation verified
+dist-compatibility: 41 modules; isolation verified
+dist-auth: 47 modules; isolation verified
