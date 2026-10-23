@@ -173,7 +173,9 @@ The [session checkpoint](slices/03-provider-sign-in-session.md) records restorat
 and Logout. The [Google checkpoint](slices/03-provider-sign-in-google.md) and
 [Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md) record provider
 behavior, local validation and remaining real-provider checks. The [shared login presentation](slices/03-provider-sign-in-presentation.md) is
-implemented locally; real-provider acceptance and Slice3 closure remain pending.
+implemented locally. [Real-provider acceptance](slices/03-provider-sign-in-acceptance.md)
+records observed Google desktop checks and owner-reported Microsoft personal
+sign-in/refresh/Logout passes; broader acceptance and Slice3 closure remain pending.
 
 On 23 October 2026 the owner requested this local Auth preview; the server started
 on a checked-free port 5173 and localhost returned HTTP 200. No interactive OAuth result
@@ -183,3 +185,14 @@ owned session-test Vite server on port 5176; its emulator fixture is denied in o
 dev and excluded from static artifacts. The runner refuses occupied ports.
 Confirm before interactive tests. Existing dev still serves the earlier Google-only
 snapshot; Microsoft changes require a separate channel-specific deployment request.
+
+## Current acceptance review
+
+Acceptance tests served the clean `c765972` artifact with
+`npm run preview -- --outDir dist-auth --port 5173`, rather than a changing Vite
+development build. Interactive automation is paused; the preview was left running
+for owner manual testing. Do not stop it or resume interactive tests as a side
+effect of documentation, staging or commits. Manual Microsoft personal results
+are owner-reported; the browser/OS was not separately identified. Work/school,
+hosted mobile and operational provider checks remain open. No new test results or
+provider success are implied by staging these acceptance records.

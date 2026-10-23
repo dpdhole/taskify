@@ -1,0 +1,172 @@
+{
+  "date": "2026-10-23",
+  "scope": "Partial real-provider acceptance with owner manual verification; interactive automation remains paused",
+  "release": {
+    "appVersion": "0.1.0",
+    "buildId": "c76597219608-dc4f80bbb0fcdf29",
+    "commit": "c76597219608fcbd3af098614edec711f0cc5206",
+    "sourceDirty": false,
+    "builtAt": "2026-10-23T16:32:49.109Z"
+  },
+  "artifactFilesSha256": {
+    "index.html": "362a3050ad1b1b73a96887aa1e618814be51386ce005415a0931bd7908d9d9a9",
+    "release.json": "ab32dd8ec130bd4775985fbb0c3638f5871915fc09463f5f05ca35defdf3bbb0",
+    "assets/index-BvotJ9DB.css": "9b8811d5aa9a1456efc79c0b58e5f920de41b692f917b4f9f0c3771f7a8a32db",
+    "assets/index-DK24G9V8.js": "027e58a709a623251189a3c2ca6af72fcebff473345d88a2fa29dd09c8e04b08"
+  },
+  "providerMetadata": {
+    "checkedAt": "2026-10-23T16:33:03.103Z",
+    "project": "taskify-dev-dpdhole",
+    "providers": [
+      {
+        "provider": "google.com",
+        "enabled": true,
+        "clientIdConfigured": true
+      },
+      {
+        "provider": "microsoft.com",
+        "enabled": true,
+        "clientIdConfigured": true
+      }
+    ],
+    "authorizedDomains": [
+      "localhost",
+      "taskify-dev-dpdhole.firebaseapp.com",
+      "taskify-dev-dpdhole.web.app",
+      "taskify-dev-dpdhole--dev-por3atkf.web.app",
+      "taskify-dev-dpdhole--qc-xnxat620.web.app",
+      "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+    ],
+    "providerSecretsRead": false,
+    "interactiveLogin": false,
+    "cloudChanged": false
+  },
+  "clientConfigCheck": {
+    "validated": true,
+    "projectId": "taskify-dev-dpdhole",
+    "appId": "1:243252492098:web:39b2429e66b2e1f511fadb",
+    "appName": "taskify-browser",
+    "apiKeyConfigured": true,
+    "localAuthDomain": "taskify-dev-dpdhole.firebaseapp.com",
+    "hosts": [
+      {
+        "hostname": "localhost",
+        "authDomain": "taskify-dev-dpdhole.firebaseapp.com"
+      },
+      {
+        "hostname": "taskify-dev-dpdhole--dev-por3atkf.web.app",
+        "authDomain": "taskify-dev-dpdhole--dev-por3atkf.web.app"
+      },
+      {
+        "hostname": "taskify-dev-dpdhole--qc-xnxat620.web.app",
+        "authDomain": "taskify-dev-dpdhole--qc-xnxat620.web.app"
+      },
+      {
+        "hostname": "taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+        "authDomain": "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+      }
+    ],
+    "providerSignInTested": false,
+    "cloudChanged": false
+  },
+  "plan": "03-provider-sign-in-acceptance.md",
+  "interactiveApproval": "Owner approved interactive desktop checks, then requested Pause testing and I will test manually",
+  "results": {
+    "googleDesktop": "PARTIAL_PASS: real completion, readiness, refresh, cross-tab restoration/Logout verified; remaining browser cases pending",
+    "microsoftPersonalDesktop": "PASS_OWNER_REPORTED: personal Microsoft sign-in, refresh persistence and Logout; broader desktop edge cases not inferred",
+    "microsoftWorkSchoolDesktop": "PENDING",
+    "realHostedMobile": "PENDING",
+    "googleAudience": "PENDING",
+    "microsoftSecretExpiry": "PENDING",
+    "sliceClosure": "PENDING"
+  },
+  "actions": {
+    "interactiveOAuth": true,
+    "serverStarted": true,
+    "cloudConfigurationChanged": false,
+    "deployed": false,
+    "staged": false,
+    "acceptanceDocsCommitted": false,
+    "pushed": false
+  },
+  "browserCoverage": {
+    "appBrowser": "Codex in-app desktop browser",
+    "chromeAutomationAvailable": false,
+    "providerWindow": "Owner controlled; not exposed in connected tab inventory",
+    "realMobileDevices": false
+  },
+  "observedResults": {
+    "google": {
+      "ownerReportedCompletion": true,
+      "authenticatedLanding": "PASS",
+      "currentCompatibilityReady": "PASS",
+      "refreshRestoredPresentation": "PASS",
+      "secondTabRestoredPresentation": "PASS",
+      "crossTabLogout": "PASS",
+      "logoutSurvivesRefresh": "PASS",
+      "taskifyCancelReturnsSignedOutWithoutLogout": "PASS",
+      "providerWindowCloseOnlyRace": "NOT_SEPARATELY_CONFIRMED",
+      "notes": "Account values were observed only for session verification, not recorded in tracked evidence."
+    },
+    "microsoftPersonal": {
+      "taskifyCancelReturnsSignedOutWithoutLogout": "PASS",
+      "providerControlsRecovered": "PASS",
+      "ownerReportedCompletion": true,
+      "observedAfterCompletion": "Signed out; Sign-in was cancelled. You are signed out.",
+      "authenticatedLanding": "NOT_PASSED",
+      "cause": "UNCONFIRMED; possible stale/cancelled popup discussed but not established",
+      "freshSinglePopupRetry": "NOT_RUN; owner paused testing"
+    },
+    "microsoftWorkSchool": "PENDING",
+    "offlineRealSessionCheck": "PENDING",
+    "realHostedMobile": "PENDING"
+  },
+  "manualHandoff": {
+    "ownerInstruction": "I will test manually",
+    "interactiveAutomation": "PAUSED",
+    "url": "http://localhost:5173/",
+    "previewServer": "Left running for owner manual testing",
+    "finalObservedTaskifySession": "SIGNED_OUT",
+    "credentialsOrAccountIdentifiersRecorded": false,
+    "furtherAppInputsAfterPause": false
+  },
+  "manualVerification": {
+    "date": "2026-10-23",
+    "source": "Explicit owner reply to acceptance-scope clarification",
+    "ownerStatement": "Microsoft personal: sign-in, refresh and Logout passed",
+    "provider": "microsoft.com",
+    "accountCategory": "personal",
+    "checks": {
+      "signIn": "PASS_OWNER_REPORTED",
+      "refreshPersistence": "PASS_OWNER_REPORTED",
+      "logout": "PASS_OWNER_REPORTED"
+    },
+    "agentReobserved": false,
+    "browserAndOS": "Not separately reported for manual run",
+    "earlierCancelledAttempt": "Retained as historical observation; cause unconfirmed",
+    "workSchoolVerified": false,
+    "mobileVerified": false,
+    "automationResumed": false
+  },
+  "reviewPreparation": {
+    "date": "2026-10-23",
+    "ownerInstruction": "Update docs and stage for review",
+    "documentationOnly": true,
+    "stagedForReview": true,
+    "newTestsRun": false,
+    "interactiveAutomation": "PAUSED",
+    "browserActions": false,
+    "serverLifecycleAction": false,
+    "cloudChanged": false,
+    "deployed": false,
+    "committed": false,
+    "pushed": false,
+    "evidenceAttribution": "Agent-observed Google checks kept separate from owner-reported Microsoft personal sign-in, refresh and Logout",
+    "remaining": [
+      "Microsoft work/school",
+      "Actual hosted mobile redirect/storage",
+      "Provider operational settings",
+      "Owner acceptance and Slice3 closure"
+    ]
+  }
+}

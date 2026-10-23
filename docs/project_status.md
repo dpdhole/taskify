@@ -2,6 +2,58 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Acceptance documentation staged for review
+
+- Owner requested documentation updates and staging. Acceptance plan/evidence,
+  current status, slice detailing, delivery plan, README and developer guidance
+  reflect partial desktop verification without declaring Slice3 complete.
+- Google results remain agent-observed; Microsoft personal sign-in, refresh and
+  Logout remain owner-reported manual passes. Earlier cancelled-attempt history
+  is preserved. Work/school, hosted mobile and operational checks remain open.
+- Documentation-only review preparation; JSON, links, credential-pattern and
+  whitespace checks passed. No new tests or app/browser actions. Interactive
+  automation remains paused; no server lifecycle action, commit, push or deployment.
+  [Review record](slices/03-provider-sign-in-acceptance.md#prepared-for-review--23-october-2026).
+
+## 2026-10-23 — Microsoft personal manually verified by owner
+
+- Owner explicitly confirmed Microsoft personal sign-in, refresh and Logout passed.
+  Recorded as owner-reported manual verification, without agent re-observation or
+  inferred browser/device coverage. [Acceptance evidence](slices/03-provider-sign-in-acceptance.md#owner-manual-verification--23-october-2026).
+- Earlier cancelled/signed-out Microsoft observation remains historical; its cause
+  is unconfirmed. No code/configuration changes were made to obtain this result.
+- Work/school Microsoft, hosted mobile behavior, operational provider checks and
+  Slice3 closure remain pending. Interactive automation remains paused; no staging,
+  commit, push or deployment. Acceptance records are uncommitted.
+
+## 2026-10-23 — Real-provider checks paused for owner manual testing
+
+- Owner approved interactive desktop acceptance. Clean preview from `c765972`
+  was started at localhost:5173. Chrome was unavailable to connected controls;
+  app checks used a dedicated in-app browser tab with owner-controlled OAuth windows.
+- Google sign-in/compatibility, refresh persistence, second-tab restoration,
+  cross-tab Logout and signed-out refresh were directly observed. Taskify-side
+  cancellation showed no Logout for either provider.
+- Microsoft personal completion was reported by the owner, but Taskify remained
+  cancelled/signed-out. At that point the case was not passed; cause is unconfirmed. The owner
+  paused before a fresh retry and chose manual testing. Work/school Microsoft and
+  actual mobile coverage remain pending. [Acceptance record](slices/03-provider-sign-in-acceptance.md).
+- Interactive automation is paused and local preview remains running for manual
+  testing. No code changes, staging, commit, push or deployment in this checkpoint.
+  No credentials or account identifiers recorded; Slice3 remains open.
+
+## 2026-10-23 — Presentation committed; real-provider acceptance prepared
+
+- Owner requested Commit and proceed. Presentation committed as `c765972`;
+  no push requested. A clean Auth artifact was prepared from that commit and
+  client config plus read-only provider/domain metadata checks passed.
+- [Real-provider acceptance plan](slices/03-provider-sign-in-acceptance.md) starts
+  with desktop localhost popup checks, then separately authorized hosted mobile
+  validation. Interactive approval is required by the owner's earlier instruction.
+  Accounts/consent are owner-controlled; no secrets in evidence.
+- No real sign-in attempted, server started, cloud changes or deployment during
+  preparation. New acceptance records are uncommitted; Slice3 remains open.
+
 ## 2026-10-23 — Shared login presentation implemented locally
 
 - Owner requested the next implementation step. Added the shared Taskify hero,

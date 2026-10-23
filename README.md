@@ -2,7 +2,7 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility is implemented and locally validated; its approved Firestore checkpoint passed. The clean committed Slice2 Hosting preview is published and verified; owner closure review remains. Slice3 configuration, Auth/session and Google/Microsoft sign-in are implemented locally; the shared login presentation is implemented, with real-provider acceptance pending. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
+**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility is implemented and locally validated; its approved Firestore checkpoint passed. The clean committed Slice2 Hosting preview is published and verified; owner closure review remains. Slice3 configuration, Auth/session and Google/Microsoft sign-in are implemented locally; the shared login presentation is implemented, with partial desktop provider verification recorded; remaining acceptance and Slice3 closure are pending. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
 
 ## Documentation
 
@@ -18,6 +18,7 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Slice3 Auth/session](docs/slices/03-provider-sign-in-session.md) — restoration, compatibility integration, Logout and local/emulator evidence.
 - [Slice3 configuration](docs/slices/03-provider-sign-in-configuration.md) — Web App/domains, client settings and provider callback verification steps.
 - [Slice3 login presentation](docs/slices/03-provider-sign-in-presentation.md) — shared responsive sign-in, keyboard recovery and local browser evidence.
+- [Slice3 real-provider acceptance](docs/slices/03-provider-sign-in-acceptance.md) — observed Google desktop checks, owner-verified Microsoft personal results and remaining gates.
 - [Developer setup](docs/development.md) — pinned toolchain, local commands, architecture boundaries and troubleshooting.
 - [Foundation validation](docs/slices/01-foundation-validation.md) — executed local checks, exact evidence and limitations.
 - [Firebase clean start](docs/slices/firebase-clean-start.md) — completed legacy application-resource reset and verified empty baseline.
