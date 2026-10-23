@@ -142,3 +142,12 @@ Ask before visible browser windows, interactive sign-in or other interactive
 tests because a parallel project may be active. Never stop unrelated processes.
 See [Slice2 validation](slices/02-compatibility-validation.md) for cloud observations,
 remaining acceptance gates and audit/bundle limitations.
+
+## Hosting destination policy
+
+Use only dev, qc and uat preview channels. A hosting/deployment instruction must
+name the destination; ask if unclear. Do not host or renew automatically after
+implementation, validation or commits. Promote verified artifact versions through
+dev → qc → uat without rebuilding. UAT → live needs explicit owner approval when
+the product is ready. See [channel policy](hosting_channels.md) for the current
+URLs, expiry and migration evidence. Earlier per-slice channel names are historical.

@@ -2,6 +2,30 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — dev/QC/UAT channel policy applied
+
+- Owner replaced the earlier channel proposal with exactly three preview channels:
+  dev for development, qc for verification, uat for external/beta review. Every
+  hosting/deployment instruction must name the destination; ask if unclear.
+  No automatic hosting/renewal. UAT promotes to live only with explicit owner
+  approval when ready. [Policy and current URL](hosting_channels.md).
+- dev serves the exact verified Slice2 version; qc and uat are empty. Headless
+  mobile/desktop checks passed. Old foundation-smoke/compatibility-smoke channels
+  removed after verification. Live unchanged; previews have30-day expiry.
+- Migration/docs are uncommitted; no push. Historical evidence is preserved.
+
+## 2026-10-23 — Slice2 committed and preview verified
+
+- Implementation committed as67e170e. Owner then authorized Hosting preview.
+  [Preview results](slices/02-compatibility-preview.md) record the clean artifact,
+  seven-day compatibility-smoke URL and successful hosted Firestore checks at
+  mobile/desktop widths, including offline/reconnect recovery.
+- Removed the unused API key automatically generated during publication, then
+  reverified the preview. Live Hosting, billing, database identity and Rules are
+  unchanged; active keys empty. No additional policy revision or push.
+- Preview execution checkpoint is complete; owner closure review remains. Live
+  promotion still requires explicit owner approval. Earlier entries are historical.
+
 ## 2026-10-23 — Slice2 implemented; Firestore checkpoint verified
 
 - Compatibility decoder, generation gate, listener/recheck lifecycle, blocking UI,

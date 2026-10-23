@@ -1,0 +1,532 @@
+{
+  "date": "2026-10-23",
+  "scope": "Slice2 seven-day Hosting preview; no live promotion",
+  "sourceCommit": "67e170e9902a98d8c39e119901c3d6137042298b",
+  "artifact": {
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "67e170e9902a-a937a4bd3a156123",
+      "commit": "67e170e9902a98d8c39e119901c3d6137042298b",
+      "sourceDirty": false,
+      "builtAt": "2026-10-23T07:27:34.179Z"
+    },
+    "publishable": true,
+    "configSha256": "6695cb303fa63f502375a81efc4ac9dbae254da4066d25a856560869b441cafd",
+    "files": {
+      "index.html": "e809411a21d33c64ad014b17e67994f7596784679d3630eeaeb5bec0e4e80a6c",
+      "release.json": "b15804d53e3b16411a9a4562273ce2f049c3bf918c430670cb79f59a1503077f",
+      "assets/index-BJtc9mnR.js": "b9321a6bea1082962ff07acef89500f7f12a8fbee7689c9d8fb6af0a0e1f5087",
+      "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838"
+    }
+  },
+  "deployment": {
+    "status": "success",
+    "result": {
+      "taskify-dev-dpdhole": {
+        "site": "taskify-dev-dpdhole",
+        "url": "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+        "version": "9ef40a2ed2ca3b65",
+        "expireTime": "2026-10-30T07:29:12.336558246Z"
+      }
+    }
+  },
+  "localHostingCheck": "node tools/validate-hosting.mjs --expect-compatible; exit 0",
+  "verificationBeforeCleanup": {
+    "checkedAt": "2026-10-23T07:30:14.884Z",
+    "deployment": {
+      "site": "taskify-dev-dpdhole",
+      "url": "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+      "version": "9ef40a2ed2ca3b65",
+      "expireTime": "2026-10-30T07:29:12.336558246Z"
+    },
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "67e170e9902a-a937a4bd3a156123",
+      "commit": "67e170e9902a98d8c39e119901c3d6137042298b",
+      "sourceDirty": false,
+      "builtAt": "2026-10-23T07:27:34.179Z"
+    },
+    "checks": [
+      "Exact published file hashes, cache/security headers, deep-link fallback and excluded internal paths passed"
+    ],
+    "browsers": [
+      {
+        "width": 390,
+        "ready": true,
+        "revision": 1,
+        "buildIdentityMatches": true,
+        "reload": true,
+        "offlineRevoked": true,
+        "reconnectVerified": true,
+        "overflow": false,
+        "initialErrors": [],
+        "networkOrigins": [
+          "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "ready": true,
+        "revision": 1,
+        "buildIdentityMatches": true,
+        "reload": true,
+        "offlineRevoked": true,
+        "reconnectVerified": true,
+        "overflow": false,
+        "initialErrors": [],
+        "networkOrigins": [
+          "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "passed": true
+  },
+  "verificationFinal": {
+    "checkedAt": "2026-10-23T07:31:34.567Z",
+    "deployment": {
+      "site": "taskify-dev-dpdhole",
+      "url": "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+      "version": "9ef40a2ed2ca3b65",
+      "expireTime": "2026-10-30T07:29:12.336558246Z"
+    },
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "67e170e9902a-a937a4bd3a156123",
+      "commit": "67e170e9902a98d8c39e119901c3d6137042298b",
+      "sourceDirty": false,
+      "builtAt": "2026-10-23T07:27:34.179Z"
+    },
+    "checks": [
+      "Exact published file hashes, cache/security headers, deep-link fallback and excluded internal paths passed"
+    ],
+    "browsers": [
+      {
+        "width": 390,
+        "ready": true,
+        "revision": 1,
+        "buildIdentityMatches": true,
+        "reload": true,
+        "offlineRevoked": true,
+        "reconnectVerified": true,
+        "overflow": false,
+        "initialErrors": [],
+        "networkOrigins": [
+          "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "ready": true,
+        "revision": 1,
+        "buildIdentityMatches": true,
+        "reload": true,
+        "offlineRevoked": true,
+        "reconnectVerified": true,
+        "overflow": false,
+        "initialErrors": [],
+        "networkOrigins": [
+          "https://taskify-dev-dpdhole--compatibility-smoke-034mmzi5.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "passed": true
+  },
+  "inventoryBefore": {
+    "checkedAt": "2026-10-23T07:28:20.875Z",
+    "checks": {
+      "project": {
+        "projectId": "taskify-dev-dpdhole",
+        "projectNumber": "243252492098",
+        "displayName": "Taskify Development",
+        "name": "projects/taskify-dev-dpdhole",
+        "resources": {
+          "hostingSite": "taskify-dev-dpdhole"
+        },
+        "state": "ACTIVE",
+        "labels": {
+          "firebase": "enabled",
+          "firebaseworkflows/environment": "unspecified"
+        },
+        "etag": "1_8a0b0753-0e24-4c93-854b-7dfdf95d4684"
+      },
+      "billing": {
+        "billingEnabled": false,
+        "billingAccountLinked": false
+      },
+      "database": {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "uid": "271a4647-5caa-47e8-8171-9acc14e6bd10",
+        "createTime": "2026-10-23T06:20:50.428949Z",
+        "updateTime": "2026-10-23T06:20:50.428949Z",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "concurrencyMode": "PESSIMISTIC",
+        "versionRetentionPeriod": "3600s",
+        "earliestVersionTime": "2026-10-23T06:28:15.302915Z",
+        "appEngineIntegrationMode": "DISABLED",
+        "keyPrefix": "j",
+        "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "databaseEdition": "STANDARD",
+        "freeTier": true,
+        "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+        "etag": "IIW/luPOz5cDMMX//dvAz5cD"
+      },
+      "rules": {
+        "releases": [
+          {
+            "name": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+            "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76",
+            "createTime": "2026-10-23T06:22:08.631541Z",
+            "updateTime": "2026-10-23T06:22:08.631541Z"
+          }
+        ]
+      },
+      "keys": {},
+      "live": {},
+      "apps": {},
+      "domains": {}
+    }
+  },
+  "inventoryAfterPublication": {
+    "checkedAt": "2026-10-23T07:30:21.452Z",
+    "checks": {
+      "project": {
+        "projectId": "taskify-dev-dpdhole",
+        "projectNumber": "243252492098",
+        "displayName": "Taskify Development",
+        "name": "projects/taskify-dev-dpdhole",
+        "resources": {
+          "hostingSite": "taskify-dev-dpdhole"
+        },
+        "state": "ACTIVE",
+        "labels": {
+          "firebase": "enabled",
+          "firebaseworkflows/environment": "unspecified"
+        },
+        "etag": "1_8a0b0753-0e24-4c93-854b-7dfdf95d4684"
+      },
+      "billing": {
+        "billingEnabled": false,
+        "billingAccountLinked": false
+      },
+      "database": {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "uid": "271a4647-5caa-47e8-8171-9acc14e6bd10",
+        "createTime": "2026-10-23T06:20:50.428949Z",
+        "updateTime": "2026-10-23T06:20:50.428949Z",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "concurrencyMode": "PESSIMISTIC",
+        "versionRetentionPeriod": "3600s",
+        "earliestVersionTime": "2026-10-23T06:30:16.014083Z",
+        "appEngineIntegrationMode": "DISABLED",
+        "keyPrefix": "j",
+        "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "databaseEdition": "STANDARD",
+        "freeTier": true,
+        "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+        "etag": "IJWP3pzPz5cDMMX//dvAz5cD"
+      },
+      "rules": {
+        "releases": [
+          {
+            "name": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+            "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76",
+            "createTime": "2026-10-23T06:22:08.631541Z",
+            "updateTime": "2026-10-23T06:22:08.631541Z"
+          }
+        ]
+      },
+      "keys": {
+        "keys": [
+          {
+            "name": "projects/243252492098/locations/global/keys/8e6d1a83-c47b-445c-b52e-8e54a4756302",
+            "displayName": "Browser key (auto created by Firebase)",
+            "createTime": "2026-10-23T07:29:14.399167Z",
+            "uid": "8e6d1a83-c47b-445c-b52e-8e54a4756302",
+            "updateTime": "2026-10-23T07:29:14.494718Z",
+            "restrictions": {
+              "browserKeyRestrictions": {},
+              "apiTargets": [
+                {
+                  "service": "firebasedatabase.googleapis.com"
+                },
+                {
+                  "service": "firebasehosting.googleapis.com"
+                },
+                {
+                  "service": "firebaserules.googleapis.com"
+                },
+                {
+                  "service": "sqladmin.googleapis.com"
+                },
+                {
+                  "service": "cloudconfig.googleapis.com"
+                },
+                {
+                  "service": "datastore.googleapis.com"
+                },
+                {
+                  "service": "fcmregistrations.googleapis.com"
+                },
+                {
+                  "service": "firebase.googleapis.com"
+                },
+                {
+                  "service": "firebaseappcheck.googleapis.com"
+                },
+                {
+                  "service": "firebaseappdistribution.googleapis.com"
+                },
+                {
+                  "service": "firebaseapphosting.googleapis.com"
+                },
+                {
+                  "service": "firebaseapptesters.googleapis.com"
+                },
+                {
+                  "service": "firebasedataconnect.googleapis.com"
+                },
+                {
+                  "service": "firebaseinappmessaging.googleapis.com"
+                },
+                {
+                  "service": "firebaseinstallations.googleapis.com"
+                },
+                {
+                  "service": "firebaseml.googleapis.com"
+                },
+                {
+                  "service": "firebaseremoteconfig.googleapis.com"
+                },
+                {
+                  "service": "firebaseremoteconfigrealtime.googleapis.com"
+                },
+                {
+                  "service": "firebasestorage.googleapis.com"
+                },
+                {
+                  "service": "firebasevertexai.googleapis.com"
+                },
+                {
+                  "service": "firestore.googleapis.com"
+                },
+                {
+                  "service": "identitytoolkit.googleapis.com"
+                },
+                {
+                  "service": "logging.googleapis.com"
+                },
+                {
+                  "service": "mlkit.googleapis.com"
+                },
+                {
+                  "service": "play.googleapis.com"
+                },
+                {
+                  "service": "securetoken.googleapis.com"
+                },
+                {
+                  "service": "fpnv.googleapis.com"
+                }
+              ]
+            },
+            "etag": "W/\"DgNn0JZCOpbh8MjZ+BA2Cw==\""
+          }
+        ]
+      },
+      "live": {},
+      "apps": {},
+      "domains": {}
+    }
+  },
+  "keyCleanup": {
+    "deletedAt": "2026-10-23T07:31:21.365Z",
+    "keyMetadata": {
+      "name": "projects/243252492098/locations/global/keys/8e6d1a83-c47b-445c-b52e-8e54a4756302",
+      "displayName": "Browser key (auto created by Firebase)",
+      "createTime": "2026-10-23T07:29:14.399167Z"
+    },
+    "operation": {
+      "name": "operations/akmf.p12-243252492098-a38683f2-f8a3-4a09-98fa-89d7bfc7532f",
+      "done": true,
+      "response": {
+        "@type": "type.googleapis.com/google.api.apikeys.v2.Key",
+        "name": "projects/243252492098/locations/global/keys/8e6d1a83-c47b-445c-b52e-8e54a4756302",
+        "displayName": "Browser key (auto created by Firebase)",
+        "createTime": "2026-10-23T07:29:14.399167Z",
+        "uid": "8e6d1a83-c47b-445c-b52e-8e54a4756302",
+        "updateTime": "2026-10-23T07:31:17.936973Z",
+        "deleteTime": "2026-10-23T07:31:17.936973Z",
+        "restrictions": {
+          "browserKeyRestrictions": {},
+          "apiTargets": [
+            {
+              "service": "firebasedatabase.googleapis.com"
+            },
+            {
+              "service": "firebasehosting.googleapis.com"
+            },
+            {
+              "service": "firebaserules.googleapis.com"
+            },
+            {
+              "service": "sqladmin.googleapis.com"
+            },
+            {
+              "service": "cloudconfig.googleapis.com"
+            },
+            {
+              "service": "datastore.googleapis.com"
+            },
+            {
+              "service": "fcmregistrations.googleapis.com"
+            },
+            {
+              "service": "firebase.googleapis.com"
+            },
+            {
+              "service": "firebaseappcheck.googleapis.com"
+            },
+            {
+              "service": "firebaseappdistribution.googleapis.com"
+            },
+            {
+              "service": "firebaseapphosting.googleapis.com"
+            },
+            {
+              "service": "firebaseapptesters.googleapis.com"
+            },
+            {
+              "service": "firebasedataconnect.googleapis.com"
+            },
+            {
+              "service": "firebaseinappmessaging.googleapis.com"
+            },
+            {
+              "service": "firebaseinstallations.googleapis.com"
+            },
+            {
+              "service": "firebaseml.googleapis.com"
+            },
+            {
+              "service": "firebaseremoteconfig.googleapis.com"
+            },
+            {
+              "service": "firebaseremoteconfigrealtime.googleapis.com"
+            },
+            {
+              "service": "firebasestorage.googleapis.com"
+            },
+            {
+              "service": "firebasevertexai.googleapis.com"
+            },
+            {
+              "service": "firestore.googleapis.com"
+            },
+            {
+              "service": "identitytoolkit.googleapis.com"
+            },
+            {
+              "service": "logging.googleapis.com"
+            },
+            {
+              "service": "mlkit.googleapis.com"
+            },
+            {
+              "service": "play.googleapis.com"
+            },
+            {
+              "service": "securetoken.googleapis.com"
+            },
+            {
+              "service": "fpnv.googleapis.com"
+            }
+          ]
+        },
+        "etag": "W/\"LY0ebdDHZi+PfYfeIARjkw==\""
+      }
+    },
+    "activeKeys": []
+  },
+  "inventoryFinal": {
+    "checkedAt": "2026-10-23T07:31:53.061Z",
+    "checks": {
+      "project": {
+        "projectId": "taskify-dev-dpdhole",
+        "projectNumber": "243252492098",
+        "displayName": "Taskify Development",
+        "name": "projects/taskify-dev-dpdhole",
+        "resources": {
+          "hostingSite": "taskify-dev-dpdhole"
+        },
+        "state": "ACTIVE",
+        "labels": {
+          "firebase": "enabled",
+          "firebaseworkflows/environment": "unspecified"
+        },
+        "etag": "1_8a0b0753-0e24-4c93-854b-7dfdf95d4684"
+      },
+      "billing": {
+        "billingEnabled": false,
+        "billingAccountLinked": false
+      },
+      "database": {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "uid": "271a4647-5caa-47e8-8171-9acc14e6bd10",
+        "createTime": "2026-10-23T06:20:50.428949Z",
+        "updateTime": "2026-10-23T06:20:50.428949Z",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "concurrencyMode": "PESSIMISTIC",
+        "versionRetentionPeriod": "3600s",
+        "earliestVersionTime": "2026-10-23T06:31:48.589371Z",
+        "appEngineIntegrationMode": "DISABLED",
+        "keyPrefix": "j",
+        "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "databaseEdition": "STANDARD",
+        "freeTier": true,
+        "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+        "etag": "ILq78MjPz5cDMMX//dvAz5cD"
+      },
+      "rules": {
+        "releases": [
+          {
+            "name": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+            "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76",
+            "createTime": "2026-10-23T06:22:08.631541Z",
+            "updateTime": "2026-10-23T06:22:08.631541Z"
+          }
+        ]
+      },
+      "keys": {},
+      "live": {},
+      "apps": {},
+      "domains": {}
+    }
+  },
+  "comparison": {
+    "liveUnchanged": true,
+    "billingDisabled": true,
+    "databaseIdentityUnchanged": true,
+    "rulesUnchanged": true,
+    "appsUnchanged": true,
+    "domainsUnchanged": true,
+    "activeKeys": 0
+  },
+  "logSha256": {
+    "preview-build.log": "81d7bde18ae4b291cb86b48c28382a640b4dbd791e4176203fcc38d39afe1c05",
+    "preview-local-validation.log": "3245fff898a04808029defc8f046718a13bad28ace6fe12c6ab983f7a66294b2",
+    "preview-deployment.log": "1a7cf0456a731f4a2cf5bd40d0f0bef0eae5296a7052e39641926457f722a8fa",
+    "preview-verification.log": "b5cb7e864151d34ddab76b6bb9b15d4d015d782035d1a4bdfee0c461057d300d",
+    "preview-verification-final.log": "02c1ffa2b73975db2795737e54751d490a969aed45abcc4216f9f546d1ebdc11"
+  },
+  "sanitization": "Deleted-key value unexpectedly returned by provider operation response was removed before staging/commit; metadata retained."
+}

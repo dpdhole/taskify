@@ -6,7 +6,7 @@ headless tests and the explicit real-cloud checkpoint. Database creation, minima
 Rules and revision 1 bootstrap are complete. See the
 [implementation record](02-compatibility-implementation.md) and
 [validation report](02-compatibility-validation.md) for executed evidence.
-Review, commit and clean-source Hosting preview remain pending; no live promotion.
+Implementation committed as67e170e; [clean-source preview](02-compatibility-preview.md) published and verified. Owner closure review remains; no live promotion.
 The requirements below remain the accepted scope; prospective wording records
 that baseline and does not claim completion of future product features.
 

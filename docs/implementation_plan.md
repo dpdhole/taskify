@@ -30,7 +30,7 @@ Slice1 implementation and validation are **complete**; closure documentation was
 committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
 and [validation report](slices/01-foundation-validation.md).
 [Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
-implementation/local validation and the approved Firestore checkpoint complete; review, commit and clean-source Hosting preview pending. Other rows remain planned. Split
+implementation/local validation and the approved Firestore checkpoint complete; implementation committed as67e170e and clean-source Hosting preview verified; owner closure review pending. Other rows remain planned. Split
 broad rows further during detailing.
 
 | Order | Slice | Deliverable |

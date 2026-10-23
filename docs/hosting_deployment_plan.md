@@ -1,5 +1,9 @@
 # Foundation Hosting deployment plan
 
+Current channel names and deployment instructions are governed by
+[Hosting channels](hosting_channels.md). This Foundation plan is historical;
+its foundation-smoke channel has been retired.
+
 22 October 2026. **Preview checkpoint completed: published, verified, updated and exact original artifact restored.**
 See [preflight results](slices/hosting-preflight.md). Authentication and GET-only metadata
 inspection occurred. The owner subsequently authorized removal of legacy resources;
