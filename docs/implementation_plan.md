@@ -1,9 +1,8 @@
 # Taskify implementation slices
 
-22 October 2026. **Owner-agreed order.** Slice1 Foundation was separately approved
-for implementation and is now locally validated, pending owner review. Slices2–30
-remain planned, not started. This plan is not blanket execution, commit or cloud
-deployment authorization.
+23 October 2026. **Owner-agreed order.** Slice1 implementation/validation and
+closure documentation are committed and pushed. Slice2 documentation is accepted; implementation is not started. Slices3–30 remain
+planned. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -27,10 +26,12 @@ material domain/security changes return to owner discussion.
 
 ## Agreed sequence
 
-Slice1 implementation and validation are **complete; closure is prepared for
-owner review**. See its [closure review](slices/01-foundation.md#closure-review)
-and [validation report](slices/01-foundation-validation.md). Other rows remain planned,
-not started. Split broad rows further during detailing.
+Slice1 implementation and validation are **complete**; closure documentation was
+committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
+and [validation report](slices/01-foundation-validation.md).
+[Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
+implementation/cloud provisioning pending. Other rows remain planned. Split
+broad rows further during detailing.
 
 | Order | Slice | Deliverable |
 |---:|---|---|
@@ -161,12 +162,15 @@ Auth/Firestore behavior.
 
 Readiness, scope/stack, implementation and local validation are complete; the
 additional Hosting preview/update/restoration checkpoint passed. Foundation
-[closure documentation](slices/01-foundation.md#closure-review) is prepared for
-staging and owner review. No additional commit or Slice2 implementation is implied.
+[closure documentation](slices/01-foundation.md#closure-review) was committed and
+pushed as `f2eaf82`. [Slice2 detailing](slices/02-compatibility-gate.md) was accepted
+on 23 October 2026, with database policy authority and optional secondary Hosting
+use. The owner authorized staging for commit preparation; commit, implementation
+and cloud provisioning await their applicable instructions.
 Live promotion is deferred until development matures and requires explicit owner
-approval; it is not a Foundation closure blocker. Next planned work is detailing
-Slice2 — Compatibility gate. GitHub push and ongoing advisory reassessment remain
-separate follow-ups.
+approval; it is not a Foundation closure blocker. Next checkpoint is committing the accepted Slice2 documentation when instructed,
+then explicit implementation authorization. GitHub push
+succeeded for Foundation; ongoing dependency advisory reassessment remains required.
 Overall platform feasibility remains INCONCLUSIVE. Foundation tests are local
 proof evidence only; cloud cleanup has occurred, but no new product backend
 provisioning or live Hosting publication has occurred. The preview checkpoint

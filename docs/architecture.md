@@ -254,7 +254,7 @@ Keep distinct version axes; a record edit counter is not a schema version.
 
 | Axis | Meaning | High-level handling / slice detail |
 |---|---|---|
-| App release | Ordered compatibility identity of browser code | Monotonic integer plus immutable build fingerprint; human release label optional |
+| App release | Ordered compatibility identity of browser code | Numeric major.minor.patch tuple plus immutable build fingerprint; human release label separate; Slice2 detailing supersedes the earlier monotonic-integer proposal |
 | Server release | Deployed policy/configuration generation, not a server executable | Monotonic identifier tied to Rules/indexes and supported contract |
 | Contract version | Shape and meaning of the compatibility record | Client explicitly declares formats it understands; unknown format blocks |
 | Contract revision | Change to support policy within a known contract format | Monotonic revision used to invalidate readiness and identify the checked policy |
@@ -291,7 +291,7 @@ Owner agreement, 22 October 2026:
 Owner agreement, 22 October 2026: use the checks below without a separate
 client-maintained server-release range. Server release identifies the deployment
 for traceability; it is not an additional compatibility predicate. Contract
-field shapes, family maps and implementation remain for slice detailing.
+field shapes and family maps are accepted in [Slice2 detailing](slices/02-compatibility-gate.md); implementation remains pending.
 
 The privileged published contract should express:
 
@@ -339,7 +339,8 @@ races. Listener mechanisms, timing and recovery screens remain slice details.
 The following integration outline expresses that policy; exact orchestration,
 contract-revision tokens and loading-state implementation remain slice proposals:
 
-1. Load only the shell/authentication needed to obtain the authenticated contract.
+1. Load only the minimal status shell needed to read the public, exact-document
+   compatibility contract; Slice2 permits this read before sign-in.
    Keep workspace loading, provisioning, migrations and domain commands blocked.
 2. Fetch authoritative compatibility data; cache-only data does not grant fresh
    readiness. Missing, malformed or unavailable data leaves the gate blocked.
@@ -358,6 +359,13 @@ contract-revision tokens and loading-state implementation remain slice proposals
 
 Rules must remain safe for all permitted writes despite old, modified or bypassing
 clients. Browser-supplied version numbers do not prove which code is running.
+Slice2 specifies public get-only access to `runtime/compatibility`, no client
+publication/listing and no unrelated cloud access. Synthetic write-policy fixtures
+remain emulator-only; see [detailing](slices/02-compatibility-gate.md).
+Owner confirmation, 23 October 2026: the Firestore contract is authoritative.
+Hosting build identity remains separate; any future hosted policy is secondary/
+external only, identifies its source revision and cannot override the contract
+or serve as a fallback authorization source.
 Do not claim a server-enforced minimum app version from the supported-client gate.
 Rules authorization and schema checks remain the actual integrity boundary.
 

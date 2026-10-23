@@ -2,6 +2,20 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Slice2 documentation accepted; commit preparation authorized
+
+- Owner accepted the [Slice2 specification](slices/02-compatibility-gate.md) and confirmed Firestore `runtime/compatibility` as the authoritative gate policy. Hosted policy remains optional for external/secondary use; a derived copy identifies its source revision and cannot override the database or authorize access when verification fails. No secondary Hosting-policy implementation is added to this slice.
+- Documentation status, architecture and plan are aligned. The owner authorized staging/preparation and requested waiting for commit; no commit/push, executable changes, tests, cloud provisioning or deployment are performed by this preparation.
+- Implementation remains pending explicit instruction. Live promotion remains deferred until development matures and requires explicit owner approval.
+
+## 2026-10-22 — Slice2 compatibility detailing prepared; implementation pending
+
+- The owner accepted the objectives/scope, contract/runtime direction, synthetic consumers, operator publication and acceptance approach, then authorized documentation. [Slice2 specification](slices/02-compatibility-gate.md) records the proposed concrete contract, states, lifecycle/races, Rules boundary, publication process and test matrix for review.
+- Numeric major.minor.patch app comparison supersedes the earlier integer representation; contract access is public exact-document get before sign-in. Revisions remain monotonic. Client checks do not attest binaries or replace Rules. Synthetic command writes stay local/emulator-only; cloud has no public write probe.
+- Foundation closure documentation was committed and pushed as `f2eaf82`; the earlier GitHub push failure is resolved for that push. Original validation/frozen evidence is unchanged.
+- Slice2 documentation only: no executable source, Rules/config, dependencies, tests, cloud resources, staging, commit or push are changed by this detailing. Implementation and cloud checkpoints await their applicable instructions.
+- Live promotion stays deferred until development matures and requires explicit owner approval. Overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-10-22 — Foundation closure prepared for staging and owner review
 
 - No implementation work remains in the agreed Foundation scope. The [closure review](slices/01-foundation.md#closure-review) consolidates accepted deliverables, original local validation, committed implementation/setup/results and the completed Hosting preview checkpoint.

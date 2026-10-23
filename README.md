@@ -2,7 +2,7 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; slice closure is prepared for owner review. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
+**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility documentation is accepted; implementation remains pending. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
 
 ## Documentation
 
@@ -10,6 +10,7 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Working product specification](docs/product_spec.md) — consolidated simplified product behavior and explicitly open decisions.
 - [Architecture, stack and deployment strategy](docs/architecture.md) — agreed layers, stack boundaries, client/schema compatibility, release/rollback policies and remaining slice/validation work.
 - [Implementation slice plan](docs/implementation_plan.md) — agreed small feature-focused sequence, onboarding Tasks and documentation/provisioning work per slice; not execution authorization.
+- [Slice2 compatibility detailing](docs/slices/02-compatibility-gate.md) — accepted database contract, runtime gate, Rules/operator boundaries and acceptance matrix; implementation pending.
 - [Developer setup](docs/development.md) — pinned toolchain, local commands, architecture boundaries and troubleshooting.
 - [Foundation validation](docs/slices/01-foundation-validation.md) — executed local checks, exact evidence and limitations.
 - [Firebase clean start](docs/slices/firebase-clean-start.md) — completed legacy application-resource reset and verified empty baseline.
