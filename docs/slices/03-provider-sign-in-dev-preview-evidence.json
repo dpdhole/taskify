@@ -1,0 +1,688 @@
+{
+  "date": "2026-10-23",
+  "ownerInstruction": "deploy to dev",
+  "ownerException": "Allow this dev deployment from the uncommitted snapshot",
+  "projectId": "taskify-dev-dpdhole",
+  "channel": "dev",
+  "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+  "version": "ed7c71c3d578e5de",
+  "release": {
+    "appVersion": "0.1.0",
+    "buildId": "adb902976e4c-6e922f6f8c40361a",
+    "commit": "adb902976e4c47f78b70853ba8ca31430645ed23",
+    "sourceDirty": true,
+    "builtAt": "2026-10-23T15:37:33.337Z"
+  },
+  "expireTime": "2026-11-22T15:41:00.129408364Z",
+  "artifact": {
+    "ownerException": "Owner explicitly approved deploying the uncommitted snapshot to dev. No commit or push authorized.",
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "adb902976e4c-6e922f6f8c40361a",
+      "commit": "adb902976e4c47f78b70853ba8ca31430645ed23",
+      "sourceDirty": true,
+      "builtAt": "2026-10-23T15:37:33.337Z"
+    },
+    "configSha256": "95ae228675f264ffabfba70b2d07fc1ca1fabd095ddef99b62a314b329a0c439",
+    "files": {
+      "index.html": "fbf3d6212b524efa848fd0a654cb6c65166a53262d203a1f7a65bf71869bdcaa",
+      "release.json": "3c175b1ca4a7680feac13e097f14b27b4d95e833db744079de10fe7144c164d0",
+      "assets/index-CjK6uIls.js": "fce04b4293664f222cde0f41c3077ee8d54517391e00896002a374766aab12a3",
+      "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838"
+    },
+    "publicDirectory": "dist-auth"
+  },
+  "effectiveHostingConfig": {
+    "hosting": {
+      "site": "taskify-dev-dpdhole",
+      "public": "dist-auth",
+      "ignore": [
+        "firebase.hosting.json",
+        "**/.*",
+        "**/node_modules/**",
+        "module-graph.json",
+        "**/*.map",
+        "foundation.html",
+        "**/*-debug.log"
+      ],
+      "headers": [
+        {
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "no-referrer"
+            },
+            {
+              "key": "Content-Security-Policy",
+              "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self'; img-src 'self' data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src 'self' https://taskify-dev-dpdhole.firebaseapp.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+            }
+          ],
+          "regex": ".*"
+        },
+        {
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public,max-age=31536000,immutable"
+            }
+          ],
+          "regex": "[/\\\\]assets[/\\\\].*"
+        }
+      ],
+      "rewrites": [
+        {
+          "destination": "/index.html",
+          "regex": ".*"
+        }
+      ]
+    }
+  },
+  "localValidation": {
+    "checkedAt": "2026-10-23T15:39:39.392Z",
+    "origin": "http://localhost:5002",
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "adb902976e4c-6e922f6f8c40361a",
+      "commit": "adb902976e4c47f78b70853ba8ca31430645ed23",
+      "sourceDirty": true,
+      "builtAt": "2026-10-23T15:37:33.337Z"
+    },
+    "staticHashes": true,
+    "headers": true,
+    "exclusions": true,
+    "browser": [
+      {
+        "width": 390,
+        "googleControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "http://localhost:5002",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "googleControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "http://localhost:5002",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "interactiveOAuth": false
+  },
+  "hostedValidation": {
+    "checkedAt": "2026-10-23T15:41:42.992Z",
+    "origin": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "adb902976e4c-6e922f6f8c40361a",
+      "commit": "adb902976e4c47f78b70853ba8ca31430645ed23",
+      "sourceDirty": true,
+      "builtAt": "2026-10-23T15:37:33.337Z"
+    },
+    "staticHashes": true,
+    "headers": true,
+    "exclusions": true,
+    "browser": [
+      {
+        "width": 390,
+        "googleControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "googleControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "interactiveOAuth": false
+  },
+  "cloudBefore": {
+    "checkedAt": "2026-10-23T15:37:38.828Z",
+    "project": {
+      "projectId": "taskify-dev-dpdhole",
+      "projectNumber": "243252492098",
+      "state": "ACTIVE"
+    },
+    "checks": {
+      "database": {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED"
+      },
+      "rules": {
+        "releases": [
+          {
+            "name": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+            "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76"
+          }
+        ]
+      },
+      "billing": {
+        "billingEnabled": false
+      },
+      "providers": {
+        "defaultSupportedIdpConfigs": [
+          {
+            "provider": "apple.com",
+            "enabled": true,
+            "clientIdConfigured": false
+          },
+          {
+            "provider": "google.com",
+            "enabled": true,
+            "clientIdConfigured": true
+          },
+          {
+            "provider": "microsoft.com",
+            "enabled": true,
+            "clientIdConfigured": true
+          }
+        ]
+      },
+      "authConfig": {
+        "name": "projects/243252492098/config",
+        "signIn": {},
+        "authorizedDomains": [
+          "localhost",
+          "taskify-dev-dpdhole.firebaseapp.com",
+          "taskify-dev-dpdhole.web.app",
+          "taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+        ]
+      },
+      "webApps": {
+        "apps": [
+          {
+            "appId": "1:243252492098:web:39b2429e66b2e1f511fadb",
+            "displayName": "Taskify PoC browser",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "keys": {
+        "keys": [
+          {
+            "name": "projects/243252492098/locations/global/keys/e4ff897c-ea96-4a3c-bcb7-039dadba550c",
+            "displayName": "Browser key (auto created by Firebase)",
+            "restrictions": {
+              "browserKeyRestrictions": {},
+              "apiTargets": [
+                {
+                  "service": "firebasedatabase.googleapis.com"
+                },
+                {
+                  "service": "firebasehosting.googleapis.com"
+                },
+                {
+                  "service": "firebaserules.googleapis.com"
+                },
+                {
+                  "service": "sqladmin.googleapis.com"
+                },
+                {
+                  "service": "cloudconfig.googleapis.com"
+                },
+                {
+                  "service": "datastore.googleapis.com"
+                },
+                {
+                  "service": "fcmregistrations.googleapis.com"
+                },
+                {
+                  "service": "firebase.googleapis.com"
+                },
+                {
+                  "service": "firebaseappcheck.googleapis.com"
+                },
+                {
+                  "service": "firebaseappdistribution.googleapis.com"
+                },
+                {
+                  "service": "firebaseapphosting.googleapis.com"
+                },
+                {
+                  "service": "firebaseapptesters.googleapis.com"
+                },
+                {
+                  "service": "firebasedataconnect.googleapis.com"
+                },
+                {
+                  "service": "firebaseinappmessaging.googleapis.com"
+                },
+                {
+                  "service": "firebaseinstallations.googleapis.com"
+                },
+                {
+                  "service": "firebaseml.googleapis.com"
+                },
+                {
+                  "service": "firebaseremoteconfig.googleapis.com"
+                },
+                {
+                  "service": "firebaseremoteconfigrealtime.googleapis.com"
+                },
+                {
+                  "service": "firebasestorage.googleapis.com"
+                },
+                {
+                  "service": "firebasevertexai.googleapis.com"
+                },
+                {
+                  "service": "firestore.googleapis.com"
+                },
+                {
+                  "service": "identitytoolkit.googleapis.com"
+                },
+                {
+                  "service": "logging.googleapis.com"
+                },
+                {
+                  "service": "mlkit.googleapis.com"
+                },
+                {
+                  "service": "play.googleapis.com"
+                },
+                {
+                  "service": "securetoken.googleapis.com"
+                },
+                {
+                  "service": "fpnv.googleapis.com"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "channels": [
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev",
+          "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "release": {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev/releases/1792741774174000",
+            "version": {
+              "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/9ef40a2ed2ca3b65",
+              "status": "FINALIZED",
+              "config": {
+                "headers": [
+                  {
+                    "headers": {
+                      "Referrer-Policy": "no-referrer",
+                      "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://firestore.googleapis.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+                      "Cache-Control": "no-cache",
+                      "X-Content-Type-Options": "nosniff"
+                    },
+                    "regex": "^.*$"
+                  },
+                  {
+                    "headers": {
+                      "Cache-Control": "public,max-age=31536000,immutable"
+                    },
+                    "regex": "^[/\\\\]assets[/\\\\].*$"
+                  }
+                ],
+                "rewrites": [
+                  {
+                    "regex": "^.*$",
+                    "path": "/index.html"
+                  }
+                ]
+              },
+              "labels": {
+                "deployment-tool": "cli-firebase"
+              },
+              "createTime": "2026-10-23T07:29:13.659115Z",
+              "createUser": {
+                "email": "dpdhole@gmail.com"
+              },
+              "finalizeTime": "2026-10-23T07:29:20.222553Z",
+              "finalizeUser": {
+                "email": "dpdhole@gmail.com"
+              },
+              "fileCount": "6",
+              "versionBytes": "212650"
+            },
+            "type": "DEPLOY",
+            "releaseTime": "2026-10-23T07:49:34.174Z",
+            "message": "Initialize dev from verified Slice2 compatibility preview; exact version, no rebuild",
+            "releaseUser": {
+              "email": "dpdhole@gmail.com"
+            }
+          },
+          "createTime": "2026-10-23T07:49:32.700363250Z",
+          "updateTime": "2026-10-23T07:49:34.174Z",
+          "retainedReleaseCount": 10,
+          "expireTime": "2026-11-22T07:49:32.700363250Z"
+        },
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/uat",
+          "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+          "createTime": "2026-10-23T07:49:33.998777426Z",
+          "updateTime": "2026-10-23T07:49:33.998777426Z",
+          "retainedReleaseCount": 10,
+          "expireTime": "2026-11-22T07:49:33.998777426Z"
+        },
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc",
+          "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "createTime": "2026-10-23T07:49:33.336597957Z",
+          "updateTime": "2026-10-23T07:49:33.336597957Z",
+          "retainedReleaseCount": 10,
+          "expireTime": "2026-11-22T07:49:33.336597957Z"
+        },
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+          "url": "https://taskify-dev-dpdhole.web.app",
+          "createTime": "2026-10-07T11:52:48.877987847Z",
+          "updateTime": "2026-10-07T11:52:48.877987847Z",
+          "retainedReleaseCount": 2147483647
+        }
+      ]
+    }
+  },
+  "cloudAfter": {
+    "checkedAt": "2026-10-23T15:41:30.643Z",
+    "project": {
+      "projectId": "taskify-dev-dpdhole",
+      "projectNumber": "243252492098",
+      "state": "ACTIVE"
+    },
+    "checks": {
+      "database": {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED"
+      },
+      "rules": {
+        "releases": [
+          {
+            "name": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+            "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76"
+          }
+        ]
+      },
+      "billing": {
+        "billingEnabled": false
+      },
+      "providers": {
+        "defaultSupportedIdpConfigs": [
+          {
+            "provider": "apple.com",
+            "enabled": true,
+            "clientIdConfigured": false
+          },
+          {
+            "provider": "google.com",
+            "enabled": true,
+            "clientIdConfigured": true
+          },
+          {
+            "provider": "microsoft.com",
+            "enabled": true,
+            "clientIdConfigured": true
+          }
+        ]
+      },
+      "authConfig": {
+        "name": "projects/243252492098/config",
+        "signIn": {},
+        "authorizedDomains": [
+          "localhost",
+          "taskify-dev-dpdhole.firebaseapp.com",
+          "taskify-dev-dpdhole.web.app",
+          "taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+        ]
+      },
+      "webApps": {
+        "apps": [
+          {
+            "appId": "1:243252492098:web:39b2429e66b2e1f511fadb",
+            "displayName": "Taskify PoC browser",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "keys": {
+        "keys": [
+          {
+            "name": "projects/243252492098/locations/global/keys/e4ff897c-ea96-4a3c-bcb7-039dadba550c",
+            "displayName": "Browser key (auto created by Firebase)",
+            "restrictions": {
+              "browserKeyRestrictions": {},
+              "apiTargets": [
+                {
+                  "service": "firebasedatabase.googleapis.com"
+                },
+                {
+                  "service": "firebasehosting.googleapis.com"
+                },
+                {
+                  "service": "firebaserules.googleapis.com"
+                },
+                {
+                  "service": "sqladmin.googleapis.com"
+                },
+                {
+                  "service": "cloudconfig.googleapis.com"
+                },
+                {
+                  "service": "datastore.googleapis.com"
+                },
+                {
+                  "service": "fcmregistrations.googleapis.com"
+                },
+                {
+                  "service": "firebase.googleapis.com"
+                },
+                {
+                  "service": "firebaseappcheck.googleapis.com"
+                },
+                {
+                  "service": "firebaseappdistribution.googleapis.com"
+                },
+                {
+                  "service": "firebaseapphosting.googleapis.com"
+                },
+                {
+                  "service": "firebaseapptesters.googleapis.com"
+                },
+                {
+                  "service": "firebasedataconnect.googleapis.com"
+                },
+                {
+                  "service": "firebaseinappmessaging.googleapis.com"
+                },
+                {
+                  "service": "firebaseinstallations.googleapis.com"
+                },
+                {
+                  "service": "firebaseml.googleapis.com"
+                },
+                {
+                  "service": "firebaseremoteconfig.googleapis.com"
+                },
+                {
+                  "service": "firebaseremoteconfigrealtime.googleapis.com"
+                },
+                {
+                  "service": "firebasestorage.googleapis.com"
+                },
+                {
+                  "service": "firebasevertexai.googleapis.com"
+                },
+                {
+                  "service": "firestore.googleapis.com"
+                },
+                {
+                  "service": "identitytoolkit.googleapis.com"
+                },
+                {
+                  "service": "logging.googleapis.com"
+                },
+                {
+                  "service": "mlkit.googleapis.com"
+                },
+                {
+                  "service": "play.googleapis.com"
+                },
+                {
+                  "service": "securetoken.googleapis.com"
+                },
+                {
+                  "service": "fpnv.googleapis.com"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "channels": [
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev",
+          "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "release": {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev/releases/1792770065955000",
+            "version": {
+              "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/ed7c71c3d578e5de",
+              "status": "FINALIZED",
+              "config": {
+                "headers": [
+                  {
+                    "headers": {
+                      "Cache-Control": "no-cache",
+                      "X-Content-Type-Options": "nosniff",
+                      "Referrer-Policy": "no-referrer",
+                      "Content-Security-Policy": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self'; img-src 'self' data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src 'self' https://taskify-dev-dpdhole.firebaseapp.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+                    },
+                    "regex": "^.*$"
+                  },
+                  {
+                    "headers": {
+                      "Cache-Control": "public,max-age=31536000,immutable"
+                    },
+                    "regex": "^[/\\\\]assets[/\\\\].*$"
+                  }
+                ],
+                "rewrites": [
+                  {
+                    "regex": "^.*$",
+                    "path": "/index.html"
+                  }
+                ]
+              },
+              "labels": {
+                "deployment-tool": "cli-firebase"
+              },
+              "createTime": "2026-10-23T15:41:01.374690Z",
+              "createUser": {
+                "email": "dpdhole@gmail.com"
+              },
+              "finalizeTime": "2026-10-23T15:41:05.739909Z",
+              "finalizeUser": {
+                "email": "dpdhole@gmail.com"
+              }
+            },
+            "type": "DEPLOY",
+            "releaseTime": "2026-10-23T15:41:05.955Z",
+            "releaseUser": {
+              "email": "dpdhole@gmail.com"
+            }
+          },
+          "createTime": "2026-10-23T07:49:32.700363250Z",
+          "updateTime": "2026-10-23T15:41:05.955Z",
+          "retainedReleaseCount": 10,
+          "expireTime": "2026-11-22T15:41:00.129408364Z"
+        },
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/uat",
+          "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+          "createTime": "2026-10-23T07:49:33.998777426Z",
+          "updateTime": "2026-10-23T07:49:33.998777426Z",
+          "retainedReleaseCount": 10,
+          "expireTime": "2026-11-22T07:49:33.998777426Z"
+        },
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc",
+          "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "createTime": "2026-10-23T07:49:33.336597957Z",
+          "updateTime": "2026-10-23T07:49:33.336597957Z",
+          "retainedReleaseCount": 10,
+          "expireTime": "2026-11-22T07:49:33.336597957Z"
+        },
+        {
+          "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+          "url": "https://taskify-dev-dpdhole.web.app",
+          "createTime": "2026-10-07T11:52:48.877987847Z",
+          "updateTime": "2026-10-07T11:52:48.877987847Z",
+          "retainedReleaseCount": 2147483647
+        }
+      ]
+    }
+  },
+  "invariants": {
+    "backendMetadataUnchanged": true,
+    "liveQcUatUnchanged": true,
+    "intentionalKeyMetadataUnchanged": true,
+    "onlyThreePreviewChannels": true,
+    "authDomainSync": false,
+    "interactiveOAuth": false,
+    "gitCommit": false,
+    "gitPush": false
+  },
+  "preflightCorrections": [
+    "Moved module-graph.json diagnostics outside the publication directory before passing exclusion checks.",
+    "Firebase CLI rejected the nested config referencing outside its project directory; deployed using a temporary root config with the same Hosting policy and exact artifact."
+  ],
+  "remaining": [
+    "Real Google OAuth consent/provider interaction and mobile browser policies unverified",
+    "Microsoft flow implementation and complete Slice3 acceptance pending"
+  ],
+  "command": "node node_modules/firebase-tools/lib/bin/firebase.js hosting:channel:deploy dev --project taskify-dev-dpdhole --config firebase.auth-preview.json --expires 30d --no-authorized-domains --non-interactive --json"
+}

@@ -21,6 +21,7 @@ export default [
       'dist/**',
       'dist-proof/**',
       'dist-compatibility/**',
+      'dist-auth/**',
       '.local/**',
     ],
   },

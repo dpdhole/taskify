@@ -2,6 +2,71 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Slice3 Auth preview published to dev
+
+- Owner requested dev deployment and explicitly allowed the uncommitted snapshot.
+  Published Auth-mode build `adb902976e4c-6e922f6f8c40361a`, Hosting version
+  `ed7c71c3d578e5de`; expiry22 November2026 at21:11 IST.
+  [Deployment and evidence](slices/03-provider-sign-in-dev-preview.md).
+- HTTPS hashes/headers/exclusions and headless390/1280px readiness, Google control,
+  reload, offline/reconnect and layout checks passed. No interactive OAuth attempted.
+- qc/uat/live and backend/key metadata unchanged. No staging, commit or push.
+  Microsoft and complete Slice3 provider acceptance remain pending. Normal future
+  release/promotion policy continues to require reviewed clean source commits.
+
+## 2026-10-23 — Slice3 Google flow implemented locally
+
+- Owner authorized the next step after Auth/session. Auth mode now provides Google
+  popup sign-in, hosted touch-device redirect, explicit redirect fallback for a
+  blocked popup, classified recovery and safe retry. UID remains the identity key;
+  application account linking and provisioning remain later slices.
+- Logout invalidates unfinished provider intent before SDK user commitment, with
+  same-origin cross-tab coordination. Current compatibility remains required for
+  protected readiness after provider completion. [Google checkpoint](slices/03-provider-sign-in-google.md).
+- 102 unit/component checks, all four builds,7 integration and15 headless Chromium
+  checks passed. Emulator browser checks exercise Google popup, refresh persistence,
+  popup cancellation/late result, blocked-popup redirect at390px and cross-tab Logout
+  during an unfinished popup. Google's official iframe helper library is the only
+  permitted external provider helper origin in those tests; auth exchanges use
+  the local emulator. Real Google OAuth and mobile browser policy remain unverified.
+- Microsoft flow and real-provider acceptance remain pending. No cloud configuration,
+  hosting publication, staging, commit or push in this step. Earlier step reports
+  remain historical checkpoints; their input hashes describe their original source.
+
+## 2026-10-23 — Slice3 Auth/session step implemented locally
+
+- Owner authorized Auth adapter/session controller after configuration. One stable
+  Firebase app now composes persistent Auth and the compatibility reader in auth
+  mode. Restoration/gate state are independent; session generations guard account
+  transitions and Logout requires SDK plus observer confirmation. Failed Logout
+  quarantines protected content with explicit retry. [Checkpoint](slices/03-provider-sign-in-session.md).
+- 85 unit/component tests, four builds,7 integration and11 headless Chromium
+  checks passed without browser retries. Real SDK/emulator checks cover refresh
+  persistence, rendered mobile/desktop session UI, UID switching and cross-tab
+  Logout. No live OAuth was attempted and Slice3 is not complete.
+- Google/Microsoft provider controls/flows are next. Microsoft account types and
+  both callback lists are screenshot-verified; secret expiry, Google audience and
+  actual provider completion remain unverified. No cloud configuration change,
+  deployment, staging, commit or push in this step.
+
+## 2026-10-23 — Slice3 configuration step implemented
+
+- Session checkout: taskify-slice-implementation, baseline adb9029. Owner authorized
+  step-by-step implementation beginning with configuration. Registered one Web App,
+  added exact dev/qc/uat Firebase Auth domains, retained existing provider settings
+  and disabled billing. Public SDK values are local/ignored; no secrets in evidence.
+- Prepared strict browser config/stable app factory, same-origin host selection,
+  CSP and HTML LF configuration. The factory is not yet wired into the ordinary
+  app; session/controller composition follows in step2.
+- Owner confirmed Microsoft personal and work/school audience. Google/Microsoft
+  provider-console callback and Microsoft audience/secret-expiry checks remain
+  initially unverified; owner subsequently supplied screenshots confirming both
+  providers' callback entries and Google origins. Microsoft account-type/expiry
+  and actual OAuth checks remain. [Configuration record](slices/03-provider-sign-in-configuration.md).
+- 65 unit/component tests, all builds, static checks and local Hosting checks at
+  mobile/desktop widths passed. No interactive sign-in, cloud Hosting deployment,
+  staging, commit or push. Configuration changes are in the working tree.
+
 ## 2026-10-23 — Slice3 adds Microsoft; Apple authentication deferred
 
 - Owner added Microsoft sign-in and deferred Apple authentication. Google and Microsoft are the active Slice 3 providers; Apple feasibility, implementation and live validation do not block acceptance.

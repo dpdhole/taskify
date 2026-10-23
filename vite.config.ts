@@ -16,11 +16,14 @@ function files(dir: string): string[] {
 export default defineConfig(({ mode }) => {
   const proof = mode === 'foundation';
   const compatibility = mode === 'compatibility';
+  const auth = mode === 'auth';
   const outDir = proof
     ? 'dist-proof'
     : compatibility
       ? 'dist-compatibility'
-      : 'dist';
+      : auth
+        ? 'dist-auth'
+        : 'dist';
   const entry = proof
     ? 'foundation.html'
     : compatibility
@@ -63,6 +66,11 @@ export default defineConfig(({ mode }) => {
         configureServer(server) {
           server.middlewares.use((req, res, next) => {
             const url = req.url?.split('?')[0] ?? '';
+            if (url.startsWith('/tests/') && mode !== 'session-test') {
+              res.statusCode = 404;
+              res.end('Not available');
+              return;
+            }
             const legacy =
               url === '/foundation.html' ||
               /\/src\/(ui\/Proof|application\/probe-session|domain\/probe|infrastructure\/(memory\/probe-reader|firebase\/(probe-reader|local-config))|state\/probe-store)/.test(
@@ -116,7 +124,12 @@ export default defineConfig(({ mode }) => {
         },
       },
     ],
-    optimizeDeps: { entries: [entry] },
+    optimizeDeps: {
+      entries:
+        mode === 'session-test'
+          ? [entry, 'tests/support/session-browser-fixture.ts']
+          : [entry],
+    },
     server: { host: '127.0.0.1', port: 5173, strictPort: true },
     preview: { host: '127.0.0.1', port: 4173, strictPort: true },
     build: { outDir, rollupOptions: { input: entry } },

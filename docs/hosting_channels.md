@@ -9,7 +9,7 @@ Foundation and Slice2 deployment evidence remains unchanged.
 
 | Channel | Purpose | Current state |
 |---|---|---|
-| `dev` | Development previews | Slice2 app0.1.0, contract1, exact version9ef40a2ed2ca3b65 from clean commit67e170e |
+| `dev` | Development previews | Slice3 Auth/Google app0.1.0, contract1, versioned7c71c3d578e5de; owner-approved uncommitted snapshot (see deployment record) |
 | `qc` | Testing and verification | Created; no release |
 | `uat` | External/beta review | Created; no release |
 | `live` | Product release when ready | Unchanged; no live release approved |
@@ -17,6 +17,9 @@ Foundation and Slice2 deployment evidence remains unchanged.
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
 Empty qc/uat channels have no app to review until an explicitly requested release.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
+Current dev release: [Auth preview record](slices/03-provider-sign-in-dev-preview.md).
+The owner explicitly approved an uncommitted snapshot for this dev release; future
+releases retain the clean-commit policy below.
 
 ## Explicit instructions
 
@@ -57,7 +60,9 @@ isolation needs a separately agreed environment/project decision.
 ## Expiry
 
 Use up to30 days for preview channels. The channels created on23 October2026
-expire **22 November2026 at13:19 IST**. Renew only on explicit instruction; no
+initially expire **22 November2026 at13:19 IST**. The23 October dev deployment
+renewed dev to **22 November2026 at21:11 IST**; qc/uat retain their initial expiry.
+Renew only on explicit instruction; no
 scheduled renewal or deployment. Check and report expiry at each hosting action.
 Expiry may remove a channel and invalidate its URL; recreating it can change the
 URL. Live Hosting has a separate lifecycle and must not be used to avoid preview

@@ -12,3 +12,5 @@
 /firebase-debug.*.log
 /*.tsbuildinfo
 /dist-compatibility/
+
+/dist-auth/

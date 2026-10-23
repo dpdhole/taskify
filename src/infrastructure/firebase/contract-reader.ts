@@ -8,6 +8,7 @@ import {
   onSnapshot,
   terminate,
 } from 'firebase/firestore';
+import type { Firestore } from 'firebase/firestore';
 import type { ContractReader } from '../../application/compatibility-gate';
 export interface ContractConfig {
   projectId: string;
@@ -68,6 +69,18 @@ export function createContractReader(raw: unknown) {
   const db = initializeFirestore(app, { localCache: memoryLocalCache() });
   if (config.emulator)
     connectFirestoreEmulator(db, config.emulator.host, config.emulator.port);
+  const shared = createContractReaderForDatabase(db);
+  return {
+    ...shared,
+    async dispose() {
+      await terminate(db);
+      await deleteApp(app);
+    },
+  };
+}
+
+/** The runtime owns the shared database; this adapter owns only its listeners. */
+export function createContractReaderForDatabase(db: Firestore) {
   const reference = doc(db, 'runtime/compatibility');
   const stats = {
     serverReadRequests: 0,
@@ -108,9 +121,5 @@ export function createContractReader(raw: unknown) {
   return {
     reader,
     stats,
-    async dispose() {
-      await terminate(db);
-      await deleteApp(app);
-    },
   };
 }

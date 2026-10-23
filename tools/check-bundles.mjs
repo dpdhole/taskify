@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-for (const dir of ['dist', 'dist-proof', 'dist-compatibility']) {
+for (const dir of ['dist', 'dist-proof', 'dist-compatibility', 'dist-auth']) {
   const graph = JSON.parse(fs.readFileSync(dir + '/module-graph.json', 'utf8'));
   const bad = graph.filter((id) =>
     /@grpc\/|firebase-admin|@google-cloud\/|@opentelemetry\/|node_modules\/(braces|uuid)\/|index\.node\.|tests\//.test(
@@ -8,7 +8,12 @@ for (const dir of ['dist', 'dist-proof', 'dist-compatibility']) {
     ),
   );
   assert.deepEqual(bad, [], dir + ' contains forbidden modules');
-  if (dir === 'dist')
+  if (dir === 'dist-auth')
+    assert.ok(
+      graph.some((id) => id.includes('@firebase/auth/')),
+      'Auth SDK entry absent',
+    );
+  if (dir === 'dist' || dir === 'dist-auth')
     assert.deepEqual(
       graph.filter((id) =>
         /probe-session|domain\/probe\.|probe-reader|probe-store|local-config|ProofView|app\/proof|protected-consumers|compatibility-harness/.test(

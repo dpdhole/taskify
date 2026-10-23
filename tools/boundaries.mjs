@@ -12,7 +12,7 @@ const external = {
   domain: [],
   application: [],
   state: ['zustand/vanilla'],
-  infrastructure: ['firebase/app', 'firebase/firestore'],
+  infrastructure: ['firebase/app', 'firebase/firestore', 'firebase/auth'],
   ui: ['react', 'react/jsx-runtime', 'zustand', 'react-router'],
   app: ['react', 'react/jsx-runtime', 'react-dom/client', 'react-router'],
 };

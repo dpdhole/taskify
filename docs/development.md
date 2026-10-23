@@ -1,8 +1,8 @@
 # Taskify developer setup
 
 Foundation provides an isolated synthetic read proof. Slice2 adds the ordinary
-compatibility gate and a separate compatibility harness. No sign-in, Tasks or
-provisioning is implemented. The ordinary entry is not
+compatibility gate and a separate compatibility harness. Auth mode adds incremental Google sign-in; Microsoft, Tasks and
+provisioning remain pending. The ordinary entry is not
 an implemented Taskify workspace. See [slice detailing](slices/01-foundation.md),
 [readiness](slices/readiness-check.md) and [dependency conditions](slices/01-foundation-dependencies.md).
 
@@ -24,7 +24,7 @@ Playwright's Chromium binaries are installed explicitly into ignored .local/brow
 No global Firebase CLI, login, cloud project or deployment is required.
 
 Fast verify runs strict types (including a core target without browser/Node global
-types), layer/cycle checks, lint/format, unit/component tests, three builds and module
+types), layer/cycle checks, lint/format, unit/component tests, four builds and module
 isolation checks. verify:all adds locally owned Auth/Firestore/Hosting instances,
 Rules/integration checks and Chromium tests. It stops those instances after tests.
 Do not run concurrent emulator suites on the same ports.
@@ -151,3 +151,22 @@ implementation, validation or commits. Promote verified artifact versions throug
 dev → qc → uat without rebuilding. UAT → live needs explicit owner approval when
 the product is ready. See [channel policy](hosting_channels.md) for the current
 URLs, expiry and migration evidence. Earlier per-slice channel names are historical.
+
+## Slice3 configuration checkpoint
+
+Auth-mode public SDK settings are kept in ignored .env.auth.local, separate from
+ordinary test/build configuration. Run node tools/check-auth-config.mjs to validate
+identity and the exact channel host allowlist without displaying the key. The
+stable app factory composes Auth/session and Google flow in auth mode. Use localhost for future real local OAuth. See [configuration and provider
+verification](slices/03-provider-sign-in-configuration.md) for exact callback URIs,
+Microsoft personal/work-school audience and pending acceptance evidence.
+
+## Auth/session implementation checkpoint
+
+Use npm run dev -- --mode auth and open http://localhost:5173 for the incremental
+Auth/session surface. npm run build:auth writes ignored dist-auth; ordinary mode
+retains the compatibility-only surface. Auth mode reads .env.auth.local. Continue with Google is implemented; Microsoft remains pending. The [session checkpoint](slices/03-provider-sign-in-session.md)
+records state/Logout behavior. The [Google checkpoint](slices/03-provider-sign-in-google.md)
+records popup/redirect behavior, cancellation and remaining real-provider checks. Full headless checks
+add an owned session-test Vite server on5176; its emulator fixture is denied in
+ordinary dev and excluded from static artifacts. Confirm before interactive tests.

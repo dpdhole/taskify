@@ -22,6 +22,16 @@ assert.match(
   root.headers.get('content-security-policy'),
   /connect-src https:\/\/firestore\.googleapis\.com/,
 );
+const policy = root.headers.get('content-security-policy');
+assert.ok(policy.includes('https://identitytoolkit.googleapis.com'));
+assert.ok(policy.includes('https://securetoken.googleapis.com'));
+assert.ok(
+  policy.includes(
+    "frame-src 'self' https://taskify-dev-dpdhole.firebaseapp.com",
+  ),
+);
+assert.ok(policy.includes("script-src 'self' https://apis.google.com"));
+assert.ok(!policy.includes('unsafe-inline') && !policy.includes('*'));
 assert.equal(
   sha(Buffer.from(await root.arrayBuffer())),
   evidence.files['index.html'],

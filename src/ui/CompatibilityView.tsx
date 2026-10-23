@@ -23,17 +23,20 @@ export function CompatibilityView({
   reload,
   appVersion,
   buildId,
+  embedded = false,
 }: {
   projection: ReturnType<typeof createCompatibilityStore>;
   retry: () => void;
   reload: () => void;
   appVersion: string;
   buildId: string;
+  embedded?: boolean;
 }) {
   const state = useStore(projection.store, (s) => s.state);
+  const Container = embedded ? 'section' : 'main';
   return (
-    <main className={styles.panel}>
-      <h1>Taskify</h1>
+    <Container className={embedded ? undefined : styles.panel}>
+      {embedded ? <h2>Compatibility</h2> : <h1>Taskify</h1>}
       <p role="status" aria-live="polite">
         {messages[state.reason] ??
           messages[state.status] ??
@@ -48,11 +51,11 @@ export function CompatibilityView({
           )}
         </div>
       )}
-      <p>Sign-in and Tasks are not available in this build.</p>
+      {!embedded && <p>Sign-in and Tasks are not available in this build.</p>}
       <small>
         App {appVersion} · build {buildId} · {state.status}
         {state.revision !== null ? ` · contract ${state.revision}` : ''}
       </small>
-    </main>
+    </Container>
   );
 }

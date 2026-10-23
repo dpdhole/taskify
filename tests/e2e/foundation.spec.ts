@@ -93,6 +93,7 @@ test('ordinary dev and static entries exclude proof access and render correctly'
     );
   }
   for (const route of [
+    '/tests/support/session-browser-fixture.ts',
     '/foundation.html',
     '/compatibility.html',
     '/src/app/compatibility-harness.tsx',

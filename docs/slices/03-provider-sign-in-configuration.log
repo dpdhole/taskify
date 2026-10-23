@@ -1,0 +1,169 @@
+
+=== verification.log ===
+
+> taskify@0.1.0 verify
+> npm run typecheck && npm run check:boundaries && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && node tools/check-bundles.mjs
+
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 20 files
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> taskify@0.1.0 test:unit
+> vitest run
+
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  9 passed (9)
+      Tests  65 passed (65)
+   Start at  16:03:41
+   Duration  7.87s (environment 37%, tests 34%, import 13%, setup 7%, transform 7%, worker 2%)
+
+
+> taskify@0.1.0 build
+> node node_modules/vite/bin/vite.js build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 39 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-CmtkVJwC.js   634.20 kB │ gzip: 194.90 kB
+
+✓ built in 182ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:proof
+> node node_modules/vite/bin/vite.js build --mode foundation
+
+vite v8.3.5 building client environment for foundation...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-proof/foundation.html                   0.41 kB │ gzip:   0.27 kB
+dist-proof/assets/foundation-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-proof/assets/foundation-DZgjg7Aa.js   785.08 kB │ gzip: 241.52 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 218ms
+
+> taskify@0.1.0 build:compatibility
+> node node_modules/vite/bin/vite.js build --mode compatibility
+
+vite v8.3.5 building client environment for compatibility...
+transforming...
+✓ 42 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-compatibility/compatibility.html                   0.42 kB │ gzip:   0.27 kB
+dist-compatibility/assets/compatibility-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-compatibility/assets/compatibility-B2RTnfyj.js   701.64 kB │ gzip: 214.77 kB
+
+✓ built in 181ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+dist: 38 modules; isolation verified
+dist-proof: 115 modules; isolation verified
+dist-compatibility: 41 modules; isolation verified
+
+
+=== configured-build.log ===
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 39 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-LAQxk7OU.js   698.94 kB │ gzip: 213.97 kB
+
+✓ built in 212ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+{
+  "release": {
+    "appVersion": "0.1.0",
+    "buildId": "adb902976e4c-1aa7c8862da46271",
+    "commit": "adb902976e4c47f78b70853ba8ca31430645ed23",
+    "sourceDirty": true,
+    "builtAt": "2026-10-23T10:34:33.755Z"
+  },
+  "publishable": false,
+  "configSha256": "2f7b472b5dc54c504d19480f7aa2d190b6c431b52e162831b0e00da89675c11b",
+  "files": {
+    "index.html": "ba812f2590a0697cee896623cb7dfc8c708967cd8204b06292b95b9364632a94",
+    "release.json": "49ae70e6635066a96a626fa0fffcb3a30222f577c378156bfd716ab794e01e62",
+    "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838",
+    "assets/index-LAQxk7OU.js": "5539d77ef48c0928c3c0c335c44733c18434a1f336e50bb4960b8c9f7d3c3861"
+  }
+}
+
+
+=== hosting-validation.log ===
+i  emulators: Starting emulators: hosting
+i  emulators: Detected demo project ID "demo-taskify-foundation", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  hosting[demo-taskify-foundation]: Serving hosting files from: ../../dist
++  hosting[demo-taskify-foundation]: Local server: http://127.0.0.1:5002
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/check-hosting.mjs --expect-compatible
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET / HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /inspect HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /tasks/example HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /index.html HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /release.json HTTP/1.1" 200 194 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /assets/index-I7l8Jcwq.css HTTP/1.1" 200 667 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /assets/index-LAQxk7OU.js HTTP/1.1" 200 - "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /module-graph.json HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /foundation.html HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /compatibility.html HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /tests/support/compatibility-write.rules HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /.env HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /tests/support/firestore.rules HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:30 +0000] "GET /assets/nonexistent.js.map HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:45 +0000] "GET /tasks/example HTTP/1.1" 200 392 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:45 +0000] "GET /assets/index-I7l8Jcwq.css HTTP/1.1" 200 667 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:45 +0000] "GET /assets/index-LAQxk7OU.js HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:45 +0000] "GET /tasks/example HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:50 +0000] "GET /tasks/example HTTP/1.1" 200 392 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:50 +0000] "GET /assets/index-I7l8Jcwq.css HTTP/1.1" 200 667 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:50 +0000] "GET /assets/index-LAQxk7OU.js HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:10:35:50 +0000] "GET /tasks/example HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+Hosting configuration: hashes, fallback, cache/security headers, exclusions and 390/1280px browser checks passed. LOCAL ONLY.
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

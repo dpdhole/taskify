@@ -1,6 +1,11 @@
 # Slice 3 — Provider sign-in
 
-Status: **detailing accepted by owner on 23 October 2026; implementation pending**.
+Status: **detailing accepted; configuration, Auth/session and Google flow implemented locally on 23 October2026; Microsoft and real-provider validation pending**.
+See the [Google checkpoint](03-provider-sign-in-google.md) for step3 behavior and validation.
+See the [Auth/session checkpoint](03-provider-sign-in-session.md) for step2 results.
+See the [configuration checkpoint](03-provider-sign-in-configuration.md) for actual
+Web App/domain setup, client configuration, tests and pending provider-console
+verification. The owner authorized this step after accepting the implementation path.
 The owner accepted the discussion baseline and authorized documenting it in the
 separate `taskify-slice3` checkout. This is an implementation baseline, not evidence
 of implemented authentication or provider feasibility. No code, configuration,
@@ -41,7 +46,7 @@ message that workspace functionality is not yet available. Do not simulate a
 provisioned workspace or add unavailable navigation. Provisioning templates need
 no changes because this slice provisions no records.
 
-## Dependency and checkout baseline
+## Historical dependency and checkout baseline
 
 The separate checkout starts at `f264868`, the accepted Slice 2 documentation
 commit. Its baseline contains no accepted Slice 2 implementation. During the
