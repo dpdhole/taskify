@@ -1,0 +1,325 @@
+{
+  "date": "2026-10-23",
+  "scope": "Slice2 compatibility gate; local and approved Firestore checkpoint; no cloud Hosting publication",
+  "baselineCommit": "f2648686c00950480370e75af2c553ea92a823fe",
+  "workingTree": "unstaged/uncommitted",
+  "tools": {
+    "node": "v24.21.0",
+    "npm": "11.19.0",
+    "firebaseCli": "15.34.1",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4"
+  },
+  "results": {
+    "fastVerification": "passed; final type/lint/format recheck also exit 0",
+    "combinedVerifyAll": "exit 2: sandbox loopback hub startup timeout after fast verification passed",
+    "serviceOnlyRerun": "exit 0 outside sandbox",
+    "unitComponent": {
+      "passed": 61,
+      "failed": 0
+    },
+    "integration": {
+      "passed": 7,
+      "failed": 0
+    },
+    "browser": {
+      "passed": 8,
+      "failed": 0,
+      "retries": 0,
+      "viewports": [
+        390,
+        1280
+      ]
+    },
+    "hostingPolicy": "exit 0; --expect-compatible asserts real Firestore ready under CSP at 390/1280px",
+    "frozenTrackedFiles": "unchanged against HEAD; original evidence not rewritten",
+    "dependencyPinsChanged": false,
+    "audit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 4,
+      "high": 8,
+      "critical": 0,
+      "total": 12
+    },
+    "bundleKB": {
+      "ordinaryUnconfigured": 634.2,
+      "ordinaryConfigured": 698.87,
+      "ordinaryConfiguredGzip": 213.91,
+      "proof": 785.08,
+      "harness": 701.64
+    }
+  },
+  "cloud": {
+    "before": {
+      "checkedAt": "2026-10-23T05:59:19.220Z",
+      "project": {
+        "projectId": "taskify-dev-dpdhole",
+        "projectNumber": "243252492098",
+        "state": "ACTIVE"
+      },
+      "billing": {
+        "billingEnabled": false,
+        "billingAccountLinked": false
+      },
+      "checks": {
+        "databases": {},
+        "rules": {},
+        "keys": {
+          "keys": []
+        },
+        "live": {
+          "releases": []
+        }
+      }
+    },
+    "after": {
+      "checkedAt": "2026-10-23T06:31:20.305Z",
+      "checks": {
+        "project": {
+          "projectId": "taskify-dev-dpdhole",
+          "projectNumber": "243252492098",
+          "displayName": "Taskify Development",
+          "name": "projects/taskify-dev-dpdhole",
+          "resources": {
+            "hostingSite": "taskify-dev-dpdhole"
+          },
+          "state": "ACTIVE",
+          "labels": {
+            "firebase": "enabled",
+            "firebaseworkflows/environment": "unspecified"
+          },
+          "etag": "1_8a0b0753-0e24-4c93-854b-7dfdf95d4684"
+        },
+        "billing": {
+          "billingEnabled": false,
+          "billingAccountLinked": false
+        },
+        "database": {
+          "name": "projects/taskify-dev-dpdhole/databases/(default)",
+          "uid": "271a4647-5caa-47e8-8171-9acc14e6bd10",
+          "createTime": "2026-10-23T06:20:50.428949Z",
+          "updateTime": "2026-10-23T06:20:50.428949Z",
+          "locationId": "asia-south1",
+          "type": "FIRESTORE_NATIVE",
+          "concurrencyMode": "PESSIMISTIC",
+          "versionRetentionPeriod": "3600s",
+          "earliestVersionTime": "2026-10-23T06:20:50.428949Z",
+          "appEngineIntegrationMode": "DISABLED",
+          "keyPrefix": "j",
+          "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+          "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+          "databaseEdition": "STANDARD",
+          "freeTier": true,
+          "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+          "etag": "IPuN24PCz5cDMMX//dvAz5cD"
+        },
+        "rules": {
+          "releases": [
+            {
+              "name": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+              "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76",
+              "createTime": "2026-10-23T06:22:08.631541Z",
+              "updateTime": "2026-10-23T06:22:08.631541Z"
+            }
+          ]
+        },
+        "keys": {},
+        "live": {},
+        "apps": {},
+        "domains": {}
+      }
+    },
+    "databaseCreation": {
+      "requestedAt": "2026-10-23T06:20:40.198Z",
+      "projectId": "taskify-dev-dpdhole",
+      "payload": {
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "databaseEdition": "STANDARD",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED"
+      },
+      "status": "submitted",
+      "operation": {
+        "name": "projects/taskify-dev-dpdhole/databases/(default)/operations/EL3mFMyacYHoR6pcR0YaJxAqMWh0dW9zLWFpc2ELIgUQAczE_IgQBtbr-cIIDAovGg",
+        "metadata": {
+          "@type": "type.googleapis.com/google.firestore.admin.v1.CreateDatabaseMetadata"
+        },
+        "done": true,
+        "response": {
+          "@type": "type.googleapis.com/google.firestore.admin.v1.Database",
+          "name": "projects/taskify-dev-dpdhole/databases/(default)",
+          "uid": "271a4647-5caa-47e8-8171-9acc14e6bd10",
+          "createTime": "2026-10-23T06:20:50.428949Z",
+          "updateTime": "2026-10-23T06:20:50.428949Z",
+          "locationId": "asia-south1",
+          "type": "FIRESTORE_NATIVE",
+          "concurrencyMode": "PESSIMISTIC",
+          "versionRetentionPeriod": "3600s",
+          "earliestVersionTime": "2026-10-23T06:20:50.428949Z",
+          "appEngineIntegrationMode": "DISABLED",
+          "keyPrefix": "j",
+          "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+          "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+          "databaseEdition": "STANDARD",
+          "freeTier": true,
+          "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+          "etag": "IN68t9q/z5cDMJWAt9q/z5cD"
+        }
+      }
+    },
+    "publication": {
+      "publishedAt": "2026-10-23T06:25:22.906Z",
+      "projectId": "taskify-dev-dpdhole",
+      "projectNumber": "243252492098",
+      "expectedRevision": null,
+      "revision": 1,
+      "serverRelease": 1,
+      "contractSha256": "451019cbb3ae67eb63c1d67c0ed8f3ff673e5205a35990831d093a20a3a7b53e",
+      "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76",
+      "rulesSourceSha256": "7eefe1aebd7911936d3ff56de9d19439195d98cca10239e75332bb5c720103a8",
+      "verified": true
+    },
+    "browser": {
+      "checkedAt": "2026-10-23T06:25:02.279Z",
+      "projectId": "taskify-dev-dpdhole",
+      "origin": "http://127.0.0.1:4252",
+      "release": {
+        "appVersion": "0.1.0",
+        "buildId": "f2648686c009-a937a4bd3a156123",
+        "commit": "f2648686c00950480370e75af2c553ea92a823fe",
+        "sourceDirty": true,
+        "builtAt": "2026-10-23T06:23:26.389Z"
+      },
+      "observations": [
+        "Missing authoritative singleton blocks client",
+        "Bootstrap revision 1 observed by existing listener; client ready without API key or Web App",
+        "Offline event revokes readiness",
+        "Reconnect server verification restores readiness",
+        "390px: no horizontal overflow and compiled build identity matches release.json",
+        "1280px: no horizontal overflow and compiled build identity matches release.json"
+      ],
+      "cloudHostingPublished": false,
+      "publicAccess": {
+        "singleton": 200,
+        "list": 403,
+        "other": 403,
+        "write": 403
+      },
+      "networkOrigins": [
+        "http://127.0.0.1:4252",
+        "https://firestore.googleapis.com"
+      ],
+      "passed": true
+    },
+    "artifact": {
+      "release": {
+        "appVersion": "0.1.0",
+        "buildId": "f2648686c009-a937a4bd3a156123",
+        "commit": "f2648686c00950480370e75af2c553ea92a823fe",
+        "sourceDirty": true,
+        "builtAt": "2026-10-23T06:23:26.389Z"
+      },
+      "publishable": false,
+      "configSha256": "6695cb303fa63f502375a81efc4ac9dbae254da4066d25a856560869b441cafd",
+      "files": {
+        "index.html": "0fe9584f38e6a6090b9a7bf14b08e5e443bb4dbf69313b16a6cd3ee32ce47bab",
+        "release.json": "170f34584fe6294c59117c75db1fe88ad21bfe30d229ac693766a1aa721d759a",
+        "assets/index-DnBV_Vzd.js": "716697ae85553864f6e06fa06c236fc35df9a0596acf98aa2d84edf524a7e07f",
+        "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838"
+      }
+    }
+  },
+  "failuresAndCorrections": [
+    "Strict optional configuration typing corrected before passing fast run.",
+    "Node DNS ENOTFOUND before creation submission; independently reconciled absence after DNS recovered, then created once.",
+    "Sandbox emulator hub timeout; free-port checked service run outside sandbox passed.",
+    "Automatic review rejected additional revision 2 mutation as beyond explicit approval; omitted and never executed.",
+    "Earlier UI implicit status collision corrected before passing browser checks."
+  ],
+  "pending": [
+    "Owner review and authorized commit",
+    "Fresh clean-source artifact and accepted Hosting preview checkpoint",
+    "Explicit owner approval required for eventual live promotion"
+  ],
+  "inputSha256": {
+    ".env.example": "18f0bf341c5b96d6fc24db14e394c3ea654ffe009c3dd5f45a5d0056969f100f",
+    ".gitignore": "a4b95ff28811e9f810b2bed2851a50f089c8a1df35c73c46d8e06b07b73f664b",
+    ".prettierrc.json": "e51419e8206a0a5493e85ef1f4dea080982dc9187992bb253220a93d0784f6b2",
+    "compatibility.html": "e26da720fa767f559be3596dc2cd7ffcc51ca6f0481e0bac761ad609c9f31188",
+    "config/compatibility/poc.json": "715f0a952ab2b135874444556d89188700893eca778f719e4f51886ac394b789",
+    "eslint.config.mjs": "17b44276fdbddf22b971432f51af78f7dc9a524aa692fab1764c5350799d40d3",
+    "firebase.compatibility.json": "d0eb536bfebc7fb1bdfeeceeacc46370914160981efbc9ddb9879834df2b6f59",
+    "firebase.hosting.json": "6695cb303fa63f502375a81efc4ac9dbae254da4066d25a856560869b441cafd",
+    "firebase.local.json": "a0f4dd8826d1ef2030b806f338a5a9a17bad79a32765fb64aae22011863b1812",
+    "firestore.compatibility.rules": "7eefe1aebd7911936d3ff56de9d19439195d98cca10239e75332bb5c720103a8",
+    "foundation.html": "7fef5fd5c677945e73d51768fd862f51cdf492db640986e873d54ca088cb21cc",
+    "index.html": "a6bba1c8553d741eb4be7b27c02b8fac363ca730a13fe3990bb99c6380d0d8dc",
+    "package-lock.json": "612d2a6b30b5e7fcc865ee85c3225d5072381e8fb10dcd7591ee7a24f81e7ca1",
+    "package.json": "3f0bcd7c20034b1e06d6d9ca4a35a9068456a56d2483758b15d3a5757182ce17",
+    "playwright.config.ts": "5b223843c6eab949c6f5ba868c8c0196c38ca5d054b422dd95a8980c2e7f156b",
+    "src/app/client-capabilities.ts": "1ee0e39b0089db049f653bfb21885ab14767bb390ab94530281b9dd29214ade1",
+    "src/app/compatibility-harness.tsx": "25de788afa72f776af83da5d3e7a64f1891ed70da838c1956c152af9491a2889",
+    "src/app/main.tsx": "66911a95df7c52d92f093366f2185aee730699894d2c81b676a632afd994329d",
+    "src/app/proof.tsx": "49371ce3f8374d00615adadd770bc544ebec84d998f8c99d56462365a8bd333c",
+    "src/application/compatibility-gate.ts": "6786c5588717c4635fc401335fd6e328d639844fd1575387da13add0b0959583",
+    "src/application/probe-session.ts": "34b2498bd7c97ceef9f4295244c26d8c5c787c0b57576a8a2550bcd27383551b",
+    "src/application/protected-consumers.ts": "9fc97dfb50538dca4743721e04d837ff5302c87070c2fbcc5cde8e4670efef5a",
+    "src/domain/compatibility.ts": "8552f9c0428fbdfe7e4e922ef89338a96e026c5adecba16df760f4f9b20acf5b",
+    "src/domain/probe.ts": "1fdf1ee392ae0c05273a91781b06f7702006b4f11528de6b7fb9be9ef2fa7582",
+    "src/infrastructure/firebase/contract-reader.ts": "3d3b11394d96d6f97d2275633a47b1472bb8b2130b8c38dacd609b7fbdb95334",
+    "src/infrastructure/firebase/local-config.ts": "1155fc51b8e22f94c1fd46f28ffc07322ad63c48e74cecdf51bb3de9fd029484",
+    "src/infrastructure/firebase/probe-reader.ts": "5293f7e2a3884587e38d01ae0acf018bc32a411e7a4ec1773e423cf333fc1503",
+    "src/infrastructure/memory/contract-reader.ts": "011d8a767fea918cf70067993603b3c74469ef9fbd2eb7ded177d9b704d194e8",
+    "src/infrastructure/memory/probe-reader.ts": "4adaf04f7bd7fb7b11285440f73e862ae4dea5cd4375c9b8fd69d18ab901f535",
+    "src/state/compatibility-store.ts": "d972ff2dea931cf9e3fd3ca93d4cb3753186f41d1808f7b7e9707c70490a2c55",
+    "src/state/probe-store.ts": "c3ee9de0154417b04aaf9f8ceb771bbe4bd13a3824f040d124fefff61ec3ae24",
+    "src/ui/CompatibilityHarnessView.tsx": "452a397951d1c6106fe068d1462293dbadd8125f0c3f5698a6964caaecba8113",
+    "src/ui/CompatibilityView.tsx": "1c1fc00d0f76698d0c7889a446fd2943bfef31f1f044b77f8c0767084b7b5c7b",
+    "src/ui/ProofView.tsx": "5bb4cf2d6ece6e57546ab578d20c7d5ae35a29c3baf92a0ef620a2420e931b81",
+    "src/ui/foundation.module.css": "c4f461a27f9e719d2fa2cd618a653bbf2a0bf17180545d0c3bd77894ea2d19ac",
+    "tests/component/compatibility.test.tsx": "777083c4a0ca92ec0d960438befd5b864ee6185f433d04d84e64a8ebdf5c9e8d",
+    "tests/component/proof.test.tsx": "5e153dabd60209b838da895ae009fbcb36da7b5856359a03a072a8eeb18f4199",
+    "tests/e2e/compatibility.spec.ts": "018c8700a43a0df524109a2989d474213d11c2fe6c0ba6fb898064cf108c0963",
+    "tests/e2e/foundation.spec.ts": "466c3d66f0a14a4aa93c2e0a1ea27b4d59b04594f14e29b14728a8114d4a363e",
+    "tests/integration/compatibility.test.ts": "158a9d0161f5d3762f4ab824c3b939fd496d086a32772df89ef2f5842eb7ba0a",
+    "tests/integration/emulator.test.ts": "e680b65879fc474583c225a6491a6f5e799e079a85e3044a068cf8b8aaf7945c",
+    "tests/support/compatibility-fixtures.ts": "7b8b68a1e04e0d5f82d575ddc1b1f17b41ff84abe361f63d8d23ea4a2ef2ae31",
+    "tests/support/compatibility-write.rules": "e1422a66730144d7c6ede75786abf858576f3625b6182017fe3af4b3b2d0b402",
+    "tests/support/firestore.rules": "4ad1436ef6c8b2504ac406e813d57b3bd3216d880fb2400cba0b77af469d2bfd",
+    "tests/support/setup.ts": "ae4b6b92c8c0f06526032b2dedeb4fb0e93b85af2a138a423386f2e36894a685",
+    "tests/unit/compatibility-config.test.ts": "bd349c52545134c7528d5419bd34f87394637617a507613148e8ca7a7bb46625",
+    "tests/unit/compatibility-domain.test.ts": "da4dbc83b80a536d4e7c59f36db66a62477af26f5f9ded75872c1280e5a71f73",
+    "tests/unit/compatibility-gate.test.ts": "24ea9753e6621412f1c291285693fa245c4a11f04b46001add7e9b8a644a4662",
+    "tests/unit/compatibility-publication.test.ts": "e774916c3dac145ef7b3c4c7f51cb2045ba4bc50c684e8f43e27d118f0d8d21a",
+    "tests/unit/preflight.test.ts": "b67e3a5c8fea3bc171f7d2cfcc0738702a8a1570f05135a16440fc0717a23c4d",
+    "tests/unit/probe.test.ts": "6c948f2c1b16bff3cac321e44e6604fcfb35d3e13d2625f63ac5f09fdaf4a678",
+    "tools/boundaries.mjs": "4d29ac92f1cdc025b0c0ef187a06088f53ed569f765d532b14eced70da8ee041",
+    "tools/build-hosting.mjs": "70a6b11ee221e05e534a0024d15c6c0b80918c51b94e93277d1ee6d6fa6f16e4",
+    "tools/check-boundaries.mjs": "b875620b442e57811780c5957c5e5eae722c498465dc98d84ca06fa3f66d80a0",
+    "tools/check-bundles.mjs": "ea0a839aa1942c3f27c0d69a47d9f220630d3e54f529e070366d08d41fe217fb",
+    "tools/check-hosting.mjs": "0c9cb703063d7046ef966356ea0960d5957ac1f0fd45044d326251b1a8ecb5d6",
+    "tools/install-browser.mjs": "9cf3eeb8f9a5c980cd13ac15ef27df17bac7c47ec807d22d1c35f4d60a877e74",
+    "tools/publish-compatibility.mjs": "6e50d15ecec0c1ac7a3373db7dff625df499bbf4af2122547d26494069375a26",
+    "tools/run-emulators.mjs": "cffb0a0a9d47af70132d1bda3cc21f9ab3d50fde8375598cca2dc064f4274e3c",
+    "tools/run-local-tests.mjs": "9b78f7119c3b78fe76876ad2172d2198e002d9e11d0c4c1d32309d66c26c31b7",
+    "tools/validate-hosting.mjs": "acd81b1c18e6885f083e189fd4337dab644721c657af439dfc4dc5ee4850bc77",
+    "tsconfig.core.json": "b0c622186db9dab7c1cc04b039642c34d45ea10ef4e7437bbe933e5fd3728dd0",
+    "tsconfig.json": "abc361b4372cceb65bdbb887e4a20e55dce087cd53ee6a4e4573b41a4f898cb0",
+    "tsconfig.node.json": "4426c473b9dc135811830b46c2a946f1b9ca7ed094336e9165acb764cdfe26a1",
+    "vite.config.ts": "14cb3fde36c0138404037551cc56cac0ab8e4ca100cf15c38e2548a32f72145c",
+    "vitest.config.ts": "53de48fe31013448be246008cc91b1fcfd864be52d9cf4552ca94703e37dd168",
+    "vitest.integration.config.ts": "7fbdca4e58909daf419fa2fa019c1ac891cdb0a7bcc8a5d10929589cdc229b7a"
+  },
+  "rawLogSha256": "711e411905e90eddf784dc3d1eae752b9354ceb922fea069f2d757e523594d9e",
+  "rawEvidenceSha256": {
+    ".local/compatibility/final-validation.log": "45791d6bf5b4ace28aeba7b4f033206c8d254f14c8759c7ca3a45445971c030f",
+    ".local/compatibility/final-services.log": "71d7499e2d55dc3f0b60a0d965a5332ebe21b59fdd5489e898060accdeea48c8",
+    ".local/compatibility/cloud-build.log": "237abfc6e02dded5d3eada859430cfc3308cbce4028166c5898db0ed874c27ea",
+    ".local/compatibility/cloud-check.log": "961e15f55044b5d91a561d496562b885ec1090b7868080f8ea966148b44c3ec3",
+    ".local/compatibility/hosting-validation.log": "aa9a559a15f83458d750eb2c86365f5fbfd9d2d531b348443e1ade1d807bfaea",
+    ".local/compatibility/rules-deployment.log": "860634f40ff88f50ffa916decc8255ea6918db9f0cf0123d171b3f37c6e127c8"
+  },
+  "logNormalization": "Combined tracked log strips trailing horizontal whitespace; original per-run hashes are retained in rawEvidenceSha256."
+}

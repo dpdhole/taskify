@@ -18,7 +18,10 @@ assert.equal(root.status, 200);
 assert.match(root.headers.get('cache-control'), /no-cache/);
 assert.equal(root.headers.get('x-content-type-options'), 'nosniff');
 assert.equal(root.headers.get('referrer-policy'), 'no-referrer');
-assert.match(root.headers.get('content-security-policy'), /connect-src 'none'/);
+assert.match(
+  root.headers.get('content-security-policy'),
+  /connect-src https:\/\/firestore\.googleapis\.com/,
+);
 assert.equal(
   sha(Buffer.from(await root.arrayBuffer())),
   evidence.files['index.html'],
@@ -42,6 +45,8 @@ for (const [file, hash] of Object.entries(evidence.files)) {
 for (const file of [
   'module-graph.json',
   'foundation.html',
+  'compatibility.html',
+  'tests/support/compatibility-write.rules',
   '.env',
   'tests/support/firestore.rules',
   'assets/nonexistent.js.map',
@@ -69,8 +74,12 @@ try {
     await page.getByRole('heading', { name: 'Taskify', exact: true }).waitFor();
     await page.reload();
     await page
-      .getByText('The application foundation is ready for feature development.')
+      .getByText('Sign-in and Tasks are not available in this build.')
       .waitFor();
+    if (process.argv.includes('--expect-compatible'))
+      await page
+        .getByText('Compatibility verified.', { exact: false })
+        .waitFor({ timeout: 30000 });
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,
@@ -78,10 +87,22 @@ try {
       false,
     );
     assert.deepEqual(errors, []);
-    assert.ok(requests.every((url) => url.startsWith(origin + '/')));
+    assert.ok(
+      requests.every((url) => {
+        const parsed = new URL(url);
+        return (
+          parsed.origin === origin ||
+          parsed.origin === 'https://firestore.googleapis.com'
+        );
+      }),
+    );
+    await page.getByText(evidence.release.buildId, { exact: false }).waitFor();
     assert.ok(
       requests.every(
-        (url) => !/foundation|firebase|firestore|module-graph/.test(url),
+        (url) =>
+          !/foundation|compatibility-harness|module-graph/.test(
+            new URL(url).pathname,
+          ),
       ),
     );
     await page.close();

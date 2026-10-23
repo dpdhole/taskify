@@ -1,15 +1,14 @@
 # Slice 2 — Compatibility gate
 
-Status: **documentation accepted by owner on 23 October 2026; implementation pending**.
-The owner accepted the objective/scope recommendations, contract/runtime details
-and synthetic-consumer/operator/test approach, then authorized documentation.
-The owner subsequently accepted this documentation and confirmed the database
-approach. This document records the accepted implementation baseline, not deployed
-artifacts. Example values remain illustrative until deliberately selected.
-No application code, executable Rules, scripts or cloud resources are changed
-by this detailing. The owner authorized commit preparation/staging only; commit,
-push, implementation and cloud provisioning await their applicable instructions. Live promotion remains deferred
-until development matures and requires explicit owner approval.
+Status: **accepted specification; implementation and local validation complete in the working tree**.
+The owner accepted this baseline on 23 October 2026, authorized implementation,
+headless tests and the explicit real-cloud checkpoint. Database creation, minimal
+Rules and revision 1 bootstrap are complete. See the
+[implementation record](02-compatibility-implementation.md) and
+[validation report](02-compatibility-validation.md) for executed evidence.
+Review, commit and clean-source Hosting preview remain pending; no live promotion.
+The requirements below remain the accepted scope; prospective wording records
+that baseline and does not claim completion of future product features.
 
 Authority: [slice plan](../implementation_plan.md), [architecture](../architecture.md),
 [product specification](../product_spec.md). Foundation evidence remains in its

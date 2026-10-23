@@ -20,6 +20,7 @@ export default [
       'node_modules/**',
       'dist/**',
       'dist-proof/**',
+      'dist-compatibility/**',
       '.local/**',
     ],
   },

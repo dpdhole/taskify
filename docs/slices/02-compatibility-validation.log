@@ -1,0 +1,293 @@
+
+=== Fast verification passed; combined command later failed at sandbox hub startup (exit 2) ===
+
+> taskify@0.1.0 verify:all
+> npm run verify && node tools/run-emulators.mjs
+
+
+> taskify@0.1.0 verify
+> npm run typecheck && npm run check:boundaries && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && node tools/check-bundles.mjs
+
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 19 files
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> taskify@0.1.0 test:unit
+> vitest run
+
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify
+
+
+ Test Files  8 passed (8)
+      Tests  61 passed (61)
+   Start at  11:49:51
+   Duration  11.37s (environment 47%, tests 27%, import 12%, setup 7%, transform 5%, worker 2%)
+
+
+> taskify@0.1.0 build
+> node node_modules/vite/bin/vite.js build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 39 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-apfyhMdv.js   634.20 kB │ gzip: 194.90 kB
+
+✓ built in 203ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:proof
+> node node_modules/vite/bin/vite.js build --mode foundation
+
+vite v8.3.5 building client environment for foundation...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-proof/foundation.html                   0.41 kB │ gzip:   0.27 kB
+dist-proof/assets/foundation-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-proof/assets/foundation-DZgjg7Aa.js   785.08 kB │ gzip: 241.52 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 546ms
+
+> taskify@0.1.0 build:compatibility
+> node node_modules/vite/bin/vite.js build --mode compatibility
+
+vite v8.3.5 building client environment for compatibility...
+transforming...
+✓ 42 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-compatibility/compatibility.html                   0.42 kB │ gzip:   0.27 kB
+dist-compatibility/assets/compatibility-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-compatibility/assets/compatibility-B2RTnfyj.js   701.64 kB │ gzip: 214.77 kB
+
+✓ built in 454ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+dist: 38 modules; isolation verified
+dist-proof: 115 modules; isolation verified
+dist-compatibility: 41 modules; isolation verified
+Local demo project; Java 21; CLI 15.34.1
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-foundation", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  emulators: Shutting down emulators.
+i  hub: Stopping emulator hub
+
+Error: TIMEOUT: Port 4400 on 127.0.0.1 was not active within 60000ms
+
+Error: An unexpected error has occurred.
+
+
+=== Service-only rerun outside sandbox: exit 0 ===
+Local demo project; Java 21; CLI 15.34.1
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-foundation", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator was started in standard edition.
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-foundation]: Serving hosting files from: dist
++  hosting[demo-taskify-foundation]: Local server: http://127.0.0.1:5000
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/run-local-tests.mjs
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify
+
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:22:17 +0000] "GET / HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:22:17 +0000] "GET /direct-link HTTP/1.1" 200 392 "-" "node"
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  11:52:10
+   Duration  7.46s (tests 85%, import 14%, transform 1%)
+
+    Isolate  2 workers spawned · ~1.40s startup each (spawn + environment, per file)
+             at least ~1.40s faster with isolate: false — reuses workers across files instead of one per file
+
+[WebServer] (node:32420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:27324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:21996) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\compatibility.spec.ts:6:3 › compatibility transitions and draft/unknown-outcome preservation at 390 (7.8s)
+  ok 2 tests\e2e\compatibility.spec.ts:6:3 › compatibility transitions and draft/unknown-outcome preservation at 1280 (3.2s)
+  ok 3 tests\e2e\compatibility.spec.ts:82:1 › actual emulator contract changes revoke and recover the isolated harness (3.1s)
+  ok 4 tests\e2e\compatibility.spec.ts:114:1 › ordinary build is fail-closed when unconfigured and excludes synthetic controls (2.5s)
+  ok 5 tests\e2e\foundation.spec.ts:3:3 › memory proof and navigation at 390px (2.8s)
+  ok 6 tests\e2e\foundation.spec.ts:3:3 › memory proof and navigation at 1280px (2.7s)
+  ok 7 tests\e2e\foundation.spec.ts:35:1 › reads local Firebase through the same UI and recovers from malformed fixture data (2.8s)
+  ok 8 tests\e2e\foundation.spec.ts:78:1 › ordinary dev and static entries exclude proof access and render correctly (3.5s)
+
+  8 passed (46.3s)
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+
+=== Configured local-only build: exit 0 ===
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 39 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-DnBV_Vzd.js   698.87 kB │ gzip: 213.91 kB
+
+✓ built in 446ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+{
+  "release": {
+    "appVersion": "0.1.0",
+    "buildId": "f2648686c009-a937a4bd3a156123",
+    "commit": "f2648686c00950480370e75af2c553ea92a823fe",
+    "sourceDirty": true,
+    "builtAt": "2026-10-23T06:23:26.389Z"
+  },
+  "publishable": false,
+  "configSha256": "6695cb303fa63f502375a81efc4ac9dbae254da4066d25a856560869b441cafd",
+  "files": {
+    "index.html": "0fe9584f38e6a6090b9a7bf14b08e5e443bb4dbf69313b16a6cd3ee32ce47bab",
+    "release.json": "170f34584fe6294c59117c75db1fe88ad21bfe30d229ac693766a1aa721d759a",
+    "assets/index-DnBV_Vzd.js": "716697ae85553864f6e06fa06c236fc35df9a0596acf98aa2d84edf524a7e07f",
+    "assets/index-I7l8Jcwq.css": "ade63e459a4940048c8546bf2fbf61dd3d2c9a2c037b1484044784bf3d998838"
+  }
+}
+
+
+=== Approved revision 1 bootstrap and cloud headless checks: exit 0 ===
+{
+  "publishedAt": "2026-10-23T06:25:22.906Z",
+  "projectId": "taskify-dev-dpdhole",
+  "projectNumber": "243252492098",
+  "expectedRevision": null,
+  "revision": 1,
+  "serverRelease": 1,
+  "contractSha256": "451019cbb3ae67eb63c1d67c0ed8f3ff673e5205a35990831d093a20a3a7b53e",
+  "rulesetName": "projects/taskify-dev-dpdhole/rulesets/0a517f53-fe04-4838-8809-3ab937d34c76",
+  "rulesSourceSha256": "7eefe1aebd7911936d3ff56de9d19439195d98cca10239e75332bb5c720103a8",
+  "verified": true
+}
+{
+  "checkedAt": "2026-10-23T06:25:02.279Z",
+  "projectId": "taskify-dev-dpdhole",
+  "origin": "http://127.0.0.1:4252",
+  "release": {
+    "appVersion": "0.1.0",
+    "buildId": "f2648686c009-a937a4bd3a156123",
+    "commit": "f2648686c00950480370e75af2c553ea92a823fe",
+    "sourceDirty": true,
+    "builtAt": "2026-10-23T06:23:26.389Z"
+  },
+  "observations": [
+    "Missing authoritative singleton blocks client",
+    "Bootstrap revision 1 observed by existing listener; client ready without API key or Web App",
+    "Offline event revokes readiness",
+    "Reconnect server verification restores readiness",
+    "390px: no horizontal overflow and compiled build identity matches release.json",
+    "1280px: no horizontal overflow and compiled build identity matches release.json"
+  ],
+  "cloudHostingPublished": false,
+  "publicAccess": {
+    "singleton": 200,
+    "list": 403,
+    "other": 403,
+    "write": 403
+  },
+  "networkOrigins": [
+    "http://127.0.0.1:4252",
+    "https://firestore.googleapis.com"
+  ],
+  "passed": true
+}
+
+
+=== Hosting policy with --expect-compatible: exit 0 ===
+i  emulators: Starting emulators: hosting
+i  emulators: Detected demo project ID "demo-taskify-foundation", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  hosting[demo-taskify-foundation]: Serving hosting files from: ../../dist
++  hosting[demo-taskify-foundation]: Local server: http://127.0.0.1:5002
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/check-hosting.mjs --expect-compatible
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET / HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /inspect HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /tasks/example HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /index.html HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /release.json HTTP/1.1" 200 194 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /assets/index-DnBV_Vzd.js HTTP/1.1" 200 - "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /assets/index-I7l8Jcwq.css HTTP/1.1" 200 667 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /module-graph.json HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /foundation.html HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /compatibility.html HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /tests/support/compatibility-write.rules HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /.env HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /tests/support/firestore.rules HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:20 +0000] "GET /assets/nonexistent.js.map HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:26 +0000] "GET /tasks/example HTTP/1.1" 200 392 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:26 +0000] "GET /assets/index-I7l8Jcwq.css HTTP/1.1" 200 667 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:26 +0000] "GET /assets/index-DnBV_Vzd.js HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:26 +0000] "GET /tasks/example HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:31 +0000] "GET /tasks/example HTTP/1.1" 200 392 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:31 +0000] "GET /assets/index-I7l8Jcwq.css HTTP/1.1" 200 667 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:31 +0000] "GET /assets/index-DnBV_Vzd.js HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:06:50:31 +0000] "GET /tasks/example HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+Hosting configuration: hashes, fallback, cache/security headers, exclusions and 390/1280px browser checks passed. LOCAL ONLY.
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+
+=== Rules deployment: exit 0 ===
+{
+  "status": "success",
+  "result": {}
+}
