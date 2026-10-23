@@ -10,6 +10,30 @@
 - This checkout does not include the sibling checkout's uncommitted compatibility implementation. Slice 3 depends on reviewed and validated Slice 2 behavior; those source files are not accepted by this documentation checkpoint.
 - Documentation only: no executable changes, tests, cloud operations, staging, commit, push or deployment. Live promotion remains deferred and overall platform feasibility remains INCONCLUSIVE.
 
+## 2026-10-23 — dev/QC/UAT channel policy applied
+
+- Owner replaced the earlier channel proposal with exactly three preview channels:
+  dev for development, qc for verification, uat for external/beta review. Every
+  hosting/deployment instruction must name the destination; ask if unclear.
+  No automatic hosting/renewal. UAT promotes to live only with explicit owner
+  approval when ready. [Policy and current URL](hosting_channels.md).
+- dev serves the exact verified Slice2 version; qc and uat are empty. Headless
+  mobile/desktop checks passed. Old foundation-smoke/compatibility-smoke channels
+  removed after verification. Live unchanged; previews have30-day expiry.
+- Migration/docs are uncommitted; no push. Historical evidence is preserved.
+
+## 2026-10-23 — Slice2 committed and preview verified
+
+- Implementation committed as67e170e. Owner then authorized Hosting preview.
+  [Preview results](slices/02-compatibility-preview.md) record the clean artifact,
+  seven-day compatibility-smoke URL and successful hosted Firestore checks at
+  mobile/desktop widths, including offline/reconnect recovery.
+- Removed the unused API key automatically generated during publication, then
+  reverified the preview. Live Hosting, billing, database identity and Rules are
+  unchanged; active keys empty. No additional policy revision or push.
+- Preview execution checkpoint is complete; owner closure review remains. Live
+  promotion still requires explicit owner approval. Earlier entries are historical.
+
 ## 2026-10-23 — Slice2 implemented; Firestore checkpoint verified
 
 - Compatibility decoder, generation gate, listener/recheck lifecycle, blocking UI,
