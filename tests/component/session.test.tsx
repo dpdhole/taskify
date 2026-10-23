@@ -210,7 +210,75 @@ for (const provider of ['Google', 'Microsoft']) {
       expect(
         screen.getByRole('button', { name: 'Continue with ' + provider }),
       ).toBeEnabled();
+      expect(
+        screen.getByRole('button', { name: 'Continue with ' + provider }),
+      ).toHaveFocus();
       t.dispose();
     },
   );
 }
+
+it('supports keyboard provider choice and keeps diagnostics collapsed until requested', async () => {
+  const t = setup();
+  await t.restore(null);
+  expect(
+    screen.getByRole('heading', { name: 'Taskify', level: 1 }),
+  ).toBeVisible();
+  expect(
+    screen.getByRole('region', { name: 'Welcome to Taskify' }),
+  ).toBeVisible();
+  expect(screen.getByText(/test-build/)).not.toBeVisible();
+  await userEvent.tab();
+  expect(
+    screen.getByRole('button', { name: 'Continue with Google' }),
+  ).toHaveFocus();
+  await userEvent.tab();
+  expect(
+    screen.getByRole('button', { name: 'Continue with Microsoft' }),
+  ).toHaveFocus();
+  await userEvent.tab();
+  expect(screen.getByText('Technical details')).toHaveFocus();
+  // jsdom does not emulate native summary keyboard activation; Chromium covers Enter.
+  await userEvent.click(screen.getByText('Technical details'));
+  expect(screen.getByText(/test-build/)).toBeVisible();
+  t.dispose();
+});
+it('does not steal keyboard focus from diagnostics when cancellation finishes', async () => {
+  const t = setup();
+  await t.restore(null);
+  let reject!: (reason: unknown) => void;
+  t.signIn.mockImplementation(
+    () =>
+      new Promise<void>((_resolve, fail) => {
+        reject = fail;
+      }),
+  );
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Continue with Microsoft' }),
+  );
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel sign-in' }));
+  await userEvent.click(screen.getByText('Technical details'));
+  expect(screen.getByText('Technical details')).toHaveFocus();
+  await act(async () => {
+    reject(new SessionError('cancelled'));
+  });
+  expect(screen.getByText('Technical details')).toHaveFocus();
+  t.dispose();
+});
+
+it('announces provider cancellation as a normal signed-out state without an error alert', async () => {
+  const t = setup();
+  await t.restore(null);
+  t.signIn.mockRejectedValue(new SessionError('cancelled'));
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Continue with Google' }),
+  );
+  expect(screen.getByRole('status')).toHaveTextContent(
+    'Sign-in was cancelled. You are signed out.',
+  );
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  expect(
+    screen.getByRole('button', { name: 'Continue with Google' }),
+  ).toHaveFocus();
+  t.dispose();
+});

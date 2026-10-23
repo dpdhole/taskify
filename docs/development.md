@@ -172,8 +172,8 @@ ordinary mode retains the compatibility-only surface. Auth mode reads
 The [session checkpoint](slices/03-provider-sign-in-session.md) records restoration
 and Logout. The [Google checkpoint](slices/03-provider-sign-in-google.md) and
 [Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md) record provider
-behavior, local validation and remaining real-provider checks. Shared final login
-presentation and Slice3 acceptance remain pending.
+behavior, local validation and remaining real-provider checks. The [shared login presentation](slices/03-provider-sign-in-presentation.md) is
+implemented locally; real-provider acceptance and Slice3 closure remain pending.
 
 On 23 October 2026 the owner requested this local Auth preview; the server started
 on a checked-free port 5173 and localhost returned HTTP 200. No interactive OAuth result

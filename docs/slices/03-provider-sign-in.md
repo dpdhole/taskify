@@ -1,6 +1,7 @@
 # Slice 3 — Provider sign-in
 
-Status: **detailing accepted; configuration, Auth/session and Google/Microsoft flows implemented locally on 23 October2026; final login presentation and real-provider acceptance pending**.
+Status: **detailing accepted; configuration, Auth/session and Google/Microsoft flows implemented locally on 23 October2026; shared login presentation implemented; real-provider acceptance pending**.
+See the [presentation checkpoint](03-provider-sign-in-presentation.md) for the shared screen and remaining acceptance.
 See the [Microsoft checkpoint](03-provider-sign-in-microsoft.md) for step4 behavior, validation and the staged review checkpoint.
 See the [Google checkpoint](03-provider-sign-in-google.md) for step3 behavior and validation.
 See the [Auth/session checkpoint](03-provider-sign-in-session.md) for step2 results.

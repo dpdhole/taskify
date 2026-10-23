@@ -2,6 +2,21 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Shared login presentation implemented locally
+
+- Owner requested the next implementation step. Added the shared Taskify hero,
+  centered stacked Google/Microsoft controls, touch targets, keyboard focus recovery
+  and collapsed public diagnostics. Cancellation returns to a normal signed-out
+  status. Auth/controller behavior and the cancellation fix remain unchanged.
+  [Presentation checkpoint](slices/03-provider-sign-in-presentation.md).
+- 121 unit/component tests, all four builds, 7 integration and 23 headless Chromium
+  checks passed with no retries. Browser checks cover 320/390/768/1280px, centered
+  controls, keyboard/native disclosure behavior and provider focus recovery.
+  Inspected mobile/desktop screenshots. No real-provider/device validation claimed.
+- Shared presentation is implemented locally; real Google/Microsoft acceptance,
+  provider operational checks and Slice3 closure remain open. No cloud changes,
+  Hosting publication, staging, commit or push. No preview server left running.
+
 ## 2026-10-23 — Cancellation button fix prepared for review
 
 - Owner reported a transient Logout button after closing a Google/Microsoft popup

@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { SessionFixture } from '../support/session-browser-fixture';
@@ -222,6 +223,9 @@ for (const provider of ['Google', 'Microsoft']) {
       await expect(
         page.getByRole('region', { name: 'Authenticated account' }),
       ).toHaveCount(0);
+      await expect(
+        page.getByRole('button', { name: 'Continue with ' + provider }),
+      ).toBeFocused();
       await page.reload();
       await initialize(page);
       await expect(page.getByRole('status')).toContainText('signed out');
@@ -315,6 +319,59 @@ for (const provider of ['Google', 'Microsoft']) {
       await expect(
         page.getByRole('region', { name: 'Authenticated account' }),
       ).toHaveCount(0);
+    },
+  );
+}
+
+for (const width of [320, 390, 768, 1280]) {
+  test(
+    'centered login presentation and keyboard access at ' + width + 'px',
+    async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await initialize(page);
+      const google = page.getByRole('button', { name: 'Continue with Google' });
+      const microsoft = page.getByRole('button', {
+        name: 'Continue with Microsoft',
+      });
+      await expect(google).toBeEnabled();
+      await expect(microsoft).toBeEnabled();
+      await expect(
+        page.getByRole('heading', { name: 'Taskify', level: 1 }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole('region', { name: 'Welcome to Taskify' }),
+      ).toBeVisible();
+      const first = (await google.boundingBox())!;
+      const second = (await microsoft.boundingBox())!;
+      expect(Math.abs(first.x + first.width / 2 - width / 2)).toBeLessThan(2);
+      expect(Math.abs(first.x - second.x)).toBeLessThan(1);
+      expect(second.y).toBeGreaterThan(first.y + first.height);
+      expect(first.height).toBeGreaterThanOrEqual(44);
+      expect(second.height).toBeGreaterThanOrEqual(44);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+      ).toBe(false);
+      await expect(
+        page.getByText(/emulator-session-fixture/),
+      ).not.toBeVisible();
+      await page.keyboard.press('Tab');
+      await expect(google).toBeFocused();
+      await page.keyboard.press('Tab');
+      await expect(microsoft).toBeFocused();
+      await page.keyboard.press('Tab');
+      await expect(page.getByText('Technical details')).toBeFocused();
+      await page.keyboard.press('Enter');
+      await expect(page.getByText(/emulator-session-fixture/)).toBeVisible();
+      await page.keyboard.press('Enter');
+      if (width === 390 || width === 1280) {
+        fs.mkdirSync('.local/slice3-login-presentation', { recursive: true });
+        await page.screenshot({
+          path: '.local/slice3-login-presentation/' + width + '.png',
+          fullPage: true,
+        });
+      }
     },
   );
 }
