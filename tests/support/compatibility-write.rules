@@ -1,0 +1,17 @@
+// EMULATOR ONLY. Never deploy this synthetic write fixture.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /runtime/compatibility { allow get: if true; allow list, write: if false; }
+    match /compatibilityProbe/{id} {
+      allow get: if request.auth != null && request.auth.uid == 'fixture-owner';
+      allow create, update: if request.auth != null && request.auth.uid == 'fixture-owner'
+        && id == 'fixture'
+        && request.resource.data.keys().hasOnly(['schemaVersion', 'value'])
+        && request.resource.data.schemaVersion is int
+        && request.resource.data.value is string
+        && get(/databases/$(database)/documents/runtime/compatibility).data.recordFamilies.compatibilityProbe.allowedWriteSchemaVersions.hasAny([request.resource.data.schemaVersion]);
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

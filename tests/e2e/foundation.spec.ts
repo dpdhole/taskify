@@ -94,6 +94,9 @@ test('ordinary dev and static entries exclude proof access and render correctly'
   }
   for (const route of [
     '/foundation.html',
+    '/compatibility.html',
+    '/src/app/compatibility-harness.tsx',
+    '/src/ui/CompatibilityHarnessView.tsx',
     '/src/app/proof.tsx',
     '/src/ui/ProofView.tsx',
   ])

@@ -11,3 +11,4 @@
 /*-debug.log
 /firebase-debug.*.log
 /*.tsbuildinfo
+/dist-compatibility/

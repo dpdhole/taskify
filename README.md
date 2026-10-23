@@ -2,7 +2,7 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility and Slice3 provider sign-in detailing are accepted; implementation remains pending in this checkout. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
+**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility is implemented and locally validated; its approved Firestore checkpoint passed. Review and a clean source commit remain before Hosting preview publication. Slice3 detailing is accepted and implementation is authorized. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
 
 ## Documentation
 
@@ -10,8 +10,9 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Working product specification](docs/product_spec.md) — consolidated simplified product behavior and explicitly open decisions.
 - [Architecture, stack and deployment strategy](docs/architecture.md) — agreed layers, stack boundaries, client/schema compatibility, release/rollback policies and remaining slice/validation work.
 - [Implementation slice plan](docs/implementation_plan.md) — agreed small feature-focused sequence, onboarding Tasks and documentation/provisioning work per slice; not execution authorization.
-- [Slice2 compatibility detailing](docs/slices/02-compatibility-gate.md) — accepted database contract, runtime gate, Rules/operator boundaries and acceptance matrix; implementation pending.
-- [Slice3 provider sign-in detailing](docs/slices/03-provider-sign-in.md) — accepted Google/Apple feasibility, persistent-session, compatibility integration, Logout and isolation baseline; implementation and provider validation pending.
+- [Slice2 compatibility detailing](docs/slices/02-compatibility-gate.md) — accepted database contract, runtime gate, Rules/operator boundaries and acceptance matrix.
+- [Slice2 validation](docs/slices/02-compatibility-validation.md) — executed local/cloud checks, evidence and remaining release gates.
+- [Slice3 provider sign-in detailing](docs/slices/03-provider-sign-in.md) — accepted session, gate, Logout and isolation baseline; implementation authorized, provider validation pending.
 - [Developer setup](docs/development.md) — pinned toolchain, local commands, architecture boundaries and troubleshooting.
 - [Foundation validation](docs/slices/01-foundation-validation.md) — executed local checks, exact evidence and limitations.
 - [Firebase clean start](docs/slices/firebase-clean-start.md) — completed legacy application-resource reset and verified empty baseline.
@@ -23,7 +24,7 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Latest verification assessment for decision](docs/feasibility/firebase-verification-assessment.md) — query/workload findings and the passing client query/compatibility follow-on.
 - [Firebase experiments and evidence](verification/firebase/README.md) — isolated source, pinned dependencies, tests and reproduction guidance.
 
-The approved PoC/beta direction is a responsive browser client using Firebase Spark Authentication, browser-direct Firestore and static Hosting through provider-independent persistence interfaces. Google and Apple sign-in intent is recorded in §21.5; provider feasibility and secure linking remain unverified. Local feasibility experiments and the Foundation Hosting preview checkpoint have run; overall feasibility remains INCONCLUSIVE. Only Foundation is implemented; product features and live publication remain pending. Product specification §§17–21 govern the current architecture and UX.
+The approved PoC/beta direction is a responsive browser client using Firebase Spark Authentication, browser-direct Firestore and static Hosting through provider-independent persistence interfaces. Google and Apple sign-in intent is recorded in §21.5; provider feasibility and secure linking remain unverified. Local feasibility experiments and the Foundation Hosting preview checkpoint have run; overall feasibility remains INCONCLUSIVE. Foundation and the Slice2 compatibility gate are implemented; product features and live publication remain pending. Product specification §§17–21 govern the current architecture and UX.
 
 The approved policy consolidation is recorded in product specification §22 and the architecture overview. TypeScript business logic is separated from UI and persistence for possible future server reuse; no server tier is approved. User-driven backup/recovery is **FUTURE**, not a PoC/beta prerequisite.
 

@@ -10,6 +10,23 @@
 - This checkout does not include the sibling checkout's uncommitted compatibility implementation. Slice 3 depends on reviewed and validated Slice 2 behavior; those source files are not accepted by this documentation checkpoint.
 - Documentation only: no executable changes, tests, cloud operations, staging, commit, push or deployment. Live promotion remains deferred and overall platform feasibility remains INCONCLUSIVE.
 
+## 2026-10-23 — Slice2 implemented; Firestore checkpoint verified
+
+- Compatibility decoder, generation gate, listener/recheck lifecycle, blocking UI,
+  isolated synthetic consumers, minimal cloud Rules and transactional operator
+  publication are implemented. [Validation](slices/02-compatibility-validation.md)
+  records 61 unit/component, 7 integration and 8 Chromium checks and cloud evidence.
+- Owner approved headless tests and the explicit real-cloud checkpoint. Fresh
+  Standard/Native Firestore in asia-south1 has deletion protection enabled;
+  revision 1/app 0.1.0 is published. Key-free public singleton reading, missing/
+  ready/offline/reconnect behavior and access denials passed against real Firestore.
+- No visible/interactive tests, product sign-in, real Task features or live
+  publication. Implementation is staged for owner review, without a new commit. Preview publication
+  waits for review and a clean source commit; live promotion still needs explicit
+  owner approval. Slice2 closure is pending that preview checkpoint/review.
+- Prior entries below are historical. Documentation commit f264868 exists locally;
+  it has not been pushed. Original Foundation/frozen evidence is unchanged.
+
 ## 2026-10-23 — Slice2 documentation accepted; commit preparation authorized
 
 - Owner accepted the [Slice2 specification](slices/02-compatibility-gate.md) and confirmed Firestore `runtime/compatibility` as the authoritative gate policy. Hosted policy remains optional for external/secondary use; a derived copy identifies its source revision and cannot override the database or authorize access when verification fails. No secondary Hosting-policy implementation is added to this slice.

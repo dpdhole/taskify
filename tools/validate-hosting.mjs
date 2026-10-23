@@ -54,7 +54,12 @@ const child = spawn(
     '.local/hosting-preflight/firebase.validation.json',
     '--only',
     'hosting',
-    '"' + process.execPath.replaceAll('\\', '/') + '" tools/check-hosting.mjs',
+    '"' +
+      process.execPath.replaceAll('\\', '/') +
+      '" tools/check-hosting.mjs' +
+      (process.argv.includes('--expect-compatible')
+        ? ' --expect-compatible'
+        : ''),
   ],
   { env, stdio: 'inherit' },
 );

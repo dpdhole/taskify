@@ -31,7 +31,7 @@ for (const name of services) {
     throw Error('Nonlocal emulator configuration');
   await free(service.port);
 }
-for (const port of [4173, 4174, 5173, 9150]) await free(port);
+for (const port of [4173, 4174, 4175, 5173, 9150]) await free(port);
 if (
   process.env.TASKIFY_JAVA_HOME &&
   !fs.existsSync(

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-for (const dir of ['dist', 'dist-proof']) {
+for (const dir of ['dist', 'dist-proof', 'dist-compatibility']) {
   const graph = JSON.parse(fs.readFileSync(dir + '/module-graph.json', 'utf8'));
   const bad = graph.filter((id) =>
     /@grpc\/|firebase-admin|@google-cloud\/|@opentelemetry\/|node_modules\/(braces|uuid)\/|index\.node\.|tests\//.test(
@@ -11,7 +11,7 @@ for (const dir of ['dist', 'dist-proof']) {
   if (dir === 'dist')
     assert.deepEqual(
       graph.filter((id) =>
-        /src\/(domain|application|infrastructure|state)\/|ProofView|app\/proof/.test(
+        /probe-session|domain\/probe\.|probe-reader|probe-store|local-config|ProofView|app\/proof|protected-consumers|compatibility-harness/.test(
           id,
         ),
       ),

@@ -12,12 +12,12 @@ execFileSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build'], {
 });
 // Keep local bundle diagnostics out of the publish directory itself.
 fs.unlinkSync('dist/module-graph.json');
-const release = {
-  buildId: new Date().toISOString().replaceAll(/[:.]/g, '-'),
-  commit: git('rev-parse', 'HEAD'),
-  sourceDirty,
-};
-fs.writeFileSync('dist/release.json', JSON.stringify(release, null, 2) + '\n');
+const release = JSON.parse(fs.readFileSync('dist/release.json', 'utf8'));
+if (
+  release.commit !== git('rev-parse', 'HEAD') ||
+  release.sourceDirty !== sourceDirty
+)
+  throw Error('Source identity changed while building');
 const hash = (file) =>
   crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const files = [
