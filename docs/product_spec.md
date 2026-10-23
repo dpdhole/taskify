@@ -812,6 +812,14 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 - My Account: responsive user-info form including name/photo, identity/linked providers, possibly core account preferences, Logout and a separated Delete Account action. Delete/recovery semantics deferred. Profile data and authentication identity are distinct.
 
 ### 21.5 Login, identity and workspace initialization
+
+**Owner amendment, 23 October 2026:** Google and Microsoft are the active Slice 3
+sign-in providers. Apple authentication is deferred, including feasibility,
+configuration, implementation and validation; it is not a Slice 3 acceptance
+blocker. This supersedes the Google/Apple delivery scope below. Persistent device
+authentication and proof-based linking policy remain unchanged; provider
+feasibility remains unverified. See [Slice 3 detailing](slices/03-provider-sign-in.md).
+
 - Shared branded hero and centered Google/Apple sign-in controls across all screen widths. Authentication persists on device until Logout or invalidation.
 - First access displays workspace-provisioning status/progress; returning access displays loading while fetching initial Task population. Provisioning must be idempotent and safely retryable; detailed recovery remains slice-level.
 - Initialize display name and photo from available social profile data; do not assume values always exist or overwrite user edits automatically.

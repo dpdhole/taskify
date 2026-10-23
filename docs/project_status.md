@@ -2,6 +2,13 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Slice3 adds Microsoft; Apple authentication deferred
+
+- Owner added Microsoft sign-in and deferred Apple authentication. Google and Microsoft are the active Slice 3 providers; Apple feasibility, implementation and live validation do not block acceptance.
+- [Slice3 detailing](slices/03-provider-sign-in.md), the product identity section, architecture, plan and README reflect this amendment. Provider feasibility and live validation remain outstanding; linking stays in Slice 4.
+- Implementation was authorized after documentation commit `c082a0f`. The committed Slice 2 dependency was integrated and pushed; the current session now uses the fresh `taskify-slice-detailing` checkout at baseline `34a38ad`. Earlier checkout/dependency statements below describe their historical checkpoints.
+- This amendment changes documentation only; no provider configuration, executable changes, tests, staging, commit, push or deployment is performed.
+
 ## 2026-10-23 — Slice3 detailing accepted and documented
 
 - Owner accepted [Slice3 provider sign-in detailing](slices/03-provider-sign-in.md) and authorized documenting it and updating project docs in the separate `taskify-slice3` checkout, based on `f264868`.

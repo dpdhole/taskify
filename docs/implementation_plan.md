@@ -37,7 +37,7 @@ broad rows further during detailing.
 |---:|---|---|
 | 1 | Foundation | Select framework/build/store; establish TypeScript boundaries, emulator setup and reproducible local checks |
 | 2 | Compatibility gate | Boot checks, blocking/retry states, resume/reconnect and contract-change handling |
-| 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Apple feasibility and sign-in, persistent authentication and Logout |
+| 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Microsoft feasibility and sign-in, persistent authentication and Logout |
 | 4 | Identity linking | Proof-based linking, account-resolution conflicts and cancellation |
 | 5 | Workspace provisioning | Retryable initialization of defaults, protected All Tasks and initial Saved Views |
 | 6 | Responsive navigation | Mobile drawer, desktop rail/sidebar and contextual navigation |
@@ -75,7 +75,7 @@ architecture proof, not extensive speculative infrastructure.
 - Slice 2 can establish the gate using local authenticated fixtures. Slice 3
   integrates actual authentication; slice 5 routes provisioning through the gate.
   Do not claim real browser/provider readiness from an early fixture check.
-- Validate Google/Apple feasibility early in slice 3, rather than deferring it to
+- Validate Google/Microsoft feasibility early in slice 3, rather than deferring it to
   final release. Live configuration/testing needs separate authorization. Discovery
   of an unavailable/cost-incompatible provider returns to the owner, not silent omission.
 - Provision View definitions in slice 5 without claiming the full query editor or
@@ -181,9 +181,18 @@ validates static delivery/deployment only.
 
 The owner accepted [provider sign-in detailing](slices/03-provider-sign-in.md) and
 authorized documentation in the separate `taskify-slice3` checkout, based on
-`f264868`. It covers Google/Apple feasibility, persistent sessions, gate integration,
+`f264868`. It covers Google/Microsoft feasibility, persistent sessions, gate integration,
 Logout and account isolation. Linking remains Slice 4; provisioning remains Slice 5.
 The sibling checkout's uncommitted Slice 2 source is not included or accepted by
 this checkpoint. Integrate against reviewed, validated Slice 2 behavior. No provider
 feasibility or implementation success is claimed. Implementation, live setup,
 staging, commit, push and deployment await their applicable authorization.
+
+
+## Slice 3 provider amendment — 23 October 2026
+
+Owner added Microsoft and deferred Apple authentication. Google and Microsoft
+are the active Slice 3 providers; Apple feasibility/implementation/validation are
+deferred and do not block Slice 3 acceptance. See the [updated detailing](slices/03-provider-sign-in.md).
+Implementation remains authorized; actual provider feasibility and validation
+remain outstanding. Current session checkout: `taskify-slice-detailing`.

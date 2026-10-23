@@ -12,18 +12,29 @@ Authority: [product specification §21.5](../product_spec.md#215-login-identity-
 [identity policy](../architecture.md#identity-and-account-linking--owner-agreed-policy)
 and [slice plan](../implementation_plan.md).
 
+## Provider scope amendment — 23 October 2026
+
+The owner added Microsoft sign-in and deferred Apple authentication. Google and
+Microsoft are the active Slice 3 providers. Apple feasibility, configuration,
+implementation and live validation are deferred and are not Slice 3 acceptance
+blockers. Do not expose an enabled Apple login control or claim Apple support.
+Microsoft feasibility and real-provider validation remain required; no provider
+configuration or successful authentication is implied by this amendment.
+Implementation authorization remains in effect. This session now uses the fresh
+`taskify-slice-detailing` checkout; the original checkout baseline below is historical.
+
 ## Objective and boundaries
 
-Deliver Google/Apple sign-in, persistent device authentication and Logout,
+Deliver Google/Microsoft sign-in, persistent device authentication and Logout,
 integrated with the accepted [Slice 2 compatibility gate](02-compatibility-gate.md).
 
 | Included | Deferred |
 |---|---|
-| Responsive branded hero and centered Google/Apple login controls | Proof-based linking and account-resolution workflow — Slice 4 |
+| Responsive branded hero and centered Google/Microsoft login controls | Proof-based linking and account-resolution workflow — Slice 4 |
 | Session initialization and persistent authentication restoration | Workspace/default-record provisioning — Slice 5 |
 | Cancellation, classified errors and safe retry | Full navigation — Slice 6 |
 | Logout and account-state isolation | Account/profile editing — Slice 26 |
-| Minimal authenticated landing state | Account deletion and email OTP |
+| Minimal authenticated landing state | Apple authentication, account deletion and email OTP |
 
 Successful sign-in reaches a small authenticated screen with Logout and an honest
 message that workspace functionality is not yet available. Do not simulate a
@@ -99,7 +110,7 @@ Logout performs these steps:
 
 If sign-out fails, keep protected content hidden, show a retry and do not claim
 Logout succeeded. Taskify Logout signs out this browser's Taskify session; it does
-not imply signing out of Google/Apple everywhere. Cross-tab restoration and Logout
+not imply signing out of Google/Microsoft everywhere. Cross-tab restoration and Logout
 behavior require browser validation. Late provider completion after Logout must
 not reopen protected content or publish a stale account result.
 
@@ -123,7 +134,7 @@ Popup versus redirect remains open pending this evidence. No provider secret may
 ship in a browser artifact. Live registration, configuration and testing require
 their separate authorization. An unavailable or cost-incompatible provider returns
 to the owner; do not silently omit it, introduce paid infrastructure or substitute
-email OTP. Slice 3 remains incomplete until both intended providers are delivered
+email OTP. Slice 3 remains incomplete until both in-scope providers (Google and Microsoft) are delivered
 or its scope is explicitly revised.
 
 ## Collision, cancellation and recovery
@@ -162,7 +173,7 @@ introduced.
 
 | Area | Required validation |
 |---|---|
-| Feasibility | Documented outcome for both providers, configuration/cost dependencies and transport selection |
+| Feasibility | Documented outcome for Google and Microsoft, configuration/cost dependencies and transport selection |
 | Session | Initialization, sign-in, cancellation, classified retry and duplicate-attempt prevention |
 | Persistence | Refresh/browser-session restoration, storage failure and session invalidation |
 | Gate integration | Compatibility unavailable at boot, revocation during provider interaction and recheck on redirect return |
@@ -177,7 +188,7 @@ Use focused unit/component tests for orchestration and races, local adapter/emul
 integration where representative, and browser checks for lifecycle/persistence.
 Emulator or mocked-provider success does not prove real OAuth, provider-console
 configuration or actual browser/provider readiness. Record separately authorized
-real Google/Apple evidence and its browser coverage. Run affected existing
+real Google/Microsoft evidence and its browser coverage. Run affected existing
 compatibility/Foundation regressions during implementation. Assess relevant
 startup/listener costs without inventing account-volume limits.
 
@@ -188,7 +199,7 @@ checkpoint; this slice does not invent a manual URL or publish a site.
 ## Implementation sequence and next checkpoint
 
 Proceed, when authorized, through provider feasibility, session/controller
-boundary, Google flow, Apple flow, then persistence/Logout/race validation. Keep
+boundary, Google flow, Microsoft flow, then persistence/Logout/race validation. Keep
 the agreed feature order; linking and provisioning remain separate slices.
 
 The detailing is accepted. Documentation authorization does not authorize

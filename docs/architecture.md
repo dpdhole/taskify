@@ -26,7 +26,7 @@ Frozen experiment files and the immutable legacy specification are unchanged.
 | Application/domain | Client services orchestrate lifecycle operations, validation, navigation and provisioning | Command contracts, module boundaries and dependency composition |
 | Shared state | Shared normalized lightweight Task metadata; reactive filtering, grouping, sorting, Search and Dashboard calculations over the complete eligible population | Zustand vanilla factory selected; product loading/reconciliation/cache contracts remain slice work |
 | Persistence boundary | Provider-independent application ports with an initial Firebase adapter | Port signatures and error/result contracts; Rules remain provider-specific |
-| Identity | Firebase Authentication; Google and Apple sign-in intent under §21.5; persistent device authentication | Provider feasibility and secure linking remain unverified; email OTP is only a candidate |
+| Identity | Firebase Authentication; Google and Microsoft for Slice 3; Apple deferred under the 23 October amendment; persistent device authentication | Provider feasibility and secure linking remain unverified; email OTP is only a candidate |
 | Data | Browser-direct Cloud Firestore, cloud-authoritative acknowledgements, no offline write synchronization | Production collections, indexes, write transport and reconnect handling |
 | Security | Firestore Rules enforce ownership, lifecycle, version integrity, required immutable events and deletion consistency | Complete schema and adversarial coverage; no further constraint relaxation approved |
 | Hosting | Firebase static Hosting on Spark | Project/region/domain choices, cache headers and release process |
@@ -81,7 +81,9 @@ no need to create a speculative server package now.
 Owner agreement, 22 October 2026:
 
 - Ownership uses a stable authenticated account ID, not an email address.
-- Google and Apple remain intended providers, subject to feasibility validation.
+- Google and Microsoft are the active Slice 3 providers, subject to feasibility
+  validation. Apple authentication is deferred by owner amendment on 23 October
+  2026 and does not block Slice 3 acceptance.
 - Linking requires authenticated proof of control of both identities. A matching
   verified email is an account-resolution hint, not sufficient authorization to
   merge accounts or access the existing account's data.
@@ -465,7 +467,7 @@ No telemetry service, hosted CI service or paid dependency is selected here.
 | 1 | Helper not integrated across browser lifecycle | Agreed boot/resume/reconnect checks, live contract observation and shared revocable readiness | High-level policy resolved; app shell, write adapter, in-flight reconciliation and multi-tab tests remain |
 | 1 | Release artifacts not coordinated | Agreed coordinated release, staged compatibility and data-aware rollback floor | High-level policy resolved; release implementation and validation remain; no cloud publication authorized here |
 | 1 | Complete production schema/security coverage open | Operation/schema contracts retain ownership, events and deletion invariants | Domain slices plus adversarial regressions; local candidate is not production Rules |
-| 1 | Google/Apple linking feasibility unresolved | Stable-ID ownership, proof-based linking, no email-only merge and retryable provisioning agreed | High-level identity policy resolved; provider feasibility and linking implementation remain; live configuration/testing separately authorized |
+| 1 | Google/Microsoft linking feasibility unresolved | Stable-ID ownership, proof-based linking, no email-only merge and retryable provisioning agreed | High-level identity policy resolved; provider feasibility and linking implementation remain; live configuration/testing separately authorized |
 | 2 | Runtime dependency choices incomplete | TypeScript, static browser delivery, reusable business/ports boundaries and SDK isolation agreed; framework/build/store selection deferred together | First implementation slice; reproduction versions are not a production selection; no server tier authorized |
 | 2 | Metadata completeness and cache coordination open | Shared population, explicit completeness, nonauthoritative cache and account isolation agreed | High-level read-state policy resolved; read/store implementation, reconnect tests and benchmarks remain |
 | 2 | Write acknowledgement/recovery open | Conflict choices, pending/offline handling, cloud-confirmed success and reconciliation before safe retry agreed | High-level policy resolved; mutation adapter implementation/validation remain; no global deduplication proof yet |
@@ -491,7 +493,7 @@ Remaining work falls into three categories:
 | Category | Remaining work | Next boundary |
 |---|---|---|
 | Deliberately deferred slice design | Framework/build/store choice; physical schemas and independent-link ownership; command/port contracts; cache/listeners; upgrade triggers; concrete UI/recovery behavior; release automation | Detail in the relevant slice; raise material domain/security changes for owner decision |
-| Unverified feasibility/integration | Upper app-bound enforcement; complete production Rules/schema coverage; browser lifecycle and acknowledgement behavior; Google/Apple linking; production indexes and quota/performance fit | Implement/test within authorized scope; separately authorize any live setup/deployment |
+| Unverified feasibility/integration | Upper app-bound enforcement; complete production Rules/schema coverage; browser lifecycle and acknowledgement behavior; Google/Microsoft linking; production indexes and quota/performance fit | Implement/test within authorized scope; separately authorize any live setup/deployment |
 | Deployment-specific choices | Environment/project count and IDs, region, domains, credentials and operator procedure | Decide before provisioning or release; no cloud action implied |
 
 The next development step is selection and detailing of an implementation slice,
