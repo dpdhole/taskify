@@ -288,65 +288,82 @@ it('can confirm Logout with a fresh observer after the restoration observer has 
   t.gate.dispose();
 });
 
-it('admits Google once, waits for SDK completion and rechecks the current gate', async () => {
-  const t = setup();
-  await t.finish(null);
-  const result = deferred<void>();
-  t.auth.signInGoogle = vi.fn(() => result.promise);
-  const pending = t.session.signInGoogle('popup');
-  void t.session.signInGoogle('popup');
-  expect(t.auth.signInGoogle).toHaveBeenCalledOnce();
-  t.watchers[0]!.next({ uid: 'google-user' });
-  expect(t.session.getState().protectedReady).toBe(false);
-  t.gate.suspend('offline');
-  result.resolve();
-  await pending;
-  expect(t.session.getState().status).toBe('signed-in');
-  expect(t.session.getState().protectedReady).toBe(false);
-  t.session.dispose();
-  t.gate.dispose();
-});
-it('offers retry after popup rejection and blocks sign-in while compatibility is closed', async () => {
-  const t = setup();
-  await t.finish(null);
-  t.auth.signInGoogle = vi
-    .fn()
-    .mockRejectedValue(new SessionError('popup-blocked'));
-  await t.session.signInGoogle('popup');
-  expect(t.session.getState()).toMatchObject({
-    status: 'signed-out',
-    reason: 'popup-blocked',
-    canSignIn: true,
-  });
-  t.gate.suspend('offline');
-  await t.session.signInGoogle('redirect');
-  expect(t.auth.signInGoogle).toHaveBeenCalledOnce();
-  t.session.dispose();
-  t.gate.dispose();
-});
-it('Logout during Google sign-in invalidates its completion and prevents duplicate work until it settles', async () => {
-  const t = setup();
-  await t.finish(null);
-  const result = deferred<void>();
-  t.auth.signInGoogle = vi.fn(() => result.promise);
-  const pending = t.session.signInGoogle('popup');
-  expect(t.session.getState().canLogout).toBe(true);
-  const logout = t.session.signOut();
-  t.watchers.at(-1)!.next(null);
-  t.signouts[0]!.resolve();
-  await logout;
-  expect(t.session.getState()).toMatchObject({
-    status: 'signed-out',
-    canSignIn: false,
-  });
-  result.reject(new SessionError('cancelled'));
-  await pending;
-  expect(t.session.getState()).toMatchObject({
-    status: 'signed-out',
-    reason: 'none',
-    canSignIn: true,
-    protectedReady: false,
-  });
-  t.session.dispose();
-  t.gate.dispose();
-});
+for (const provider of ['google', 'microsoft'] as const) {
+  it(
+    provider +
+      ' admits once, waits for SDK completion and rechecks the current gate',
+    async () => {
+      const t = setup();
+      await t.finish(null);
+      const result = deferred<void>();
+      t.auth.signIn = vi.fn(() => result.promise);
+      const pending = t.session.signIn(provider, 'popup');
+      void t.session.signIn(
+        provider === 'google' ? 'microsoft' : 'google',
+        'popup',
+      );
+      expect(t.auth.signIn).toHaveBeenCalledOnce();
+      t.watchers[0]!.next({ uid: 'google-user' });
+      expect(t.session.getState().protectedReady).toBe(false);
+      t.gate.suspend('offline');
+      result.resolve();
+      await pending;
+      expect(t.session.getState().status).toBe('signed-in');
+      expect(t.session.getState().protectedReady).toBe(false);
+      t.session.dispose();
+      t.gate.dispose();
+    },
+  );
+  it(
+    provider +
+      ' offers retry after popup rejection and blocks sign-in while compatibility is closed',
+    async () => {
+      const t = setup();
+      await t.finish(null);
+      t.auth.signIn = vi
+        .fn()
+        .mockRejectedValue(new SessionError('popup-blocked'));
+      await t.session.signIn(provider, 'popup');
+      expect(t.session.getState()).toMatchObject({
+        status: 'signed-out',
+        reason: 'popup-blocked',
+        canSignIn: true,
+      });
+      t.gate.suspend('offline');
+      await t.session.signIn(provider, 'redirect');
+      expect(t.auth.signIn).toHaveBeenCalledOnce();
+      t.session.dispose();
+      t.gate.dispose();
+    },
+  );
+  it(
+    provider +
+      ' Logout during sign-in invalidates completion and blocks duplicates until it settles',
+    async () => {
+      const t = setup();
+      await t.finish(null);
+      const result = deferred<void>();
+      t.auth.signIn = vi.fn(() => result.promise);
+      const pending = t.session.signIn(provider, 'popup');
+      expect(t.session.getState().canLogout).toBe(true);
+      const logout = t.session.signOut();
+      t.watchers.at(-1)!.next(null);
+      t.signouts[0]!.resolve();
+      await logout;
+      expect(t.session.getState()).toMatchObject({
+        status: 'signed-out',
+        canSignIn: false,
+      });
+      result.reject(new SessionError('cancelled'));
+      await pending;
+      expect(t.session.getState()).toMatchObject({
+        status: 'signed-out',
+        reason: 'none',
+        canSignIn: true,
+        protectedReady: false,
+      });
+      t.session.dispose();
+      t.gate.dispose();
+    },
+  );
+}

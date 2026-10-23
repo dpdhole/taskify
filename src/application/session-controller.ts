@@ -30,9 +30,10 @@ export class SessionError extends Error {
     this.reason = reason;
   }
 }
+export type SignInProvider = 'google' | 'microsoft';
 export type SignInTransport = 'popup' | 'redirect';
 export interface AuthPort {
-  signInGoogle?(transport: SignInTransport): Promise<void>;
+  signIn?(provider: SignInProvider, transport: SignInTransport): Promise<void>;
   initialize(): Promise<void>;
   observe(
     next: (identity: SessionIdentity | null) => void,
@@ -56,6 +57,7 @@ export interface SessionState {
   protectedReady: boolean;
   canLogout: boolean;
   canSignIn: boolean;
+  provider: SignInProvider | null;
 }
 export interface SessionAdmission {
   uid: string;
@@ -81,6 +83,7 @@ export function createSessionController(
     protectedReady: false,
     canLogout: false,
     canSignIn: false,
+    provider: null,
   };
   let observed: SessionIdentity | null = null;
   let observationReceived = false;
@@ -115,7 +118,7 @@ export function createSessionController(
         !signOutPending &&
         state.status === 'signed-out' &&
         gate.getState().status === 'ready' &&
-        Boolean(auth.signInGoogle),
+        Boolean(auth.signIn),
       canLogout:
         !disposed &&
         !signOutPending &&
@@ -260,7 +263,7 @@ export function createSessionController(
     },
     start,
     retry: start,
-    async signInGoogle(transport: SignInTransport) {
+    async signIn(provider: SignInProvider, transport: SignInTransport) {
       if (
         disposed ||
         !initialized ||
@@ -270,17 +273,17 @@ export function createSessionController(
         signOutPending ||
         state.status !== 'signed-out' ||
         gate.getState().status !== 'ready' ||
-        !auth.signInGoogle
+        !auth.signIn
       )
         return;
       gate.admit();
       const attempt = ++signInSequence;
       signInPending = true;
       invalidate();
-      state = { ...state, status: 'signing-in', reason: 'none' };
+      state = { ...state, status: 'signing-in', reason: 'none', provider };
       emit();
       try {
-        await auth.signInGoogle(transport);
+        await auth.signIn(provider, transport);
         if (disposed || attempt !== signInSequence) return;
         signInPending = false;
         restore();

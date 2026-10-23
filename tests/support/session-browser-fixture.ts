@@ -52,8 +52,8 @@ export function createSessionFixture() {
     createElement(SessionView, {
       projection,
       compatibility,
-      signInGoogle: (transport?: 'redirect') => {
-        void session.signInGoogle(transport ?? 'popup');
+      signIn: (provider: 'google' | 'microsoft', transport?: 'redirect') => {
+        void session.signIn(provider, transport ?? 'popup');
       },
       retrySession: () => session.retry(),
       logout: () => {

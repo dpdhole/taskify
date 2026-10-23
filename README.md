@@ -2,7 +2,7 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility is implemented and locally validated; its approved Firestore checkpoint passed. The clean committed Slice2 Hosting preview is published and verified; owner closure review remains. Slice3 configuration, Auth/session and Google sign-in are implemented locally; Microsoft and real-provider validation remain pending. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
+**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility is implemented and locally validated; its approved Firestore checkpoint passed. The clean committed Slice2 Hosting preview is published and verified; owner closure review remains. Slice3 configuration, Auth/session and Google/Microsoft sign-in are implemented locally; final login presentation and real-provider acceptance remain pending. Live promotion is deferred until development matures and requires explicit owner approval. Product features are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
 
 ## Documentation
 

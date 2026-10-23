@@ -1,7 +1,7 @@
 # Taskify developer setup
 
 Foundation provides an isolated synthetic read proof. Slice2 adds the ordinary
-compatibility gate and a separate compatibility harness. Auth mode adds incremental Google sign-in; Microsoft, Tasks and
+compatibility gate and a separate compatibility harness. Auth mode adds incremental Google/Microsoft sign-in; Tasks and
 provisioning remain pending. The ordinary entry is not
 an implemented Taskify workspace. See [slice detailing](slices/01-foundation.md),
 [readiness](slices/readiness-check.md) and [dependency conditions](slices/01-foundation-dependencies.md).
@@ -154,19 +154,32 @@ URLs, expiry and migration evidence. Earlier per-slice channel names are histori
 
 ## Slice3 configuration checkpoint
 
-Auth-mode public SDK settings are kept in ignored .env.auth.local, separate from
-ordinary test/build configuration. Run node tools/check-auth-config.mjs to validate
-identity and the exact channel host allowlist without displaying the key. The
-stable app factory composes Auth/session and Google flow in auth mode. Use localhost for future real local OAuth. See [configuration and provider
-verification](slices/03-provider-sign-in-configuration.md) for exact callback URIs,
-Microsoft personal/work-school audience and pending acceptance evidence.
+Auth-mode public SDK settings are kept in ignored `.env.auth.local`, separate
+from ordinary test/build configuration. Run `node tools/check-auth-config.mjs`
+to validate identity and the exact channel host allowlist without displaying the
+key. The stable app factory composes Auth/session and Google/Microsoft flows in
+Auth mode. See [configuration and provider verification](slices/03-provider-sign-in-configuration.md)
+for callback URIs, Microsoft personal/work-school audience and pending acceptance.
 
 ## Auth/session implementation checkpoint
 
-Use npm run dev -- --mode auth and open http://localhost:5173 for the incremental
-Auth/session surface. npm run build:auth writes ignored dist-auth; ordinary mode
-retains the compatibility-only surface. Auth mode reads .env.auth.local. Continue with Google is implemented; Microsoft remains pending. The [session checkpoint](slices/03-provider-sign-in-session.md)
-records state/Logout behavior. The [Google checkpoint](slices/03-provider-sign-in-google.md)
-records popup/redirect behavior, cancellation and remaining real-provider checks. Full headless checks
-add an owned session-test Vite server on5176; its emulator fixture is denied in
-ordinary dev and excluded from static artifacts. Confirm before interactive tests.
+Run `npm run dev -- --mode auth` and open [localhost:5173](http://localhost:5173/).
+Use localhost for real local OAuth; 127.0.0.1 is not an authorized real Auth origin
+in the client configuration. `npm run build:auth` writes ignored `dist-auth`;
+ordinary mode retains the compatibility-only surface. Auth mode reads
+`.env.auth.local`. Both Google and Microsoft controls are implemented.
+
+The [session checkpoint](slices/03-provider-sign-in-session.md) records restoration
+and Logout. The [Google checkpoint](slices/03-provider-sign-in-google.md) and
+[Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md) record provider
+behavior, local validation and remaining real-provider checks. Shared final login
+presentation and Slice3 acceptance remain pending.
+
+On 23 October 2026 the owner requested this local Auth preview; the server started
+on a checked-free port 5173 and localhost returned HTTP 200. No interactive OAuth result
+is inferred from server availability. Do not stop this server or another project's
+process without explicit direction. Full headless checks need port 5173 free and add an
+owned session-test Vite server on port 5176; its emulator fixture is denied in ordinary
+dev and excluded from static artifacts. The runner refuses occupied ports.
+Confirm before interactive tests. Existing dev still serves the earlier Google-only
+snapshot; Microsoft changes require a separate channel-specific deployment request.

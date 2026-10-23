@@ -1,3 +1,4 @@
+import type { SignInProvider } from '../application/session-controller';
 import { useStore } from 'zustand';
 import type { createSessionStore } from '../state/session-store';
 import type { createCompatibilityStore } from '../state/compatibility-store';
@@ -8,7 +9,7 @@ export function SessionView({
   compatibility,
   retrySession,
   logout,
-  signInGoogle,
+  signIn,
   retryCompatibility,
   reload,
   appVersion,
@@ -18,7 +19,7 @@ export function SessionView({
   compatibility: ReturnType<typeof createCompatibilityStore>;
   retrySession: () => void;
   logout: () => void;
-  signInGoogle?: (transport?: 'redirect') => void;
+  signIn?: (provider: SignInProvider, transport?: 'redirect') => void;
   retryCompatibility: () => void;
   reload: () => void;
   appVersion: string;
@@ -26,13 +27,14 @@ export function SessionView({
 }) {
   const state = useStore(projection.store, (s) => s.state);
   const gate = useStore(compatibility.store, (s) => s.state);
+  const providerName = state.provider === 'microsoft' ? 'Microsoft' : 'Google';
   const logoutRecovery =
     state.reason === 'logout' || state.reason === 'logout-timeout';
   const message =
     state.status === 'restoring'
       ? 'Restoring your session…'
       : state.status === 'signing-in'
-        ? 'Complete Google sign-in in the provider window.'
+        ? `Complete ${providerName} sign-in in the provider window.`
         : state.status === 'signing-out'
           ? 'Signing out…'
           : state.status === 'error'
@@ -61,12 +63,18 @@ export function SessionView({
         </section>
       )}
       {state.status === 'signed-out' && gate.status === 'ready' && (
-        <div>
+        <div className={styles.actions}>
           <button
-            disabled={!state.canSignIn || !signInGoogle}
-            onClick={() => signInGoogle?.()}
+            disabled={!state.canSignIn || !signIn}
+            onClick={() => signIn?.('google')}
           >
             Continue with Google
+          </button>
+          <button
+            disabled={!state.canSignIn || !signIn}
+            onClick={() => signIn?.('microsoft')}
+          >
+            Continue with Microsoft
           </button>
           {state.reason !== 'none' && (
             <p role="alert">
@@ -77,16 +85,16 @@ export function SessionView({
                   : state.reason === 'account-conflict'
                     ? 'Use your existing sign-in method. Account linking will be available separately.'
                     : state.reason === 'provider-configuration'
-                      ? 'Google sign-in configuration needs attention.'
+                      ? `${providerName} sign-in configuration needs attention.`
                       : state.reason === 'network'
-                        ? 'Unable to reach Google sign-in. Check your connection and retry.'
-                        : 'Google sign-in is unavailable. Please retry.'}
+                        ? `Unable to reach ${providerName} sign-in. Check your connection and retry.`
+                        : `${providerName} sign-in is unavailable. Please retry.`}
             </p>
           )}
           {state.reason === 'popup-blocked' && (
             <button
               disabled={!state.canSignIn}
-              onClick={() => signInGoogle?.('redirect')}
+              onClick={() => signIn?.(state.provider ?? 'google', 'redirect')}
             >
               Continue with redirect
             </button>

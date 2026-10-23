@@ -1,8 +1,11 @@
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SessionView } from '../../src/ui/SessionView';
-import { createSessionController } from '../../src/application/session-controller';
+import {
+  createSessionController,
+  SessionError,
+} from '../../src/application/session-controller';
 import type { SessionIdentity } from '../../src/application/session-controller';
 import { createSessionStore } from '../../src/state/session-store';
 import { createCompatibilityStore } from '../../src/state/compatibility-store';
@@ -28,8 +31,10 @@ function setup(failedLogout = false) {
     clock,
   );
   gate.start();
+  const signIn = vi.fn().mockRejectedValue(new SessionError('popup-blocked'));
   const session = createSessionController(
     {
+      signIn,
       initialize: () =>
         new Promise<void>((resolve) => {
           initialize = resolve;
@@ -55,6 +60,9 @@ function setup(failedLogout = false) {
     <SessionView
       projection={projection}
       compatibility={compatibility}
+      signIn={(provider, transport) => {
+        void session.signIn(provider, transport ?? 'popup');
+      }}
       retrySession={() => session.retry()}
       logout={() => {
         void session.signOut();
@@ -68,9 +76,15 @@ function setup(failedLogout = false) {
   return {
     gate,
     session,
-    async restore() {
+    signIn,
+    async restore(
+      identity: SessionIdentity | null = {
+        uid: 'first',
+        displayName: 'Example User',
+      },
+    ) {
       await act(async () => {
-        next({ uid: 'first', displayName: 'Example User' });
+        next(identity);
         initialize();
       });
     },
@@ -119,5 +133,37 @@ it('does not restore account presentation after failed Logout and offers an expl
   );
   expect(screen.getByRole('button', { name: 'Retry Logout' })).toBeEnabled();
   expect(screen.queryByText('Example User')).not.toBeInTheDocument();
+  t.dispose();
+});
+
+it('keeps Microsoft redirect fallback tied to the selected provider and offers safe conflict recovery', async () => {
+  const t = setup();
+  await t.restore(null);
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Continue with Microsoft' }),
+  );
+  expect(t.signIn).toHaveBeenLastCalledWith('microsoft', 'popup');
+  expect(screen.getByRole('alert')).toHaveTextContent('blocked');
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Continue with redirect' }),
+  );
+  expect(t.signIn).toHaveBeenLastCalledWith('microsoft', 'redirect');
+  t.signIn.mockRejectedValue(new SessionError('account-conflict'));
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Continue with Microsoft' }),
+  );
+  expect(screen.getByRole('alert')).toHaveTextContent(
+    'existing sign-in method',
+  );
+  expect(
+    screen.queryByRole('button', { name: 'Continue with redirect' }),
+  ).not.toBeInTheDocument();
+  act(() => t.gate.suspend('offline'));
+  expect(
+    screen.queryByRole('button', { name: 'Continue with Microsoft' }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('button', { name: 'Continue with Google' }),
+  ).not.toBeInTheDocument();
   t.dispose();
 });

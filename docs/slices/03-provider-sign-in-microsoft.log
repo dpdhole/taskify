@@ -1,0 +1,186 @@
+=== npm run verify: exit 0 ===
+
+> taskify@0.1.0 verify
+> npm run typecheck && npm run check:boundaries && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && npm run build:auth && node tools/check-bundles.mjs
+
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 25 files
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> taskify@0.1.0 test:unit
+> vitest run
+
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  12 passed (12)
+      Tests  112 passed (112)
+   Start at  21:22:14
+   Duration  14.48s (environment 54%, tests 17%, import 11%, setup 10%, transform 8%, worker 1%)
+
+
+> taskify@0.1.0 build
+> node node_modules/vite/bin/vite.js build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 48 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-Bxv2QLjk.js   686.25 kB │ gzip: 210.23 kB
+
+✓ built in 342ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:proof
+> node node_modules/vite/bin/vite.js build --mode foundation
+
+vite v8.3.5 building client environment for foundation...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-proof/foundation.html                   0.41 kB │ gzip:   0.27 kB
+dist-proof/assets/foundation-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-proof/assets/foundation-DZgjg7Aa.js   785.08 kB │ gzip: 241.52 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 231ms
+
+> taskify@0.1.0 build:compatibility
+> node node_modules/vite/bin/vite.js build --mode compatibility
+
+vite v8.3.5 building client environment for compatibility...
+transforming...
+✓ 42 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-compatibility/compatibility.html                   0.42 kB │ gzip:   0.27 kB
+dist-compatibility/assets/compatibility-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-compatibility/assets/compatibility-CLPVoyQ-.js   701.75 kB │ gzip: 214.82 kB
+
+✓ built in 204ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:auth
+> node node_modules/vite/bin/vite.js build --mode auth
+
+vite v8.3.5 building client environment for auth...
+transforming...
+✓ 48 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-auth/index.html                   0.39 kB │ gzip:   0.26 kB
+dist-auth/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-auth/assets/index-CFEuuwgN.js   773.07 kB │ gzip: 237.10 kB
+
+✓ built in 258ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+dist: 47 modules; isolation verified
+dist-proof: 115 modules; isolation verified
+dist-compatibility: 41 modules; isolation verified
+dist-auth: 47 modules; isolation verified
+
+=== node tools/run-emulators.mjs: exit 0 ===
+Local demo project; Java 21; CLI 15.34.1
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-foundation", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator was started in standard edition.
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-foundation]: Serving hosting files from: dist
++  hosting[demo-taskify-foundation]: Local server: http://127.0.0.1:5000
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/run-local-tests.mjs
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+i  hosting: 127.0.0.1 - - [23/Oct/2026:15:53:27 +0000] "GET / HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [23/Oct/2026:15:53:27 +0000] "GET /direct-link HTTP/1.1" 200 392 "-" "node"
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  21:23:20
+   Duration  7.24s (tests 94%, import 6%)
+
+    Isolate  2 workers spawned · ~901ms startup each (spawn + environment, per file)
+             at least ~901ms faster with isolate: false — reuses workers across files instead of one per file
+
+[WebServer] (node:43488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:42856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:43252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:31564) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 19 tests using 1 worker
+
+(node:32868) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\e2e\compatibility.spec.ts:6:3 › compatibility transitions and draft/unknown-outcome preservation at 390 (5.7s)
+  ok  2 tests\e2e\compatibility.spec.ts:6:3 › compatibility transitions and draft/unknown-outcome preservation at 1280 (2.5s)
+  ok  3 tests\e2e\compatibility.spec.ts:82:1 › actual emulator contract changes revoke and recover the isolated harness (2.4s)
+  ok  4 tests\e2e\compatibility.spec.ts:114:1 › ordinary build is fail-closed when unconfigured and excludes synthetic controls (1.9s)
+  ok  5 tests\e2e\foundation.spec.ts:3:3 › memory proof and navigation at 390px (2.2s)
+  ok  6 tests\e2e\foundation.spec.ts:3:3 › memory proof and navigation at 1280px (2.2s)
+  ok  7 tests\e2e\foundation.spec.ts:35:1 › reads local Firebase through the same UI and recovers from malformed fixture data (2.3s)
+  ok  8 tests\e2e\foundation.spec.ts:78:1 › ordinary dev and static entries exclude proof access and render correctly (2.6s)
+  ok  9 tests\e2e\session.spec.ts:18:3 › SDK session persists across refresh and supports gated Logout at 390px (4.4s)
+  ok 10 tests\e2e\session.spec.ts:18:3 › SDK session persists across refresh and supports gated Logout at 1280px (4.5s)
+  ok 11 tests\e2e\session.spec.ts:81:1 › SDK propagates identity changes and Logout across tabs without mixing account state (4.7s)
+  ok 12 tests\e2e\session.spec.ts:139:3 › Google button completes an emulator popup and persists the session (4.4s)
+  ok 13 tests\e2e\session.spec.ts:184:3 › cancelling a pending Google popup rejects its late result (4.1s)
+  ok 14 tests\e2e\session.spec.ts:230:3 › blocked Google popup offers explicit redirect and restores the emulator return (4.5s)
+  ok 15 tests\e2e\session.spec.ts:271:3 › Logout in another tab invalidates an unfinished Google popup (7.1s)
+  ok 16 tests\e2e\session.spec.ts:139:3 › Microsoft button completes an emulator popup and persists the session (4.3s)
+  ok 17 tests\e2e\session.spec.ts:184:3 › cancelling a pending Microsoft popup rejects its late result (4.3s)
+  ok 18 tests\e2e\session.spec.ts:230:3 › blocked Microsoft popup offers explicit redirect and restores the emulator return (4.6s)
+  ok 19 tests\e2e\session.spec.ts:271:3 › Logout in another tab invalidates an unfinished Microsoft popup (7.0s)
+
+  19 passed (1.5m)
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

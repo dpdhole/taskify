@@ -1,11 +1,14 @@
 # Slice 3 — Provider sign-in
 
-Status: **detailing accepted; configuration, Auth/session and Google flow implemented locally on 23 October2026; Microsoft and real-provider validation pending**.
+Status: **detailing accepted; configuration, Auth/session and Google/Microsoft flows implemented locally on 23 October2026; final login presentation and real-provider acceptance pending**.
+See the [Microsoft checkpoint](03-provider-sign-in-microsoft.md) for step4 behavior, validation and the staged review checkpoint.
 See the [Google checkpoint](03-provider-sign-in-google.md) for step3 behavior and validation.
 See the [Auth/session checkpoint](03-provider-sign-in-session.md) for step2 results.
 See the [configuration checkpoint](03-provider-sign-in-configuration.md) for actual
 Web App/domain setup, client configuration, tests and pending provider-console
 verification. The owner authorized this step after accepting the implementation path.
+The following paragraph records the original detailing authorization only. Later
+implementation and staging are separately authorized in the checkpoints above.
 The owner accepted the discussion baseline and authorized documenting it in the
 separate `taskify-slice3` checkout. This is an implementation baseline, not evidence
 of implemented authentication or provider feasibility. No code, configuration,

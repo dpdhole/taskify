@@ -2,6 +2,37 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Microsoft checkpoint prepared for review
+
+- Owner requested documentation updates and staging. Microsoft implementation,
+  shared provider operation, regression tests and checkpoint evidence are staged
+  for review against baseline `41fe3f4`; no new commit or push.
+- Local Auth preview was started at the owner's request on a checked-free port 5173;
+  localhost returned HTTP 200. No real Google/Microsoft OAuth success is claimed.
+- Validated source hashes remain unchanged: 112 unit/component, 7 integration,
+  19 headless browser checks and four builds passed. Final login presentation,
+  real-provider acceptance and Slice3 closure remain pending. Existing dev remains
+  the earlier Google-only snapshot. [Review checkpoint](slices/03-provider-sign-in-microsoft.md#review-preparation--23-october-2026).
+
+## 2026-10-23 — Slice3 Microsoft flow implemented locally
+
+- Owner authorized the next implementation step after commit `41fe3f4`. Added
+  Continue with Microsoft through a provider-aware shared Auth/session operation.
+  Microsoft uses the common tenant and account selection for the agreed personal
+  and work/school audience; no Graph scopes or application account linking added.
+  [Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md).
+- Both providers share popup/redirect handling, pending-operation exclusion,
+  compatibility readiness, persistence and Logout invalidation. New redirect
+  metadata identifies its provider and still consumes earlier Google-only markers.
+- 112 unit/component tests, four builds, 7 integration and19 headless Chromium
+  checks passed. Browser tests cover each provider's popup/refresh, cancellation
+  with late completion, blocked-popup redirect at390px and cross-tab Logout during
+  an unfinished popup. These are Auth emulator checks, not real-provider consent.
+- Final shared login presentation, real Google/Microsoft acceptance (including
+  personal and work/school Microsoft accounts), secret-expiry verification and
+  Slice3 closure remain pending. Existing dev remains the earlier Google-only
+  snapshot. No cloud configuration, deployment, staging, commit or push in this step.
+
 ## 2026-10-23 — Slice3 Auth preview published to dev
 
 - Owner requested dev deployment and explicitly allowed the uncommitted snapshot.
@@ -23,7 +54,7 @@
 - Logout invalidates unfinished provider intent before SDK user commitment, with
   same-origin cross-tab coordination. Current compatibility remains required for
   protected readiness after provider completion. [Google checkpoint](slices/03-provider-sign-in-google.md).
-- 102 unit/component checks, all four builds,7 integration and15 headless Chromium
+- 102 unit/component checks, all four builds, 7 integration and15 headless Chromium
   checks passed. Emulator browser checks exercise Google popup, refresh persistence,
   popup cancellation/late result, blocked-popup redirect at390px and cross-tab Logout
   during an unfinished popup. Google's official iframe helper library is the only
@@ -40,7 +71,7 @@
   mode. Restoration/gate state are independent; session generations guard account
   transitions and Logout requires SDK plus observer confirmation. Failed Logout
   quarantines protected content with explicit retry. [Checkpoint](slices/03-provider-sign-in-session.md).
-- 85 unit/component tests, four builds,7 integration and11 headless Chromium
+- 85 unit/component tests, four builds, 7 integration and11 headless Chromium
   checks passed without browser retries. Real SDK/emulator checks cover refresh
   persistence, rendered mobile/desktop session UI, UID switching and cross-tab
   Logout. No live OAuth was attempted and Slice3 is not complete.

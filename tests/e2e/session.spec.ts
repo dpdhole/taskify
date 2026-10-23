@@ -121,143 +121,200 @@ test('SDK propagates identity changes and Logout across tabs without mixing acco
   await other.evaluate(() => window.sessionFixture.dispose());
 });
 
-async function completeGoogleEmulator(page: Page, email: string) {
+async function completeProviderEmulator(
+  page: Page,
+  email: string,
+  provider: string,
+) {
   await expect(page.locator('#title')).toBeVisible();
   const add = page.getByRole('button', { name: 'Add new account' });
   if (await add.isVisible()) await add.click();
-  await page.locator('#email-input').fill(email);
-  await page.locator('#display-name-input').fill('Google emulator user');
+  await page
+    .locator('#email-input')
+    .fill(email.replace('@', '-' + provider.toLowerCase() + '@'));
+  await page.locator('#display-name-input').fill(provider + ' emulator user');
   await page.locator('#sign-in').click();
 }
-test('Google button completes an emulator popup and persists the session', async ({
-  context,
-  page,
-}) => {
-  // Firebase's resolver loads the official Google iframe library even in emulator mode.
-  // Only that helper origin and the owned local services are allowed.
-  await context.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    return [
-      'http://127.0.0.1:5176',
-      'http://127.0.0.1:9099',
-      'https://apis.google.com',
-    ].includes(url.origin)
-      ? route.continue()
-      : route.abort();
-  });
-  await initialize(page);
-  const popupEvent = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Continue with Google' }).click();
-  const popup = await popupEvent;
-  await expect(popup).toHaveURL(/127\.0\.0\.1:9099/);
-  await completeGoogleEmulator(popup, 'popup-user@example.invalid');
-  await expect(
-    page.getByRole('region', { name: 'Authenticated account' }),
-  ).toBeVisible();
-  await page.reload();
-  await initialize(page);
-  await expect(
-    page.getByRole('region', { name: 'Authenticated account' }),
-  ).toBeVisible();
-});
-test('cancelling a pending Google popup rejects its late result', async ({
-  context,
-  page,
-}) => {
-  await context.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    return [
-      'http://127.0.0.1:5176',
-      'http://127.0.0.1:9099',
-      'https://apis.google.com',
-    ].includes(url.origin)
-      ? route.continue()
-      : route.abort();
-  });
-  await initialize(page);
-  const popupEvent = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Continue with Google' }).click();
-  const popup = await popupEvent;
-  await expect(popup.locator('#title')).toBeVisible();
-  await page.getByRole('button', { name: 'Cancel sign-in' }).click();
-  await expect(page.getByRole('status')).toContainText('signed out');
-  await completeGoogleEmulator(popup, 'late-popup@example.invalid');
-  await expect(
-    page.getByRole('button', { name: 'Continue with Google' }),
-  ).toBeEnabled();
-  await expect(
-    page.getByRole('region', { name: 'Authenticated account' }),
-  ).toHaveCount(0);
-  await page.reload();
-  await initialize(page);
-  await expect(page.getByRole('status')).toContainText('signed out');
-});
-test('blocked Google popup offers explicit redirect and restores the emulator return', async ({
-  context,
-  page,
-}) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await context.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    return [
-      'http://127.0.0.1:5176',
-      'http://127.0.0.1:9099',
-      'https://apis.google.com',
-    ].includes(url.origin)
-      ? route.continue()
-      : route.abort();
-  });
-  await page.addInitScript(() => {
-    window.open = () => null;
-  });
-  await initialize(page);
-  await page.getByRole('button', { name: 'Continue with Google' }).click();
-  await expect(page.getByRole('alert')).toContainText('blocked');
-  await page.getByRole('button', { name: 'Continue with redirect' }).click();
-  await expect(page).toHaveURL(/127\.0\.0\.1:9099/);
-  await completeGoogleEmulator(page, 'redirect-user@example.invalid');
-  await page.waitForURL(origin + '/');
-  await initialize(page);
-  await expect(
-    page.getByRole('region', { name: 'Authenticated account' }),
-  ).toBeVisible();
-});
+for (const provider of ['Google', 'Microsoft']) {
+  test(
+    provider + ' button completes an emulator popup and persists the session',
+    async ({ context, page }) => {
+      // Firebase's resolver loads the official Google iframe library even in emulator mode.
+      // Only that helper origin and the owned local services are allowed.
+      await context.route('**/*', (route) => {
+        const url = new URL(route.request().url());
+        return [
+          'http://127.0.0.1:5176',
+          'http://127.0.0.1:9099',
+          'https://apis.google.com',
+        ].includes(url.origin)
+          ? route.continue()
+          : route.abort();
+      });
+      await initialize(page);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+      ).toBe(false);
+      const popupEvent = page.waitForEvent('popup');
+      await page
+        .getByRole('button', { name: 'Continue with ' + provider })
+        .click();
+      const popup = await popupEvent;
+      await expect(page.getByRole('status')).toContainText(
+        provider + ' sign-in',
+      );
+      await expect(popup).toHaveURL(/127\.0\.0\.1:9099/);
+      await completeProviderEmulator(
+        popup,
+        'popup-user@example.invalid',
+        provider,
+      );
+      await expect(
+        page.getByRole('region', { name: 'Authenticated account' }),
+      ).toBeVisible();
+      await page.reload();
+      await initialize(page);
+      await expect(
+        page.getByRole('region', { name: 'Authenticated account' }),
+      ).toBeVisible();
+    },
+  );
+  test(
+    'cancelling a pending ' + provider + ' popup rejects its late result',
+    async ({ context, page }) => {
+      await context.route('**/*', (route) => {
+        const url = new URL(route.request().url());
+        return [
+          'http://127.0.0.1:5176',
+          'http://127.0.0.1:9099',
+          'https://apis.google.com',
+        ].includes(url.origin)
+          ? route.continue()
+          : route.abort();
+      });
+      await initialize(page);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+      ).toBe(false);
+      const popupEvent = page.waitForEvent('popup');
+      await page
+        .getByRole('button', { name: 'Continue with ' + provider })
+        .click();
+      const popup = await popupEvent;
+      await expect(page.getByRole('status')).toContainText(
+        provider + ' sign-in',
+      );
+      await expect(popup.locator('#title')).toBeVisible();
+      await page.getByRole('button', { name: 'Cancel sign-in' }).click();
+      await expect(page.getByRole('status')).toContainText('signed out');
+      await completeProviderEmulator(
+        popup,
+        'late-popup@example.invalid',
+        provider,
+      );
+      await expect(
+        page.getByRole('button', { name: 'Continue with ' + provider }),
+      ).toBeEnabled();
+      await expect(
+        page.getByRole('region', { name: 'Authenticated account' }),
+      ).toHaveCount(0);
+      await page.reload();
+      await initialize(page);
+      await expect(page.getByRole('status')).toContainText('signed out');
+    },
+  );
+  test(
+    'blocked ' +
+      provider +
+      ' popup offers explicit redirect and restores the emulator return',
+    async ({ context, page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await context.route('**/*', (route) => {
+        const url = new URL(route.request().url());
+        return [
+          'http://127.0.0.1:5176',
+          'http://127.0.0.1:9099',
+          'https://apis.google.com',
+        ].includes(url.origin)
+          ? route.continue()
+          : route.abort();
+      });
+      await page.addInitScript(() => {
+        window.open = () => null;
+      });
+      await initialize(page);
+      await page
+        .getByRole('button', { name: 'Continue with ' + provider })
+        .click();
+      await expect(page.getByRole('alert')).toContainText('blocked');
+      await page
+        .getByRole('button', { name: 'Continue with redirect' })
+        .click();
+      await expect(page).toHaveURL(/127\.0\.0\.1:9099/);
+      await completeProviderEmulator(
+        page,
+        'redirect-user@example.invalid',
+        provider,
+      );
+      await page.waitForURL(origin + '/');
+      await initialize(page);
+      await expect(
+        page.getByRole('region', { name: 'Authenticated account' }),
+      ).toBeVisible();
+    },
+  );
 
-test('Logout in another tab invalidates an unfinished Google popup', async ({
-  context,
-  page,
-}) => {
-  await context.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    return [
-      'http://127.0.0.1:5176',
-      'http://127.0.0.1:9099',
-      'https://apis.google.com',
-    ].includes(url.origin)
-      ? route.continue()
-      : route.abort();
-  });
-  await initialize(page);
-  const other = await context.newPage();
-  await initialize(other);
-  const popupEvent = page.waitForEvent('popup');
-  await page.getByRole('button', { name: 'Continue with Google' }).click();
-  const popup = await popupEvent;
-  await expect(popup.locator('#title')).toBeVisible();
-  await other.evaluate(() => window.sessionFixture.signIn('other-tab-account'));
-  await expect(
-    other.getByRole('button', { name: 'Logout', exact: true }),
-  ).toBeVisible();
-  await other.getByRole('button', { name: 'Logout', exact: true }).click();
-  await expect(other.getByRole('status')).toContainText('signed out');
-  await completeGoogleEmulator(popup, 'cross-tab-late@example.invalid');
-  await expect(
-    page.getByRole('button', { name: 'Continue with Google' }),
-  ).toBeEnabled();
-  await expect(page.getByRole('status')).toContainText('signed out');
-  await page.reload();
-  await initialize(page);
-  await expect(
-    page.getByRole('region', { name: 'Authenticated account' }),
-  ).toHaveCount(0);
-});
+  test(
+    'Logout in another tab invalidates an unfinished ' + provider + ' popup',
+    async ({ context, page }) => {
+      await context.route('**/*', (route) => {
+        const url = new URL(route.request().url());
+        return [
+          'http://127.0.0.1:5176',
+          'http://127.0.0.1:9099',
+          'https://apis.google.com',
+        ].includes(url.origin)
+          ? route.continue()
+          : route.abort();
+      });
+      await initialize(page);
+      const other = await context.newPage();
+      await initialize(other);
+      const popupEvent = page.waitForEvent('popup');
+      await page
+        .getByRole('button', { name: 'Continue with ' + provider })
+        .click();
+      const popup = await popupEvent;
+      await expect(page.getByRole('status')).toContainText(
+        provider + ' sign-in',
+      );
+      await expect(popup.locator('#title')).toBeVisible();
+      await other.evaluate(() =>
+        window.sessionFixture.signIn('other-tab-account'),
+      );
+      await expect(
+        other.getByRole('button', { name: 'Logout', exact: true }),
+      ).toBeVisible();
+      await other.getByRole('button', { name: 'Logout', exact: true }).click();
+      await expect(other.getByRole('status')).toContainText('signed out');
+      await completeProviderEmulator(
+        popup,
+        'cross-tab-late@example.invalid',
+        provider,
+      );
+      await expect(
+        page.getByRole('button', { name: 'Continue with ' + provider }),
+      ).toBeEnabled();
+      await expect(page.getByRole('status')).toContainText('signed out');
+      await page.reload();
+      await initialize(page);
+      await expect(
+        page.getByRole('region', { name: 'Authenticated account' }),
+      ).toHaveCount(0);
+    },
+  );
+}

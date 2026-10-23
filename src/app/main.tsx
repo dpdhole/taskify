@@ -127,12 +127,13 @@ createRoot(root).render(
       <SessionView
         projection={sessionProjection}
         compatibility={projection}
-        signInGoogle={(transport) => {
+        signIn={(provider, transport) => {
           const mobile =
             location.hostname !== 'localhost' &&
             location.hostname !== '127.0.0.1' &&
             matchMedia('(pointer: coarse)').matches;
-          void session.signInGoogle(
+          void session.signIn(
+            provider,
             transport ?? (mobile ? 'redirect' : 'popup'),
           );
         }}

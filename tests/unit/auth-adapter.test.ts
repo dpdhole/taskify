@@ -11,6 +11,16 @@ const sdk = vi.hoisted(() => ({
   getRedirectResult: vi.fn(),
   signInWithPopup: vi.fn(),
   signInWithRedirect: vi.fn(),
+  OAuthProvider: class {
+    providerId: string;
+    parameters: unknown;
+    constructor(providerId: string) {
+      this.providerId = providerId;
+    }
+    setCustomParameters(parameters: unknown) {
+      this.parameters = parameters;
+    }
+  },
   GoogleAuthProvider: class {
     setCustomParameters() {}
   },
@@ -129,7 +139,7 @@ it.each([
       code,
       message: 'private-provider-detail',
     });
-    await expect(adapter.signInGoogle!('popup')).rejects.toMatchObject({
+    await expect(adapter.signIn!('google', 'popup')).rejects.toMatchObject({
       reason,
       message: reason,
     });
@@ -146,8 +156,8 @@ it('blocks a late popup commit after local or cross-tab Logout and suppresses du
         finish = r;
       }),
   );
-  const pending = adapter.signInGoogle!('popup');
-  await expect(adapter.signInGoogle!('popup')).rejects.toMatchObject({
+  const pending = adapter.signIn!('google', 'popup');
+  await expect(adapter.signIn!('google', 'popup')).rejects.toMatchObject({
     reason: 'provider-unavailable',
   });
   const guard = sdk.beforeAuthStateChanged.mock.calls[0]![1] as (
@@ -176,7 +186,7 @@ it('keeps the middleware until a disposed popup settles', async () => {
         finish = r;
       }),
   );
-  const pending = adapter.signInGoogle!('popup');
+  const pending = adapter.signIn!('google', 'popup');
   const stopGuard = sdk.beforeAuthStateChanged.mock.results[0]!.value;
   const guard = sdk.beforeAuthStateChanged.mock.calls[0]![1] as (
     user: unknown,
@@ -191,9 +201,10 @@ it('keeps the middleware until a disposed popup settles', async () => {
 it('records only noncredential redirect intent and consumes the SDK result on return', async () => {
   const adapter = createAuthAdapter(app);
   await adapter.initialize();
-  await adapter.signInGoogle!('redirect');
-  const key = 'taskify:google-redirect:taskify-dev-dpdhole';
+  await adapter.signIn!('google', 'redirect');
+  const key = 'taskify:provider-redirect:taskify-dev-dpdhole';
   expect(JSON.parse(window.sessionStorage.getItem(key)!)).toEqual({
+    provider: 'google',
     epoch: '',
     createdAt: expect.any(Number),
   });
@@ -271,4 +282,120 @@ it('retains the admission middleware while a redirect result is being processed 
   finish();
   await initializing;
   expect(stopGuard).toHaveBeenCalledOnce();
+});
+
+it('uses Microsoft OAuth with common tenant, account selection and no additional Graph scopes', async () => {
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  await adapter.signIn!('microsoft', 'popup');
+  expect(sdk.signInWithPopup).toHaveBeenCalledWith(
+    expect.anything(),
+    expect.objectContaining({
+      providerId: 'microsoft.com',
+      parameters: { tenant: 'common', prompt: 'select_account' },
+    }),
+    sdk.browserPopupRedirectResolver,
+  );
+  adapter.dispose();
+});
+it('records Microsoft redirect intent and restores it through the SDK', async () => {
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  await adapter.signIn!('microsoft', 'redirect');
+  const key = 'taskify:provider-redirect:taskify-dev-dpdhole';
+  expect(JSON.parse(window.sessionStorage.getItem(key)!)).toEqual({
+    provider: 'microsoft',
+    epoch: '',
+    createdAt: expect.any(Number),
+  });
+  expect(sdk.signInWithRedirect.mock.calls[0]![1]).toMatchObject({
+    providerId: 'microsoft.com',
+  });
+  adapter.dispose();
+  const returned = createAuthAdapter(app);
+  await returned.initialize();
+  expect(sdk.getRedirectResult).toHaveBeenCalledOnce();
+  expect(window.sessionStorage.getItem(key)).toBeUndefined();
+  returned.dispose();
+});
+it('blocks overlapping providers and a late Microsoft commit after Logout', async () => {
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  let finish!: () => void;
+  sdk.signInWithPopup.mockImplementation(
+    () =>
+      new Promise<void>((resolve) => {
+        finish = resolve;
+      }),
+  );
+  const pending = adapter.signIn!('microsoft', 'popup');
+  await expect(adapter.signIn!('google', 'popup')).rejects.toMatchObject({
+    reason: 'provider-unavailable',
+  });
+  await adapter.signOut();
+  const guard = sdk.beforeAuthStateChanged.mock.calls[0]![1] as (
+    user: unknown,
+  ) => void;
+  expect(() => guard({ uid: 'late-microsoft' })).toThrow('cancelled');
+  finish();
+  await pending;
+  adapter.dispose();
+});
+it('keeps Microsoft account conflicts and provider failures sanitized without linking', async () => {
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  sdk.signInWithPopup.mockRejectedValue({
+    code: 'auth/account-exists-with-different-credential',
+    credential: { accessToken: 'private' },
+    email: 'private@example.invalid',
+  });
+  await expect(adapter.signIn!('microsoft', 'popup')).rejects.toMatchObject({
+    reason: 'account-conflict',
+    message: 'account-conflict',
+  });
+  sdk.signInWithPopup.mockRejectedValue({
+    code: 'auth/operation-not-allowed',
+    message: 'private tenant detail',
+  });
+  await expect(adapter.signIn!('microsoft', 'popup')).rejects.toMatchObject({
+    reason: 'provider-configuration',
+    message: 'provider-configuration',
+  });
+  adapter.dispose();
+});
+it('rejects an unknown provider in redirect metadata before SDK commitment', async () => {
+  window.sessionStorage.setItem(
+    'taskify:provider-redirect:taskify-dev-dpdhole',
+    JSON.stringify({ provider: 'unknown', epoch: '', createdAt: Date.now() }),
+  );
+  const adapter = createAuthAdapter(app);
+  sdk.getRedirectResult.mockImplementation(async () => {
+    const guard = sdk.beforeAuthStateChanged.mock.calls[0]![1] as (
+      user: unknown,
+    ) => void;
+    guard({ uid: 'invalid' });
+  });
+  await expect(adapter.initialize()).rejects.toMatchObject({
+    reason: 'cancelled',
+  });
+  adapter.dispose();
+});
+
+it('consumes a valid Google redirect marker from the previously deployed build', async () => {
+  const key = 'taskify:google-redirect:taskify-dev-dpdhole';
+  window.sessionStorage.setItem(
+    key,
+    JSON.stringify({ epoch: '', createdAt: Date.now() }),
+  );
+  const adapter = createAuthAdapter(app);
+  sdk.getRedirectResult.mockImplementation(async () => {
+    const guard = sdk.beforeAuthStateChanged.mock.calls[0]![1] as (
+      user: unknown,
+    ) => void;
+    guard({ uid: 'legacy-google-return' });
+  });
+  await adapter.initialize();
+  expect(sdk.getRedirectResult).toHaveBeenCalledOnce();
+  expect(window.sessionStorage.getItem(key)).toBeUndefined();
+  adapter.dispose();
 });

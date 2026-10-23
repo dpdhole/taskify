@@ -3,6 +3,7 @@ import {
   browserPopupRedirectResolver,
   beforeAuthStateChanged,
   GoogleAuthProvider,
+  OAuthProvider,
   getRedirectResult,
   signInWithPopup,
   signInWithRedirect,
@@ -42,7 +43,13 @@ export function createAuthAdapter(
   let pending = false;
   let intent: string | undefined;
   const epochKey = `taskify:logout:${app.options.projectId}`;
-  const redirectKey = `taskify:google-redirect:${app.options.projectId}`;
+  const redirectKey = `taskify:provider-redirect:${app.options.projectId}`;
+  // Consume an in-flight Google redirect started by the earlier deployed build.
+  const legacyRedirectKey = `taskify:google-redirect:${app.options.projectId}`;
+  function clearRedirectMarker() {
+    window.sessionStorage.removeItem(redirectKey);
+    window.sessionStorage.removeItem(legacyRedirectKey);
+  }
   const stopGuard = beforeAuthStateChanged(auth, (user) => {
     if (
       user &&
@@ -101,7 +108,9 @@ export function createAuthAdapter(
       try {
         if (disposed) throw new SessionError('restoration');
         // Only process redirect results when this origin initiated a redirect.
-        const marker = window.sessionStorage.getItem(redirectKey);
+        const currentMarker = window.sessionStorage.getItem(redirectKey);
+        const marker =
+          currentMarker ?? window.sessionStorage.getItem(legacyRedirectKey);
         if (marker) {
           let saved: unknown;
           try {
@@ -113,7 +122,11 @@ export function createAuthAdapter(
             typeof saved === 'object' && saved !== null
               ? (saved as Record<string, unknown>)
               : {};
+          const validProvider = currentMarker
+            ? record.provider === 'google' || record.provider === 'microsoft'
+            : true;
           const valid =
+            validProvider &&
             typeof record.epoch === 'string' &&
             typeof record.createdAt === 'number' &&
             Number.isFinite(record.createdAt) &&
@@ -129,7 +142,7 @@ export function createAuthAdapter(
           } catch (error) {
             throw providerError(error);
           } finally {
-            window.sessionStorage.removeItem(redirectKey);
+            clearRedirectMarker();
             intent = undefined;
             pending = false;
             if (disposed) stopGuard();
@@ -138,7 +151,7 @@ export function createAuthAdapter(
         await auth.authStateReady();
         ready = true;
       } catch (error) {
-        window.sessionStorage.removeItem(redirectKey);
+        clearRedirectMarker();
         intent = undefined;
         throw error instanceof SessionError
           ? error
@@ -171,18 +184,29 @@ export function createAuthAdapter(
       stops.add(dispose);
       return dispose;
     },
-    async signInGoogle(transport) {
+    async signIn(providerId, transport) {
       if (disposed || !ready || pending)
         throw new SessionError('provider-unavailable');
       pending = true;
       try {
         intent = window.localStorage.getItem(epochKey) ?? '';
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
+        const provider =
+          providerId === 'google'
+            ? new GoogleAuthProvider()
+            : new OAuthProvider('microsoft.com');
+        provider.setCustomParameters(
+          providerId === 'microsoft'
+            ? { tenant: 'common', prompt: 'select_account' }
+            : { prompt: 'select_account' },
+        );
         if (transport === 'redirect') {
           window.sessionStorage.setItem(
             redirectKey,
-            JSON.stringify({ epoch: intent, createdAt: Date.now() }),
+            JSON.stringify({
+              provider: providerId,
+              epoch: intent,
+              createdAt: Date.now(),
+            }),
           );
           await signInWithRedirect(
             auth,
@@ -192,7 +216,7 @@ export function createAuthAdapter(
         } else
           await signInWithPopup(auth, provider, browserPopupRedirectResolver);
       } catch (error) {
-        window.sessionStorage.removeItem(redirectKey);
+        clearRedirectMarker();
         throw providerError(error);
       } finally {
         pending = false;
@@ -204,7 +228,7 @@ export function createAuthAdapter(
       if (disposed) throw new SessionError('logout');
       try {
         window.localStorage.setItem(epochKey, crypto.randomUUID());
-        window.sessionStorage.removeItem(redirectKey);
+        clearRedirectMarker();
         await signOut(auth);
       } catch {
         throw new SessionError('logout');
