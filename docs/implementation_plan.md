@@ -1,8 +1,8 @@
 # Taskify implementation slices
 
 23 October 2026. **Owner-agreed order.** Slice1 implementation/validation and
-closure documentation are committed and pushed. Slice2 documentation is accepted; implementation is not started. Slices3–30 remain
-planned. This plan is not blanket execution, commit or cloud deployment authority.
+closure documentation are committed and pushed. Slice2 and Slice3 detailing are accepted; implementation remains pending in this
+checkout. Slices4–30 remain planned. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -30,14 +30,15 @@ Slice1 implementation and validation are **complete**; closure documentation was
 committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
 and [validation report](slices/01-foundation-validation.md).
 [Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
-implementation/cloud provisioning pending. Other rows remain planned. Split
+implementation/cloud provisioning pending. [Slice3 detailing](slices/03-provider-sign-in.md)
+is accepted; provider feasibility and implementation remain pending. Other rows remain planned. Split
 broad rows further during detailing.
 
 | Order | Slice | Deliverable |
 |---:|---|---|
 | 1 | Foundation | Select framework/build/store; establish TypeScript boundaries, emulator setup and reproducible local checks |
 | 2 | Compatibility gate | Boot checks, blocking/retry states, resume/reconnect and contract-change handling |
-| 3 | Provider sign-in | Google/Apple feasibility and sign-in, persistent authentication and Logout |
+| 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Apple feasibility and sign-in, persistent authentication and Logout |
 | 4 | Identity linking | Proof-based linking, account-resolution conflicts and cancellation |
 | 5 | Workspace provisioning | Retryable initialization of defaults, protected All Tasks and initial Saved Views |
 | 6 | Responsive navigation | Mobile drawer, desktop rail/sidebar and contextual navigation |
@@ -175,3 +176,15 @@ Overall platform feasibility remains INCONCLUSIVE. Foundation tests are local
 proof evidence only; cloud cleanup has occurred, but no new product backend
 provisioning or live Hosting publication has occurred. The preview checkpoint
 validates static delivery/deployment only.
+
+
+## Slice 3 detailing checkpoint — 23 October 2026
+
+The owner accepted [provider sign-in detailing](slices/03-provider-sign-in.md) and
+authorized documentation in the separate `taskify-slice3` checkout, based on
+`f264868`. It covers Google/Apple feasibility, persistent sessions, gate integration,
+Logout and account isolation. Linking remains Slice 4; provisioning remains Slice 5.
+The sibling checkout's uncommitted Slice 2 source is not included or accepted by
+this checkpoint. Integrate against reviewed, validated Slice 2 behavior. No provider
+feasibility or implementation success is claimed. Implementation, live setup,
+staging, commit, push and deployment await their applicable authorization.

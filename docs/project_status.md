@@ -2,6 +2,14 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-10-23 — Slice3 detailing accepted and documented
+
+- Owner accepted [Slice3 provider sign-in detailing](slices/03-provider-sign-in.md) and authorized documenting it and updating project docs in the separate `taskify-slice3` checkout, based on `f264868`.
+- Accepted scope: Google/Apple feasibility and sign-in, persistent device sessions, compatibility integration, minimal authenticated landing, Logout and account-state isolation. Proof-based linking remains Slice 4; workspace/profile provisioning remains Slice 5.
+- Both provider feasibility and implementation remain pending. Popup/redirect selection follows current official-source feasibility discovery; real provider configuration/testing requires separate authorization. No automatic email-based merge or linking is permitted.
+- This checkout does not include the sibling checkout's uncommitted compatibility implementation. Slice 3 depends on reviewed and validated Slice 2 behavior; those source files are not accepted by this documentation checkpoint.
+- Documentation only: no executable changes, tests, cloud operations, staging, commit, push or deployment. Live promotion remains deferred and overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-10-23 — Slice2 documentation accepted; commit preparation authorized
 
 - Owner accepted the [Slice2 specification](slices/02-compatibility-gate.md) and confirmed Firestore `runtime/compatibility` as the authoritative gate policy. Hosted policy remains optional for external/secondary use; a derived copy identifies its source revision and cannot override the database or authorize access when verification fails. No secondary Hosting-policy implementation is added to this slice.

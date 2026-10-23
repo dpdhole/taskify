@@ -1,6 +1,6 @@
 # Taskify architecture, stack and deployment strategy
 
-22 October 2026. High-level design; implementation details belong to vertical slices.
+23 October 2026. High-level design; implementation details belong to vertical slices.
 
 ## Authority and status
 
@@ -91,6 +91,15 @@ Owner agreement, 22 October 2026:
   such recovery requires a separately defined process.
 - Workspace provisioning is idempotent and retryable; interrupted initialization
   must not duplicate defaults.
+
+[Slice 3 detailing](slices/03-provider-sign-in.md), accepted 23 October 2026,
+records the sign-in/session boundary: Firebase UID ownership, optional profile
+presentation, persistent authentication, independent auth/compatibility state,
+session-generation isolation and confirmed Logout with safe failure recovery.
+Provider transport and feasibility remain unverified; live setup/testing needs
+separate authorization. The minimal authenticated screen provisions no records
+and grants no additional Firestore access. Linking remains Slice 4 and workspace/
+profile provisioning remains Slice 5. This is accepted design, not implementation.
 
 Provider configuration, linking screens, proof/re-authentication mechanics and
 recovery remain slice details. This policy refines §21.5's same-account intent
