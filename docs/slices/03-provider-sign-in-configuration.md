@@ -1,5 +1,7 @@
 # Slice3 — Configuration checkpoint
 
+> Current status — 2 November 2026: Slice3 and its current responsive login presentation are owner-accepted; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile. Work/school-account testing is deferred until product/features mature; technical diagnostics remain during development. See the [closure record](03-provider-sign-in-closure.md). The checkpoint and evidence below retain their original date and scope.
+
 This records step1. The subsequent [Auth/session checkpoint](03-provider-sign-in-session.md)
 now integrates the stable app factory; prospective integration wording below
 describes the configuration checkpoint, not the current code.

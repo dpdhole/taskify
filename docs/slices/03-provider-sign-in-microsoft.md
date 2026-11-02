@@ -1,5 +1,7 @@
 # Slice 3 — Microsoft sign-in checkpoint
 
+> Current status — 2 November 2026: Slice3 and its current responsive login presentation are owner-accepted; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile. Work/school-account testing is deferred until product/features mature; technical diagnostics remain during development. See the [closure record](03-provider-sign-in-closure.md). The checkpoint and evidence below retain their original date and scope.
+
 23 October 2026. The owner authorized the next implementation step after committing
 Google/Auth/session work as `41fe3f4`. Microsoft now uses the shared provider-aware
 adapter, session controller and login controls. Slice3 acceptance remains open.

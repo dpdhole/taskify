@@ -159,7 +159,8 @@ from ordinary test/build configuration. Run `node tools/check-auth-config.mjs`
 to validate identity and the exact channel host allowlist without displaying the
 key. The stable app factory composes Auth/session and Google/Microsoft flows in
 Auth mode. See [configuration and provider verification](slices/03-provider-sign-in-configuration.md)
-for callback URIs, Microsoft personal/work-school audience and pending acceptance.
+for callback URIs and Microsoft personal/work-school audience; see the
+[closure record](slices/03-provider-sign-in-closure.md) for current acceptance.
 
 ## Auth/session implementation checkpoint
 
@@ -172,8 +173,11 @@ ordinary mode retains the compatibility-only surface. Auth mode reads
 The [session checkpoint](slices/03-provider-sign-in-session.md) records restoration
 and Logout. The [Google checkpoint](slices/03-provider-sign-in-google.md) and
 [Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md) record provider
-behavior, local validation and remaining real-provider checks. Shared final login
-presentation and Slice3 acceptance remain pending.
+behavior and historical local validation. Slice3 and the current responsive login
+presentation are owner-accepted as of 2 November 2026. Google and Microsoft
+personal-account workflows were owner-verified on desktop/mobile; work/school
+testing is deferred until product/features mature. Retain technical diagnostics
+during slice development. See the [closure record](slices/03-provider-sign-in-closure.md).
 
 On 23 October 2026 the owner requested this local Auth preview; the server started
 on a checked-free port 5173 and localhost returned HTTP 200. No interactive OAuth result

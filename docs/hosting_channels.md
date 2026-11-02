@@ -7,7 +7,7 @@ Foundation and Slice2 deployment evidence remains unchanged.
 
 ## Channels
 
-| Channel | Purpose | Current state |
+| Channel | Purpose | Last recorded deployment state |
 |---|---|---|
 | `dev` | Development previews | Slice3 Auth/Google app0.1.0, contract1, versioned7c71c3d578e5de; owner-approved uncommitted snapshot (see deployment record) |
 | `qc` | Testing and verification | Created; no release |
@@ -17,7 +17,13 @@ Foundation and Slice2 deployment evidence remains unchanged.
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
 Empty qc/uat channels have no app to review until an explicitly requested release.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
-Current dev release: [Auth preview record](slices/03-provider-sign-in-dev-preview.md).
+Last independently recorded dev artifact: [Auth preview record](slices/03-provider-sign-in-dev-preview.md).
+On 2 November 2026 the owner reported Google and Microsoft personal-account
+workflow verification on desktop/mobile at the dev URL and accepted Slice3.
+The tested build identity was not captured in this documentation update; the
+earlier Google-only deployment record remains historical evidence. Work/school
+testing is deferred until product/features mature; no deployment is performed.
+See the [closure record](slices/03-provider-sign-in-closure.md).
 The owner explicitly approved an uncommitted snapshot for this dev release; future
 releases retain the clean-commit policy below.
 

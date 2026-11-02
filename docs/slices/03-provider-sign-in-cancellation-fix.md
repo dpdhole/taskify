@@ -1,5 +1,7 @@
 # Slice 3 — Cancellation button correction
 
+> Current status — 2 November 2026: Slice3 and its current responsive login presentation are owner-accepted; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile. Work/school-account testing is deferred until product/features mature; technical diagnostics remain during development. See the [closure record](03-provider-sign-in-closure.md). The checkpoint and evidence below retain their original date and scope.
+
 23 October 2026. Fixed locally; prepared for review against `2a7332a`.
 
 ## Report and cause
