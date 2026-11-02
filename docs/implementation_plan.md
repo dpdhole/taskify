@@ -2,7 +2,7 @@
 
 2 November 2026. **Owner-agreed order.** Slice1 implementation/validation and
 closure documentation are committed and pushed. Slice2 implementation and preview are committed. Slice3 configuration, Auth/session
-and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 detailing is accepted; implementation awaits authorization. Slices5–30 remain planned. This plan is not blanket execution, commit or cloud deployment authority.
+and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; provider status and popup/redirect current-account verification are implemented locally, with linking and hosted acceptance pending. Slice5 provisioning detailing is prepared for review; implementation remains pending. Early Delete Account is inserted as Slice5A before Slice6; Slice6 responsive-navigation detailing is accepted; implementation remains pending. Slices6–30 retain their identifiers. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -39,8 +39,9 @@ broad rows further during detailing.
 | 2 | Compatibility gate | Boot checks, blocking/retry states, resume/reconnect and contract-change handling |
 | 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Microsoft feasibility and sign-in, persistent authentication and Logout |
 | 4 | [Identity linking](slices/04-identity-linking.md) | Proof-based linking, account-resolution conflicts and cancellation |
-| 5 | Workspace provisioning | Retryable initialization of defaults, protected All Tasks and initial Saved Views |
-| 6 | Responsive navigation | Mobile drawer, desktop rail/sidebar and contextual navigation |
+| 5 | [Workspace provisioning](slices/05-workspace-provisioning.md) | Retryable initialization of profile/settings, approved Categories/Locations, protected All Tasks and initial Saved Views |
+| 5A | [Delete Account](slices/05A-delete-account.md) | Approved deletion scope; Option 3 operator-run trusted finalizer with temporary fencing |
+| 6 | [Responsive navigation](slices/06-responsive-navigation.md) | Mobile drawer, desktop rail/sidebar and contextual navigation |
 | 7 | Quick Create and basic list | Create a Draft Task and show it in a minimal All Tasks workspace |
 | 8 | Task Detail and metadata editing | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
 | 9 | Three onboarding Tasks | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
@@ -96,7 +97,8 @@ architecture proof, not extensive speculative infrastructure.
 - Basic Task classification uses provisioned defaults/existing records before
   management screens. Slice 26 adds preference/account forms, not foundational
   identity, version contracts or Logout already needed earlier. Delete Account
-  semantics are not silently resolved by listing it in the plan.
+  is now an approved early Slice5A checkpoint; its deletion/recovery contract
+  requires separate detailing rather than waiting for Slice26.
 - Dashboard/settings destinations may be progressively introduced; early shell
   work does not imply completed screens. Navigation must not promise unavailable
   functionality as usable.
@@ -215,3 +217,61 @@ evidence and integration validation remain outstanding; Microsoft work/school
 testing remains deferred until features mature. Owner subsequently authorized documentation updates and staging for review in
 `taskify-slice-detailing`. Documentation only; no implementation, commit, push,
 cloud setup or deployment is performed by this checkpoint.
+
+
+## Slice 5 detailing checkpoint — 2 November 2026
+
+Owner approved the provisioning scope/recovery recommendations, amended the legacy
+Category catalogue and supplied ten Locations. Categories are alphabetical with
+Uncategorized last; Locations alphabetical with synthetic default Unspecified last.
+Material Symbols Rounded mappings include wallet for Finance, home_and_garden for
+Household and heart_plus for Wellness. Other proposed mappings are approved.
+[Slice5 detailing](slices/05-workspace-provisioning.md) records the catalogues,
+Views, profile/settings, initialization safety and acceptance matrix for review.
+Blocking Loading/progress and first-access guidance accompany safe concurrent
+initialization. No starter Tasks or automatic onboarding backfill are added.
+User-facing Delete Account is approved for separate Slice5A immediately after
+Slice5, preserving existing numbered references. No implementation, staging,
+commit, push, cloud operation or deployment is performed by this documentation.
+
+
+## Slice 5A detailing checkpoint — 2 November 2026
+
+Owner approved user-facing Delete Account scope and requested documentation/conflict
+evaluation. [Detailing](slices/05A-delete-account.md) records confirmation, fresh
+proof, fenced staged cleanup, Auth deletion last and recoverable interruption.
+Browser-only finalization, stale-session protection, marker retention and trusted
+enforcement remain unresolved. No backend, retained-marker policy or account
+deletion is authorized; implementation readiness is not established. Align Slice5
+control-record design before implementing either deletion admission or finalization.
+
+Owner subsequently approved this conflict evaluation and authorized completing
+Slice5A documentation and staging for review. State/recovery and enforcement
+contracts are documented. Alternative finalizer/retention choices remain open;
+no implementation, commit, push or cloud/deletion action is performed.
+
+
+### Slice5A finalizer choice — 2 November 2026
+
+Owner selected **Option 3: manual trusted finalizer**. Browser submits confirmed
+intent and displays status; an explicitly invoked local administrative script
+verifies/cleans owned data, deletes Auth last and safely retires the temporary
+fence. Completion depends on operator action; no hosted backend, automatic
+scheduler, permanent tombstone or automatic TTL is selected. This supersedes the
+unresolved architecture alternatives above. Exact safety interval/Rules/control
+contracts require validation. Documentation remains staged for review; no script
+execution, account deletion, commit or push is performed.
+
+
+## Slice 6 detailing checkpoint — 2 November 2026
+
+Owner accepted [responsive-navigation detailing](slices/06-responsive-navigation.md)
+and all twelve recommendations. Mobile drawer below 960 CSS px; desktop/tablet
+rail/sidebar at or above it. Per-tab/account sidebar retention, explicit keyboard/
+touch access, overlay focus/scroll handling and truthful feature availability are
+agreed. Home/Views are shells until their feature slices; unavailable management
+entries are non-actionable and Search/Create controls arrive with implementation.
+Shared routing/guard boundaries do not implement future forms or query execution.
+Slice5/5A and other relevant implemented dependencies must supply real validated
+workspace/account state. Documentation only; no executable edits, tests, staging,
+commit, push, cloud operation or deployment.

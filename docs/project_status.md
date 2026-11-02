@@ -58,6 +58,34 @@
 - No interactive tests, cloud mutation, deployment, staging, commit or push.
   Slice4 remains in progress; fresh reauthentication is the next implementation step.
 
+## 2026-11-02 — Slice6 responsive-navigation detailing accepted and documented
+
+- Owner accepted Slice6 scope and all twelve recommendations, then authorized documentation updates. [Slice6 detailing](slices/06-responsive-navigation.md) records mobile overlay drawer, desktop rail/sidebar, contextual headers, routing/Back, focus/scroll behavior and acceptance.
+- Accepted breakpoint is 960 CSS px; sidebar state is retained per tab/account across routes/reload with Logout/account-switch reset. Hover preview is transient and explicit keyboard/touch expansion remains available.
+- Feature shells communicate availability: no fake counts/charts, no inert Search/Create and no actionable future management destinations. Navigation consumes persisted global View order and shared readiness/account/deletion boundaries.
+- Slice5/5A implementation and relevant workspace integration remain pending locally. Documentation only: no executable edits, tests, staging, commit, push, cloud actions or deployment. Overall platform feasibility remains INCONCLUSIVE.
+
+## 2026-11-02 — Slice5A selects Option 3 manual trusted finalizer
+
+- Owner selected Option 3. [Slice5A detailing](slices/05A-delete-account.md) now specifies browser-confirmed intent and an explicitly invoked local operator script for verified data cleanup, Auth deletion last and safe temporary-fence retirement.
+- Operator action is the normal completion path; the browser displays request/status rather than performing cleanup. Minimal UID/job/state/version/timestamp controls remain until verified finalization and stale-token safety checks; no permanent tombstone or hosted backend is selected.
+- This supersedes the unresolved architecture alternatives in the earlier checkpoint below. Exact Rules/control schemas, token-safety interval, script concurrency and credentials still require implementation validation. Every destructive run needs explicit target authorization.
+- Related docs are aligned and staged for review. No executable changes, account deletion, cloud actions, commit or push.
+
+## 2026-11-02 — Slice5A documentation finalized and staged for review
+
+- Owner approved Delete Account scope and conflict evaluation, then authorized complete documentation and staging for review. [Slice5A detailing](slices/05A-delete-account.md) records state/recovery contracts, enforcement responsibilities, acceptance and unresolved finalizer/retention alternatives after Slice5 and before Slice6.
+- Approved flow: typed DELETE, fresh same-UID provider proof, persisted deletion intent, bounded owned-data cleanup, protected-record exception, Auth deletion last and interruption recovery. No external provider account is deleted.
+- Final-marker/identity atomicity, stale authenticated clients, marker retention and enforceable proof/completeness remain unresolved under the browser-direct topology. No retained fence, backend or retention policy is approved by the scope agreement. Implementation is blocked on those concrete choices and Slice5 schema alignment.
+- Documentation changes are staged for review. No executable changes, tests, commit, push, cloud actions or account deletion. Overall platform feasibility remains INCONCLUSIVE.
+
+## 2026-11-02 — Slice5 provisioning detailing prepared for review
+
+- Owner approved provisioning scope and safety recommendations, finalized twelve Categories (including protected Uncategorized) and ten Locations, and approved Material Symbols Rounded mappings. Categories/Locations start alphabetical, with Uncategorized and synthetic default Unspecified last respectively. Finance uses wallet, Household home_and_garden and Wellness heart_plus.
+- [Slice5 detailing](slices/05-workspace-provisioning.md) records default Views, profile/settings initialization, blocking Loading/progress, duplicate-safe concurrency, recovery, schema/security boundaries and acceptance requirements. Physical persistence/stage/query-codec proposals still need concrete review/verification before implementation.
+- No starter Tasks or automatic backfill. User-facing Delete Account is approved for early separate Slice5A after provisioning and before Slice6; existing slice numbers remain stable. No test accounts are deleted.
+- Fast-forwarded this clean checkout to locally known origin/main at ca822f3 before preparing docs, preserving newer Slice3 presentation/acceptance evidence. This is documentation only: no executable edits, tests, staging, commit, push, cloud change or deployment. Overall feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Slice4 identity-linking detailing accepted and documented
 
 - Owner accepted [Slice4 detailing](slices/04-identity-linking.md) and proceeded to documentation in `taskify-slice-detailing`.

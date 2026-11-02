@@ -188,6 +188,38 @@ slice design and benchmarking. Separate collection listeners do not establish an
 atomic Task/classification snapshot; do not claim transactional read consistency
 without explicit implementation and evidence.
 
+## Workspace provisioning — Slice 5 detailing
+
+[Slice5 detailing](slices/05-workspace-provisioning.md) records owner-approved
+catalogues, icon names, seven initial Views, one-time optional profile capture and
+persisted timezone initialization. Category order is alphabetical plus protected
+Uncategorized last; Location order is alphabetical plus synthetic Unspecified last.
+Versioned UID-owned templates, bounded transactional stages and validated progress
+receipts must prevent duplicate/partial completion under simultaneous access.
+Blocking Loading/progress and guidance do not replace integrity. Exact physical
+paths/stage grouping/query codec remain review/implementation proposals; no new
+records or Rules are implemented by detailing. Preserve user changes and never
+reseed completed ordinary defaults. No Task provisioning/backfill occurs here.
+Early [Delete Account detailing](slices/05A-delete-account.md) selects Option 3:
+browser-confirmed intent followed by a local operator-run trusted finalizer. The
+script verifies data cleanup, deletes Auth last and safely retires a temporary
+fence after stale-session checks. No hosted backend or permanent tombstone is
+selected. Administrative script invariants must be enforced independently of Rules;
+align Slice5 controls and validate concrete safety contracts before acceptance.
+
+## Responsive navigation — Slice 6 accepted detailing
+
+[Slice6 detailing](slices/06-responsive-navigation.md) defines the shell over shared
+validated UID-owned View metadata. Mobile modal drawer below 960 CSS px; desktop
+rail/sidebar at or above it. Separate transient overlays and per-tab/account sidebar
+retention from persisted View order. Navigation never writes View definitions/order.
+Readiness/deletion/session boundaries govern access and late callbacks; reuse
+shared metadata subscriptions rather than listeners per visual component. Shared
+routing/navigation guards provide future feature integration without pretending
+future forms, Search, creation or query execution already work. Home/View shells
+and unavailable entries must communicate current availability honestly. This is
+accepted design, not an implemented or validated application shell.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |
@@ -201,7 +233,7 @@ without explicit implementation and evidence.
 | Category / Location | Independent user-owned classifications referenced by stable ID | User-scoped collections proposed |
 | Settings / profile / order | User-owned preferences, profile and global ordering | Document boundaries and atomic ordering contracts to detail |
 | Purge inventory / job / tombstone | Protect resumable deletion; minimal content-free retained markers | Local candidate evidence; production schema to detail |
-| Compatibility contract | Authenticated read; browser writes/deletes denied; privileged release publication | Candidate path `/configuration/compatibility`; high-level checks agreed, exact production fields remain slice details |
+| Compatibility contract | Public exact-document get only; browser listing/writes/deletes denied; privileged publication | Accepted authoritative path `runtime/compatibility`; Slice2 implemented |
 
 Audited mutations and their mandatory Activity Events succeed or fail together.
 Conflicts follow the user-choice policy below; retries must not blindly replay

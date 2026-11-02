@@ -102,7 +102,7 @@ Taskify is a responsive, mobile-first, **single-user personal responsibility and
 - Archiving a Category prevents new assignment while preserving all existing task references and task editability. Changing an existing task's Category uses an active Category.
 - Category names: at most 30 grapheme clusters, Unicode NFC/trim normalization, case-insensitive uniqueness across active and archived categories.
 - One global display order controls Category grouping in every query. Reset Alphabetical and insertion placement affect this single order. Uncategorized Top/Bottom placement is a view preference, not a separate global Category order.
-- Details of initial starter catalogue are subject to final product-spec reconciliation.
+- The starter catalogue is finalized by the 2 November provisioning amendment in §17.5 and Slice5 detailing.
 
 ### 6.2 Preferences
 
@@ -553,9 +553,20 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 
 ### 17.5 All Tasks and Saved Views
 
+**Owner provisioning amendment, 2 November 2026:** [Slice5 detailing](slices/05-workspace-provisioning.md)
+fixes the starter catalogue: Family, Finance, Friends, Growth, Hobbies, Household,
+Leisure, Self, Social, Wellness, Work, then protected Uncategorized. Ordinary
+Categories are alphabetical; Partner and Spirituality are excluded. Provision
+Locations Grocery, Gym, Local Stores, Mall, Market, Office, Online, Pharmacy,
+Residence, School alphabetically; default Unspecified is displayed last and means
+no Location assignment, not a stored Location record. This supersedes the earlier
+absence of a prescribed Location list. Material Symbols Rounded mappings are
+approved as listed in Slice5; no GPS/proximity behavior is introduced.
+
+
 - One shared Task View workspace. All Tasks opens open, nondeleted Tasks by default, mandatory **Group By Category**. Opening a Saved View loads its query settings into the same workspace and displays its saved name as page title.
 - **Group By mandatory** for every normal Task View; None is not selectable. Filters/Sort support Category, Location, lifecycle, paused condition, closure outcome, Important/Urgent, dates, Include Closed and Include Deleted as applicable. OR within a dimension, AND across dimensions; grouped dimension not simultaneously filterable.
-- Category and Location groups follow globally user-defined orders; pickers and table sorts alphabetical. Optional Location has Unspecified group. Locations support stable IDs, rename, reorder, icons, archive, case-insensitive Unicode NFC-trimmed unique names, max 30 graphemes. No required starter Location list. Latent coordinates have no UI.
+- Category and Location groups follow globally user-defined orders; pickers and table sorts alphabetical. Optional Location has Unspecified group. Locations support stable IDs, rename, reorder, icons, archive, case-insensitive Unicode NFC-trimmed unique names, max 30 graphemes. The 2 November provisioning amendment above defines the starter Location list. Latent coordinates have no UI.
 - All Tasks: **Save As... only** and Reset to system defaults. Saved View: **Save** to update, **Save As...** to create, and Reset to last saved definition. Unsaved setting changes visibly indicated; current workspace configuration retained during session until navigation.
 - Navigating away from a modified Task View **to any destination including Task Detail** warns by default with Discard & Continue / Cancel and **"Do not show this warning again"**. Per-user warning preference persists across clients; if disabled, navigation discards changes immediately. Back from Task Detail restores origin view identity, saved/default configuration and applicable navigation context but never discarded configuration edits. Task data edits are never discarded by this view warning.
 - Settings → Views manages rename, Dashboard inclusion, reorder and deletion of ordinary Saved Views. Saved Views are stored queries, not Task owners. Deletion requires named confirmation, removes Home section, and **never deletes Tasks**. One global cross-device order, with newly created Views appended; reorder in Settings only, not Home. New user-created Saved Views have Show on Home enabled by default.
@@ -754,6 +765,19 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 
 **Scope:** This section refines §19 for larger screens, desktop and touch tablets. These are approved discussion-level UX directions, not implemented or usability-verified behavior. Responsive breakpoint values, animation thresholds and exact per-screen actions remain deferred.
 
+**Slice6 owner agreement, 2 November 2026:** the concrete
+[responsive-navigation baseline](slices/06-responsive-navigation.md) uses a mobile
+drawer below 960 CSS px and desktop/tablet rail/sidebar at or above it. Desktop
+expansion is per-tab/account session state across routes/reloads, reset on Logout/
+account change; browser-restored session storage may retain it. Hover previews
+remain transient, with explicit keyboard/touch expansion. Resize clears temporary
+overlays/locks while preserving destination and separate desktop expansion state.
+Mobile modal focus/scroll behavior, route/Back guards and live View reconciliation
+are specified in Slice6. During incremental delivery Home/View shells state their
+limits, unavailable management entries are non-actionable and Search/Create
+controls appear only with their implementing slices. This does not remove their
+final product requirements or authorize implementation.
+
 ### 20.1 Navigation rail, overlay preview and persistent sidebar
 
 - Replace the mobile floating Create action with a **Create action at the top of desktop/tablet navigation**; no FAB in this layout.
@@ -813,6 +837,15 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 
 ### 21.5 Login, identity and workspace initialization
 
+**Owner provisioning/reuse amendment, 2 November 2026:** initialize safely under
+concurrent access behind a blocking Loading/progress screen and first-access
+guidance. No automatic onboarding backfill is added. Detail a normal user-facing
+Delete Account capability as Slice5A immediately after provisioning and before
+navigation, with fresh authentication, named confirmation, recoverable data cleanup
+before Auth deletion and isolation from newly created accounts. Exact deletion
+semantics remain for that slice; this authorizes no account deletion.
+
+
 **Owner amendment, 23 October 2026:** Google and Microsoft are the active Slice 3
 sign-in providers. Apple authentication is deferred, including feasibility,
 configuration, implementation and validation; it is not a Slice 3 acceptance
@@ -833,6 +866,19 @@ See the [closure record](slices/03-provider-sign-in-closure.md).
 - Initialize display name and photo from available social profile data; do not assume values always exist or overwrite user edits automatically.
 - Verified identical email across providers should resolve to the same Taskify account through secure account resolution/credential linking. Firebase does not guarantee automatic linking; Apple private relay can produce different email addresses. Never trust an unverified email claim as authorization. Exact linking UX and security deferred.
 - Email OTP is a candidate alternative, not an active approved login channel. Google + Apple extends §18's earlier Google-only Firebase Spark PoC/beta baseline; provider feasibility must be validated.
+
+**Slice5A scope approval, 2 November 2026:** the minimal account surface offers a
+separate permanent Delete Account action, typed DELETE confirmation and fresh
+same-UID provider proof. Persist intent before bounded recoverable owned-data
+cleanup, delete Auth identity last, and never reprovision an account in deletion.
+Protected defaults may be removed only through this workflow; external provider
+accounts are unaffected. [Slice5A detailing](slices/05A-delete-account.md) records
+approved scope with owner-selected Option 3: the browser submits confirmed intent,
+and a local operator-run script verifies/cleans application data, deletes Auth last
+and retires a minimal temporary fence after validated stale-session checks. No
+hosted backend or permanent tombstone is selected. Completion depends on operator
+execution; exact safety contracts require validation and each destructive run
+requires explicit authorization.
 
 ### 21.6 Task Detail responsive sections
 - Retain contextual Back/action bar (§§19–20), mobile full-page and desktop side-panel-by-default expandable presentation where compatible.
