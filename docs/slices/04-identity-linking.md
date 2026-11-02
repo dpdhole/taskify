@@ -1,6 +1,7 @@
 # Slice 4 — Identity linking
 
 Status: **detailing accepted; implementation authorized on 2 November 2026; provider status and popup current-account proof implemented locally; isolated redirect proof implemented locally; linking pending**.
+The clean verification checkpoint is [published to dev](04-identity-linking-preview.md); linking and real-provider acceptance remain pending.
 See the [status checkpoint](04-identity-linking-status.md) for step1 evidence and the owner-accepted SDK-boundary amendment, and the [popup proof checkpoint](04-identity-linking-proof.md) for current progress.
 The following authorization paragraph records the original documentation checkpoint;
 the owner subsequently authorized reviewing and beginning implementation.

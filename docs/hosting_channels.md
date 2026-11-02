@@ -9,7 +9,7 @@ Foundation and Slice2 deployment evidence remains unchanged.
 
 | Channel | Purpose | Last recorded deployment state |
 |---|---|---|
-| `dev` | Development previews | Slice3 Google/Microsoft Auth + shared UI, app0.1.0, contract1, version7664413ad02b4666 from clean commitfb629e4 |
+| `dev` | Development previews | Slice4 status + popup/redirect current-account verification, app0.1.0, contract1, versioneaf55fb912229e6e from clean commit05adff6 |
 | `qc` | Testing and verification | Created; no release |
 | `uat` | External/beta review | Created; no release |
 | `live` | Product release when ready | Unchanged; no live release approved |
@@ -17,8 +17,10 @@ Foundation and Slice2 deployment evidence remains unchanged.
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
 Empty qc/uat channels have no app to review until an explicitly requested release.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
-Latest recorded deployment: [Google/Microsoft preview](slices/03-provider-sign-in-preview.md),
-clean commit `fb629e4`, version `7664413ad02b4666`, published on 23 October.
+Latest recorded deployment: [Slice4 verification preview](slices/04-identity-linking-preview.md),
+clean pushed commit `05adff6`, version `eaf55fb912229e6e`, published on 2 November.
+The [23 October Google/Microsoft preview](slices/03-provider-sign-in-preview.md)
+remains historical evidence; provider linking is not enabled by the current release.
 On 2 November 2026 the owner reported Google and Microsoft personal-account
 workflow verification on desktop/mobile at the dev URL and accepted Slice3.
 The exact build tested by that later report was not independently captured;
@@ -67,8 +69,8 @@ isolation needs a separately agreed environment/project decision.
 ## Expiry
 
 Use up to30 days for preview channels. The channels created on23 October2026
-initially expire **22 November2026 at13:19 IST**. The23 October dev deployment
-most recently renewed dev to **22 November2026 at22:22 IST**; qc/uat retain their initial expiry.
+initially expire **22 November2026 at13:19 IST**. The2 November dev deployment
+most recently renewed dev to **2 December2026 at15:51 IST**; qc/uat retain their initial expiry.
 Renew only on explicit instruction; no
 scheduled renewal or deployment. Check and report expiry at each hosting action.
 Expiry may remove a channel and invalidate its URL; recreating it can change the

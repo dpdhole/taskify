@@ -2,6 +2,18 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice4 checkpoint committed, pushed and published to dev
+
+- Implementation commit `68a8e3b`; pushed merged source `05adff6` preserves upstream
+  Slice5/5A/6 documentation. Executable inputs match the 185/7/41-test checkpoint.
+- Clean Auth build `05adff63914f-c559a596a011da9f` published as Hosting version
+  `eaf55fb912229e6e` to dev, expiring 2 December 2026 at 15:51 IST.
+- [Preview evidence](slices/04-identity-linking-preview.md): local/HTTPS 390/1280px
+  hash/header/build/gate/reload/offline checks passed. No provider interaction or
+  real-device acceptance is claimed; linking remains disabled.
+- QC/UAT/live and backend/billing/Auth/Web App/key metadata are unchanged.
+  The local server remains stopped; publication documentation is a separate record.
+
 ## 2026-11-02 — Slice4 current-account verification prepared for staged review
 
 - Staging scope: Sign-in methods status, Google/Microsoft popup verification,

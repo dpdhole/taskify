@@ -1,0 +1,223 @@
+{
+  "date": "2026-11-02",
+  "ownerInstruction": "commit and push. Then deploy to dev channel",
+  "projectId": "taskify-dev-dpdhole",
+  "projectNumber": "243252492098",
+  "channel": "dev",
+  "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+  "version": "eaf55fb912229e6e",
+  "expireTime": "2026-12-02T10:21:39.601069110Z",
+  "expiryIndia": "2 December 2026, 15:51 IST",
+  "sourceCommit": "05adff63914f5997f9b9cb1d43b6d1e0e3718d6f",
+  "implementationCommit": "68a8e3bdd7a3b0d762eb9d5e8b7702a399bc84ca",
+  "sourcePushed": true,
+  "artifact": {
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "05adff63914f-c559a596a011da9f",
+      "commit": "05adff63914f5997f9b9cb1d43b6d1e0e3718d6f",
+      "sourceDirty": false,
+      "builtAt": "2026-11-02T10:20:19.045Z"
+    },
+    "sourceValidation": "89 inputs match 185 unit/component, 7 integration and 41 Chromium checkpoint; merge changed documentation only",
+    "files": {
+      "index.html": "7c7b10eed68ef8817bbcb8ffbc323786f53322e94ba91d7e84d7510e1a1de70a",
+      "release.json": "3837b7b64054a684c9f90c7551a03b82dc2fa402fbb1a01265a9e740c5e6db46",
+      "assets/index-C0KDK2We.js": "9ff687b77489d13f2abfcfcbcbf4e32f4b1f903085ea58af79ba8d0f7a113679",
+      "assets/index-rumDp5Os.css": "82f6667951970a0ddbe247735d614ce08771c006d7bbf38c21faaa3fc9fdebba"
+    },
+    "effectiveHostingConfig": {
+      "hosting": {
+        "site": "taskify-dev-dpdhole",
+        "public": "artifact-05adff6",
+        "ignore": [
+          "firebase.hosting.json",
+          "**/.*",
+          "**/node_modules/**",
+          "module-graph.json",
+          "**/*.map",
+          "foundation.html",
+          "**/*-debug.log"
+        ],
+        "headers": [
+          {
+            "headers": [
+              {
+                "key": "Cache-Control",
+                "value": "no-cache"
+              },
+              {
+                "key": "X-Content-Type-Options",
+                "value": "nosniff"
+              },
+              {
+                "key": "Referrer-Policy",
+                "value": "no-referrer"
+              },
+              {
+                "key": "Content-Security-Policy",
+                "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self'; img-src 'self' data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src 'self' https://taskify-dev-dpdhole.firebaseapp.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+              }
+            ],
+            "regex": ".*"
+          },
+          {
+            "headers": [
+              {
+                "key": "Cache-Control",
+                "value": "public,max-age=31536000,immutable"
+              }
+            ],
+            "regex": "[/\\\\]assets[/\\\\].*"
+          }
+        ],
+        "rewrites": [
+          {
+            "destination": "/index.html",
+            "regex": ".*"
+          }
+        ]
+      }
+    },
+    "effectiveHostingConfigSha256": "98369a69e7f24539391230b84361176c0e971650cab9b3cbfa64ce3388a7920a"
+  },
+  "validationBasis": {
+    "unitComponentPassed": 185,
+    "integrationPassed": 7,
+    "chromiumPassed": 41,
+    "codeInputsMatch": 89,
+    "mergedRemoteChanges": "Documentation only: Slice5/5A/6 detailing; executable inputs unchanged"
+  },
+  "deploymentCommand": "node node_modules/firebase-tools/lib/bin/firebase.js hosting:channel:deploy dev --project taskify-dev-dpdhole --config .local/slice4-dev/firebase.preview.json --expires 30d --no-authorized-domains --non-interactive --json",
+  "localChecks": {
+    "checkedAt": "2026-11-02T10:20:40.271Z",
+    "origin": "http://localhost:5002",
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "05adff63914f-c559a596a011da9f",
+      "commit": "05adff63914f5997f9b9cb1d43b6d1e0e3718d6f",
+      "sourceDirty": false,
+      "builtAt": "2026-11-02T10:20:19.045Z"
+    },
+    "staticHashes": true,
+    "headers": true,
+    "exclusions": true,
+    "browser": [
+      {
+        "width": 390,
+        "googleControl": true,
+        "microsoftControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "http://localhost:5002",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "googleControl": true,
+        "microsoftControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "http://localhost:5002",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "interactiveOAuth": false
+  },
+  "hostedChecks": {
+    "checkedAt": "2026-11-02T10:22:59.331Z",
+    "origin": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+    "release": {
+      "appVersion": "0.1.0",
+      "buildId": "05adff63914f-c559a596a011da9f",
+      "commit": "05adff63914f5997f9b9cb1d43b6d1e0e3718d6f",
+      "sourceDirty": false,
+      "builtAt": "2026-11-02T10:20:19.045Z"
+    },
+    "staticHashes": true,
+    "headers": true,
+    "exclusions": true,
+    "browser": [
+      {
+        "width": 390,
+        "googleControl": true,
+        "microsoftControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "googleControl": true,
+        "microsoftControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "interactiveOAuth": false
+  },
+  "resourceComparison": {
+    "checkedBefore": "2026-11-02T10:20:44.982Z",
+    "checkedAfter": "2026-11-02T10:22:43.012Z",
+    "billingEnabled": false,
+    "unchanged": [
+      "database",
+      "rules",
+      "billing",
+      "providers",
+      "authConfig",
+      "webApps",
+      "keys"
+    ],
+    "providerSecretsOrKeyValuesRetrieved": false,
+    "channels": [
+      "dev",
+      "qc",
+      "uat",
+      "live"
+    ],
+    "otherChannelsUnchanged": [
+      "qc",
+      "uat",
+      "live"
+    ],
+    "previousDevVersion": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/7664413ad02b4666"
+  },
+  "limitations": [
+    "No hosted sign-in/linking interaction or real-device acceptance performed",
+    "Provider linking remains disabled",
+    "Microsoft work/school acceptance remains deferred"
+  ],
+  "localServerRunning": false
+}
