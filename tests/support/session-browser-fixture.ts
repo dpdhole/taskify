@@ -1,3 +1,5 @@
+import { createSignInMethodsController } from '../../src/application/sign-in-methods-controller';
+import { createSignInMethodsStore } from '../../src/state/sign-in-methods-store';
 import { createElement } from 'react';
 import { createRoot } from 'react-dom/client';
 import { SessionView } from '../../src/ui/SessionView';
@@ -41,6 +43,8 @@ export function createSessionFixture() {
     clock,
   );
   const session = createSessionController(auth, gate, clock, () => {});
+  const methodsController = createSignInMethodsController(auth, session, clock);
+  const methodsProjection = createSignInMethodsStore(methodsController);
   const projection = createSessionStore(session);
   const compatibility = createCompatibilityStore(gate);
   const ordinaryRoot = document.getElementById('root');
@@ -50,6 +54,20 @@ export function createSessionFixture() {
   const root = createRoot(mount);
   root.render(
     createElement(SessionView, {
+      methods: {
+        projection: methodsProjection,
+        verify: (provider: 'google' | 'microsoft', transport?: 'redirect') => {
+          void methodsController.verify(provider, transport ?? 'popup');
+        },
+        cancelVerification: () => methodsController.cancelVerification(),
+        open: () => {
+          void methodsController.open();
+        },
+        close: () => methodsController.close(),
+        refresh: () => {
+          void methodsController.refresh();
+        },
+      },
       projection,
       compatibility,
       signIn: (provider: 'google' | 'microsoft', transport?: 'redirect') => {
@@ -100,6 +118,8 @@ export function createSessionFixture() {
       if (ordinaryRoot) ordinaryRoot.hidden = false;
       projection.dispose();
       compatibility.dispose();
+      methodsController.dispose();
+      methodsProjection.dispose();
       session.dispose();
       gate.dispose();
       await deleteApp(app);

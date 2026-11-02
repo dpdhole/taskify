@@ -5,6 +5,8 @@ import type { createSessionStore } from '../state/session-store';
 import type { createCompatibilityStore } from '../state/compatibility-store';
 import { CompatibilityView } from './CompatibilityView';
 import styles from './session.module.css';
+import { SignInMethodsView } from './SignInMethodsView';
+import type { SignInMethodsPresentation } from './SignInMethodsView';
 export function SessionView({
   projection,
   compatibility,
@@ -15,6 +17,7 @@ export function SessionView({
   reload,
   appVersion,
   buildId,
+  methods,
 }: {
   projection: ReturnType<typeof createSessionStore>;
   compatibility: ReturnType<typeof createCompatibilityStore>;
@@ -25,6 +28,7 @@ export function SessionView({
   reload: () => void;
   appVersion: string;
   buildId: string;
+  methods?: SignInMethodsPresentation | undefined;
 }) {
   const state = useStore(projection.store, (s) => s.state);
   const gate = useStore(compatibility.store, (s) => s.state);
@@ -111,7 +115,14 @@ export function SessionView({
         <p role="status" aria-live="polite" className={styles.status}>
           {message}
         </p>
-        {state.protectedReady && (
+        {state.status === 'signed-in' && methods && (
+          <SignInMethodsView
+            methods={methods}
+            identity={state.identity}
+            ready={state.protectedReady}
+          />
+        )}
+        {state.protectedReady && !methods && (
           <section
             aria-label="Authenticated account"
             className={styles.account}

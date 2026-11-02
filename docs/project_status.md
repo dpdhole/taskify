@@ -2,6 +2,62 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice4 current-account verification prepared for staged review
+
+- Staging scope: Sign-in methods status, Google/Microsoft popup verification,
+  isolated redirect verification, tests, guidance and the three checkpoint records.
+  Provider linking remains disabled; Slice4 is not complete.
+- Validation inputs still match the redirect checkpoint: 185 unit/component,
+  7 integration and 41 headless Chromium checks, plus four builds and static checks.
+  No additional test execution or owner acceptance is implied by staging.
+- The exact dev candidate passed local Hosting checks at 390/1280px. Publication
+  remains pending a clean reviewed commit or explicit owner snapshot exception;
+  the current dev channel is unchanged.
+- Owner subsequently requested a local server; Auth-mode Vite remains running at
+  http://localhost:5173/ for manual review. Interactive automation remains paused.
+- No commit or push is included. Earlier action-state fields in checkpoint evidence
+  describe their historical execution snapshots, before this staging request.
+
+## 2026-11-02 — Slice4 isolated redirect proof implemented locally
+
+- Public Firebase user-copy/redirect APIs run current-account proof in a temporary
+  SDK-managed session context for the same UID. Primary Auth initialization and
+  persistence stay unchanged; proof startup/cleanup cannot replace the primary user.
+- Return admission checks UID, provider, operation, epoch and correlation validity;
+  current provider reload plus session/compatibility checks precede presentation.
+  Hosted touch devices use redirect; blocked desktop popups offer redirect recovery.
+- [Redirect checkpoint](slices/04-identity-linking-redirect.md) records the tradeoff,
+  evidence and limitations. Earlier popup-only status below is historical.
+- Linking, collision feasibility and hosted real-provider acceptance remain pending.
+  No deployment, cloud changes, staging, commit or push.
+
+## 2026-11-02 — Slice4 popup current-account proof checkpoint
+
+- Linked Google/Microsoft methods can freshly verify the original account using a
+  popup. UID, session generation, compatibility and Logout guards reject stale proof;
+  cancellation stays serialized until the SDK call settles. No linking is enabled.
+- Owner accepted finishing popup proof first. Redirect proof fails closed before SDK
+  invocation; resolving safe redirect startup is next and remains required for Slice4.
+- [Proof checkpoint](slices/04-identity-linking-proof.md) records local validation and
+  limitations. No interactive provider test, cloud change, deployment, stage or commit.
+- Earlier status checkpoint below is historical; fresh popup proof is now implemented.
+
+## 2026-11-02 — Slice4 implementation begun: read-only sign-in methods
+
+- Owner authorized reviewing and beginning Slice4. Added authenticated Sign-in
+  methods with server-refreshed Google/Microsoft status, session/gate admission,
+  stale-result suppression, keyboard Back/focus and explicit recovery. No link
+  mutation or reauthentication enabled yet. [Checkpoint](slices/04-identity-linking-status.md).
+- 133 unit/component, 7 integration and 25 headless browser checks and all four builds
+  passed. New SDK/emulator cases cover 390/1280px and existing sign-in regressions.
+- Project config read returned signIn:{}; explicit duplicate-email value omitted.
+  Documented platform automatic-resolution risk and the SDK's combined proof/link
+  operation. The owner accepted fresh reauthentication, immediate pre-SDK admission and
+  post-operation reconciliation as the SDK boundary. This explicit amendment is
+  recorded; no linking operation is enabled by the read-only checkpoint.
+- No interactive tests, cloud mutation, deployment, staging, commit or push.
+  Slice4 remains in progress; fresh reauthentication is the next implementation step.
+
 ## 2026-11-02 — Slice4 identity-linking detailing accepted and documented
 
 - Owner accepted [Slice4 detailing](slices/04-identity-linking.md) and proceeded to documentation in `taskify-slice-detailing`.

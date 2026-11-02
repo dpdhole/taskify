@@ -1,3 +1,5 @@
+import { createRedirectProofAdapter } from './redirect-proof-adapter';
+import type { RedirectProofReturn } from './redirect-proof-adapter';
 import {
   browserLocalPersistence,
   browserPopupRedirectResolver,
@@ -11,8 +13,11 @@ import {
   initializeAuth,
   onAuthStateChanged,
   setPersistence,
+  reload,
+  reauthenticateWithPopup,
   signOut,
 } from 'firebase/auth';
+import type { SignInMethodsReader } from '../../application/sign-in-methods-controller';
 import type { FirebaseApp } from 'firebase/app';
 import { SessionError } from '../../application/session-controller';
 import type {
@@ -23,7 +28,7 @@ import type {
 export function createAuthAdapter(
   app: FirebaseApp,
   emulator?: { host: '127.0.0.1'; port: 9099 },
-): AuthPort {
+): AuthPort & SignInMethodsReader {
   if (
     (app.options.projectId?.startsWith('demo-') ?? false) !==
       Boolean(emulator) ||
@@ -42,6 +47,27 @@ export function createAuthAdapter(
   let ready = false;
   let pending = false;
   let intent: string | undefined;
+  let expectedProofUid: string | undefined;
+  let proofSequence = 0;
+  let returnedProof: RedirectProofReturn | undefined;
+  const redirectProof = createRedirectProofAdapter(
+    app,
+    emulator,
+    () => auth.currentUser,
+    providerError,
+  );
+  function providerFor(providerId: 'google' | 'microsoft') {
+    const provider =
+      providerId === 'google'
+        ? new GoogleAuthProvider()
+        : new OAuthProvider('microsoft.com');
+    provider.setCustomParameters(
+      providerId === 'microsoft'
+        ? { tenant: 'common', prompt: 'select_account' }
+        : { prompt: 'select_account' },
+    );
+    return provider;
+  }
   const epochKey = `taskify:logout:${app.options.projectId}`;
   const redirectKey = `taskify:provider-redirect:${app.options.projectId}`;
   // Consume an in-flight Google redirect started by the earlier deployed build.
@@ -54,7 +80,9 @@ export function createAuthAdapter(
     if (
       user &&
       intent !== undefined &&
-      (disposed || (window.localStorage.getItem(epochKey) ?? '') !== intent)
+      (disposed ||
+        (window.localStorage.getItem(epochKey) ?? '') !== intent ||
+        (expectedProofUid !== undefined && user.uid !== expectedProofUid))
     )
       throw new SessionError('cancelled');
   });
@@ -70,6 +98,15 @@ export function createAuthAdapter(
       code === 'auth/login-blocked'
     )
       return new SessionError('cancelled');
+    if (code === 'auth/user-mismatch') return new SessionError('wrong-account');
+    if (
+      [
+        'auth/requires-recent-login',
+        'auth/user-token-expired',
+        'auth/invalid-credential',
+      ].includes(code)
+    )
+      return new SessionError('proof-expired');
     if (code === 'auth/popup-blocked') return new SessionError('popup-blocked');
     if (code === 'auth/account-exists-with-different-credential')
       return new SessionError('account-conflict');
@@ -86,77 +123,88 @@ export function createAuthAdapter(
       return new SessionError('provider-configuration');
     return new SessionError('provider-unavailable');
   }
-  return {
-    async initialize() {
+  let initialization: Promise<void> | undefined;
+  async function initializeSession() {
+    if (disposed) throw new SessionError('restoration');
+    // Explicitly prove usable persistent storage; never silently promise memory-only persistence.
+    try {
+      const key = 'taskify:storage-probe:' + crypto.randomUUID();
+      for (const storage of [window.localStorage, window.sessionStorage]) {
+        try {
+          storage.setItem(key, key);
+          if (storage.getItem(key) !== key) throw Error('Storage unavailable');
+        } finally {
+          storage.removeItem(key);
+        }
+      }
+      await setPersistence(auth, browserLocalPersistence);
+    } catch {
+      throw new SessionError('persistence');
+    }
+    try {
       if (disposed) throw new SessionError('restoration');
-      // Explicitly prove usable persistent storage; never silently promise memory-only persistence.
-      try {
-        const key = 'taskify:storage-probe:' + crypto.randomUUID();
-        for (const storage of [window.localStorage, window.sessionStorage]) {
-          try {
-            storage.setItem(key, key);
-            if (storage.getItem(key) !== key)
-              throw Error('Storage unavailable');
-          } finally {
-            storage.removeItem(key);
-          }
+      // Only process redirect results when this origin initiated a redirect.
+      const currentMarker = window.sessionStorage.getItem(redirectKey);
+      const marker =
+        currentMarker ?? window.sessionStorage.getItem(legacyRedirectKey);
+      if (marker) {
+        let saved: unknown;
+        try {
+          saved = JSON.parse(marker);
+        } catch {
+          saved = null;
         }
-        await setPersistence(auth, browserLocalPersistence);
-      } catch {
-        throw new SessionError('persistence');
-      }
-      try {
-        if (disposed) throw new SessionError('restoration');
-        // Only process redirect results when this origin initiated a redirect.
-        const currentMarker = window.sessionStorage.getItem(redirectKey);
-        const marker =
-          currentMarker ?? window.sessionStorage.getItem(legacyRedirectKey);
-        if (marker) {
-          let saved: unknown;
-          try {
-            saved = JSON.parse(marker);
-          } catch {
-            saved = null;
-          }
-          const record =
-            typeof saved === 'object' && saved !== null
-              ? (saved as Record<string, unknown>)
-              : {};
-          const validProvider = currentMarker
-            ? record.provider === 'google' || record.provider === 'microsoft'
-            : true;
-          const valid =
-            validProvider &&
-            typeof record.epoch === 'string' &&
-            typeof record.createdAt === 'number' &&
-            Number.isFinite(record.createdAt) &&
-            Date.now() - record.createdAt <= 900000 &&
-            record.createdAt <= Date.now() &&
-            (window.localStorage.getItem(epochKey) ?? '') === record.epoch;
-          intent = valid ? (record.epoch as string) : crypto.randomUUID();
-          const invalid = !valid;
-          pending = true;
-          try {
-            await getRedirectResult(auth, browserPopupRedirectResolver);
-            if (invalid) throw new SessionError('cancelled');
-          } catch (error) {
-            throw providerError(error);
-          } finally {
-            clearRedirectMarker();
-            intent = undefined;
-            pending = false;
-            if (disposed) stopGuard();
-          }
+        const record =
+          typeof saved === 'object' && saved !== null
+            ? (saved as Record<string, unknown>)
+            : {};
+        const validProvider = currentMarker
+          ? record.provider === 'google' || record.provider === 'microsoft'
+          : true;
+        const valid =
+          record.operation === undefined &&
+          validProvider &&
+          typeof record.epoch === 'string' &&
+          typeof record.createdAt === 'number' &&
+          Number.isFinite(record.createdAt) &&
+          Date.now() - record.createdAt <= 900000 &&
+          record.createdAt <= Date.now() &&
+          (window.localStorage.getItem(epochKey) ?? '') === record.epoch;
+        intent = valid ? (record.epoch as string) : crypto.randomUUID();
+        const invalid = !valid;
+        pending = true;
+        try {
+          await getRedirectResult(auth, browserPopupRedirectResolver);
+          if (invalid) throw new SessionError('cancelled');
+        } catch (error) {
+          throw providerError(error);
+        } finally {
+          clearRedirectMarker();
+          intent = undefined;
+          expectedProofUid = undefined;
+          pending = false;
+          if (disposed) stopGuard();
         }
-        await auth.authStateReady();
-        ready = true;
-      } catch (error) {
-        clearRedirectMarker();
-        intent = undefined;
-        throw error instanceof SessionError
-          ? error
-          : new SessionError('restoration');
       }
+      await auth.authStateReady();
+      returnedProof = await redirectProof.resume();
+      if (disposed) throw new SessionError('cancelled');
+      ready = true;
+    } catch (error) {
+      clearRedirectMarker();
+      intent = undefined;
+      expectedProofUid = undefined;
+      throw error instanceof SessionError
+        ? error
+        : new SessionError('restoration');
+    }
+  }
+  return {
+    initialize() {
+      initialization ??= initializeSession().finally(() => {
+        initialization = undefined;
+      });
+      return initialization;
     },
     observe(next, error) {
       if (disposed) throw new SessionError('restoration');
@@ -184,21 +232,124 @@ export function createAuthAdapter(
       stops.add(dispose);
       return dispose;
     },
+    hasVerificationReturn() {
+      return Boolean(
+        ready &&
+        !disposed &&
+        returnedProof &&
+        auth.currentUser?.uid === returnedProof.uid &&
+        returnedProof.epoch === (window.localStorage.getItem(epochKey) ?? '') &&
+        Date.now() - returnedProof.createdAt <= 900000 &&
+        returnedProof.createdAt <= Date.now(),
+      );
+    },
+    async readSignInMethods(uid) {
+      const user = auth.currentUser;
+      if (disposed || !ready || pending || !user || user.uid !== uid)
+        throw new SessionError('restoration');
+      const epoch = window.localStorage.getItem(epochKey);
+      try {
+        await reload(user);
+        if (
+          disposed ||
+          auth.currentUser !== user ||
+          user.uid !== uid ||
+          window.localStorage.getItem(epochKey) !== epoch
+        )
+          throw new SessionError('cancelled');
+        const proof = returnedProof;
+        returnedProof = undefined;
+        return {
+          uid,
+          ...(proof &&
+          proof.uid === uid &&
+          proof.epoch === (window.localStorage.getItem(epochKey) ?? '') &&
+          Date.now() - proof.createdAt <= 900000 &&
+          proof.createdAt <= Date.now()
+            ? {
+                verificationReturn: {
+                  provider: proof.provider,
+                  reason: proof.reason,
+                },
+              }
+            : {}),
+          providers: user.providerData.flatMap((info) =>
+            info.providerId === 'google.com'
+              ? ['google' as const]
+              : info.providerId === 'microsoft.com'
+                ? ['microsoft' as const]
+                : [],
+          ),
+        };
+      } catch (error) {
+        throw providerError(error);
+      }
+    },
+    async reauthenticate(uid, providerId, transport) {
+      const user = auth.currentUser;
+      if (
+        disposed ||
+        !ready ||
+        pending ||
+        !user ||
+        user.uid !== uid ||
+        !user.providerData.some(
+          (p) =>
+            p.providerId ===
+            (providerId === 'google' ? 'google.com' : 'microsoft.com'),
+        )
+      )
+        throw new SessionError('wrong-account');
+      returnedProof = undefined;
+      const attempt = ++proofSequence;
+      const epoch = window.localStorage.getItem(epochKey) ?? '';
+      expectedProofUid = uid;
+      intent = epoch;
+      pending = true;
+      try {
+        const provider = providerFor(providerId);
+        if (transport === 'redirect')
+          return await redirectProof.begin(user, providerId, provider);
+        const result = await reauthenticateWithPopup(
+          user,
+          provider,
+          browserPopupRedirectResolver,
+        );
+        if (
+          disposed ||
+          attempt !== proofSequence ||
+          auth.currentUser !== user ||
+          (window.localStorage.getItem(epochKey) ?? '') !== epoch
+        )
+          throw new SessionError('cancelled');
+        if (
+          result.user.uid !== uid ||
+          result.operationType !== 'reauthenticate'
+        )
+          throw new SessionError('wrong-account');
+        return { uid };
+      } catch (error) {
+        clearRedirectMarker();
+        throw providerError(error);
+      } finally {
+        intent = undefined;
+        expectedProofUid = undefined;
+        pending = false;
+        if (disposed) stopGuard();
+      }
+    },
+    cancelReauthentication() {
+      proofSequence++;
+      returnedProof = undefined;
+      redirectProof.cancel();
+    },
     async signIn(providerId, transport) {
       if (disposed || !ready || pending)
         throw new SessionError('provider-unavailable');
       pending = true;
       try {
         intent = window.localStorage.getItem(epochKey) ?? '';
-        const provider =
-          providerId === 'google'
-            ? new GoogleAuthProvider()
-            : new OAuthProvider('microsoft.com');
-        provider.setCustomParameters(
-          providerId === 'microsoft'
-            ? { tenant: 'common', prompt: 'select_account' }
-            : { prompt: 'select_account' },
-        );
+        const provider = providerFor(providerId);
         if (transport === 'redirect') {
           window.sessionStorage.setItem(
             redirectKey,
@@ -227,6 +378,9 @@ export function createAuthAdapter(
     async signOut() {
       if (disposed) throw new SessionError('logout');
       try {
+        proofSequence++;
+        returnedProof = undefined;
+        redirectProof.cancel();
         window.localStorage.setItem(epochKey, crypto.randomUUID());
         clearRedirectMarker();
         await signOut(auth);
@@ -237,6 +391,9 @@ export function createAuthAdapter(
     dispose() {
       if (disposed) return;
       disposed = true;
+      proofSequence++;
+      returnedProof = undefined;
+      redirectProof.dispose();
       if (!pending) stopGuard();
       for (const stop of stops) stop();
       stops.clear();

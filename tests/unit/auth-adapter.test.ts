@@ -4,6 +4,9 @@ const sdk = vi.hoisted(() => ({
   connectAuthEmulator: vi.fn(),
   onAuthStateChanged: vi.fn(),
   setPersistence: vi.fn(),
+  reload: vi.fn(),
+  reauthenticateWithPopup: vi.fn(),
+  reauthenticateWithRedirect: vi.fn(),
   signOut: vi.fn(),
   browserLocalPersistence: {},
   browserPopupRedirectResolver: {},
@@ -25,7 +28,17 @@ const sdk = vi.hoisted(() => ({
     setCustomParameters() {}
   },
 }));
+const proof = vi.hoisted(() => ({
+  resume: vi.fn(),
+  begin: vi.fn(),
+  cancel: vi.fn(),
+  dispose: vi.fn(),
+}));
+vi.mock('../../src/infrastructure/firebase/redirect-proof-adapter', () => ({
+  createRedirectProofAdapter: () => proof,
+}));
 vi.mock('firebase/auth', () => sdk);
+import { SessionError } from '../../src/application/session-controller';
 import { createAuthAdapter } from '../../src/infrastructure/firebase/auth-adapter';
 import type { FirebaseApp } from 'firebase/app';
 const app = { options: { projectId: 'taskify-dev-dpdhole' } } as FirebaseApp;
@@ -34,6 +47,7 @@ let error: () => void;
 const stop = vi.fn();
 beforeEach(() => {
   vi.resetAllMocks();
+  proof.resume.mockResolvedValue(undefined);
   const values = new Map<string, string>();
   vi.stubGlobal('window', {
     localStorage: {
@@ -280,7 +294,7 @@ it('retains the admission middleware while a redirect result is being processed 
   expect(stopGuard).not.toHaveBeenCalled();
   expect(() => guard({ uid: 'late-redirect' })).toThrow('cancelled');
   finish();
-  await initializing;
+  await expect(initializing).rejects.toMatchObject({ reason: 'cancelled' });
   expect(stopGuard).toHaveBeenCalledOnce();
 });
 
@@ -397,5 +411,239 @@ it('consumes a valid Google redirect marker from the previously deployed build',
   await adapter.initialize();
   expect(sdk.getRedirectResult).toHaveBeenCalledOnce();
   expect(window.sessionStorage.getItem(key)).toBeUndefined();
+  adapter.dispose();
+});
+
+it('refreshes provider status from the current SDK account without projecting credentials or profile fields', async () => {
+  const user = {
+    uid: 'current',
+    providerData: [
+      { providerId: 'google.com', email: 'private@example.invalid' },
+      { providerId: 'microsoft.com' },
+      { providerId: 'apple.com' },
+    ],
+  };
+  const sdkAuth = { currentUser: user, authStateReady: async () => {} };
+  sdk.initializeAuth.mockReturnValue(sdkAuth);
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  await expect(adapter.readSignInMethods('current')).resolves.toEqual({
+    uid: 'current',
+    providers: ['google', 'microsoft'],
+  });
+  expect(sdk.reload).toHaveBeenCalledWith(user);
+  await expect(adapter.readSignInMethods('different')).rejects.toMatchObject({
+    reason: 'restoration',
+  });
+  expect(sdk.reload).toHaveBeenCalledOnce();
+  adapter.dispose();
+});
+it('rejects refreshed provider information after an account switch or Logout epoch change', async () => {
+  const user = { uid: 'current', providerData: [{ providerId: 'google.com' }] };
+  const sdkAuth = { currentUser: user, authStateReady: async () => {} };
+  sdk.initializeAuth.mockReturnValue(sdkAuth);
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  sdk.reload.mockImplementation(async () => {
+    sdkAuth.currentUser = { ...user };
+  });
+  await expect(adapter.readSignInMethods('current')).rejects.toMatchObject({
+    reason: 'cancelled',
+  });
+  sdkAuth.currentUser = user;
+  sdk.reload.mockImplementation(async () => {
+    window.localStorage.setItem(
+      'taskify:logout:taskify-dev-dpdhole',
+      'new-logout',
+    );
+  });
+  await expect(adapter.readSignInMethods('current')).rejects.toMatchObject({
+    reason: 'cancelled',
+  });
+  adapter.dispose();
+});
+it('classifies status lookup network failures without claiming a provider is unlinked', async () => {
+  sdk.initializeAuth.mockReturnValue({
+    currentUser: { uid: 'current', providerData: [] },
+    authStateReady: async () => {},
+  });
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  sdk.reload.mockRejectedValue({
+    code: 'auth/network-request-failed',
+    message: 'private response',
+  });
+  await expect(adapter.readSignInMethods('current')).rejects.toMatchObject({
+    reason: 'network',
+    message: 'network',
+  });
+  adapter.dispose();
+});
+
+function proofAccount() {
+  const user = {
+    uid: 'original',
+    providerData: [
+      { providerId: 'google.com' },
+      { providerId: 'microsoft.com' },
+    ],
+  };
+  const auth = { currentUser: user, authStateReady: async () => {} };
+  sdk.initializeAuth.mockReturnValue(auth);
+  return { user, auth };
+}
+it.each(['google', 'microsoft'] as const)(
+  'reauthenticates the original account with %s without signing in another user',
+  async (provider) => {
+    const { user } = proofAccount();
+    const adapter = createAuthAdapter(app);
+    await adapter.initialize();
+    sdk.reauthenticateWithPopup.mockResolvedValue({
+      user,
+      operationType: 'reauthenticate',
+    });
+    await expect(
+      adapter.reauthenticate!('original', provider, 'popup'),
+    ).resolves.toEqual({ uid: 'original' });
+    expect(sdk.reauthenticateWithPopup).toHaveBeenCalledWith(
+      user,
+      expect.anything(),
+      sdk.browserPopupRedirectResolver,
+    );
+    expect(sdk.signInWithPopup).not.toHaveBeenCalled();
+    adapter.dispose();
+  },
+);
+it('rejects a wrong reauthentication UID and keeps the original SDK account', async () => {
+  const { user, auth } = proofAccount();
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  sdk.reauthenticateWithPopup.mockResolvedValue({
+    user: { uid: 'wrong' },
+    operationType: 'reauthenticate',
+  });
+  await expect(
+    adapter.reauthenticate!('original', 'google', 'popup'),
+  ).rejects.toMatchObject({ reason: 'wrong-account' });
+  expect(auth.currentUser).toBe(user);
+  expect(sdk.signOut).not.toHaveBeenCalled();
+  adapter.dispose();
+});
+it.each(['cancel', 'logout', 'switch', 'dispose'] as const)(
+  'does not return late proof after %s',
+  async (event) => {
+    const { user, auth } = proofAccount();
+    const adapter = createAuthAdapter(app);
+    await adapter.initialize();
+    let resolve!: (value: unknown) => void;
+    sdk.reauthenticateWithPopup.mockImplementation(
+      () =>
+        new Promise((r) => {
+          resolve = r;
+        }),
+    );
+    const pending = adapter.reauthenticate!('original', 'google', 'popup');
+    if (event === 'cancel') adapter.cancelReauthentication!();
+    if (event === 'logout') await adapter.signOut();
+    if (event === 'switch') auth.currentUser = { ...user };
+    if (event === 'dispose') adapter.dispose();
+    resolve({ user, operationType: 'reauthenticate' });
+    await expect(pending).rejects.toMatchObject({ reason: 'cancelled' });
+    adapter.dispose();
+  },
+);
+it('blocks overlapping provider operations during reauthentication', async () => {
+  const { user } = proofAccount();
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  let resolve!: (v: unknown) => void;
+  sdk.reauthenticateWithPopup.mockImplementation(
+    () =>
+      new Promise((r) => {
+        resolve = r;
+      }),
+  );
+  const pending = adapter.reauthenticate!('original', 'google', 'popup');
+  await expect(adapter.signIn!('microsoft', 'popup')).rejects.toMatchObject({
+    reason: 'provider-unavailable',
+  });
+  await expect(
+    adapter.reauthenticate!('original', 'microsoft', 'popup'),
+  ).rejects.toMatchObject({ reason: 'wrong-account' });
+  resolve({ user, operationType: 'reauthenticate' });
+  await pending;
+  adapter.dispose();
+});
+it('delegates redirect proof to the isolated context without signing in another primary user', async () => {
+  const { user } = proofAccount();
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  proof.begin.mockRejectedValue(new SessionError('cancelled'));
+  await expect(
+    adapter.reauthenticate!('original', 'microsoft', 'redirect'),
+  ).rejects.toMatchObject({ reason: 'cancelled' });
+  expect(proof.begin).toHaveBeenCalledWith(
+    user,
+    'microsoft',
+    expect.anything(),
+  );
+  expect(sdk.reauthenticateWithPopup).not.toHaveBeenCalled();
+  expect(sdk.signInWithPopup).not.toHaveBeenCalled();
+  adapter.dispose();
+});
+it('consumes a redirect proof result only after a current UID/epoch status reload', async () => {
+  proofAccount();
+  proof.resume.mockResolvedValue({
+    uid: 'original',
+    epoch: '',
+    createdAt: Date.now(),
+    provider: 'google',
+    reason: 'none',
+  });
+  const adapter = createAuthAdapter(app);
+  await adapter.initialize();
+  await expect(adapter.readSignInMethods('original')).resolves.toMatchObject({
+    verificationReturn: { provider: 'google', reason: 'none' },
+  });
+  expect(await adapter.readSignInMethods('original')).not.toHaveProperty(
+    'verificationReturn',
+  );
+  adapter.dispose();
+});
+it('rejects unsupported reauthentication redirect metadata on startup', async () => {
+  proofAccount();
+  window.sessionStorage.setItem(
+    'taskify:provider-redirect:taskify-dev-dpdhole',
+    JSON.stringify({
+      operation: 'reauthenticate',
+      provider: 'google',
+      uid: 'original',
+      epoch: '',
+      createdAt: Date.now(),
+    }),
+  );
+  const adapter = createAuthAdapter(app);
+  await expect(adapter.initialize()).rejects.toMatchObject({
+    reason: 'cancelled',
+  });
+  adapter.dispose();
+});
+
+it('coalesces initialization retries while redirect proof return is still processing', async () => {
+  let finish!: (value: undefined) => void;
+  proof.resume.mockImplementation(
+    () =>
+      new Promise((r) => {
+        finish = r;
+      }),
+  );
+  const adapter = createAuthAdapter(app);
+  const first = adapter.initialize();
+  await vi.waitFor(() => expect(proof.resume).toHaveBeenCalledOnce());
+  const retry = adapter.initialize();
+  expect(first).toBe(retry);
+  finish(undefined);
+  await Promise.all([first, retry]);
+  expect(proof.resume).toHaveBeenCalledOnce();
   adapter.dispose();
 });

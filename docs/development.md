@@ -201,3 +201,20 @@ effect of documentation, staging or commits. Manual Microsoft personal results
 are owner-reported; the browser/OS was not separately identified. Work/school,
 hosted mobile and operational provider checks remain open. No new test results or
 provider success are implied by staging these acceptance records.
+
+## Slice4 incremental Sign-in methods screen
+
+In Auth mode, the authenticated landing now opens Sign-in methods. Opening or
+explicitly refreshing the screen reloads provider status from Firebase Auth for
+the current UID. The screen shows Google/Microsoft Linked or Not linked only
+after verification; failures/blocked compatibility show unavailable status.
+Back restores keyboard focus and Logout remains accessible. Adding another
+method is not available yet. Linked Google/Microsoft methods now offer popup
+verification of the current account. No account linking or Firestore permissions/records change.
+
+The [Slice4 status checkpoint](slices/04-identity-linking-status.md) records tests,
+project preflight and the owner-accepted SDK mutation boundary. The [popup proof checkpoint](slices/04-identity-linking-proof.md) adds fresh
+reauthentication, wrong-account guidance and cancellation. Popup blockers require
+allowing popups or explicit redirect verification. The [redirect checkpoint](slices/04-identity-linking-redirect.md) adds an isolated SDK-managed session context for the same UID; hosted coarse-pointer devices select redirect. Return handling opens Sign-in methods only after session/compatibility readiness and a current provider reload. Linking/outcome verification is next.
+Provider automatic-resolution behavior remains a feasibility item. This work has
+not been deployed; interactive provider testing remains separately approved.

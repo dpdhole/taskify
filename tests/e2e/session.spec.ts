@@ -375,3 +375,213 @@ for (const width of [320, 390, 768, 1280]) {
     },
   );
 }
+
+for (const width of [390, 1280]) {
+  test(
+    'server-refreshed sign-in methods stay session-bound at ' + width + 'px',
+    async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await initialize(page);
+      await page.evaluate(() => window.sessionFixture.signIn('methods-view'));
+      await page
+        .getByRole('button', { name: 'Sign-in methods', exact: true })
+        .click();
+      await expect(
+        page.getByText('Sign-in methods verified.', { exact: true }),
+      ).toBeVisible();
+      const list = page.getByRole('list', {
+        name: 'Supported sign-in providers',
+      });
+      await expect(
+        list.getByRole('listitem').filter({ hasText: 'Google' }),
+      ).toContainText('Linked');
+      await expect(
+        list.getByRole('listitem').filter({ hasText: 'Microsoft' }),
+      ).toContainText('Not linked');
+      await expect(
+        page.getByRole('heading', { name: 'Sign-in methods', exact: true }),
+      ).toBeFocused();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+      ).toBe(false);
+      await page.getByRole('button', { name: 'Back', exact: true }).click();
+      await expect(
+        page.getByRole('button', { name: 'Sign-in methods', exact: true }),
+      ).toBeFocused();
+      await page
+        .getByRole('button', { name: 'Sign-in methods', exact: true })
+        .click();
+      await expect(
+        page.getByText('Sign-in methods verified.', { exact: true }),
+      ).toBeVisible();
+      await page.evaluate(() => window.sessionFixture.offline());
+      await expect(
+        page.getByText('Status unavailable', { exact: true }),
+      ).toHaveCount(2);
+      await page.evaluate(() => window.sessionFixture.online());
+      await page
+        .getByRole('button', { name: 'Retry checking methods' })
+        .click();
+      await expect(
+        page.getByText('Sign-in methods verified.', { exact: true }),
+      ).toBeVisible();
+      await page.getByRole('button', { name: 'Logout', exact: true }).click();
+      await expect(
+        page.getByRole('list', { name: 'Supported sign-in providers' }),
+      ).toHaveCount(0);
+    },
+  );
+}
+
+async function prepareReauthentication(
+  page: Page,
+  provider: string,
+  scenario: string,
+) {
+  await initialize(page);
+  const popupEvent = page.waitForEvent('popup');
+  await page
+    .getByRole('button', { name: 'Continue with ' + provider, exact: true })
+    .click();
+  const popup = await popupEvent;
+  await completeProviderEmulator(
+    popup,
+    'proof-' + scenario + '@example.invalid',
+    provider,
+  );
+  await expect(
+    page.getByRole('region', { name: 'Authenticated account' }),
+  ).toBeVisible();
+  const uid = await page.evaluate(
+    () => window.sessionFixture.state().identity?.uid,
+  );
+  await page
+    .getByRole('button', { name: 'Sign-in methods', exact: true })
+    .click();
+  await expect(
+    page.getByText('Sign-in methods verified.', { exact: true }),
+  ).toBeVisible();
+  return {
+    uid,
+    email:
+      'proof-' + scenario + '-' + provider.toLowerCase() + '@example.invalid',
+  };
+}
+for (const provider of ['Google', 'Microsoft']) {
+  for (const scenario of ['success', 'wrong-account', 'cancel', 'redirect']) {
+    test(
+      provider + ' fresh current-account proof: ' + scenario,
+      async ({ page, context }) => {
+        await context.route('**/*', (route) => {
+          const origin = new URL(route.request().url()).origin;
+          return [
+            'http://127.0.0.1:5176',
+            'http://127.0.0.1:9099',
+            'https://apis.google.com',
+          ].includes(origin)
+            ? route.continue()
+            : route.abort();
+        });
+        const original = await prepareReauthentication(
+          page,
+          provider,
+          scenario,
+        );
+        if (scenario === 'redirect') {
+          await page.setViewportSize({ width: 390, height: 900 });
+          await page.evaluate(() => {
+            window.open = () => null;
+          });
+          await page
+            .getByRole('button', {
+              name: 'Verify with ' + provider,
+              exact: true,
+            })
+            .click();
+          await expect(
+            page.getByText(
+              'The verification popup was blocked. Allow popups or verify with redirect.',
+              { exact: true },
+            ),
+          ).toBeVisible();
+          await page
+            .getByRole('button', { name: 'Verify with redirect', exact: true })
+            .click();
+          await page.waitForURL(/127\.0\.0\.1:9099/);
+          await page.getByText(original.email, { exact: true }).click();
+          await page.waitForURL(origin + '/');
+          await initialize(page);
+          await expect(
+            page.getByText(
+              'Current account verified. No sign-in method was added.',
+              { exact: true },
+            ),
+          ).toBeVisible();
+        } else {
+          const popupEvent = page.waitForEvent('popup');
+          await page
+            .getByRole('button', {
+              name: 'Verify with ' + provider,
+              exact: true,
+            })
+            .click();
+          const popup = await popupEvent;
+          await expect(popup.locator('#title')).toBeVisible();
+          if (scenario === 'cancel')
+            await page
+              .getByRole('button', { name: 'Cancel verification', exact: true })
+              .click();
+          if (scenario === 'wrong-account')
+            await completeProviderEmulator(
+              popup,
+              'proof-different-' + scenario + '@example.invalid',
+              provider,
+            );
+          else await popup.getByText(original.email, { exact: true }).click();
+          const expected =
+            scenario === 'success'
+              ? 'Current account verified. No sign-in method was added.'
+              : scenario === 'cancel'
+                ? 'Verification cancelled. Your existing account remains available.'
+                : 'That is a different account. Use the account already linked here.';
+          await expect(page.getByText(expected, { exact: true })).toBeVisible();
+          await expect(
+            page.getByRole('button', {
+              name: 'Verify with ' + provider,
+              exact: true,
+            }),
+          ).toBeFocused();
+          if (scenario === 'success') {
+            fs.mkdirSync('.local/slice4-proof', { recursive: true });
+            await page.screenshot({
+              path: '.local/slice4-proof/' + provider.toLowerCase() + '.png',
+              fullPage: true,
+            });
+          }
+        }
+        expect(
+          await page.evaluate(
+            () => window.sessionFixture.state().identity?.uid,
+          ),
+        ).toBe(original.uid);
+        expect(
+          await page.evaluate(
+            () => window.sessionFixture.state().protectedReady,
+          ),
+        ).toBe(true);
+        await expect(
+          page.getByRole('button', { name: 'Logout', exact: true }),
+        ).toBeEnabled();
+        await page.getByRole('button', { name: 'Logout', exact: true }).click();
+        await expect(
+          page.getByRole('button', {
+            name: 'Continue with ' + provider,
+            exact: true,
+          }),
+        ).toBeVisible();
+      },
+    );
+  }
+}

@@ -1,3 +1,5 @@
+import { createSignInMethodsController } from '../application/sign-in-methods-controller';
+import { createSignInMethodsStore } from '../state/sign-in-methods-store';
 import { StrictMode } from 'react';
 import {
   createSessionController,
@@ -86,6 +88,18 @@ const session = authMode
     )
   : undefined;
 const sessionProjection = session ? createSessionStore(session) : undefined;
+const methodsController =
+  session && runtime
+    ? createSignInMethodsController(runtime.auth, session, {
+        schedule(fn, ms) {
+          const timer = window.setTimeout(fn, ms);
+          return () => window.clearTimeout(timer);
+        },
+      })
+    : undefined;
+const methodsProjection = methodsController
+  ? createSignInMethodsStore(methodsController)
+  : undefined;
 const online = () => gate.recheck('reconnect');
 const offline = () => gate.suspend('offline');
 const visibility = () => {
@@ -112,6 +126,8 @@ if (import.meta.hot)
     document.removeEventListener('visibilitychange', visibility);
     window.removeEventListener('pagehide', pagehide);
     window.removeEventListener('pageshow', pageshow);
+    methodsController?.dispose();
+    methodsProjection?.dispose();
     session?.dispose();
     sessionProjection?.dispose();
     gate.dispose();
@@ -125,6 +141,32 @@ createRoot(root).render(
   <StrictMode>
     {session && sessionProjection ? (
       <SessionView
+        methods={
+          methodsController && methodsProjection
+            ? {
+                projection: methodsProjection,
+                verify: (provider, transport) => {
+                  const mobile =
+                    location.hostname !== 'localhost' &&
+                    location.hostname !== '127.0.0.1' &&
+                    matchMedia('(pointer: coarse)').matches;
+                  void methodsController.verify(
+                    provider,
+                    transport ?? (mobile ? 'redirect' : 'popup'),
+                  );
+                },
+                cancelVerification: () =>
+                  methodsController.cancelVerification(),
+                open: () => {
+                  void methodsController.open();
+                },
+                close: () => methodsController.close(),
+                refresh: () => {
+                  void methodsController.refresh();
+                },
+              }
+            : undefined
+        }
         projection={sessionProjection}
         compatibility={projection}
         signIn={(provider, transport) => {

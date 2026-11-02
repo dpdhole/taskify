@@ -1,6 +1,9 @@
 # Slice 4 — Identity linking
 
-Status: **detailing accepted by owner on 2 November 2026; implementation pending**.
+Status: **detailing accepted; implementation authorized on 2 November 2026; provider status and popup current-account proof implemented locally; isolated redirect proof implemented locally; linking pending**.
+See the [status checkpoint](04-identity-linking-status.md) for step1 evidence and the owner-accepted SDK-boundary amendment, and the [popup proof checkpoint](04-identity-linking-proof.md) for current progress.
+The following authorization paragraph records the original documentation checkpoint;
+the owner subsequently authorized reviewing and beginning implementation.
 This document records the agreed discussion baseline. Documentation does not
 establish provider feasibility or authorize implementation, cloud configuration,
 commit, push or deployment. The owner subsequently authorized documentation
@@ -49,12 +52,21 @@ recovery across mobile and desktop layouts.
 2. Explain that the additional method will access the current Taskify account.
 3. Reauthenticate through an already linked provider for every linking attempt.
 4. Confirm that reauthentication returned the original UID; reject a mismatch.
-5. Obtain authenticated proof from the additional provider.
-6. Recheck session and compatibility admission before submitting linking against
-   the original account.
+5. Recheck UID, session and compatibility admission immediately before starting
+   the additional-provider SDK linking operation against the original account.
+6. The SDK obtains additional-provider proof and submits linking within that
+   operation. Treat SDK invocation as mutation in flight; cancellation after this
+   boundary cannot promise to undo linking.
 7. Refresh authenticated account information and confirm the unchanged UID now
    includes the additional provider.
 8. Report success only after confirmation.
+
+**Implementation amendment accepted on 2 November 2026:** the public Firebase
+popup/redirect linking API does not expose an application callback between target-
+provider proof and link submission. The owner accepted checking admission immediately
+before SDK invocation, then verifying/reconciling afterward. This replaces the
+original separate post-proof/pre-submit check; it does not remove fresh current-
+account proof, original-UID binding or the requirement to verify success.
 
 Fresh reauthentication is an accepted product safeguard for this action, not a
 claim that every SDK linking call automatically enforces it. Exact SDK method and
@@ -173,4 +185,34 @@ project or its pinned SDK. Recheck relevant platform limitations and configurati
 during implementation. Linking-specific real-provider feasibility, integration validation and execution
 evidence remain outstanding. Slice 3 acceptance does not supply that evidence;
 Microsoft work/school testing remains deferred until features mature. Overall platform feasibility remains
-INCONCLUSIVE. The next checkpoint is implementation authorization, not deployment.
+INCONCLUSIVE. Implementation is now authorized and the read-only status checkpoint is complete.
+Popup reauthentication is implemented locally; isolated redirect proof is implemented locally. Linking/outcome handling and real-provider redirect/linking acceptance remain pending. Deployment remains
+separately authorized.
+
+
+## Incremental popup proof checkpoint — 2 November 2026
+
+The owner accepted completing popup verification first and resolving redirect startup
+next. Google/Microsoft current-account verification uses a linked method, preserves
+UID and rejects stale results. It adds no provider and does not authorize a later
+link attempt: that attempt still needs fresh proof and admission checks.
+
+Redirect reauthentication is explicitly unavailable and rejected before SDK use.
+The pinned SDK requires default redirect resolution for this operation, unlike
+Slice3's explicit return processing; enabling that default changes startup admission
+ordering. No private SDK workaround or initializer change is included. Safe redirect
+startup remains required before Slice4 completion. Existing sign-in redirects are
+unchanged. See the [proof checkpoint](04-identity-linking-proof.md) for actual evidence
+and the remaining sequence. No deployment or interactive provider test is implied.
+
+
+## Redirect proof implementation — 2 November 2026
+
+The [redirect checkpoint](04-identity-linking-redirect.md) resolves the initializer
+issue through a temporary, SDK-managed session context for the same UID. The primary
+Auth initializer/persistence are unchanged. Public user-copy and redirect APIs isolate
+startup and cleanup from the primary account; no secondary identity is signed in.
+Return metadata is accepted only with current UID/epoch, fresh provider status and
+session/compatibility admission. No credential is copied through application storage.
+This supersedes the earlier popup-only availability limit, while retaining its
+historical test evidence. Linking and real-provider/mobile acceptance remain open.

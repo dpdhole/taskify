@@ -22,7 +22,9 @@ export type SessionReason =
   | 'popup-blocked'
   | 'account-conflict'
   | 'provider-configuration'
-  | 'provider-unavailable';
+  | 'provider-unavailable'
+  | 'wrong-account'
+  | 'proof-expired';
 export class SessionError extends Error {
   readonly reason: SessionReason;
   constructor(reason: SessionReason) {
