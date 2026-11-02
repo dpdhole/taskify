@@ -1,5 +1,7 @@
 # Slice 3 Auth preview — dev
 
+> Current status — 2 November 2026: Slice3 and its current responsive login presentation are owner-accepted; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile. Work/school-account testing is deferred until product/features mature; technical diagnostics remain during development. See the [closure record](03-provider-sign-in-closure.md). The checkpoint and evidence below retain their original date and scope.
+
 23 October 2026. Published and HTTPS/headless verification passed.
 
 - [Dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).

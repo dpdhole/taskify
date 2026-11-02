@@ -159,7 +159,8 @@ from ordinary test/build configuration. Run `node tools/check-auth-config.mjs`
 to validate identity and the exact channel host allowlist without displaying the
 key. The stable app factory composes Auth/session and Google/Microsoft flows in
 Auth mode. See [configuration and provider verification](slices/03-provider-sign-in-configuration.md)
-for callback URIs, Microsoft personal/work-school audience and pending acceptance.
+for callback URIs and Microsoft personal/work-school audience; see the
+[closure record](slices/03-provider-sign-in-closure.md) for current acceptance.
 
 ## Auth/session implementation checkpoint
 
@@ -172,10 +173,14 @@ ordinary mode retains the compatibility-only surface. Auth mode reads
 The [session checkpoint](slices/03-provider-sign-in-session.md) records restoration
 and Logout. The [Google checkpoint](slices/03-provider-sign-in-google.md) and
 [Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md) record provider
-behavior, local validation and remaining real-provider checks. The [shared login presentation](slices/03-provider-sign-in-presentation.md) is
-implemented locally. [Real-provider acceptance](slices/03-provider-sign-in-acceptance.md)
-records observed Google desktop checks and owner-reported Microsoft personal
-sign-in/refresh/Logout passes; broader acceptance and Slice3 closure remain pending.
+behavior and historical local validation. Slice3 and the current responsive login
+presentation are owner-accepted as of 2 November 2026. Google and Microsoft
+personal-account workflows were owner-verified on desktop/mobile; work/school
+testing is deferred until product/features mature. Retain technical diagnostics
+during slice development. See the [closure record](slices/03-provider-sign-in-closure.md).
+The [presentation checkpoint](slices/03-provider-sign-in-presentation.md) and
+[earlier desktop acceptance record](slices/03-provider-sign-in-acceptance.md) retain
+their original source/test scope; the newer closure record controls current status.
 
 On 23 October 2026 the owner requested this local Auth preview; the server started
 on a checked-free port 5173 and localhost returned HTTP 200. No interactive OAuth result

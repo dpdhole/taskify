@@ -817,8 +817,16 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 sign-in providers. Apple authentication is deferred, including feasibility,
 configuration, implementation and validation; it is not a Slice 3 acceptance
 blocker. This supersedes the Google/Apple delivery scope below. Persistent device
-authentication and proof-based linking policy remain unchanged; provider
-feasibility remains unverified. See [Slice 3 detailing](slices/03-provider-sign-in.md).
+authentication and proof-based linking policy remain unchanged. See
+[Slice 3 detailing](slices/03-provider-sign-in.md).
+
+**Owner acceptance, 2 November 2026:** Slice3 and its current responsive login
+presentation are accepted following owner-reported Google and Microsoft
+personal-account workflow verification on desktop/mobile at the dev preview.
+Microsoft work/school-account testing is deferred until product/features mature
+and does not block this acceptance. Retain technical diagnostics while developing
+slices. Apple remains deferred; linking and provisioning remain later slices.
+See the [closure record](slices/03-provider-sign-in-closure.md).
 
 - Shared branded hero and centered Google/Apple sign-in controls across all screen widths. Authentication persists on device until Logout or invalidation.
 - First access displays workspace-provisioning status/progress; returning access displays loading while fetching initial Task population. Provisioning must be idempotent and safely retryable; detailed recovery remains slice-level.

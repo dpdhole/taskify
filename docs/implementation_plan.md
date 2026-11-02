@@ -2,7 +2,7 @@
 
 23 October 2026. **Owner-agreed order.** Slice1 implementation/validation and
 closure documentation are committed and pushed. Slice2 implementation and preview are committed. Slice3 configuration, Auth/session
-and Google/Microsoft flows are implemented locally; shared login presentation is implemented; [partial desktop provider verification](slices/03-provider-sign-in-acceptance.md) is recorded; work/school, mobile and remaining acceptance checks stay open. Slices4–30 remain planned. This plan is not blanket execution, commit or cloud deployment authority.
+and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slices4–30 remain planned. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -30,7 +30,7 @@ Slice1 implementation and validation are **complete**; closure documentation was
 committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
 and [validation report](slices/01-foundation-validation.md).
 [Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
-implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; [shared login presentation](slices/03-provider-sign-in-presentation.md) is implemented locally; [partial real-provider results](slices/03-provider-sign-in-acceptance.md) are recorded; remaining validation and closure are pending. Other rows remain planned. Split
+implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; the [current login presentation](slices/03-provider-sign-in-presentation.md) and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. Other rows remain planned. Split
 broad rows further during detailing.
 
 | Order | Slice | Deliverable |
@@ -149,7 +149,13 @@ as currently usable behavior. No manual site or publication tool is selected her
 User-driven backup/recovery remains **FUTURE**, outside PoC/beta prerequisites.
 This plan does not add it to slice 26 or 30 by implication.
 
-## Next checkpoint
+## Historical infrastructure checkpoint
+
+The dated checkpoint and Slice3 amendment below retain their original scope.
+Current next work is Slice4 identity-linking detailing and agreement, following
+[Slice3 acceptance](slices/03-provider-sign-in-closure.md). Work/school testing is
+deferred until product/features mature; no next-slice implementation is authorized
+by closure preparation.
 
 The owner also requested a separate [Hosting-only deployment plan](hosting_deployment_plan.md)
 for project `taskify-dev-dpdhole` (`243252492098`). The owner authorized step-by-step

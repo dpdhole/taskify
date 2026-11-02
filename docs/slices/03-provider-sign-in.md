@@ -1,8 +1,10 @@
 # Slice 3 — Provider sign-in
 
-Status: **detailing accepted; configuration, Auth/session and Google/Microsoft flows implemented locally on 23 October2026; shared login presentation implemented; partial desktop provider verification recorded; remaining acceptance pending**.
-See the [real-provider acceptance record](03-provider-sign-in-acceptance.md) for Google observations, owner-reported Microsoft personal passes and outstanding gates.
-See the [presentation checkpoint](03-provider-sign-in-presentation.md) for the shared screen and remaining acceptance.
+Status: **accepted by the owner on 2 November 2026; closure prepared. Microsoft work/school-account testing is deferred until product/features mature.**
+
+See the [acceptance and closure record](03-provider-sign-in-closure.md) for owner-reported desktop/mobile checks, retained development diagnostics, evidence boundaries and deferred work.
+See the [earlier desktop acceptance record](03-provider-sign-in-acceptance.md) and
+[presentation checkpoint](03-provider-sign-in-presentation.md) for historical evidence.
 See the [Microsoft checkpoint](03-provider-sign-in-microsoft.md) for step4 behavior, validation and the staged review checkpoint.
 See the [Google checkpoint](03-provider-sign-in-google.md) for step3 behavior and validation.
 See the [Auth/session checkpoint](03-provider-sign-in-session.md) for step2 results.
@@ -28,8 +30,9 @@ The owner added Microsoft sign-in and deferred Apple authentication. Google and
 Microsoft are the active Slice 3 providers. Apple feasibility, configuration,
 implementation and live validation are deferred and are not Slice 3 acceptance
 blockers. Do not expose an enabled Apple login control or claim Apple support.
-Microsoft feasibility and real-provider validation remain required; no provider
-configuration or successful authentication is implied by this amendment.
+Microsoft feasibility and real-provider validation were required by this original
+amendment. The 2 November acceptance records personal-account verification and
+explicitly defers work/school-account testing; see the closure record.
 Implementation authorization remains in effect. This session now uses the fresh
 `taskify-slice-detailing` checkout; the original checkout baseline below is historical.
 
@@ -140,7 +143,9 @@ provider/Firebase documentation and record its findings.
 | Identity | Stable UID, missing profile values and provider collision behavior |
 | Operations | Credential ownership, rotation and configuration recovery |
 
-Popup versus redirect remains open pending this evidence. No provider secret may
+The original discovery requirement below is retained for context. Implemented
+popup/redirect behavior is recorded in the provider checkpoints; current owner
+acceptance and deferred work/school testing are recorded in the closure record. No provider secret may
 ship in a browser artifact. Live registration, configuration and testing require
 their separate authorization. An unavailable or cost-incompatible provider returns
 to the owner; do not silently omit it, introduce paid infrastructure or substitute

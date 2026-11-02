@@ -1,5 +1,7 @@
 # Slice3 — Auth adapter and session controller
 
+> Current status — 2 November 2026: Slice3 and its current responsive login presentation are owner-accepted; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile. Work/school-account testing is deferred until product/features mature; technical diagnostics remain during development. See the [closure record](03-provider-sign-in-closure.md). The checkpoint and evidence below retain their original date and scope.
+
 23 October2026. **Step2 implemented and locally validated in the working tree.**
 [Configuration](03-provider-sign-in-configuration.md) preceded this step. Google/
 Microsoft sign-in interactions and controls are subsequent steps; neither provider

@@ -11,8 +11,9 @@ Items explicitly marked **proposed** are design recommendations for review, not
 new approved product requirements or claims of implementation.
 
 The Foundation skeleton/proof is implemented and locally validated; see its
-[validation](slices/01-foundation-validation.md). Product features and cloud
-deployment remain unimplemented. Overall Firebase
+[validation](slices/01-foundation-validation.md). Task product features remain unimplemented. Compatibility and provider sign-in
+are implemented with recorded dev Hosting checkpoints; Slice3 is owner-accepted.
+See the [closure record](slices/03-provider-sign-in-closure.md). Overall Firebase
 Spark feasibility remains **INCONCLUSIVE**. The isolated compatibility candidate
 passed 247/247 local tests; that result does not establish browser integration,
 live identity-provider behavior, production indexes or actual billed usage.
@@ -26,7 +27,7 @@ Frozen experiment files and the immutable legacy specification are unchanged.
 | Application/domain | Client services orchestrate lifecycle operations, validation, navigation and provisioning | Command contracts, module boundaries and dependency composition |
 | Shared state | Shared normalized lightweight Task metadata; reactive filtering, grouping, sorting, Search and Dashboard calculations over the complete eligible population | Zustand vanilla factory selected; product loading/reconciliation/cache contracts remain slice work |
 | Persistence boundary | Provider-independent application ports with an initial Firebase adapter | Port signatures and error/result contracts; Rules remain provider-specific |
-| Identity | Firebase Authentication; Google and Microsoft for Slice 3; Apple deferred under the 23 October amendment; persistent device authentication | Provider feasibility and secure linking remain unverified; email OTP is only a candidate |
+| Identity | Firebase Authentication; Google and Microsoft for Slice 3; Apple deferred under the 23 October amendment; persistent device authentication | Google/Microsoft personal-account desktop/mobile workflows owner-verified; work/school testing deferred until features mature; secure linking unimplemented; email OTP remains a candidate |
 | Data | Browser-direct Cloud Firestore, cloud-authoritative acknowledgements, no offline write synchronization | Production collections, indexes, write transport and reconnect handling |
 | Security | Firestore Rules enforce ownership, lifecycle, version integrity, required immutable events and deletion consistency | Complete schema and adversarial coverage; no further constraint relaxation approved |
 | Hosting | Firebase static Hosting on Spark | Project/region/domain choices, cache headers and release process |
@@ -98,10 +99,13 @@ Owner agreement, 22 October 2026:
 records the sign-in/session boundary: Firebase UID ownership, optional profile
 presentation, persistent authentication, independent auth/compatibility state,
 session-generation isolation and confirmed Logout with safe failure recovery.
-Provider transport and feasibility remain unverified; live setup/testing needs
-separate authorization. The minimal authenticated screen provisions no records
+Provider flows are implemented. The owner accepted Slice3 on 2 November 2026
+after Google and Microsoft personal-account desktop/mobile verification. Work/school
+account testing is deferred until product/features mature; technical diagnostics
+remain during development. See the [closure record](slices/03-provider-sign-in-closure.md).
+Further live setup/testing needs its applicable authorization. The minimal authenticated screen provisions no records
 and grants no additional Firestore access. Linking remains Slice 4 and workspace/
-profile provisioning remains Slice 5. This is accepted design, not implementation.
+profile provisioning remains Slice 5. The current minimal login presentation is accepted.
 
 Provider configuration, linking screens, proof/re-authentication mechanics and
 recovery remain slice details. This policy refines §21.5's same-account intent
