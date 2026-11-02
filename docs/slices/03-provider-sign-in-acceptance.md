@@ -1,5 +1,9 @@
 # Slice 3 — Real-provider acceptance checkpoint
 
+> Historical 23 October checkpoint. [Owner acceptance on 2 November](03-provider-sign-in-closure.md)
+> supersedes the pending closure/mobile statements below. Work/school verification
+> is deferred until product/features mature. Earlier observations remain unchanged.
+
 23 October 2026. Presentation committed as `c765972`; no push requested.
 The owner approved desktop checks, then paused automation and chose manual testing.
 Google's agent-observed results and Microsoft's owner-reported personal-account
@@ -25,7 +29,7 @@ builds. That establishes local/emulator behavior, not real-provider completion.
 |---|---|---|
 | 1 | Desktop Google and Microsoft popup checks | Initial checks recorded below; automation remains paused at owner request |
 | 2 | Microsoft personal and work/school audience | Personal sign-in/refresh/Logout manually passed; work/school remains pending |
-| 3 | Actual hosted mobile redirect/storage behavior | Later, after an explicit deployment request naming dev; existing dev lacks the new Microsoft/shared presentation work |
+| 3 | Actual hosted mobile redirect/storage behavior | Current Google/Microsoft/shared UI is now deployed to dev; actual mobile acceptance remains pending |
 | 4 | Provider operational settings | Owner verifies Google audience/test-user access and Microsoft secret expiry; enterprise consent/restrictions may need tenant administration |
 | 5 | Slice3 acceptance | Review actual results and unresolved browser/provider gaps before declaring closure; linking/provisioning remain later slices |
 
@@ -132,3 +136,11 @@ real mobile redirect/storage, provider operational settings and Slice3 closure a
 still pending. Earlier cancelled-attempt history remains intact. No further browser
 input, server lifecycle action, cloud configuration, deployment, commit or push is
 performed by review preparation. Interactive automation remains paused.
+
+## Subsequent dev publication — 23 October 2026
+
+Owner requested deployment to dev. The [current preview](03-provider-sign-in-preview.md)
+now serves clean commit `fb629e4` with Google/Microsoft and the shared login UI.
+Headless publication checks do not extend the localhost manual acceptance results
+or establish actual mobile/device/provider success. Interactive automation remains
+paused; no owner-reported account category or test result is inferred from deployment.

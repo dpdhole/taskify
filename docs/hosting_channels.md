@@ -9,7 +9,7 @@ Foundation and Slice2 deployment evidence remains unchanged.
 
 | Channel | Purpose | Last recorded deployment state |
 |---|---|---|
-| `dev` | Development previews | Slice3 Auth/Google app0.1.0, contract1, versioned7c71c3d578e5de; owner-approved uncommitted snapshot (see deployment record) |
+| `dev` | Development previews | Slice3 Google/Microsoft Auth + shared UI, app0.1.0, contract1, version7664413ad02b4666 from clean commitfb629e4 |
 | `qc` | Testing and verification | Created; no release |
 | `uat` | External/beta review | Created; no release |
 | `live` | Product release when ready | Unchanged; no live release approved |
@@ -17,15 +17,16 @@ Foundation and Slice2 deployment evidence remains unchanged.
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
 Empty qc/uat channels have no app to review until an explicitly requested release.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
-Last independently recorded dev artifact: [Auth preview record](slices/03-provider-sign-in-dev-preview.md).
+Latest recorded deployment: [Google/Microsoft preview](slices/03-provider-sign-in-preview.md),
+clean commit `fb629e4`, version `7664413ad02b4666`, published on 23 October.
 On 2 November 2026 the owner reported Google and Microsoft personal-account
 workflow verification on desktop/mobile at the dev URL and accepted Slice3.
-The tested build identity was not captured in this documentation update; the
-earlier Google-only deployment record remains historical evidence. Work/school
-testing is deferred until product/features mature; no deployment is performed.
+The exact build tested by that later report was not independently captured;
+the deployment record supplies publication provenance without identifying the
+owner-tested build. Work/school testing is deferred until product/features mature.
 See the [closure record](slices/03-provider-sign-in-closure.md).
-The owner explicitly approved an uncommitted snapshot for this dev release; future
-releases retain the clean-commit policy below.
+The earlier Google-only release used an owner-approved uncommitted snapshot;
+that exception is historical. The clean-commit policy below remains in effect.
 
 ## Explicit instructions
 
@@ -67,7 +68,7 @@ isolation needs a separately agreed environment/project decision.
 
 Use up to30 days for preview channels. The channels created on23 October2026
 initially expire **22 November2026 at13:19 IST**. The23 October dev deployment
-renewed dev to **22 November2026 at21:11 IST**; qc/uat retain their initial expiry.
+most recently renewed dev to **22 November2026 at22:22 IST**; qc/uat retain their initial expiry.
 Renew only on explicit instruction; no
 scheduled renewal or deployment. Check and report expiry at each hosting action.
 Expiry may remove a channel and invalidate its URL; recreating it can change the

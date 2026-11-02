@@ -21,6 +21,19 @@
 
 > Earlier dated entries below are historical checkpoints. The 2 November acceptance
 > and closure record supersede their pending Slice3 presentation/provider statements.
+
+## 2026-10-23 — Current Auth build published to dev
+
+- Owner requested dev deployment. Published clean commit `fb629e4`, build
+  `fb629e482551-dc4f80bbb0fcdf29`, Hosting version `7664413ad02b4666`.
+  Expiry **22 November 2026, 22:22 IST**. [Deployment record](slices/03-provider-sign-in-preview.md).
+- Local Hosting and hosted HTTPS checks at 390/1280px passed: exact artifact hashes,
+  security/cache headers, both provider controls, real Firestore readiness, reload
+  and offline/reconnect. No interactive sign-in performed.
+- qc/uat/live and backend/key metadata unchanged. Interactive automation remains
+  paused; local manual preview preserved. Work/school and actual hosted mobile/
+  provider acceptance remain pending. No staging, commit or push in this checkpoint.
+
 ## 2026-10-23 — Acceptance documentation staged for review
 
 - Owner requested documentation updates and staging. Acceptance plan/evidence,

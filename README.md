@@ -12,7 +12,8 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 - [Implementation slice plan](docs/implementation_plan.md) — agreed small feature-focused sequence, onboarding Tasks and documentation/provisioning work per slice; not execution authorization.
 - [Slice2 compatibility detailing](docs/slices/02-compatibility-gate.md) — accepted database contract, runtime gate, Rules/operator boundaries and acceptance matrix.
 - [Hosting channels](docs/hosting_channels.md) — dev/QC/UAT roles, explicit destination requirements and promotion policy.
-- [Slice2 preview](docs/slices/02-compatibility-preview.md) — current hosted preview and HTTPS/mobile/desktop evidence.
+- [Slice2 preview](docs/slices/02-compatibility-preview.md) — historical compatibility preview evidence.
+- [Current dev preview](docs/slices/03-provider-sign-in-preview.md) — clean Google/Microsoft Auth release and hosted verification.
 - [Slice2 validation](docs/slices/02-compatibility-validation.md) — executed local/cloud checks, evidence and remaining release gates.
 - [Slice3 provider sign-in detailing](docs/slices/03-provider-sign-in.md) — accepted Google/Microsoft session, gate, Logout and isolation baseline; Apple deferred; owner-accepted; closure prepared, work/school testing deferred.
 - [Slice3 Auth/session](docs/slices/03-provider-sign-in-session.md) — restoration, compatibility integration, Logout and local/emulator evidence.
