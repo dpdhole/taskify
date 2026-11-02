@@ -101,7 +101,11 @@ export function SignInMethodsView({
           : state.status === 'ready'
             ? 'Sign-in methods verified.'
             : state.reason === 'compatibility'
-              ? 'Compatibility verification is required before checking sign-in methods.'
+              ? ready
+                ? state.verificationPending
+                  ? 'Finishing account verification. Close any remaining provider window to continue.'
+                  : 'Refreshing sign-in methods after compatibility verification…'
+                : 'Compatibility verification is required before checking sign-in methods.'
               : 'Sign-in methods could not be verified. Please retry.'}
       </p>
       <ul

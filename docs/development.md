@@ -218,3 +218,20 @@ reauthentication, wrong-account guidance and cancellation. Popup blockers requir
 allowing popups or explicit redirect verification. The [redirect checkpoint](slices/04-identity-linking-redirect.md) adds an isolated SDK-managed session context for the same UID; hosted coarse-pointer devices select redirect. Return handling opens Sign-in methods only after session/compatibility readiness and a current provider reload. Linking/outcome verification is next.
 Provider automatic-resolution behavior remains a feasibility item. This work has
 not been deployed; interactive provider testing remains separately approved.
+
+
+### Verification and browser visibility
+
+[Visibility recovery](slices/04-identity-linking-visibility.md) corrects the popup-return
+case where the session was ready but Sign-in methods remained blocked. Nonmutating
+proof waits for resumed server readiness and a fresh provider reload. Logout,
+identity changes and hard compatibility failures still invalidate proof. The
+headless session fixture now shares production lifecycle event wiring, with explicit
+hidden/resume ordering checks; hosted Google/Chrome retest remains outstanding.
+
+
+[Provider-status feedback correction](slices/04-identity-linking-checking.md) keeps
+metadata reads off primary Auth notifications using a memory-only SDK-owned copy.
+The shared Auth/Firestore browser case detects listener-driven retry loops; automatic
+recovery is bounded. Refresh the local page after these controller/runtime changes
+before manual acceptance. The running manual preview is preserved during focused tests.

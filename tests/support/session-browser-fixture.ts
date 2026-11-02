@@ -1,3 +1,11 @@
+import {
+  initializeFirestore,
+  memoryLocalCache,
+  connectFirestoreEmulator,
+  terminate,
+} from 'firebase/firestore';
+import { createContractReaderForDatabase } from '../../src/infrastructure/firebase/contract-reader';
+import { attachCompatibilityLifecycle } from '../../src/infrastructure/browser/compatibility-lifecycle';
 import { createSignInMethodsController } from '../../src/application/sign-in-methods-controller';
 import { createSignInMethodsStore } from '../../src/state/sign-in-methods-store';
 import { createElement } from 'react';
@@ -10,12 +18,13 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithCredential,
+  onIdTokenChanged,
 } from 'firebase/auth';
 import { createAuthAdapter } from '../../src/infrastructure/firebase/auth-adapter';
 import { createCompatibilityGate } from '../../src/application/compatibility-gate';
 import { createSessionController } from '../../src/application/session-controller';
 import { capabilities, contract } from './compatibility-fixtures';
-export function createSessionFixture() {
+export function createSessionFixture(serverCompatibility = false) {
   const app = initializeApp(
     {
       projectId: 'demo-taskify-session',
@@ -25,6 +34,15 @@ export function createSessionFixture() {
     'taskify-session-fixture',
   );
   const auth = createAuthAdapter(app, { host: '127.0.0.1', port: 9099 });
+  const db = serverCompatibility
+    ? initializeFirestore(app, { localCache: memoryLocalCache() })
+    : undefined;
+  if (db) connectFirestoreEmulator(db, '127.0.0.1', 8080);
+  const contracts = db ? createContractReaderForDatabase(db) : undefined;
+  let primaryTokenEvents = 0;
+  const stopTokenCount = onIdTokenChanged(getAuth(app), () => {
+    primaryTokenEvents++;
+  });
   const clock = {
     schedule(fn: () => void, ms: number) {
       const timer = window.setTimeout(fn, ms);
@@ -32,7 +50,7 @@ export function createSessionFixture() {
     },
   };
   const gate = createCompatibilityGate(
-    {
+    contracts?.reader ?? {
       readServer: async () => contract(),
       watch(next) {
         next(contract(), true);
@@ -85,7 +103,14 @@ export function createSessionFixture() {
   );
   gate.start();
   session.start();
+  const stopLifecycle = attachCompatibilityLifecycle(gate);
   return {
+    methodsState: () => methodsController.getState(),
+    diagnostics: () => ({
+      primaryTokenEvents,
+      gate: gate.getState(),
+      contracts: contracts?.stats,
+    }),
     state: () => session.getState(),
     async signIn(subject: string) {
       const encode = (v: unknown) =>
@@ -113,6 +138,8 @@ export function createSessionFixture() {
     offline: () => gate.suspend('offline'),
     online: () => gate.recheck('reconnect'),
     async dispose() {
+      stopLifecycle();
+      stopTokenCount();
       root.unmount();
       mount.remove();
       if (ordinaryRoot) ordinaryRoot.hidden = false;
@@ -122,6 +149,7 @@ export function createSessionFixture() {
       methodsProjection.dispose();
       session.dispose();
       gate.dispose();
+      if (db) await terminate(db);
       await deleteApp(app);
     },
   };

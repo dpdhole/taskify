@@ -37,6 +37,10 @@ const proof = vi.hoisted(() => ({
 vi.mock('../../src/infrastructure/firebase/redirect-proof-adapter', () => ({
   createRedirectProofAdapter: () => proof,
 }));
+const methodsRead = vi.hoisted(() => vi.fn());
+vi.mock('../../src/infrastructure/firebase/auth-methods-reader', () => ({
+  readAuthMethods: methodsRead,
+}));
 vi.mock('firebase/auth', () => sdk);
 import { SessionError } from '../../src/application/session-controller';
 import { createAuthAdapter } from '../../src/infrastructure/firebase/auth-adapter';
@@ -47,6 +51,16 @@ let error: () => void;
 const stop = vi.fn();
 beforeEach(() => {
   vi.resetAllMocks();
+  methodsRead.mockImplementation(async (_app, user) => ({
+    uid: user.uid,
+    providers: user.providerData.flatMap((p: { providerId: string }) =>
+      p.providerId === 'google.com'
+        ? ['google']
+        : p.providerId === 'microsoft.com'
+          ? ['microsoft']
+          : [],
+    ),
+  }));
   proof.resume.mockResolvedValue(undefined);
   const values = new Map<string, string>();
   vi.stubGlobal('window', {
@@ -431,11 +445,12 @@ it('refreshes provider status from the current SDK account without projecting cr
     uid: 'current',
     providers: ['google', 'microsoft'],
   });
-  expect(sdk.reload).toHaveBeenCalledWith(user);
+  expect(methodsRead).toHaveBeenCalledWith(app, user, undefined);
+  expect(sdk.reload).not.toHaveBeenCalled();
   await expect(adapter.readSignInMethods('different')).rejects.toMatchObject({
     reason: 'restoration',
   });
-  expect(sdk.reload).toHaveBeenCalledOnce();
+  expect(methodsRead).toHaveBeenCalledOnce();
   adapter.dispose();
 });
 it('rejects refreshed provider information after an account switch or Logout epoch change', async () => {
@@ -444,14 +459,14 @@ it('rejects refreshed provider information after an account switch or Logout epo
   sdk.initializeAuth.mockReturnValue(sdkAuth);
   const adapter = createAuthAdapter(app);
   await adapter.initialize();
-  sdk.reload.mockImplementation(async () => {
+  methodsRead.mockImplementation(async () => {
     sdkAuth.currentUser = { ...user };
   });
   await expect(adapter.readSignInMethods('current')).rejects.toMatchObject({
     reason: 'cancelled',
   });
   sdkAuth.currentUser = user;
-  sdk.reload.mockImplementation(async () => {
+  methodsRead.mockImplementation(async () => {
     window.localStorage.setItem(
       'taskify:logout:taskify-dev-dpdhole',
       'new-logout',
@@ -469,7 +484,7 @@ it('classifies status lookup network failures without claiming a provider is unl
   });
   const adapter = createAuthAdapter(app);
   await adapter.initialize();
-  sdk.reload.mockRejectedValue({
+  methodsRead.mockRejectedValue({
     code: 'auth/network-request-failed',
     message: 'private response',
   });

@@ -421,9 +421,6 @@ for (const width of [390, 1280]) {
         page.getByText('Status unavailable', { exact: true }),
       ).toHaveCount(2);
       await page.evaluate(() => window.sessionFixture.online());
-      await page
-        .getByRole('button', { name: 'Retry checking methods' })
-        .click();
       await expect(
         page.getByText('Sign-in methods verified.', { exact: true }),
       ).toBeVisible();
@@ -470,7 +467,15 @@ async function prepareReauthentication(
   };
 }
 for (const provider of ['Google', 'Microsoft']) {
-  for (const scenario of ['success', 'wrong-account', 'cancel', 'redirect']) {
+  for (const scenario of [
+    'success',
+    'wrong-account',
+    'cancel',
+    'redirect',
+    'visibility-before-result',
+    'visibility-after-result',
+    'visibility-wrong-account',
+  ]) {
     test(
       provider + ' fresh current-account proof: ' + scenario,
       async ({ page, context }) => {
@@ -529,19 +534,69 @@ for (const provider of ['Google', 'Microsoft']) {
             .click();
           const popup = await popupEvent;
           await expect(popup.locator('#title')).toBeVisible();
+          if (scenario.startsWith('visibility-')) {
+            await page.evaluate(() => {
+              Object.defineProperty(document, 'visibilityState', {
+                configurable: true,
+                value: 'hidden',
+              });
+              document.dispatchEvent(new Event('visibilitychange'));
+            });
+            expect(
+              await page.evaluate(
+                () => window.sessionFixture.state().protectedReady,
+              ),
+            ).toBe(false);
+            if (scenario !== 'visibility-after-result') {
+              await page.evaluate(() => {
+                Object.defineProperty(document, 'visibilityState', {
+                  configurable: true,
+                  value: 'visible',
+                });
+                document.dispatchEvent(new Event('visibilitychange'));
+              });
+              await expect
+                .poll(() =>
+                  page.evaluate(
+                    () => window.sessionFixture.state().protectedReady,
+                  ),
+                )
+                .toBe(true);
+            }
+          }
           if (scenario === 'cancel')
             await page
               .getByRole('button', { name: 'Cancel verification', exact: true })
               .click();
-          if (scenario === 'wrong-account')
+          if (
+            scenario === 'wrong-account' ||
+            scenario === 'visibility-wrong-account'
+          )
             await completeProviderEmulator(
               popup,
               'proof-different-' + scenario + '@example.invalid',
               provider,
             );
           else await popup.getByText(original.email, { exact: true }).click();
+          if (scenario === 'visibility-after-result') {
+            await expect(
+              page.getByText(
+                'Current account verified. No sign-in method was added.',
+                { exact: true },
+              ),
+            ).toHaveCount(0);
+            await page.evaluate(() => {
+              Object.defineProperty(document, 'visibilityState', {
+                configurable: true,
+                value: 'visible',
+              });
+              document.dispatchEvent(new Event('visibilitychange'));
+            });
+          }
           const expected =
-            scenario === 'success'
+            scenario === 'success' ||
+            scenario === 'visibility-before-result' ||
+            scenario === 'visibility-after-result'
               ? 'Current account verified. No sign-in method was added.'
               : scenario === 'cancel'
                 ? 'Verification cancelled. Your existing account remains available.'

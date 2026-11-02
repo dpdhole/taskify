@@ -385,6 +385,7 @@ export function createSessionController(
       });
     },
     isCurrent,
+    getCompatibilityState: () => gate.getState(),
     submit<T>(ticket: SessionAdmission, operation: () => T): T {
       if (!isCurrent(ticket)) throw Error('Session admission expired');
       return operation();

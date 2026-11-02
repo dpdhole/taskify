@@ -1,3 +1,5 @@
+import { readAuthMethods } from './auth-methods-reader';
+import type { SignInProvider } from '../../application/session-controller';
 import { createRedirectProofAdapter } from './redirect-proof-adapter';
 import type { RedirectProofReturn } from './redirect-proof-adapter';
 import {
@@ -13,7 +15,6 @@ import {
   initializeAuth,
   onAuthStateChanged,
   setPersistence,
-  reload,
   reauthenticateWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -49,6 +50,9 @@ export function createAuthAdapter(
   let intent: string | undefined;
   let expectedProofUid: string | undefined;
   let proofSequence = 0;
+  let verifiedMethods:
+    | { user: typeof auth.currentUser; providers: readonly SignInProvider[] }
+    | undefined;
   let returnedProof: RedirectProofReturn | undefined;
   const redirectProof = createRedirectProofAdapter(
     app,
@@ -249,7 +253,7 @@ export function createAuthAdapter(
         throw new SessionError('restoration');
       const epoch = window.localStorage.getItem(epochKey);
       try {
-        await reload(user);
+        const snapshot = await readAuthMethods(app, user, emulator);
         if (
           disposed ||
           auth.currentUser !== user ||
@@ -257,6 +261,8 @@ export function createAuthAdapter(
           window.localStorage.getItem(epochKey) !== epoch
         )
           throw new SessionError('cancelled');
+        if (snapshot.uid !== uid) throw new SessionError('restoration');
+        verifiedMethods = { user, providers: snapshot.providers };
         const proof = returnedProof;
         returnedProof = undefined;
         return {
@@ -273,13 +279,7 @@ export function createAuthAdapter(
                 },
               }
             : {}),
-          providers: user.providerData.flatMap((info) =>
-            info.providerId === 'google.com'
-              ? ['google' as const]
-              : info.providerId === 'microsoft.com'
-                ? ['microsoft' as const]
-                : [],
-          ),
+          providers: snapshot.providers,
         };
       } catch (error) {
         throw providerError(error);
@@ -293,11 +293,13 @@ export function createAuthAdapter(
         pending ||
         !user ||
         user.uid !== uid ||
-        !user.providerData.some(
-          (p) =>
-            p.providerId ===
-            (providerId === 'google' ? 'google.com' : 'microsoft.com'),
-        )
+        !(verifiedMethods?.user === user
+          ? verifiedMethods.providers.includes(providerId)
+          : user.providerData.some(
+              (p) =>
+                p.providerId ===
+                (providerId === 'google' ? 'google.com' : 'microsoft.com'),
+            ))
       )
         throw new SessionError('wrong-account');
       returnedProof = undefined;

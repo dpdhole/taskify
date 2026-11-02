@@ -2,6 +2,42 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice4 recovery fixes prepared for staged review
+
+- Staging scope: visibility/resume proof recovery, isolated memory-only metadata
+  reads, bounded retries, shared lifecycle wiring and combined Auth/Firestore tests,
+  with both correction reports and their historical/final evidence.
+- Final source inputs still match the focused 201 unit/component, 7 integration,
+  44 browser checks and four-build checkpoint. Two unchanged runner-preflight unit
+  checks and four Foundation browser checks were excluded to preserve the manual
+  preview on5173; a complete verify:all run is not claimed.
+- Local preview remains running. Owner's Microsoft Linked/Google Not linked
+  screenshot confirms settled status in that attempt; proof/linking acceptance
+  remains pending. Provider linking is still disabled.
+- Prepared for review only: no new commit, push, cloud change or deployment.
+
+## 2026-11-02 — Slice4 repeated provider-status checking correction
+
+- Owner reported repeated checking/status transitions on localhost. Primary Auth
+  reload notifications can restart the shared Firestore compatibility listener;
+  unrestricted automatic status recovery produced a feedback loop.
+- [Checking correction](slices/04-identity-linking-checking.md) isolates metadata
+  reload on an SDK-owned memory-only user copy, bounds recovery and ends stale
+  ticket checks explicitly. A combined Auth/Firestore emulator regression is added.
+- Local preview stays running for owner testing. No deployment or acceptance of
+  this fix is claimed; earlier visibility-only evidence is historical.
+
+## 2026-11-02 — Slice4 Google/Chrome dev verification recovery defect
+
+- Owner reported successful Google sign-in on Chrome/dev, then blocked Step3
+  verification. The screenshot's signed-in/ready header conflicted with stale
+  compatibility-blocked provider status; no verification acceptance is recorded.
+- [Visibility recovery correction](slices/04-identity-linking-visibility.md) keeps
+  nonmutating proof pending across hidden/resume, reloads under fresh admission and
+  restores status after readiness. Hard failures/identity changes still invalidate it.
+- Production lifecycle handlers are shared with the regression fixture. Changes are
+  local; dev remains at05adff6, linking stays disabled and owner retest is pending.
+
 ## 2026-11-02 — Slice4 checkpoint committed, pushed and published to dev
 
 - Implementation commit `68a8e3b`; pushed merged source `05adff6` preserves upstream

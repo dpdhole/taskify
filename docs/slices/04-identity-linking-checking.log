@@ -1,0 +1,193 @@
+Slice4 provider-status checking feedback correction — 2026-11-02
+Focused validation preserves the manual localhost:5173 server.
+
+COMMAND: npx vitest run --exclude tests/unit/preflight.test.ts (exit 0)
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  14 passed (14)
+      Tests  201 passed (201)
+   Start at  16:45:39
+   Duration  16.26s (environment 46%, tests 19%, import 13%, transform 11%, setup 9%, worker 2%)
+
+
+COMMANDS: typecheck, check:boundaries, lint, format:check (exit 0)
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 31 files
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!
+
+COMMANDS: build, build:proof, build:compatibility, build:auth, check-bundles (exit 0)
+
+> taskify@0.1.0 build
+> node node_modules/vite/bin/vite.js build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 55 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-CgioX0ie.js   686.50 kB │ gzip: 210.33 kB
+
+✓ built in 291ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> taskify@0.1.0 build:proof
+> node node_modules/vite/bin/vite.js build --mode foundation
+
+vite v8.3.5 building client environment for foundation...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-proof/foundation.html                   0.41 kB │ gzip:   0.27 kB
+dist-proof/assets/foundation-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-proof/assets/foundation-DZgjg7Aa.js   785.08 kB │ gzip: 241.52 kB
+
+✓ built in 283ms
+
+> taskify@0.1.0 build:compatibility
+> node node_modules/vite/bin/vite.js build --mode compatibility
+
+vite v8.3.5 building client environment for compatibility...
+transforming...
+✓ 42 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-compatibility/compatibility.html                   0.42 kB │ gzip:   0.27 kB
+dist-compatibility/assets/compatibility-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-compatibility/assets/compatibility-CLPVoyQ-.js   701.75 kB │ gzip: 214.82 kB
+
+✓ built in 243ms
+
+> taskify@0.1.0 build:auth
+> node node_modules/vite/bin/vite.js build --mode auth
+
+vite v8.3.5 building client environment for auth...
+transforming...
+✓ 55 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-auth/index.html                   0.39 kB │ gzip:   0.26 kB
+dist-auth/assets/index-rumDp5Os.css    3.84 kB │ gzip:   1.33 kB
+dist-auth/assets/index-CWduUG4R.js   790.72 kB │ gzip: 241.96 kB
+
+✓ built in 349ms
+dist: 54 modules; isolation verified
+dist-proof: 115 modules; isolation verified
+dist-compatibility: 41 modules; isolation verified
+dist-auth: 54 modules; isolation verified
+
+COMMAND: node .local/slice4-checking/run-emulators.mjs (exit 0)
+Local demo project; Java 21; CLI 15.34.1
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-foundation", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator was started in standard edition.
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-foundation]: Serving hosting files from: dist
++  hosting[demo-taskify-foundation]: Local server: http://127.0.0.1:5000
+i  Running script: "C:/Program Files/nodejs/node.exe" .local/slice4-checking/run-local-tests.mjs
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+i  hosting: 127.0.0.1 - - [02/Nov/2026:11:30:56 +0000] "GET / HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [02/Nov/2026:11:30:56 +0000] "GET /direct-link HTTP/1.1" 200 392 "-" "node"
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  17:00:52
+   Duration  4.87s (tests 87%, import 12%, transform 1%)
+
+    Isolate  2 workers spawned · ~894ms startup each (spawn + environment, per file)
+             at least ~894ms faster with isolate: false — reuses workers across files instead of one per file
+
+[WebServer] (node:35724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:21648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:8748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:28240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 44 tests using 1 worker
+
+(node:36408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\e2e\compatibility.spec.ts:6:3 › compatibility transitions and draft/unknown-outcome preservation at 390 (5.1s)
+  ok  2 tests\e2e\compatibility.spec.ts:6:3 › compatibility transitions and draft/unknown-outcome preservation at 1280 (2.0s)
+  ok  3 tests\e2e\compatibility.spec.ts:82:1 › actual emulator contract changes revoke and recover the isolated harness (2.0s)
+  ok  4 tests\e2e\compatibility.spec.ts:114:1 › ordinary build is fail-closed when unconfigured and excludes synthetic controls (1.7s)
+  ok  5 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google success (3.6s)
+  ok  6 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google wrong-account (3.6s)
+  ok  7 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google logout (5.5s)
+  ok  8 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google account-switch (6.6s)
+  ok  9 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft success (4.8s)
+  ok 10 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft wrong-account (4.8s)
+  ok 11 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft logout (7.4s)
+  ok 12 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft account-switch (7.8s)
+  ok 13 tests\e2e\session.spec.ts:19:3 › SDK session persists across refresh and supports gated Logout at 390px (4.4s)
+  ok 14 tests\e2e\session.spec.ts:19:3 › SDK session persists across refresh and supports gated Logout at 1280px (4.2s)
+  ok 15 tests\e2e\session.spec.ts:82:1 › SDK propagates identity changes and Logout across tabs without mixing account state (4.7s)
+  ok 16 tests\e2e\session.spec.ts:140:3 › Google button completes an emulator popup and persists the session (4.3s)
+  ok 17 tests\e2e\session.spec.ts:185:3 › cancelling a pending Google popup rejects its late result (4.2s)
+  ok 18 tests\e2e\session.spec.ts:234:3 › blocked Google popup offers explicit redirect and restores the emulator return (4.5s)
+  ok 19 tests\e2e\session.spec.ts:275:3 › Logout in another tab invalidates an unfinished Google popup (5.6s)
+  ok 20 tests\e2e\session.spec.ts:140:3 › Microsoft button completes an emulator popup and persists the session (3.3s)
+  ok 21 tests\e2e\session.spec.ts:185:3 › cancelling a pending Microsoft popup rejects its late result (3.1s)
+  ok 22 tests\e2e\session.spec.ts:234:3 › blocked Microsoft popup offers explicit redirect and restores the emulator return (3.5s)
+  ok 23 tests\e2e\session.spec.ts:275:3 › Logout in another tab invalidates an unfinished Microsoft popup (5.0s)
+  ok 24 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 320px (2.0s)
+  ok 25 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 390px (2.1s)
+  ok 26 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 768px (2.0s)
+  ok 27 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 1280px (2.1s)
+  ok 28 tests\e2e\session.spec.ts:380:3 › server-refreshed sign-in methods stay session-bound at 390px (2.2s)
+  ok 29 tests\e2e\session.spec.ts:380:3 › server-refreshed sign-in methods stay session-bound at 1280px (2.3s)
+  ok 30 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: success (2.9s)
+  ok 31 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: wrong-account (2.7s)
+  ok 32 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: cancel (2.7s)
+  ok 33 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: redirect (3.7s)
+  ok 34 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: visibility-before-result (2.7s)
+  ok 35 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: visibility-after-result (2.7s)
+  ok 36 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: visibility-wrong-account (2.7s)
+  ok 37 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: success (2.8s)
+  ok 38 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: wrong-account (2.7s)
+  ok 39 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: cancel (2.8s)
+  ok 40 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: redirect (3.8s)
+  ok 41 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: visibility-before-result (2.7s)
+  ok 42 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: visibility-after-result (2.7s)
+  ok 43 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: visibility-wrong-account (2.8s)
+  ok 44 tests\e2e\shared-auth-firestore.spec.ts:22:1 › shared Auth and Firestore settle provider checks without primary token notifications or a recovery loop (4.3s)
+
+  44 passed (2.9m)
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

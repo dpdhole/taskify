@@ -29,11 +29,14 @@ async function setup() {
     },
   };
   let next!: (value: SessionIdentity | null) => void;
+  let authoritative = true;
+  let emitContract!: (raw: unknown, authoritative: boolean) => void;
   const gate = createCompatibilityGate(
     {
       readServer: async () => contract(),
       watch(n) {
-        n(contract(), true);
+        emitContract = n;
+        n(contract(), authoritative);
         return () => {};
       },
     },
@@ -89,6 +92,11 @@ async function setup() {
     gate,
     session,
     methods,
+    cachedWatch: () => {
+      authoritative = false;
+    },
+    emitContract: (raw: unknown, authoritative: boolean) =>
+      emitContract(raw, authoritative),
     read,
     requests,
     proofRequests,
@@ -299,6 +307,149 @@ it('opens returned verification only after session and compatibility readiness',
     verificationReturn: { provider: 'google', reason: 'none' },
   });
   await Promise.resolve();
+  expect(t.methods.getState().proof?.status).toBe('verified');
+  t.dispose();
+});
+
+it.each(['before', 'after'] as const)(
+  'finishes popup proof after visibility recovery: result %s readiness',
+  async (order) => {
+    const t = await openVerifiedStatus();
+    const pending = t.methods.verify('google', 'popup');
+    t.gate.suspend('hidden');
+    expect(t.cancelReauthentication).not.toHaveBeenCalled();
+    if (order === 'before') {
+      t.proofRequests[0]!.resolve({ uid: 'first' });
+      await Promise.resolve();
+      expect(t.methods.getState().proof?.status).not.toBe('verified');
+      expect(t.read).toHaveBeenCalledTimes(1);
+    }
+    t.gate.recheck('resume');
+    if (order === 'after') t.proofRequests[0]!.resolve({ uid: 'first' });
+    await vi.waitFor(() => expect(t.read).toHaveBeenCalledTimes(2));
+    t.requests[1]!.resolve({ uid: 'first', providers: ['google'] });
+    await pending;
+    expect(t.methods.getState()).toMatchObject({
+      status: 'ready',
+      providers: ['google'],
+      proof: { status: 'verified' },
+    });
+    t.dispose();
+  },
+);
+it('automatically recovers provider status after a gate interruption without accepting invalid proof', async () => {
+  const t = await openVerifiedStatus();
+  const pending = t.methods.verify('google', 'popup');
+  t.gate.suspend('offline');
+  t.gate.recheck('reconnect');
+  expect(t.read).toHaveBeenCalledTimes(1);
+  t.proofRequests[0]!.resolve({ uid: 'first' });
+  await pending;
+  expect(t.read).toHaveBeenCalledTimes(2);
+  t.requests[1]!.resolve({ uid: 'first', providers: ['google'] });
+  await Promise.resolve();
+  expect(t.methods.getState()).toMatchObject({
+    status: 'ready',
+    providers: ['google'],
+  });
+  expect(t.methods.getState().proof).toBeUndefined();
+  t.dispose();
+});
+it.each(['logout', 'switch', 'close', 'dispose', 'offline'] as const)(
+  'rejects proof awaiting visibility readiness after %s',
+  async (event) => {
+    const t = await openVerifiedStatus();
+    const pending = t.methods.verify('google', 'popup');
+    t.gate.suspend('hidden');
+    t.proofRequests[0]!.resolve({ uid: 'first' });
+    await Promise.resolve();
+    await Promise.resolve();
+    if (event === 'logout') await t.session.signOut();
+    if (event === 'switch') t.next({ uid: 'other' });
+    if (event === 'close') t.methods.close();
+    if (event === 'dispose') t.methods.dispose();
+    if (event === 'offline') t.gate.suspend('offline');
+    await pending;
+    t.gate.recheck('resume');
+    expect(t.methods.getState().proof?.status).not.toBe('verified');
+    t.dispose();
+  },
+);
+
+it('keeps pending identity proof through an unverified cached resume until server readiness', async () => {
+  const t = await openVerifiedStatus();
+  const pending = t.methods.verify('google', 'popup');
+  t.gate.suspend('hidden');
+  t.cachedWatch();
+  t.gate.recheck('resume');
+  expect(t.gate.getState().reason).toBe('server-unverified');
+  expect(t.cancelReauthentication).not.toHaveBeenCalled();
+  t.proofRequests[0]!.resolve({ uid: 'first' });
+  await vi.waitFor(() => expect(t.read).toHaveBeenCalledTimes(2));
+  t.requests[1]!.resolve({ uid: 'first', providers: ['google'] });
+  await pending;
+  expect(t.methods.getState().proof?.status).toBe('verified');
+  t.dispose();
+});
+it('invalidates identity proof if a resumed contract is incompatible', async () => {
+  const t = await openVerifiedStatus();
+  const pending = t.methods.verify('google', 'popup');
+  t.gate.suspend('hidden');
+  t.gate.recheck('resume');
+  t.emitContract(
+    contract({ revision: 2, minAppVersion: '9.0.0', maxAppVersion: '9.0.0' }),
+    true,
+  );
+  expect(t.cancelReauthentication).toHaveBeenCalled();
+  t.proofRequests[0]!.resolve({ uid: 'first' });
+  await pending;
+  expect(t.methods.getState().proof?.status).not.toBe('verified');
+  expect(t.session.getState().protectedReady).toBe(false);
+  t.dispose();
+});
+
+it('caps automatic status recovery instead of creating an Auth/Firestore reload loop', async () => {
+  const t = await openVerifiedStatus();
+  t.emitContract(contract(), false);
+  t.emitContract(contract(), true);
+  expect(t.read).toHaveBeenCalledTimes(2);
+  t.emitContract(contract(), false);
+  t.emitContract(contract(), true);
+  expect(t.read).toHaveBeenCalledTimes(2);
+  expect(t.methods.getState()).toMatchObject({
+    status: 'unavailable',
+    reason: 'verification',
+  });
+  const explicit = t.methods.refresh();
+  expect(t.read).toHaveBeenCalledTimes(3);
+  t.requests[2]!.resolve({ uid: 'first', providers: ['google'] });
+  await explicit;
+  expect(t.methods.getState().status).toBe('ready');
+  t.dispose();
+});
+it('ends checking when a compatible contract revision invalidates an in-flight read', async () => {
+  const t = await setup();
+  const pending = t.methods.open();
+  t.emitContract(contract({ revision: 2 }), true);
+  t.requests[0]!.resolve({ uid: 'first', providers: ['google'] });
+  await pending;
+  expect(t.methods.getState()).toMatchObject({
+    status: 'unavailable',
+    reason: 'verification',
+  });
+  t.dispose();
+});
+it('waits for authoritative compatibility after a credential-triggered cache event without visibility changes', async () => {
+  const t = await openVerifiedStatus();
+  const pending = t.methods.verify('google', 'popup');
+  t.emitContract(contract(), false);
+  expect(t.cancelReauthentication).not.toHaveBeenCalled();
+  t.proofRequests[0]!.resolve({ uid: 'first' });
+  await Promise.resolve();
+  t.emitContract(contract(), true);
+  await vi.waitFor(() => expect(t.read).toHaveBeenCalledTimes(2));
+  t.requests[1]!.resolve({ uid: 'first', providers: ['google'] });
+  await pending;
   expect(t.methods.getState().proof?.status).toBe('verified');
   t.dispose();
 });

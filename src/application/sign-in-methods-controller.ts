@@ -52,6 +52,10 @@ export function createSignInMethodsController(
   let sequence = 0;
   let proofSequence = 0;
   let proofPending = false;
+  let recoveryBudget = 1;
+  let visibilityInterrupted = false;
+  let resumeProof: (() => void) | undefined;
+  let rejectProofWait: (() => void) | undefined;
   let binding: { uid: string; generation: number } | undefined;
   let cancelDeadline: (() => void) | undefined;
   const listeners = new Set<(state: SignInMethodsState) => void>();
@@ -67,6 +71,7 @@ export function createSignInMethodsController(
   }
   function invalidateProof() {
     proofSequence++;
+    rejectProofWait?.();
     if (proofPending) reader.cancelReauthentication?.();
   }
   function close() {
@@ -76,6 +81,27 @@ export function createSignInMethodsController(
     cancelDeadline?.();
     binding = undefined;
     publish({ status: 'closed', providers: [], reason: 'none' });
+  }
+  function recoverStatusWhenReady() {
+    const current = session.getState();
+    if (
+      !proofPending &&
+      state.status === 'unavailable' &&
+      state.reason === 'compatibility' &&
+      current.protectedReady &&
+      current.identity?.uid === binding?.uid &&
+      current.generation === binding?.generation
+    ) {
+      if (recoveryBudget > 0) {
+        recoveryBudget--;
+        void refresh(false);
+      } else
+        publish({
+          status: 'unavailable',
+          providers: [],
+          reason: 'verification',
+        });
+    }
   }
   const stopSession = session.subscribe((current) => {
     if (disposed) return;
@@ -97,18 +123,30 @@ export function createSignInMethodsController(
       return;
     }
     if (!current.protectedReady) {
+      const gate = session.getCompatibilityState();
+      const visibilityPause =
+        proofPending &&
+        (gate.reason === 'hidden' ||
+          gate.status === 'checking' ||
+          gate.reason === 'server-unverified');
       sequence++;
-      invalidateProof();
+      if (visibilityPause) visibilityInterrupted = true;
+      else invalidateProof();
       cancelDeadline?.();
       publish({
         status: 'unavailable',
         providers: [],
         reason: 'compatibility',
+        ...(visibilityPause && state.proof ? { proof: state.proof } : {}),
       });
+    } else {
+      resumeProof?.();
+      recoverStatusWhenReady();
     }
   });
-  async function refresh() {
+  async function refresh(explicit = true) {
     if (disposed || state.status === 'checking' || proofPending) return;
+    if (explicit) recoveryBudget = 1;
     const current = session.getState();
     if (current.status !== 'signed-in' || !current.identity) {
       close();
@@ -135,8 +173,15 @@ export function createSignInMethodsController(
     }, deadlineMs);
     try {
       const snapshot = await reader.readSignInMethods(ticket.uid);
-      if (disposed || operation !== sequence || !session.isCurrent(ticket))
+      if (disposed || operation !== sequence) return;
+      if (!session.isCurrent(ticket)) {
+        publish({
+          status: 'unavailable',
+          providers: [],
+          reason: 'verification',
+        });
         return;
+      }
       if (
         snapshot.uid !== ticket.uid ||
         !Array.isArray(snapshot.providers) ||
@@ -162,8 +207,15 @@ export function createSignInMethodsController(
           : {}),
       });
     } catch (error) {
-      if (disposed || operation !== sequence || !session.isCurrent(ticket))
+      if (disposed || operation !== sequence) return;
+      if (!session.isCurrent(ticket)) {
+        publish({
+          status: 'unavailable',
+          providers: [],
+          reason: 'verification',
+        });
         return;
+      }
       publish({
         status: 'unavailable',
         providers: [],
@@ -188,48 +240,96 @@ export function createSignInMethodsController(
       return;
     const ticket = session.admit();
     const attempt = ++proofSequence;
+    visibilityInterrupted = false;
     proofPending = true;
     publish({
       ...state,
       proof: { status: 'verifying', provider, reason: 'none' },
     });
+    const currentAttempt = () =>
+      !disposed &&
+      attempt === proofSequence &&
+      session.getState().identity?.uid === ticket.uid &&
+      session.getState().generation === ticket.generation;
+    async function waitForReadiness() {
+      if (!currentAttempt()) throw new SessionError('cancelled');
+      if (session.getState().protectedReady) return;
+      await new Promise<void>((resolve, reject) => {
+        resumeProof = () => {
+          if (session.getState().protectedReady) resolve();
+        };
+        rejectProofWait = () => reject(new SessionError('cancelled'));
+        resumeProof();
+      }).finally(() => {
+        resumeProof = undefined;
+        rejectProofWait = undefined;
+      });
+      if (!currentAttempt()) throw new SessionError('cancelled');
+    }
     try {
-      const result = await reader.reauthenticate(
-        ticket.uid,
-        provider,
-        transport,
-      );
-      if (disposed || attempt !== proofSequence) return;
-      const current = session.getState();
-      if (result.uid !== ticket.uid) throw new SessionError('wrong-account');
-      if (
-        current.identity?.uid !== ticket.uid ||
-        current.generation !== ticket.generation ||
-        !current.protectedReady
-      )
-        return;
+      let reason: SessionReason = 'none';
+      try {
+        const result = await reader.reauthenticate(
+          ticket.uid,
+          provider,
+          transport,
+        );
+        if (result.uid !== ticket.uid) reason = 'wrong-account';
+      } catch (error) {
+        reason =
+          error instanceof SessionError ? error.reason : 'provider-unavailable';
+      }
+      if (!currentAttempt()) return;
+      await waitForReadiness();
+      let providers = state.providers;
+      if (visibilityInterrupted) {
+        // Identity proof is nonmutating. A visibility pause never grants reuse of
+        // the old protected ticket: reload under fresh admission after returning.
+        for (let checks = 0; ; checks++) {
+          if (checks === 2) throw new SessionError('restoration');
+          await waitForReadiness();
+          if (!session.getState().protectedReady) continue;
+          const admission = session.admit();
+          const snapshot = await reader.readSignInMethods(ticket.uid);
+          if (!currentAttempt()) return;
+          if (!session.isCurrent(admission)) continue;
+          if (
+            snapshot.uid !== ticket.uid ||
+            !Array.isArray(snapshot.providers) ||
+            snapshot.providers.some((p) => p !== 'google' && p !== 'microsoft')
+          )
+            throw new SessionError('restoration');
+          providers = [...new Set(snapshot.providers)];
+          break;
+        }
+      }
+      if (!currentAttempt() || !session.getState().protectedReady) return;
       session.admit();
       publish({
-        ...state,
-        proof: { status: 'verified', provider, reason: 'none' },
-      });
-    } catch (error) {
-      if (disposed || attempt !== proofSequence || state.status !== 'ready')
-        return;
-      publish({
-        ...state,
+        status: 'ready',
+        providers,
+        reason: 'none',
         proof: {
-          status: 'error',
+          status: reason === 'none' ? 'verified' : 'error',
           provider,
-          reason:
-            error instanceof SessionError
-              ? error.reason
-              : 'provider-unavailable',
+          reason,
         },
       });
+    } catch (error) {
+      if (currentAttempt())
+        publish({
+          status: 'unavailable',
+          providers: [],
+          reason:
+            error instanceof SessionError && error.reason === 'network'
+              ? 'network'
+              : 'verification',
+        });
     } finally {
+      resumeProof = undefined;
+      rejectProofWait = undefined;
       proofPending = false;
-      if (!disposed)
+      if (!disposed) {
         publish({
           ...state,
           ...(state.proof?.status === 'cancelling'
@@ -242,6 +342,8 @@ export function createSignInMethodsController(
               }
             : {}),
         });
+        recoverStatusWhenReady();
+      }
     }
   }
   function cancelVerification() {

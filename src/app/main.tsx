@@ -1,3 +1,4 @@
+import { attachCompatibilityLifecycle } from '../infrastructure/browser/compatibility-lifecycle';
 import { createSignInMethodsController } from '../application/sign-in-methods-controller';
 import { createSignInMethodsStore } from '../state/sign-in-methods-store';
 import { StrictMode } from 'react';
@@ -100,32 +101,12 @@ const methodsController =
 const methodsProjection = methodsController
   ? createSignInMethodsStore(methodsController)
   : undefined;
-const online = () => gate.recheck('reconnect');
-const offline = () => gate.suspend('offline');
-const visibility = () => {
-  if (document.visibilityState === 'hidden') gate.suspend('hidden');
-  else gate.recheck('resume');
-};
-const pagehide = () => gate.suspend('hidden');
-const pageshow = (event: PageTransitionEvent) => {
-  if (event.persisted) gate.recheck('resume');
-};
-window.addEventListener('online', online);
-window.addEventListener('offline', offline);
-document.addEventListener('visibilitychange', visibility);
-window.addEventListener('pagehide', pagehide);
-window.addEventListener('pageshow', pageshow);
 gate.start();
 session?.start();
-if (!navigator.onLine) gate.suspend('offline');
-if (document.visibilityState === 'hidden') gate.suspend('hidden');
+const stopLifecycle = attachCompatibilityLifecycle(gate);
 if (import.meta.hot)
   import.meta.hot.dispose(() => {
-    window.removeEventListener('online', online);
-    window.removeEventListener('offline', offline);
-    document.removeEventListener('visibilitychange', visibility);
-    window.removeEventListener('pagehide', pagehide);
-    window.removeEventListener('pageshow', pageshow);
+    stopLifecycle();
     methodsController?.dispose();
     methodsProjection?.dispose();
     session?.dispose();
