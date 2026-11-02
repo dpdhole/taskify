@@ -291,3 +291,15 @@ Shared routing/guard boundaries do not implement future forms or query execution
 Slice5/5A and other relevant implemented dependencies must supply real validated
 workspace/account state. Documentation only; no executable edits, tests, staging,
 commit, push, cloud operation or deployment.
+
+
+## Slice5 integration amendment — 2 November 2026
+
+After updating this checkout to origin/main at d013515, owner authorized the
+[Slice5 integration amendment](slices/05-workspace-provisioning.md#integration-amendment--main-baseline-d013515-2-november-2026).
+Use single-provider session admission independently of held linking/provider-status
+work. Wire account-state cleanup, optional profile-photo capture and the shared
+workspace runtime; reconcile stages across gate/session changes. Catalogue/default
+scope is unchanged. Required integration evidence must respect the existing
+Slice4 testing hold until applicable authorization. No code, tests, staging,
+commit, push, cloud action or deployment is performed by this documentation update.

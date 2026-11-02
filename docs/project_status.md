@@ -2,6 +2,14 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice5 integration amendment documented after main update
+
+- Owner requested updating from main and assessing Slice5 impact, then authorized the documentation amendment. This checkout was fast-forwarded to d013515 without conflicts; no local source modifications were introduced.
+- [Slice5 amendment](slices/05-workspace-provisioning.md#integration-amendment--main-baseline-d013515-2-november-2026) requires provisioning independent of provider status/linking, primary workspace/loading presentation, real account-state cleanup, optional initial-profile photo capture and reuse of the shared runtime.
+- Define stage reconciliation under session/compatibility revocation and validate shared Auth boundaries rather than assume primary-flow isolation. Approved catalogues, icons, order, Views, timezone and no-backfill policy remain unchanged.
+- Slice4 stays held and unaccepted. Integration acceptance requirements do not lift the existing held-test scope. Persistence/stage/query/Rules/deletion-fence contracts still require resolution before dependent implementation.
+- Documentation only: no executable edits, tests, staging, commit, push, cloud action or deployment. Overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Owner puts Slice 4 on hold; Slice 5 is next
 
 - **Slice 4 remains open, on hold and unaccepted.** Local linking repeatedly reports

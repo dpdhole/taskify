@@ -207,6 +207,18 @@ fence after stale-session checks. No hosted backend or permanent tombstone is
 selected. Administrative script invariants must be enforced independently of Rules;
 align Slice5 controls and validate concrete safety contracts before acceptance.
 
+### Provisioning integration after the Slice4 hold
+
+The [Slice5 integration amendment](slices/05-workspace-provisioning.md#integration-amendment--main-baseline-d013515-2-november-2026)
+binds initialization to UID/session/compatibility admission, not provider status
+or proof/linking completion. Provisioning is the primary authenticated surface;
+Sign-in methods errors do not establish workspace failure. Wire account-state
+cleanup before storing workspace state, extend the existing shared runtime and
+provide optional initial-profile photo data without leaking SDK objects. Reconcile
+committed seed stages after admission revocation rather than restarting templates.
+Shared Auth changes remain a validation risk; Slice4 stays held/unaccepted and its
+test hold is not lifted by documenting Slice5 acceptance requirements.
+
 ## Responsive navigation — Slice 6 accepted detailing
 
 [Slice6 detailing](slices/06-responsive-navigation.md) defines the shell over shared

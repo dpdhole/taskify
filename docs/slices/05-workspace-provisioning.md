@@ -28,6 +28,77 @@ slices. No starter Tasks are created here. Provisioning does not require multipl
 linked providers. Slice 3 is implemented and owner-accepted; linking-specific
 validation remains Slice 4 work and is not proven by provisioning.
 
+## Integration amendment — main baseline d013515, 2 November 2026
+
+Owner authorized this amendment after reviewing the newer Slice4 implementation
+and [hold/handoff](04-identity-linking-hold.md). Approved catalogue, icon, ordering,
+View, timezone and no-backfill policies are unchanged. Slice4 remains open, held
+and unaccepted; its shared Auth changes are not assumed regression-free.
+
+### Admission and presentation
+
+Provisioning requires initialized authenticated UID, session admission, current
+compatibility, connectivity and absence of a deletion fence. It does not require
+multiple providers, provider-membership loading, current-account verification,
+link suggestions, proof tokens or successful linking. A transient provider-status
+error must not become a workspace initialization failure.
+
+Compose provisioning/loading/recovery/Workspace ready as the primary authenticated
+surface, independent of Sign-in methods. Keep Logout accessible through blocking
+states. Do not turn off compatibility/session safeguards merely to bypass a
+linking defect. Do not claim existing primary sign-in is unaffected without tests.
+
+### Lifecycle and account isolation
+
+Use the existing session admission (UID, generation and compatibility ticket).
+Visibility/resume or Auth notifications can revoke compatibility admission even
+without changing UID. Stop new stage submission, preserve the UID/job progress
+reference and reconcile already submitted work before obtaining fresh admission.
+Never restart the seed template solely because a ticket expired. Logout/account
+switch invalidates publication of all old-account results, including same-UID
+sign-out/sign-in across different session generations.
+
+The current application composition supplies a no-op account-state cleanup hook.
+Replace it with workspace state clearing, subscription disposal and pending-result
+invalidation before introducing user-scoped workspace state. Cleanup must not
+cancel or pretend to roll back an already committed stage. Verify disposal during
+runtime teardown and avoid duplicate listeners after remount/reconnect.
+
+### Profile and runtime boundaries
+
+Current application SessionIdentity contains UID, optional display name and email,
+but no photo. Add an optional initial-profile photo value through the existing
+identity translation or a narrow profile-snapshot port. Do not pass Firebase User
+objects into application/domain or read provider status merely to obtain a photo.
+Capture profile once, allow absent fields and never overwrite persisted user edits.
+
+Extend the existing shared Auth/Firestore runtime with a provisioning adapter;
+keep SDK types within infrastructure and reuse its database lifecycle. Do not
+create a second persistent Auth session, reconnect workspace data to an isolated
+provider-metadata helper or attach a listener per visual component. A status-reader
+implementation using memory-only Auth is not the workspace's authentication source.
+
+### Required integration evidence and held tests
+
+Before accepting Slice5, validate Google and Microsoft single-provider entry,
+restoration, Logout, account switching, late callbacks, gate revocation during a
+stage, unknown acknowledgement reconciliation, visibility/reconnect and absence of
+repeated provider-status/compatibility checking loops. Confirm provisioning can
+reach ready without opening or completing Sign-in methods. Reuse existing shared
+Auth/Firestore regression patterns where relevant; mocked adapter evidence alone
+does not establish real-provider safety.
+
+These are Slice5 acceptance requirements, not authorization to reopen held Slice4
+full-slice/regression/browser/emulator testing. Identify any overlap with the
+owner's test hold and obtain applicable authorization before running held checks.
+Keep Slice4 failure reproduction, linking acceptance and multi-provider readiness
+separate from provisioning results. This amendment executes no tests.
+
+Physical paths, exact bounded seed stages, query codec/default decisions,
+compatibility family changes, Rules and Slice5A deletion-fence contracts still
+require concrete resolution/verification. New Auth code does not supply those
+persistence guarantees or authorize cloud policy publication.
+
 ## Approved classification templates
 
 All ordinary records start active, with no coordinates. Persist explicit global
@@ -239,7 +310,7 @@ Select icon delivery, implement explicit runtime/Rules boundaries and update
 feature guidance/templates without teaching unavailable features. Initial manual
 publication stays Slice 9. No invented manual URLs or external publication.
 
-Prepared from local baseline ca822f3 after fast-forwarding to locally known
-origin/main. Frozen experiments and legacy specification remain unchanged.
+Original detailing used baseline ca822f3. The integration amendment follows
+fetch/fast-forward to origin/main at d013515, including the Slice4 hold/handoff. Frozen experiments and legacy specification remain unchanged.
 No new validation or cloud readiness is claimed. Review this detailing before
 implementation; overall platform feasibility remains INCONCLUSIVE.
