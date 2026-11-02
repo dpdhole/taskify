@@ -765,6 +765,19 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 
 **Scope:** This section refines §19 for larger screens, desktop and touch tablets. These are approved discussion-level UX directions, not implemented or usability-verified behavior. Responsive breakpoint values, animation thresholds and exact per-screen actions remain deferred.
 
+**Slice6 owner agreement, 2 November 2026:** the concrete
+[responsive-navigation baseline](slices/06-responsive-navigation.md) uses a mobile
+drawer below 960 CSS px and desktop/tablet rail/sidebar at or above it. Desktop
+expansion is per-tab/account session state across routes/reloads, reset on Logout/
+account change; browser-restored session storage may retain it. Hover previews
+remain transient, with explicit keyboard/touch expansion. Resize clears temporary
+overlays/locks while preserving destination and separate desktop expansion state.
+Mobile modal focus/scroll behavior, route/Back guards and live View reconciliation
+are specified in Slice6. During incremental delivery Home/View shells state their
+limits, unavailable management entries are non-actionable and Search/Create
+controls appear only with their implementing slices. This does not remove their
+final product requirements or authorize implementation.
+
 ### 20.1 Navigation rail, overlay preview and persistent sidebar
 
 - Replace the mobile floating Create action with a **Create action at the top of desktop/tablet navigation**; no FAB in this layout.

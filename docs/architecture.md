@@ -207,6 +207,19 @@ fence after stale-session checks. No hosted backend or permanent tombstone is
 selected. Administrative script invariants must be enforced independently of Rules;
 align Slice5 controls and validate concrete safety contracts before acceptance.
 
+## Responsive navigation — Slice 6 accepted detailing
+
+[Slice6 detailing](slices/06-responsive-navigation.md) defines the shell over shared
+validated UID-owned View metadata. Mobile modal drawer below 960 CSS px; desktop
+rail/sidebar at or above it. Separate transient overlays and per-tab/account sidebar
+retention from persisted View order. Navigation never writes View definitions/order.
+Readiness/deletion/session boundaries govern access and late callbacks; reuse
+shared metadata subscriptions rather than listeners per visual component. Shared
+routing/navigation guards provide future feature integration without pretending
+future forms, Search, creation or query execution already work. Home/View shells
+and unavailable entries must communicate current availability honestly. This is
+accepted design, not an implemented or validated application shell.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |

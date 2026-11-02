@@ -2,6 +2,13 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice6 responsive-navigation detailing accepted and documented
+
+- Owner accepted Slice6 scope and all twelve recommendations, then authorized documentation updates. [Slice6 detailing](slices/06-responsive-navigation.md) records mobile overlay drawer, desktop rail/sidebar, contextual headers, routing/Back, focus/scroll behavior and acceptance.
+- Accepted breakpoint is 960 CSS px; sidebar state is retained per tab/account across routes/reload with Logout/account-switch reset. Hover preview is transient and explicit keyboard/touch expansion remains available.
+- Feature shells communicate availability: no fake counts/charts, no inert Search/Create and no actionable future management destinations. Navigation consumes persisted global View order and shared readiness/account/deletion boundaries.
+- Slice5/5A implementation and relevant workspace integration remain pending locally. Documentation only: no executable edits, tests, staging, commit, push, cloud actions or deployment. Overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Slice5A selects Option 3 manual trusted finalizer
 
 - Owner selected Option 3. [Slice5A detailing](slices/05A-delete-account.md) now specifies browser-confirmed intent and an explicitly invoked local operator script for verified data cleanup, Auth deletion last and safe temporary-fence retirement.
