@@ -188,6 +188,20 @@ slice design and benchmarking. Separate collection listeners do not establish an
 atomic Task/classification snapshot; do not claim transactional read consistency
 without explicit implementation and evidence.
 
+## Workspace provisioning — Slice 5 detailing
+
+[Slice5 detailing](slices/05-workspace-provisioning.md) records owner-approved
+catalogues, icon names, seven initial Views, one-time optional profile capture and
+persisted timezone initialization. Category order is alphabetical plus protected
+Uncategorized last; Location order is alphabetical plus synthetic Unspecified last.
+Versioned UID-owned templates, bounded transactional stages and validated progress
+receipts must prevent duplicate/partial completion under simultaneous access.
+Blocking Loading/progress and guidance do not replace integrity. Exact physical
+paths/stage grouping/query codec remain review/implementation proposals; no new
+records or Rules are implemented by detailing. Preserve user changes and never
+reseed completed ordinary defaults. No Task provisioning/backfill occurs here.
+Early Delete Account is planned as Slice5A with separate deletion/recovery design.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |
@@ -201,7 +215,7 @@ without explicit implementation and evidence.
 | Category / Location | Independent user-owned classifications referenced by stable ID | User-scoped collections proposed |
 | Settings / profile / order | User-owned preferences, profile and global ordering | Document boundaries and atomic ordering contracts to detail |
 | Purge inventory / job / tombstone | Protect resumable deletion; minimal content-free retained markers | Local candidate evidence; production schema to detail |
-| Compatibility contract | Authenticated read; browser writes/deletes denied; privileged release publication | Candidate path `/configuration/compatibility`; high-level checks agreed, exact production fields remain slice details |
+| Compatibility contract | Public exact-document get only; browser listing/writes/deletes denied; privileged publication | Accepted authoritative path `runtime/compatibility`; Slice2 implemented |
 
 Audited mutations and their mandatory Activity Events succeed or fail together.
 Conflicts follow the user-choice policy below; retries must not blindly replay

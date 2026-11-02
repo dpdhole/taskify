@@ -2,6 +2,13 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice5 provisioning detailing prepared for review
+
+- Owner approved provisioning scope and safety recommendations, finalized twelve Categories (including protected Uncategorized) and ten Locations, and approved Material Symbols Rounded mappings. Categories/Locations start alphabetical, with Uncategorized and synthetic default Unspecified last respectively. Finance uses wallet, Household home_and_garden and Wellness heart_plus.
+- [Slice5 detailing](slices/05-workspace-provisioning.md) records default Views, profile/settings initialization, blocking Loading/progress, duplicate-safe concurrency, recovery, schema/security boundaries and acceptance requirements. Physical persistence/stage/query-codec proposals still need concrete review/verification before implementation.
+- No starter Tasks or automatic backfill. User-facing Delete Account is approved for early separate Slice5A after provisioning and before Slice6; existing slice numbers remain stable. No test accounts are deleted.
+- Fast-forwarded this clean checkout to locally known origin/main at ca822f3 before preparing docs, preserving newer Slice3 presentation/acceptance evidence. This is documentation only: no executable edits, tests, staging, commit, push, cloud change or deployment. Overall feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Slice4 identity-linking detailing accepted and documented
 
 - Owner accepted [Slice4 detailing](slices/04-identity-linking.md) and proceeded to documentation in `taskify-slice-detailing`.
