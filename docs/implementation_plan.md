@@ -1,8 +1,8 @@
 # Taskify implementation slices
 
-23 October 2026. **Owner-agreed order.** Slice1 implementation/validation and
+2 November 2026. **Owner-agreed order.** Slice1 implementation/validation and
 closure documentation are committed and pushed. Slice2 implementation and preview are committed. Slice3 configuration, Auth/session
-and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slices4–30 remain planned. This plan is not blanket execution, commit or cloud deployment authority.
+and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 detailing is accepted; implementation awaits authorization. Slices5–30 remain planned. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -30,7 +30,7 @@ Slice1 implementation and validation are **complete**; closure documentation was
 committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
 and [validation report](slices/01-foundation-validation.md).
 [Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
-implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; the current login presentation and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. Other rows remain planned. Split
+implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; the current login presentation and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. [Slice4 detailing](slices/04-identity-linking.md) is accepted; implementation remains pending. Other rows remain planned. Split
 broad rows further during detailing.
 
 | Order | Slice | Deliverable |
@@ -38,7 +38,7 @@ broad rows further during detailing.
 | 1 | Foundation | Select framework/build/store; establish TypeScript boundaries, emulator setup and reproducible local checks |
 | 2 | Compatibility gate | Boot checks, blocking/retry states, resume/reconnect and contract-change handling |
 | 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Microsoft feasibility and sign-in, persistent authentication and Logout |
-| 4 | Identity linking | Proof-based linking, account-resolution conflicts and cancellation |
+| 4 | [Identity linking](slices/04-identity-linking.md) | Proof-based linking, account-resolution conflicts and cancellation |
 | 5 | Workspace provisioning | Retryable initialization of defaults, protected All Tasks and initial Saved Views |
 | 6 | Responsive navigation | Mobile drawer, desktop rail/sidebar and contextual navigation |
 | 7 | Quick Create and basic list | Create a Draft Task and show it in a minimal All Tasks workspace |
@@ -152,7 +152,7 @@ This plan does not add it to slice 26 or 30 by implication.
 ## Historical infrastructure checkpoint
 
 The dated checkpoint and Slice3 amendment below retain their original scope.
-Current next work is Slice4 identity-linking detailing and agreement, following
+Slice4 identity-linking detailing is now accepted; implementation awaits authorization, following
 [Slice3 acceptance](slices/03-provider-sign-in-closure.md). Work/school testing is
 deferred until product/features mature; no next-slice implementation is authorized
 by closure preparation.
@@ -202,3 +202,16 @@ are the active Slice 3 providers; Apple feasibility/implementation/validation ar
 deferred and do not block Slice 3 acceptance. See the [updated detailing](slices/03-provider-sign-in.md).
 Implementation remains authorized; actual provider feasibility and validation
 remain outstanding. Current session checkout: `taskify-slice-detailing`.
+
+
+## Slice 4 detailing checkpoint — 2 November 2026
+
+Owner accepted [identity-linking detailing](slices/04-identity-linking.md): Google/
+Microsoft linking preserves UID and requires fresh current-account reauthentication
+and additional-provider proof. Collision recovery restarts provider proof; uncertain
+submissions are verified before retry. No unlinking, duplicate-account merging or
+provisioning is included. Apple remains deferred. Slice3 acceptance is recorded in its closure document. Linking-specific provider
+evidence and integration validation remain outstanding; Microsoft work/school
+testing remains deferred until features mature. Owner subsequently authorized documentation updates and staging for review in
+`taskify-slice-detailing`. Documentation only; no implementation, commit, push,
+cloud setup or deployment is performed by this checkpoint.

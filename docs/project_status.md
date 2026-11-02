@@ -2,6 +2,15 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice4 identity-linking detailing accepted and documented
+
+- Owner accepted [Slice4 detailing](slices/04-identity-linking.md) and proceeded to documentation in `taskify-slice-detailing`.
+- Google/Microsoft linking preserves UID and ownership, with fresh reauthentication for each attempt and authenticated proof of the additional identity. Matching email never authorizes linking; Apple remains deferred.
+- Collision recovery restarts provider proof; existing-account conflicts do not merge accounts. Cancellation after submission requires outcome verification rather than presumed rollback or blind replay. Unlinking, profile editing and provisioning remain outside this slice.
+- Implementation remains pending authorization. Synced this checkout to `origin/main` at `fe7a600`, including implemented and owner-accepted Slice3. Google/Microsoft personal-account checks are owner-reported; work/school testing remains deferred. Linking-specific feasibility and provider-configuration behavior remain unverified.
+- Owner subsequently authorized documentation updates and staging for review in `C:\DD\Projects\TaskifyIt\taskify-slice-detailing`. The Slice4 document, README, architecture, implementation plan and this status update are prepared for staged review.
+- Documentation only: no executable changes, tests, commit, push, cloud operations or deployment. Overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Slice3 accepted; closure prepared
 
 - The owner accepted Slice3 and requested closure preparation. Google and Microsoft
