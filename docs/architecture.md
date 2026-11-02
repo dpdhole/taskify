@@ -107,8 +107,15 @@ Further live setup/testing needs its applicable authorization. The minimal authe
 and grants no additional Firestore access. Linking remains Slice 4 and workspace/
 profile provisioning remains Slice 5. The current minimal login presentation is accepted.
 
-Provider configuration, linking screens, proof/re-authentication mechanics and
-recovery remain slice details. This policy refines §21.5's same-account intent
+[Slice 4 detailing](slices/04-identity-linking.md), accepted 2 November 2026,
+requires fresh current-account reauthentication and additional-provider proof for
+Google/Microsoft linking, preserving UID and ownership. Collision recovery restarts
+provider proof; already submitted operations require outcome verification after
+interruption. Session/compatibility admissions bind attempts to the original
+account. No unlinking, duplicate-account merging or Firestore provider registry is
+introduced. Implementation and real-provider/configuration evidence remain pending.
+
+Exact provider transport and proof/recovery interfaces remain implementation details. This policy refines §21.5's same-account intent
 without claiming automatic provider linking or verified platform feasibility.
 
 No custom API, Cloud Functions, server-managed Taskify sessions, paid runtime,
