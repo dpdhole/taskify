@@ -2,10 +2,26 @@
 
 2 November 2026. **Owner-agreed order.** Slice1 implementation/validation and
 closure documentation are committed and pushed. Slice2 implementation and preview are committed. Slice3 configuration, Auth/session
-and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; provider status and popup/redirect current-account verification are implemented locally, with linking and hosted acceptance pending. Slice5 provisioning detailing is prepared for review; implementation remains pending. Early Delete Account is inserted as Slice5A before Slice6; Slice6 responsive-navigation detailing is accepted; implementation remains pending. Slices6–30 retain their identifiers. This plan is not blanket execution, commit or cloud deployment authority.
+and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; provider status and popup/redirect current-account verification are implemented locally, with explicit linking now implemented under a unit-only testing instruction; full regression and hosted acceptance remain held. Slice5 provisioning detailing is prepared for review; implementation remains pending. Early Delete Account is inserted as Slice5A before Slice6; Slice6 responsive-navigation detailing is accepted; implementation remains pending. Slices6–30 retain their identifiers. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
+
+## Current sequencing decision — 2 November 2026
+
+**Slice 4 is open and on hold, not accepted or closed.** The owner deferred the
+unresolved local verification-cancellation defect and directed development to
+**Slice 5 — Workspace provisioning**. This supersedes the intervening close/commit
+request and the earlier sequential dependency on completing linking. Single-provider
+Auth suffices for provisioning; no identity/integrity safeguards are relaxed.
+See [hold and handoff](slices/04-identity-linking-hold.md). Full-slice/regression
+checks remain held; primary-flow isolation is not claimed as tested. Older progress
+paragraphs above/below describe historical implementation checkpoints.
+
+Next checkpoints: resolve provisioning record/version contracts and bounded stages;
+implement the approved seed catalogues and pure codecs; add persistence/Rules and
+initialization orchestration; then the Loading/recovery/ready presentation. Deferred
+validation must be explicitly resumed before acceptance or publication claims.
 
 ## Delivery approach
 
@@ -30,7 +46,7 @@ Slice1 implementation and validation are **complete**; closure documentation was
 committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
 and [validation report](slices/01-foundation-validation.md).
 [Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
-implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; the [current login presentation](slices/03-provider-sign-in-presentation.md) and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. [Slice4 detailing](slices/04-identity-linking.md) is accepted; implementation is authorized and [read-only provider status](slices/04-identity-linking-status.md) is implemented locally; popup current-account verification is implemented locally; [isolated redirect proof](slices/04-identity-linking-redirect.md) is implemented locally, while linking remains pending. Other rows remain planned. Split
+implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; the [current login presentation](slices/03-provider-sign-in-presentation.md) and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. [Slice4 detailing](slices/04-identity-linking.md) is accepted; implementation is authorized and [read-only provider status](slices/04-identity-linking-status.md) is implemented locally; popup current-account verification is implemented locally; [isolated redirect proof](slices/04-identity-linking-redirect.md) is implemented locally, and [explicit linking](slices/04-identity-linking-implementation.md) is implemented locally with unit-only validation; full-slice/regression testing remains held by owner. Other rows remain planned. Split
 broad rows further during detailing.
 
 | Order | Slice | Deliverable |

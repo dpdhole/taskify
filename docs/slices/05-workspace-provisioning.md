@@ -1,10 +1,12 @@
 # Slice 5 — Workspace provisioning
 
-Status: **owner-agreed scope and defaults; detailing prepared for review, 2 November 2026**.
-The owner authorized preparation of this document after approving the scope,
-recovery policies, catalogues, ordering and icon mappings. Implementation remains
-pending review of this concrete specification. No executable changes, dependencies,
-Rules publication, cloud setup, staging, commit, push or deployment are performed.
+Status: **next development slice by owner direction, 2 November 2026; scope/defaults agreed; implementation not started**.
+The owner put Slice 4 on hold and directed proceeding to this slice. Linking is not
+a prerequisite; use the accepted single-provider Auth/session and compatibility
+boundaries. See [Slice 4 hold and handoff](04-identity-linking-hold.md). Concrete
+persistence/stage/query decisions below still require resolution before dependent
+implementation. No executable changes, dependencies, Rules publication, cloud setup,
+staging, commit, push or deployment are performed by this documentation update.
 
 Authority: [product specification](../product_spec.md),
 [architecture](../architecture.md), [slice plan](../implementation_plan.md),

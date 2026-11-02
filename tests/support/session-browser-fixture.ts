@@ -77,6 +77,21 @@ export function createSessionFixture(serverCompatibility = false) {
         verify: (provider: 'google' | 'microsoft', transport?: 'redirect') => {
           void methodsController.verify(provider, transport ?? 'popup');
         },
+        requestLink: (target: 'google' | 'microsoft') =>
+          methodsController.requestLink(target),
+        proveLink: (
+          existing: 'google' | 'microsoft',
+          transport?: 'redirect',
+        ) => {
+          void methodsController.proveLink(existing, transport ?? 'popup');
+        },
+        submitLink: () => {
+          void methodsController.submitLink();
+        },
+        checkLink: () => {
+          void methodsController.checkLink();
+        },
+        cancelLink: () => methodsController.cancelLink(),
         cancelVerification: () => methodsController.cancelVerification(),
         open: () => {
           void methodsController.open();

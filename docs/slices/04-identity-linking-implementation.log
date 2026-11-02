@@ -1,0 +1,40 @@
+Slice4 linking implementation — 2026-11-02
+Owner instruction: unit-level testing only; full-slice/regression testing held.
+
+COMMAND: npx vitest run tests/unit/identity-link-controller.test.ts tests/unit/provider-link-adapter.test.ts tests/unit/link-suggestion.test.ts tests/unit/sign-in-methods-linking.test.ts tests/unit/auth-link-bridge.test.ts (exit 0)
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  5 passed (5)
+      Tests  74 passed (74)
+   Start at  18:18:45
+   Duration  5.96s (tests 92%, import 4%, transform 3%, worker 1%)
+
+
+COMMAND: npm run typecheck (exit 0; static check, not regression execution)
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+COMMAND: npm run check:boundaries (exit 0; static check, not regression execution)
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 35 files
+
+COMMAND: npm run lint (exit 0; static check, not regression execution)
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+COMMAND: npm run format:check (exit 0; static check, not regression execution)
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!

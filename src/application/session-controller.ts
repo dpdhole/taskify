@@ -24,7 +24,11 @@ export type SessionReason =
   | 'provider-configuration'
   | 'provider-unavailable'
   | 'wrong-account'
-  | 'proof-expired';
+  | 'proof-expired'
+  | 'link-conflict'
+  | 'already-linked'
+  | 'link-uncertain'
+  | 'compatibility';
 export class SessionError extends Error {
   readonly reason: SessionReason;
   constructor(reason: SessionReason) {
@@ -43,6 +47,8 @@ export interface AuthPort {
   ): () => void;
   signOut(): Promise<void>;
   dispose(): void;
+  getLinkSuggestion?(): SignInProvider | undefined;
+  clearLinkSuggestion?(): void;
 }
 export interface SessionState {
   status:
@@ -60,6 +66,7 @@ export interface SessionState {
   canLogout: boolean;
   canSignIn: boolean;
   provider: SignInProvider | null;
+  linkSuggestion?: SignInProvider;
 }
 export interface SessionAdmission {
   uid: string;
@@ -102,10 +109,14 @@ export function createSessionController(
   let initializationFailed = false;
   let signInPending = false;
   let signInSequence = 0;
+  let pendingLinkSuggestion: SignInProvider | undefined;
   const subscribers = new Set<(state: SessionState) => void>();
   function emit() {
+    const projected = { ...state };
+    if (pendingLinkSuggestion) projected.linkSuggestion = pendingLinkSuggestion;
+    else delete projected.linkSuggestion;
     state = {
-      ...state,
+      ...projected,
       protectedReady:
         state.status === 'signed-in' &&
         initialized &&
@@ -207,7 +218,13 @@ export function createSessionController(
             fail('restoration');
             return;
           }
-          if (next?.uid !== observed?.uid) invalidate();
+          if (next?.uid !== observed?.uid) {
+            if (observed?.uid) {
+              pendingLinkSuggestion = undefined;
+              auth.clearLinkSuggestion?.();
+            }
+            invalidate();
+          }
           observed = next;
           observationReceived = true;
           if (logout) {
@@ -228,12 +245,19 @@ export function createSessionController(
         () => {
           if (!disposed && cycle === epoch && !initializationFailed) {
             initialized = true;
+            if (auth.getLinkSuggestion)
+              pendingLinkSuggestion = auth.getLinkSuggestion();
             restore();
           }
         },
         (error: unknown) => {
           if (!disposed && cycle === epoch) {
             initialized = false;
+            if (
+              error instanceof SessionError &&
+              error.reason === 'account-conflict'
+            )
+              pendingLinkSuggestion = auth.getLinkSuggestion?.();
             if (!quarantine)
               fail(
                 error instanceof SessionError ? error.reason : 'restoration',
@@ -290,12 +314,21 @@ export function createSessionController(
         await auth.signIn(provider, transport);
         if (disposed || attempt !== signInSequence) return;
         signInPending = false;
+        if (pendingLinkSuggestion === provider)
+          pendingLinkSuggestion = undefined;
+        if (auth.getLinkSuggestion)
+          pendingLinkSuggestion = auth.getLinkSuggestion();
         restore();
       } catch (error: unknown) {
         if (disposed || attempt !== signInSequence) return;
         signInPending = false;
         restore();
         if (!observed) {
+          if (
+            error instanceof SessionError &&
+            error.reason === 'account-conflict'
+          )
+            pendingLinkSuggestion = provider;
           state = {
             ...state,
             reason:
@@ -318,6 +351,7 @@ export function createSessionController(
         (!observed && !quarantine && !signInPending)
       )
         return;
+      pendingLinkSuggestion = undefined;
       signInSequence++;
       const signOutId = ++signOutSequence;
       signOutPending = signOutId;
@@ -386,6 +420,11 @@ export function createSessionController(
     },
     isCurrent,
     getCompatibilityState: () => gate.getState(),
+    clearLinkSuggestion() {
+      auth.clearLinkSuggestion?.();
+      pendingLinkSuggestion = undefined;
+      emit();
+    },
     submit<T>(ticket: SessionAdmission, operation: () => T): T {
       if (!isCurrent(ticket)) throw Error('Session admission expired');
       return operation();

@@ -1,3 +1,5 @@
+import { createProviderLinkAdapter } from './provider-link-adapter';
+import type { LinkReturn } from '../../application/identity-ports';
 import { readAuthMethods } from './auth-methods-reader';
 import type { SignInProvider } from '../../application/session-controller';
 import { createRedirectProofAdapter } from './redirect-proof-adapter';
@@ -18,7 +20,7 @@ import {
   reauthenticateWithPopup,
   signOut,
 } from 'firebase/auth';
-import type { SignInMethodsReader } from '../../application/sign-in-methods-controller';
+import type { SignInMethodsReader } from '../../application/identity-ports';
 import type { FirebaseApp } from 'firebase/app';
 import { SessionError } from '../../application/session-controller';
 import type {
@@ -50,6 +52,7 @@ export function createAuthAdapter(
   let intent: string | undefined;
   let expectedProofUid: string | undefined;
   let proofSequence = 0;
+  let signInLinkSuggestion: SignInProvider | undefined;
   let verifiedMethods:
     | { user: typeof auth.currentUser; providers: readonly SignInProvider[] }
     | undefined;
@@ -58,6 +61,16 @@ export function createAuthAdapter(
     app,
     emulator,
     () => auth.currentUser,
+    providerError,
+  );
+  let returnedLink: LinkReturn | undefined;
+  let returnedLinkUser: typeof auth.currentUser = null;
+  let returnedLinkEpoch: string | null = null;
+  const linkAdapter = createProviderLinkAdapter(
+    app,
+    emulator,
+    () => auth.currentUser,
+    providerFor,
     providerError,
   );
   function providerFor(providerId: 'google' | 'microsoft') {
@@ -102,6 +115,14 @@ export function createAuthAdapter(
       code === 'auth/login-blocked'
     )
       return new SessionError('cancelled');
+    if (
+      ['auth/credential-already-in-use', 'auth/email-already-in-use'].includes(
+        code,
+      )
+    )
+      return new SessionError('link-conflict');
+    if (code === 'auth/provider-already-linked')
+      return new SessionError('already-linked');
     if (code === 'auth/user-mismatch') return new SessionError('wrong-account');
     if (
       [
@@ -165,7 +186,13 @@ export function createAuthAdapter(
         const validProvider = currentMarker
           ? record.provider === 'google' || record.provider === 'microsoft'
           : true;
+        const validSuggestion =
+          record.linkSuggestion === undefined ||
+          ((record.linkSuggestion === 'google' ||
+            record.linkSuggestion === 'microsoft') &&
+            record.linkSuggestion !== record.provider);
         const valid =
+          validSuggestion &&
           record.operation === undefined &&
           validProvider &&
           typeof record.epoch === 'string' &&
@@ -179,9 +206,21 @@ export function createAuthAdapter(
         pending = true;
         try {
           await getRedirectResult(auth, browserPopupRedirectResolver);
+          if (
+            valid &&
+            (record.linkSuggestion === 'google' ||
+              record.linkSuggestion === 'microsoft')
+          )
+            signInLinkSuggestion = record.linkSuggestion;
           if (invalid) throw new SessionError('cancelled');
         } catch (error) {
-          throw providerError(error);
+          const classified = providerError(error);
+          if (valid && classified.reason === 'account-conflict')
+            signInLinkSuggestion =
+              currentMarker && record.provider === 'microsoft'
+                ? 'microsoft'
+                : 'google';
+          throw classified;
         } finally {
           clearRedirectMarker();
           intent = undefined;
@@ -192,6 +231,9 @@ export function createAuthAdapter(
       }
       await auth.authStateReady();
       returnedProof = await redirectProof.resume();
+      returnedLink = await linkAdapter.resume();
+      returnedLinkUser = auth.currentUser;
+      returnedLinkEpoch = window.localStorage.getItem(epochKey);
       if (disposed) throw new SessionError('cancelled');
       ready = true;
     } catch (error) {
@@ -285,6 +327,53 @@ export function createAuthAdapter(
         throw providerError(error);
       }
     },
+    takeLinkReturn() {
+      const result = returnedLink;
+      const bound =
+        auth.currentUser === returnedLinkUser &&
+        window.localStorage.getItem(epochKey) === returnedLinkEpoch;
+      returnedLink = undefined;
+      returnedLinkUser = null;
+      returnedLinkEpoch = null;
+      return ready &&
+        !disposed &&
+        bound &&
+        result &&
+        auth.currentUser?.uid === result.uid
+        ? result
+        : undefined;
+    },
+    async proveLink(uid, target, existing, transport) {
+      if (disposed || !ready || pending || auth.currentUser?.uid !== uid)
+        throw new SessionError('cancelled');
+      pending = true;
+      try {
+        return await linkAdapter.prove(uid, target, existing, transport);
+      } finally {
+        pending = false;
+        if (disposed) stopGuard();
+      }
+    },
+    async submitLink(uid, target, proofId, transport) {
+      if (disposed || !ready || pending || auth.currentUser?.uid !== uid)
+        throw new SessionError('cancelled');
+      pending = true;
+      try {
+        return await linkAdapter.submit(uid, target, proofId, transport);
+      } catch (error) {
+        const classified = providerError(error);
+        throw classified.reason === 'account-conflict'
+          ? new SessionError('link-conflict')
+          : classified;
+      } finally {
+        pending = false;
+        if (disposed) stopGuard();
+      }
+    },
+    cancelLink() {
+      returnedLink = undefined;
+      linkAdapter.cancel();
+    },
     async reauthenticate(uid, providerId, transport) {
       const user = auth.currentUser;
       if (
@@ -345,6 +434,19 @@ export function createAuthAdapter(
       returnedProof = undefined;
       redirectProof.cancel();
     },
+    getLinkSuggestion() {
+      const id = signInLinkSuggestion;
+      return id &&
+        !auth.currentUser?.providerData.some(
+          (p) =>
+            p.providerId === (id === 'google' ? 'google.com' : 'microsoft.com'),
+        )
+        ? id
+        : undefined;
+    },
+    clearLinkSuggestion() {
+      signInLinkSuggestion = undefined;
+    },
     async signIn(providerId, transport) {
       if (disposed || !ready || pending)
         throw new SessionError('provider-unavailable');
@@ -357,6 +459,9 @@ export function createAuthAdapter(
             redirectKey,
             JSON.stringify({
               provider: providerId,
+              ...(signInLinkSuggestion && signInLinkSuggestion !== providerId
+                ? { linkSuggestion: signInLinkSuggestion }
+                : {}),
               epoch: intent,
               createdAt: Date.now(),
             }),
@@ -370,7 +475,10 @@ export function createAuthAdapter(
           await signInWithPopup(auth, provider, browserPopupRedirectResolver);
       } catch (error) {
         clearRedirectMarker();
-        throw providerError(error);
+        const classified = providerError(error);
+        if (classified.reason === 'account-conflict')
+          signInLinkSuggestion = providerId;
+        throw classified;
       } finally {
         pending = false;
         intent = undefined;
@@ -381,8 +489,11 @@ export function createAuthAdapter(
       if (disposed) throw new SessionError('logout');
       try {
         proofSequence++;
+        signInLinkSuggestion = undefined;
         returnedProof = undefined;
         redirectProof.cancel();
+        returnedLink = undefined;
+        linkAdapter.cancel();
         window.localStorage.setItem(epochKey, crypto.randomUUID());
         clearRedirectMarker();
         await signOut(auth);
@@ -396,6 +507,8 @@ export function createAuthAdapter(
       proofSequence++;
       returnedProof = undefined;
       redirectProof.dispose();
+      returnedLink = undefined;
+      linkAdapter.dispose();
       if (!pending) stopGuard();
       for (const stop of stops) stop();
       stops.clear();

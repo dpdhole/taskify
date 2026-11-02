@@ -136,6 +136,24 @@ createRoot(root).render(
                     transport ?? (mobile ? 'redirect' : 'popup'),
                   );
                 },
+                requestLink: (target) => methodsController.requestLink(target),
+                proveLink: (existing, transport) => {
+                  const mobile =
+                    location.hostname !== 'localhost' &&
+                    location.hostname !== '127.0.0.1' &&
+                    matchMedia('(pointer: coarse)').matches;
+                  void methodsController.proveLink(
+                    existing,
+                    transport ?? (mobile ? 'redirect' : 'popup'),
+                  );
+                },
+                submitLink: () => {
+                  void methodsController.submitLink();
+                },
+                checkLink: () => {
+                  void methodsController.checkLink();
+                },
+                cancelLink: () => methodsController.cancelLink(),
                 cancelVerification: () =>
                   methodsController.cancelVerification(),
                 open: () => {

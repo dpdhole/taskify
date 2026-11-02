@@ -1,7 +1,9 @@
 # Slice 4 — Identity linking
 
-Status: **detailing accepted; implementation authorized on 2 November 2026; provider status and popup current-account proof implemented locally; isolated redirect proof implemented locally; linking pending**.
-The clean verification checkpoint is [published to dev](04-identity-linking-preview.md); linking and real-provider acceptance remain pending.
+Status: **OPEN / ON HOLD by owner, 2 November 2026; linking defect unresolved; proceed to Slice 5.** See the [hold and handoff](04-identity-linking-hold.md). Slice 4 is not closed or accepted; further investigation and full-slice/regression acceptance remain deferred.
+
+Historical implementation checkpoint: **detailing accepted; implementation authorized on 2 November 2026; provider status and popup current-account proof implemented locally; isolated redirect proof and explicit linking implemented locally; linking unit validation only; full-slice/regression checks held by owner**.
+The clean verification checkpoint is [published to dev](04-identity-linking-preview.md); that published snapshot predates linking. The [linking implementation](04-identity-linking-implementation.md) is local and unit-validated only; broader validation and real-provider acceptance remain pending.
 See the [status checkpoint](04-identity-linking-status.md) for step1 evidence and the owner-accepted SDK-boundary amendment, and the [popup proof checkpoint](04-identity-linking-proof.md) for current progress.
 The following authorization paragraph records the original documentation checkpoint;
 the owner subsequently authorized reviewing and beginning implementation.

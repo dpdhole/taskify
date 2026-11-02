@@ -6,22 +6,15 @@ import type {
   SessionReason,
 } from './session-controller';
 import type { GateClock } from './compatibility-gate';
-export interface SignInMethodsSnapshot {
-  uid: string;
-  verificationReturn?: { provider: SignInProvider; reason: SessionReason };
-  providers: readonly SignInProvider[];
-}
-export interface SignInMethodsReader {
-  readSignInMethods(uid: string): Promise<SignInMethodsSnapshot>;
-  reauthenticate?(
-    uid: string,
-    provider: SignInProvider,
-    transport: SignInTransport,
-  ): Promise<{ uid: string }>;
-  cancelReauthentication?(): void;
-  hasVerificationReturn?(): boolean;
-}
+export type {
+  SignInMethodsSnapshot,
+  SignInMethodsReader,
+} from './identity-ports';
+import type { SignInMethodsReader } from './identity-ports';
+import { createIdentityLinkController } from './identity-link-controller';
+import type { IdentityLinkState } from './identity-link-controller';
 export interface SignInMethodsState {
+  link?: IdentityLinkState;
   status: 'closed' | 'checking' | 'ready' | 'unavailable';
   providers: readonly SignInProvider[];
   reason: 'none' | 'network' | 'session' | 'compatibility' | 'verification';
@@ -66,9 +59,60 @@ export function createSignInMethodsController(
       providers: Object.freeze([...next.providers]),
       ...(next.proof ? { proof: Object.freeze({ ...next.proof }) } : {}),
       ...(proofPending ? { verificationPending: true } : {}),
+      ...(linking.getState().stage !== 'idle' || linking.getState().pending
+        ? { link: linking.getState() }
+        : {}),
     });
     for (const listener of listeners) listener(state);
   }
+  const linking = createIdentityLinkController(
+    reader,
+    session,
+    clock,
+    (snapshot) => {
+      const current = session.getState();
+      if (
+        disposed ||
+        !current.protectedReady ||
+        current.identity?.uid !== snapshot.uid
+      )
+        return;
+      binding = { uid: snapshot.uid, generation: current.generation };
+      sequence++;
+      cancelDeadline?.();
+      publish({
+        status: 'ready',
+        providers: [...new Set(snapshot.providers)],
+        reason: 'none',
+      });
+      const suggestion = session.getState().linkSuggestion;
+      if (suggestion && snapshot.providers.includes(suggestion))
+        session.clearLinkSuggestion();
+    },
+    deadlineMs,
+  );
+  const stopLink = linking.subscribe((link) => {
+    if (disposed) return;
+    if (
+      state.status === 'closed' &&
+      link.stage !== 'idle' &&
+      session.getState().protectedReady
+    ) {
+      const ticket = session.admit();
+      binding = { uid: ticket.uid, generation: ticket.generation };
+      publish({ status: 'checking', providers: [], reason: 'none' });
+    } else if (['linking', 'checking', 'cancelling'].includes(link.stage)) {
+      publish({ status: 'checking', providers: [], reason: 'none' });
+    } else if (link.stage === 'uncertain') {
+      publish({ status: 'unavailable', providers: [], reason: 'verification' });
+    } else if (
+      state.status === 'checking' &&
+      !link.pending &&
+      ['error', 'uncertain'].includes(link.stage)
+    ) {
+      publish({ status: 'unavailable', providers: [], reason: 'verification' });
+    } else publish({ ...state });
+  });
   function invalidateProof() {
     proofSequence++;
     rejectProofWait?.();
@@ -78,6 +122,7 @@ export function createSignInMethodsController(
     if (disposed) return;
     sequence++;
     invalidateProof();
+    linking.close();
     cancelDeadline?.();
     binding = undefined;
     publish({ status: 'closed', providers: [], reason: 'none' });
@@ -86,6 +131,7 @@ export function createSignInMethodsController(
     const current = session.getState();
     if (
       !proofPending &&
+      !linking.getState().pending &&
       state.status === 'unavailable' &&
       state.reason === 'compatibility' &&
       current.protectedReady &&
@@ -145,7 +191,14 @@ export function createSignInMethodsController(
     }
   });
   async function refresh(explicit = true) {
-    if (disposed || state.status === 'checking' || proofPending) return;
+    if (
+      disposed ||
+      state.status === 'checking' ||
+      proofPending ||
+      linking.getState().pending
+    )
+      return;
+    if (explicit && linking.getState().stage !== 'idle') linking.close();
     if (explicit) recoveryBudget = 1;
     const current = session.getState();
     if (current.status !== 'signed-in' || !current.identity) {
@@ -206,6 +259,9 @@ export function createSignInMethodsController(
             }
           : {}),
       });
+      const suggestion = session.getState().linkSuggestion;
+      if (suggestion && snapshot.providers.includes(suggestion))
+        session.clearLinkSuggestion();
     } catch (error) {
       if (disposed || operation !== sequence) return;
       if (!session.isCurrent(ticket)) {
@@ -232,6 +288,8 @@ export function createSignInMethodsController(
     if (
       disposed ||
       proofPending ||
+      linking.getState().stage !== 'idle' ||
+      linking.getState().pending ||
       state.status !== 'ready' ||
       !state.providers.includes(provider) ||
       !reader.reauthenticate ||
@@ -367,6 +425,16 @@ export function createSignInMethodsController(
     verify,
     cancelVerification,
     close,
+    requestLink(target: SignInProvider) {
+      if (!proofPending && state.status === 'ready')
+        linking.request(target, state.providers);
+    },
+    proveLink(existing: SignInProvider, transport: SignInTransport) {
+      return linking.prove(existing, transport, state.providers);
+    },
+    submitLink: () => linking.submit(),
+    checkLink: () => linking.check(),
+    cancelLink: () => linking.cancel(),
     dispose() {
       if (disposed) return;
       close();
@@ -374,6 +442,8 @@ export function createSignInMethodsController(
       sequence++;
       cancelDeadline?.();
       stopSession();
+      stopLink();
+      linking.dispose();
       listeners.clear();
     },
   };

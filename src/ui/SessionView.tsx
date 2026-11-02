@@ -70,9 +70,11 @@ export function SessionView({
               ? 'Remembered sessions are unavailable. Check browser storage settings and retry.'
               : state.reason === 'configuration'
                 ? 'Authentication configuration is missing or invalid.'
-                : logoutRecovery
-                  ? 'Logout has not been confirmed. Protected content remains hidden; retry Logout.'
-                  : 'Session restoration is unavailable. Please retry.'
+                : state.reason === 'account-conflict'
+                  ? 'Sign in using your existing method. Return to the sign-in options, then review linking after sign-in.'
+                  : logoutRecovery
+                    ? 'Logout has not been confirmed. Protected content remains hidden; retry Logout.'
+                    : 'Session restoration is unavailable. Please retry.'
             : state.status === 'signed-out'
               ? state.reason === 'cancelled'
                 ? 'Sign-in was cancelled. You are signed out.'
@@ -131,6 +133,13 @@ export function SessionView({
             <p>Your workspace is not available yet.</p>
           </section>
         )}
+        {state.protectedReady && state.linkSuggestion && (
+          <p>
+            You can review linking{' '}
+            {state.linkSuggestion === 'google' ? 'Google' : 'Microsoft'} from
+            Sign-in methods. Linking requires fresh verification.
+          </p>
+        )}
         {state.status === 'signed-out' && gate.status === 'ready' && (
           <div className={styles.providers}>
             <p className={styles.choice}>Choose your account to continue.</p>
@@ -182,7 +191,11 @@ export function SessionView({
         )}
         <div className={styles.actions}>
           {state.status === 'error' && !logoutRecovery && (
-            <button onClick={retrySession}>Retry session restoration</button>
+            <button onClick={retrySession}>
+              {state.reason === 'account-conflict'
+                ? 'Return to sign-in'
+                : 'Retry session restoration'}
+            </button>
           )}
           {state.canLogout && (
             <button

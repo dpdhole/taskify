@@ -1,3 +1,5 @@
+import { IdentityLinkView } from './IdentityLinkView';
+import type { IdentityLinkActions } from './IdentityLinkView';
 import { useEffect, useRef } from 'react';
 import { useStore } from 'zustand';
 import type { createSignInMethodsStore } from '../state/sign-in-methods-store';
@@ -6,7 +8,7 @@ import type {
   SignInProvider,
 } from '../application/session-controller';
 import styles from './session.module.css';
-export interface SignInMethodsPresentation {
+export interface SignInMethodsPresentation extends IdentityLinkActions {
   projection: ReturnType<typeof createSignInMethodsStore>;
   open: () => void;
   close: () => void;
@@ -33,20 +35,18 @@ export function SignInMethodsView({
     Record<SignInProvider, HTMLButtonElement | null>
   >({ google: null, microsoft: null });
   const isOpen = state.status !== 'closed';
+  const operationPending = Boolean(
+    state.verificationPending || state.link?.pending,
+  );
   useEffect(() => {
     if (isOpen && !wasOpen.current) heading.current?.focus();
     if (!isOpen && wasOpen.current) needsEntryFocus.current = true;
-    if (
-      !isOpen &&
-      needsEntryFocus.current &&
-      ready &&
-      !state.verificationPending
-    ) {
+    if (!isOpen && needsEntryFocus.current && ready && !operationPending) {
       if (document.activeElement === document.body) entry.current?.focus();
       needsEntryFocus.current = false;
     }
     wasOpen.current = isOpen;
-  }, [isOpen, ready, state.verificationPending]);
+  }, [isOpen, ready, operationPending]);
   useEffect(() => {
     if (state.verificationPending) {
       wasVerifying.current = true;
@@ -72,15 +72,15 @@ export function SignInMethodsView({
         <div className={styles.actions}>
           <button
             ref={entry}
-            disabled={state.verificationPending}
+            disabled={state.verificationPending || state.link?.pending}
             onClick={methods.open}
           >
             Sign-in methods
           </button>
         </div>
-        {state.verificationPending && (
+        {(state.verificationPending || state.link?.pending) && (
           <p role="status">
-            Finishing verification cancellation. Close the provider window to
+            Finishing the account operation. Close the provider window to
             continue.
           </p>
         )}
@@ -127,7 +127,7 @@ export function SignInMethodsView({
           </li>
         ))}
       </ul>
-      {state.status === 'ready' && methods.verify && (
+      {state.status === 'ready' && !state.link && methods.verify && (
         <section aria-label="Verify current account">
           <h4>Verify your current account</h4>
           <p>
@@ -194,12 +194,43 @@ export function SignInMethodsView({
           )}
         </section>
       )}
-      <p>Adding another sign-in method is not available yet.</p>
+      {!state.link && state.status === 'ready' && methods.requestLink && (
+        <section aria-label="Add sign-in method" className={styles.methods}>
+          <p>
+            Add another sign-in method to this account after verifying
+            ownership.
+          </p>
+          <div className={styles.actions}>
+            {(['google', 'microsoft'] as const)
+              .filter((p) => !state.providers.includes(p))
+              .map((p) => (
+                <button
+                  key={p}
+                  disabled={!ready || state.verificationPending}
+                  onClick={() => methods.requestLink?.(p)}
+                >
+                  Link {p === 'google' ? 'Google' : 'Microsoft'}
+                </button>
+              ))}
+          </div>
+        </section>
+      )}
+      {state.link && (
+        <IdentityLinkView
+          state={state.link}
+          providers={state.providers}
+          ready={ready}
+          actions={methods}
+        />
+      )}
       <div className={styles.actions}>
         <button onClick={methods.close}>Back</button>
         <button
           disabled={
-            !ready || state.status === 'checking' || state.verificationPending
+            !ready ||
+            state.status === 'checking' ||
+            state.verificationPending ||
+            state.link?.pending
           }
           onClick={methods.refresh}
         >

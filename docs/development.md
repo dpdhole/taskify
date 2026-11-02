@@ -235,3 +235,25 @@ metadata reads off primary Auth notifications using a memory-only SDK-owned copy
 The shared Auth/Firestore browser case detects listener-driven retry loops; automatic
 recovery is bounded. Refresh the local page after these controller/runtime changes
 before manual acceptance. The running manual preview is preserved during focused tests.
+
+
+### Linking checkpoint — unit validation only
+
+[Explicit provider linking](slices/04-identity-linking-implementation.md) adds fresh
+current-method proof, explicit target continuation, UID-bound SDK linking and status
+reconciliation. Standalone verification is not reused as a grant. Redirect return
+processing cannot automatically replay mutation; uncertain status checks are reads.
+The owner requested unit-only tests and held full-slice/regression testing until
+prompted. Do not treat staging/commit or this implementation as revoking that hold.
+The existing browser fixture has action wiring, but no linking browser/emulator or
+real-provider acceptance is claimed. No new provisioning template is needed.
+
+## Current owner hold and next development slice
+
+Slice 4 is open and on hold; defer the reported local verification-cancellation
+defect and proceed to Slice 5 provisioning. See the
+[hold and handoff](slices/04-identity-linking-hold.md) for impact and resumption
+criteria. Do not treat historical unit evidence as reproduction of the defect or
+proof that shared sign-in/restoration/Logout are unaffected. Keep full-slice and
+regression testing held until prompted. Single-provider provisioning must not
+require current-account linking proof. No Slice 5 code is included in this update.

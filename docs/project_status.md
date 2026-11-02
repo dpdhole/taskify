@@ -2,6 +2,35 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Owner puts Slice 4 on hold; Slice 5 is next
+
+- **Slice 4 remains open, on hold and unaccepted.** Local linking repeatedly reports
+  verification cancellation; root cause and real-provider acceptance are unresolved.
+- Owner directs proceeding to Slice 5 workspace provisioning. A single-provider
+  session is sufficient; linking is not a provisioning prerequisite. Primary-flow
+  isolation is an architectural assessment, not a verified regression result.
+- [Hold and handoff](slices/04-identity-linking-hold.md) records affected users,
+  residual shared-Auth risk and resumption criteria. Full-slice/regression testing
+  remains held. This supersedes the request to close and commit Slice 4.
+- Documentation update only: no Slice 5 code, commit, push or deployment.
+
+## 2026-11-02 — Slice4 linking implemented; unit-only validation
+
+- Owner authorized linking implementation and explicitly held full-slice/regression
+  testing until prompted. [Implementation checkpoint](slices/04-identity-linking-implementation.md)
+  records the two-step proof/link flow, one-use SDK context and outcome recovery.
+- Unlinked providers offer Link; fresh current-method proof precedes an explicit
+  target-provider Continue. Server membership under the original UID confirms
+  outcomes; conflicts preserve separate accounts, uncertain results offer read-only
+  checking and cancellation cannot promise rollback after SDK invocation.
+- Provider-only sign-in conflict hints survive deliberate redirect handoff without
+  retaining credentials. No email discovery, merge, unlink or Taskify data write.
+- Only targeted new unit tests and static checks are performed. Browser/emulator,
+  integration, full regression and real-provider acceptance remain held. No builds
+  were run. The browser fixture is wired but not run. Slice4 remains incomplete.
+- No cloud configuration, stage, commit, push or deployment. Local preview remains
+  available; earlier published dev and validation records are historical.
+
 ## 2026-11-02 — Signed-in action spacing locally verified
 
 - Added 1.5rem vertical spacing between the Sign-in methods and Logout action rows,
