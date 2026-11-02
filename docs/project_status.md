@@ -2,6 +2,16 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Signed-in action spacing locally verified
+
+- Added 1.5rem vertical spacing between the Sign-in methods and Logout action rows,
+  matching the existing spacing on the expanded Sign-in methods screen.
+- Owner verified the spacing locally and requested staging for review. Formatting
+  and whitespace checks passed; no new automated functional tests were needed for
+  this CSS-only adjustment. This acceptance covers spacing, not provider workflows.
+- CSS and this record are prepared for staged review. No commit, push or deployment;
+  the local server remains running.
+
 ## 2026-11-02 — Slice4 recovery fixes prepared for staged review
 
 - Staging scope: visibility/resume proof recovery, isolated memory-only metadata
