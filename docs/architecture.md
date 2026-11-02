@@ -200,7 +200,12 @@ Blocking Loading/progress and guidance do not replace integrity. Exact physical
 paths/stage grouping/query codec remain review/implementation proposals; no new
 records or Rules are implemented by detailing. Preserve user changes and never
 reseed completed ordinary defaults. No Task provisioning/backfill occurs here.
-Early Delete Account is planned as Slice5A with separate deletion/recovery design.
+Early [Delete Account detailing](slices/05A-delete-account.md) selects Option 3:
+browser-confirmed intent followed by a local operator-run trusted finalizer. The
+script verifies data cleanup, deletes Auth last and safely retires a temporary
+fence after stale-session checks. No hosted backend or permanent tombstone is
+selected. Administrative script invariants must be enforced independently of Rules;
+align Slice5 controls and validate concrete safety contracts before acceptance.
 
 ## Logical data and operation boundaries
 

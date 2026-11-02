@@ -2,6 +2,20 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-02 — Slice5A selects Option 3 manual trusted finalizer
+
+- Owner selected Option 3. [Slice5A detailing](slices/05A-delete-account.md) now specifies browser-confirmed intent and an explicitly invoked local operator script for verified data cleanup, Auth deletion last and safe temporary-fence retirement.
+- Operator action is the normal completion path; the browser displays request/status rather than performing cleanup. Minimal UID/job/state/version/timestamp controls remain until verified finalization and stale-token safety checks; no permanent tombstone or hosted backend is selected.
+- This supersedes the unresolved architecture alternatives in the earlier checkpoint below. Exact Rules/control schemas, token-safety interval, script concurrency and credentials still require implementation validation. Every destructive run needs explicit target authorization.
+- Related docs are aligned and staged for review. No executable changes, account deletion, cloud actions, commit or push.
+
+## 2026-11-02 — Slice5A documentation finalized and staged for review
+
+- Owner approved Delete Account scope and conflict evaluation, then authorized complete documentation and staging for review. [Slice5A detailing](slices/05A-delete-account.md) records state/recovery contracts, enforcement responsibilities, acceptance and unresolved finalizer/retention alternatives after Slice5 and before Slice6.
+- Approved flow: typed DELETE, fresh same-UID provider proof, persisted deletion intent, bounded owned-data cleanup, protected-record exception, Auth deletion last and interruption recovery. No external provider account is deleted.
+- Final-marker/identity atomicity, stale authenticated clients, marker retention and enforceable proof/completeness remain unresolved under the browser-direct topology. No retained fence, backend or retention policy is approved by the scope agreement. Implementation is blocked on those concrete choices and Slice5 schema alignment.
+- Documentation changes are staged for review. No executable changes, tests, commit, push, cloud actions or account deletion. Overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Slice5 provisioning detailing prepared for review
 
 - Owner approved provisioning scope and safety recommendations, finalized twelve Categories (including protected Uncategorized) and ten Locations, and approved Material Symbols Rounded mappings. Categories/Locations start alphabetical, with Uncategorized and synthetic default Unspecified last respectively. Finance uses wallet, Household home_and_garden and Wellness heart_plus.

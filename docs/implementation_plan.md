@@ -40,7 +40,7 @@ broad rows further during detailing.
 | 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Microsoft feasibility and sign-in, persistent authentication and Logout |
 | 4 | [Identity linking](slices/04-identity-linking.md) | Proof-based linking, account-resolution conflicts and cancellation |
 | 5 | [Workspace provisioning](slices/05-workspace-provisioning.md) | Retryable initialization of profile/settings, approved Categories/Locations, protected All Tasks and initial Saved Views |
-| 5A | Delete Account | Early user-facing account deletion for safe account reuse; detail separately before implementation |
+| 5A | [Delete Account](slices/05A-delete-account.md) | Approved deletion scope; Option 3 operator-run trusted finalizer with temporary fencing |
 | 6 | Responsive navigation | Mobile drawer, desktop rail/sidebar and contextual navigation |
 | 7 | Quick Create and basic list | Create a Draft Task and show it in a minimal All Tasks workspace |
 | 8 | Task Detail and metadata editing | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
@@ -233,3 +233,31 @@ initialization. No starter Tasks or automatic onboarding backfill are added.
 User-facing Delete Account is approved for separate Slice5A immediately after
 Slice5, preserving existing numbered references. No implementation, staging,
 commit, push, cloud operation or deployment is performed by this documentation.
+
+
+## Slice 5A detailing checkpoint — 2 November 2026
+
+Owner approved user-facing Delete Account scope and requested documentation/conflict
+evaluation. [Detailing](slices/05A-delete-account.md) records confirmation, fresh
+proof, fenced staged cleanup, Auth deletion last and recoverable interruption.
+Browser-only finalization, stale-session protection, marker retention and trusted
+enforcement remain unresolved. No backend, retained-marker policy or account
+deletion is authorized; implementation readiness is not established. Align Slice5
+control-record design before implementing either deletion admission or finalization.
+
+Owner subsequently approved this conflict evaluation and authorized completing
+Slice5A documentation and staging for review. State/recovery and enforcement
+contracts are documented. Alternative finalizer/retention choices remain open;
+no implementation, commit, push or cloud/deletion action is performed.
+
+
+### Slice5A finalizer choice — 2 November 2026
+
+Owner selected **Option 3: manual trusted finalizer**. Browser submits confirmed
+intent and displays status; an explicitly invoked local administrative script
+verifies/cleans owned data, deletes Auth last and safely retires the temporary
+fence. Completion depends on operator action; no hosted backend, automatic
+scheduler, permanent tombstone or automatic TTL is selected. This supersedes the
+unresolved architecture alternatives above. Exact safety interval/Rules/control
+contracts require validation. Documentation remains staged for review; no script
+execution, account deletion, commit or push is performed.

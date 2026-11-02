@@ -216,7 +216,11 @@ initialization. This slice provides infrastructure, not future Task schemas.
 
 Insert **Slice 5A — Delete Account** immediately after Slice 5 and before Slice 6,
 preserving existing slice identifiers. It is a normal user-facing capability,
-not a hidden test reset. Its separate detailing must cover fresh authentication,
+not a hidden test reset. Its [separate detailing](05A-delete-account.md) selects Option 3 operator-run
+trusted finalization with temporary fencing; align provisioning fences before
+implementation. Browsers submit intent/status only; the operator script performs
+cleanup, Auth deletion and safe fence retirement.
+The deletion contract covers fresh authentication,
 named confirmation, owned-data removal before Auth identity deletion, interruption,
 resumption and isolation of orphaned data. Reusing the same provider login must
 not promise the old UID. The owner's two Google and one Microsoft personal test

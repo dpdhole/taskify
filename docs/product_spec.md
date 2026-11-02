@@ -854,6 +854,19 @@ See the [closure record](slices/03-provider-sign-in-closure.md).
 - Verified identical email across providers should resolve to the same Taskify account through secure account resolution/credential linking. Firebase does not guarantee automatic linking; Apple private relay can produce different email addresses. Never trust an unverified email claim as authorization. Exact linking UX and security deferred.
 - Email OTP is a candidate alternative, not an active approved login channel. Google + Apple extends §18's earlier Google-only Firebase Spark PoC/beta baseline; provider feasibility must be validated.
 
+**Slice5A scope approval, 2 November 2026:** the minimal account surface offers a
+separate permanent Delete Account action, typed DELETE confirmation and fresh
+same-UID provider proof. Persist intent before bounded recoverable owned-data
+cleanup, delete Auth identity last, and never reprovision an account in deletion.
+Protected defaults may be removed only through this workflow; external provider
+accounts are unaffected. [Slice5A detailing](slices/05A-delete-account.md) records
+approved scope with owner-selected Option 3: the browser submits confirmed intent,
+and a local operator-run script verifies/cleans application data, deletes Auth last
+and retires a minimal temporary fence after validated stale-session checks. No
+hosted backend or permanent tombstone is selected. Completion depends on operator
+execution; exact safety contracts require validation and each destructive run
+requires explicit authorization.
+
 ### 21.6 Task Detail responsive sections
 - Retain contextual Back/action bar (§§19–20), mobile full-page and desktop side-panel-by-default expandable presentation where compatible.
 - **Mobile order:** action bar; Title/Reference; status and planning dates; Task preferences; description preview with Show All; Todo CRUD checklist; Discussion latest five complete entries with More and new-entry field; external-link Attachments list with Add; Activity Log.
