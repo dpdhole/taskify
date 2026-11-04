@@ -251,6 +251,54 @@ NFC/lowercase code-point Title sorting with original Title/ID ties, minimal dura
 recovery IDs without form content, and separately delivered Advanced Create as
 Slice8A. This is accepted design, not a deployed Task schema or implementation.
 
+## Task Detail and metadata — Slice8 accepted detailing
+
+[Slice8 detailing](slices/08-task-detail-metadata.md) introduces explicit metadata
+editors, individual tri-state preference commits and plain-text GFM description
+source with a 64 KiB UTF-8 bound, rendered only in Task Detail. WYSIWYG is removed. Load descriptions on demand, outside lightweight
+list metadata. Choose and validate storage split/coherent versions, transactional
+Save/receipt contracts, Markdown/link/image rendering policy and compatible schema before
+coding. Slice8 optimistic conflicts reject stale saves and offer Refresh (discard/restart)
+or Stay; no reapplication/merge. Save is enabled only for valid changes, and user
+text dirty detection is case-sensitive; unchanged input writes nothing. Metadata changes cannot mutate
+lifecycle or require/invent Activity Events. Update deletion inventory if new detail/
+operation families appear. The owner selected react-markdown/remark-gfm (exact versions pending) and D4:
+root Task metadata plus detail/description, shared root concurrency counter and
+transactional coherent reads; atomic detail/root-version Save. Description is
+explicitly included in account cleanup. The
+[Slice8 gap register](slices/08-task-detail-metadata.md#gap-evaluation--4-november-2026)
+requires actual Markdown-source byte enforcement proof, explicit link/image policy,
+coherent versioned saves and operation correlation robust to later edits. Preserve
+same-account conflict input without leaking drafts after Logout/access loss.
+Document review/staging does not establish these integrity boundaries.
+
+### Slice8 design closure — D1–D12
+
+All twelve design gaps are resolved as recorded in Slice8. Markdown source and
+safe rendering replace WYSIWYG; stale Save uses Refresh/Stay, not reapplication.
+Valid case-sensitive changes alone enable Save. Dependencies, exact schemas/Rules
+atomicity and runtime tests still require proof. The Slice4 test hold and separate
+cloud authority remain unchanged; design closure is not feature acceptance.
+
+### Slice8 Save outcome recovery — D8 approved
+
+Save atomically writes an immutable minimal operation receipt with root/detail
+changes, allowing authoritative outcome verification despite later edits. Retry
+preserves operation identity/original version; absent receipt alone does not prove
+cancellation. Recheck receipt on a retry conflict. Keep receipt with Task initially
+and include it in trusted cleanup; never recreate a missing Task on metadata retry.
+No Activity Event, copied description or permanent audit service is added.
+
+### Slice8 schema rollout — D5 agreed
+
+Read retained Task schemas1/2 explicitly; schema1 Reference/description decode as
+empty without writes. Upgrade to Task2 only transactionally during deliberate
+edits; new creation uses Task2 after permitted writer activation. Description
+schema1 with explicit GFM format evolves independently. Permit missing description
+as empty under declared schemas, reject malformed/unknown data, stage compatible
+readers/Rules before writers and record a data-aware rollback floor. Retire older
+writers unless preservation is proven. No bulk migration/cloud rollout is implied.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |

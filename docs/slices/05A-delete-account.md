@@ -196,6 +196,17 @@ families when their feature slices arrive. A deletion fence blocks creation and
 must win races with admitted writes according to the final Rules contract. Never
 release Task persistence without matching account-deletion coverage.
 
+## Slice8 inventory dependency — 4 November 2026
+
+[Task Detail/metadata](08-task-detail-metadata.md) now selects users/{uid}/tasks/{taskId}/detail/description for Markdown source;
+Slice8 D8 also requires immutable Save completion receipts retained with the
+Task initially (exact receipt path remains implementation review). Include them
+in enumeration/verification/cleanup, not just the description child. If introduced, extend
+trusted enumeration, verification and cleanup with it alongside the feature.
+Keeping metadata/detail under a Task parent does not prove recursive cleanup.
+No metadata Activity Event family is introduced by Slice8. Verify fence enforcement
+against pending saves, not only new Task creation.
+
 ## Acceptance plan
 
 Test cancellation before intent, failed/mismatched proof, interrupted/unknown

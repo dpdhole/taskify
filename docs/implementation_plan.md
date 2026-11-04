@@ -59,7 +59,7 @@ broad rows further during detailing.
 | 5A | [Delete Account](slices/05A-delete-account.md) | Approved deletion scope; Option 3 operator-run trusted finalizer with temporary fencing |
 | 6 | [Responsive navigation](slices/06-responsive-navigation.md) | Mobile drawer, desktop rail/sidebar and contextual navigation |
 | 7 | [Quick Create and basic list](slices/07-quick-create-basic-list.md) | Create a Draft Task and show it in a minimal All Tasks workspace |
-| 8 | Task Detail and metadata editing | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
+| 8 | [Task Detail and metadata editing](slices/08-task-detail-metadata.md) | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
 | 8A | Advanced Create | Separately detail expanded creation using implemented metadata; mobile full-screen/desktop large modal with retained inputs |
 | 9 | Three onboarding Tasks | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
 | 10 | Complete query engine | All supported predicates, grouping, sorting and date semantics over complete metadata |
@@ -360,3 +360,140 @@ approval wording in the prior review checkpoints. No code, staging or commit.
 Owner requested completion and review for commit. Seven documentation files are
 staged, with accepted baseline and technical validation gates distinguished. No
 implementation, application tests, commit, push or cloud operation is performed.
+
+
+## Slice8 detailing accepted — 4 November 2026
+
+Owner accepted [Task Detail/metadata detailing](slices/08-task-detail-metadata.md)
+and all eighteen recommendations. Explicit contextual Save/Cancel editors cover
+Title, Reference and classification; tri-state preferences commit individually.
+Reference uses 255 Unicode code points and empty means absence. Description uses
+versioned structured rich text limited to 64 KiB serialized UTF-8, with paragraphs,
+headings, bold/italic, lists and links only. Metadata creates no Activity Event or
+lifecycle change. Optimistic concurrency preserves local input and offers Reload
+latest / Apply my changes / Cancel; description is one conflict field. Mobile page,
+desktop panel/full-page, dirty navigation and actual-origin restoration follow
+existing contracts. Editor/schema/storage split/security proofs remain concrete
+implementation gates. Advanced Create stays separate Slice8A. Documentation only;
+no code, tests, staging, commit, push or cloud actions.
+
+
+### Slice8 gap evaluation and staged review — 4 November 2026
+
+Owner requested evaluation of pending gaps and staging preparation.
+[Gap register](slices/08-task-detail-metadata.md#gap-evaluation--4-november-2026)
+records editor/node/link policy, size/security enforcement, storage/version/rollout,
+conflict/receipt recovery, per-Task mutation serialization, account isolation and
+navigation/dependency gates. Scope is accepted; no technical feasibility proof or
+new alternative approval is claimed. Seven documentation files staged for review;
+no application tests/builds, implementation, commit, push or cloud operation.
+
+
+### Slice8 Markdown scope reduction — 4 November 2026
+
+Owner removed WYSIWYG. [Slice8](slices/08-task-detail-metadata.md) uses a plain-text
+GFM source editor and Task Detail Markdown rendering, with 64 KiB UTF-8 source
+limit. D1 editor/schema gap closes through scope reduction; no Tiptap selection.
+D2 byte enforcement and D3 safe URI/image policy remain open. No live preview,
+formatting toolbar, code execution or interactive Todo behavior is added. This
+supersedes the earlier structured-rich-text decisions above. Other metadata/save/
+conflict contracts remain. Documentation restaged; no code, tests, commit or push.
+
+
+### Slice8 D2 approved — 4 November 2026
+
+Owner accepted the Markdown-source byte contract: 65,536 UTF-8 bytes inclusive,
+CRLF/CR-to-LF normalization, otherwise preserved content, empty string and no
+truncation. Rules check actual UTF-8 bytes; direct-write/Unicode boundary proof
+remains pending implementation. D3 safe rendering/URI/image policy is next.
+
+
+### Slice8 D3 approved — 4 November 2026
+
+Owner approved safe GFM rendering with tel: added to https/http/mailto. Use
+react-markdown + remark-gfm, no raw HTML or image fetch, non-navigating relative
+labels, inert task lists, escaped code and horizontally contained tables. Exact
+versions/security behavior require implementation checks. D4 storage/versioning
+is next; no code, tests, commit, push or cloud actions.
+
+
+### Slice8 D4 agreed — 4 November 2026
+
+Task metadata remains in users/{uid}/tasks/{taskId}; Markdown source is in its
+detail/description child. Root version is shared aggregate concurrency; description
+Save atomically updates detail and root version, metadata Save patches root only.
+Transactional baseline reads avoid incoherent independent listeners. Missing detail
+is empty only under a declared schema contract. Update trusted cleanup inventory.
+Rules/schema evidence remains pending; D5 compatible rollout is next.
+
+
+### Slice8 D5 approved — 4 November 2026
+
+Owner approved explicit Task1/2 readers, transactional lazy Task2 upgrade during
+first deliberate edit, independently versioned description1/GFM, compatible
+readers/Rules before new writers and a data-aware rollback floor. Quick Create
+uses Task2 after writer activation. No read rewrites, bulk migration, silent
+reset/downgrade or unproven legacy writer coexistence. D6 conflict/no-op is next.
+
+
+### Slice8 D6 simplified — 4 November 2026
+
+Owner replaced conflict reapplication with stale-save rejection and Refresh/restart
+editing (or Stay without saving). Save is enabled only for valid actual changes;
+case-only Title/Reference/description edits count as changes, unchanged/reverted
+input causes no write/version/schema change. No implicit rebase or Apply my changes
+in Slice8. Unknown Save outcome still requires reconciliation; D8 remains separate.
+
+
+### Slice8 D7 agreed — 4 November 2026
+
+Owner agreed per-Task edit/mutation serialization, Stay/Discard for dirty-editor
+switches, direct switch when unchanged, pending/unknown mutation blocking and Check
+save status. Preference outcomes distinguish confirmed failure, conflict and
+unknown; navigation retains operation tracking and Logout remains available.
+D8 acknowledgement recovery is next; no code/tests/commit/push performed.
+
+
+### Slice8 D8 approved — 4 November 2026
+
+Owner approved stable Save operation identity and minimal immutable completion
+receipt atomic with root/detail writes. Verify receipts after timeout/reload,
+reuse ID/original version for safe retry and recheck receipt on retry conflict.
+Retain with Task initially and include in permanent cleanup. No copied content,
+Activity Event or durable draft promise. D9 input/account isolation is next.
+
+
+### Slice8 D9 accepted — 4 November 2026
+
+Owner accepted temporary-failure in-memory input preservation and strict account/
+access isolation. Closed/deleted copying requires continued authorization; access
+loss/Logout/UID switch clears visible content. Minimal pending operation tracking
+supports authorized verification after re-sign-in, not durable draft restoration.
+D10 origin/list restoration is next; no code/tests/commit/push performed.
+
+
+### Slice8 D10 approved — 4 November 2026
+
+Owner approved real View/group/scroll-anchor restoration, reactive list movement/
+removal, nearest surviving position, deleted-origin explanation/All Tasks choice,
+actual-history direct links and layout-preserved context. D6–D9 guards still apply.
+D11 Closed/deleted read-only boundaries are next; documentation only.
+
+
+### Slice8 D11 approved — 4 November 2026
+
+Owner approved authorized read-only Closed/deleted Detail, unchanged All Tasks
+scope and no early lifecycle/restore/purge controls. Rules enforce editability
+and immutable lifecycle/date fields at commit; confirmed access loss removes
+cached disclosure. Account deletion fences remain authoritative. D12 dependency/
+validation/test-authority boundaries are the final gap; documentation only.
+
+
+### Slice8 D12/design closure — 4 November 2026
+
+Owner agreed the final dependency/validation baseline. All D1–D12 design gaps are
+resolved; actual dependency integration, exact Rules/receipt/codec contracts,
+pinned renderer versions and required passing evidence remain implementation work.
+Keep Slice4 linking acceptance and held tests unchanged until separately authorized;
+cloud publication remains separate. Documentation restaged, no code/test execution,
+commit, push or deployment. Design closure is not implementation acceptance.
