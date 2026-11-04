@@ -22,7 +22,19 @@ test.afterAll(async () => {
 test('shared Auth and Firestore settle provider checks without primary token notifications or a recovery loop', async ({
   page,
   request,
+  context,
 }) => {
+  // Match the other SDK emulator fixtures: avoid delayed third-party UI assets.
+  await context.route('**/*', (route) =>
+    [
+      'http://127.0.0.1:5176',
+      'http://127.0.0.1:8080',
+      'http://127.0.0.1:9099',
+      'https://apis.google.com',
+    ].includes(new URL(route.request().url()).origin)
+      ? route.continue()
+      : route.abort(),
+  );
   const seeded = await request.patch(
     'http://127.0.0.1:8080/v1/projects/demo-taskify-session/databases/(default)/documents/runtime/compatibility',
     {

@@ -1,3 +1,4 @@
+import { APP_VERSION } from '../src/app/client-capabilities.ts';
 /** Invoked only inside the checked demo emulator runner; no cloud target. */
 import fs from 'node:fs';
 import { decodeContract } from '../src/domain/compatibility.ts';
@@ -14,7 +15,7 @@ if (
 const projectId = 'demo-taskify-provisioning-stage';
 const source = ts.createSourceFile(
   'workspace-seeds.ts',
-  fs.readFileSync('src/domain/workspace-seeds.ts', 'utf8'),
+  fs.readFileSync('src/domain/workspace-families.ts', 'utf8'),
   ts.ScriptTarget.Latest,
   true,
 );
@@ -50,8 +51,8 @@ try {
         revision: 1,
         environmentId: projectId,
         serverRelease: 1,
-        minAppVersion: '0.1.0',
-        maxAppVersion: '0.1.0',
+        minAppVersion: APP_VERSION,
+        maxAppVersion: APP_VERSION,
         recordFamilies: Object.fromEntries(
           ['compatibilityProbe', ...families].map((family) => [
             family,

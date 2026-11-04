@@ -13,8 +13,8 @@ const initial = {
   revision: 1,
   environmentId: client.environmentId,
   serverRelease: 1,
-  minAppVersion: '0.1.0',
-  maxAppVersion: '0.1.0',
+  minAppVersion: client.appVersion,
+  maxAppVersion: client.appVersion,
   recordFamilies: {
     compatibilityProbe: {
       presentSchemaVersions: [1],
@@ -76,8 +76,8 @@ const change =
             : {
                 ...initial,
                 revision: ++revision,
-                minAppVersion: kind === 'blocked' ? '0.2.0' : '0.1.0',
-                maxAppVersion: kind === 'blocked' ? '0.2.0' : '0.1.0',
+                minAppVersion: kind === 'blocked' ? '0.3.0' : client.appVersion,
+                maxAppVersion: kind === 'blocked' ? '0.3.0' : client.appVersion,
               },
           kind !== 'cache',
         );

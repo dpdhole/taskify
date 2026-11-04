@@ -1,3 +1,4 @@
+import { APP_VERSION } from '../../src/app/client-capabilities';
 import { test, expect } from '@playwright/test';
 import { toFields } from '../../tools/publish-compatibility.mjs';
 import { contract } from '../support/compatibility-fixtures';
@@ -92,16 +93,28 @@ test('actual emulator contract changes revoke and recover the isolated harness',
     });
     expect(r.ok()).toBe(true);
   };
-  await seed(contract({ revision: 10 }));
+  await seed(
+    contract({
+      revision: 10,
+      minAppVersion: APP_VERSION,
+      maxAppVersion: APP_VERSION,
+    }),
+  );
   await page.goto(origin + '/?source=emulator');
   await expect(page.getByRole('status')).toContainText(
     'Compatibility verified',
   );
   await seed(
-    contract({ revision: 11, minAppVersion: '0.2.0', maxAppVersion: '0.2.0' }),
+    contract({ revision: 11, minAppVersion: '0.3.0', maxAppVersion: '0.3.0' }),
   );
   await expect(page.getByRole('status')).toContainText('newer Taskify');
-  await seed(contract({ revision: 12 }));
+  await seed(
+    contract({
+      revision: 12,
+      minAppVersion: APP_VERSION,
+      maxAppVersion: APP_VERSION,
+    }),
+  );
   await expect(page.getByRole('status')).toContainText(
     'Compatibility verified',
   );

@@ -1,3 +1,4 @@
+import { APP_VERSION } from '../../src/app/client-capabilities';
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 import { initializeTestEnvironment } from '@firebase/rules-unit-testing';
@@ -8,7 +9,7 @@ import { WORKSPACE_SCHEMA_FAMILIES } from '../../src/domain/workspace-seeds';
 const projectId = 'demo-taskify-provisioning-stage',
   uid = 'browser-owner';
 let env: RulesTestEnvironment;
-const policy = (revision = 1, minAppVersion = '0.1.0') =>
+const policy = (revision = 1, minAppVersion = APP_VERSION) =>
   contract({
     environmentId: projectId,
     revision,
@@ -164,7 +165,7 @@ test('compatibility revocation stops writes, then fresh admission resumes commit
     )
     .toBe(true);
   await env.withSecurityRulesDisabled((c) =>
-    setDoc(doc(c.firestore(), 'runtime/compatibility'), policy(2, '0.2.0')),
+    setDoc(doc(c.firestore(), 'runtime/compatibility'), policy(2, '0.3.0')),
   );
   await expect(
     page.getByText(

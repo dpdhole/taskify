@@ -4,6 +4,14 @@
 `0c8db30`. Slice 5 remains open for release coordination and hosted acceptance;
 Slice 4 remains on hold. This checkpoint does not authorize publication.
 
+## Subsequent release preparation
+
+The owner requested a dev deployment and explicitly selected app0.2.0 with older
+clients blocked. [Release preparation](05-workspace-provisioning-release.md)
+assigns revision2/serverRelease2 and records the coordinated rollout/rollback
+floor. Earlier0.1.0/pending-version statements below describe the prior checkpoint;
+cloud publication and acceptance are recorded separately in deployment evidence.
+
 ## Implemented behavior
 
 - The Auth entry declares the nine workspace schema families. Account deletion is

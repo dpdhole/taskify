@@ -3,17 +3,7 @@ import { decodeWorkspaceQuery } from './workspace-query';
 import type { WorkspaceQuery } from './workspace-query';
 import { fail } from './workspace-validation';
 export const WORKSPACE_TEMPLATE_VERSION = 1;
-export const WORKSPACE_SCHEMA_FAMILIES = [
-  'workspaceInitialization',
-  'profile',
-  'settings',
-  'category',
-  'location',
-  'view',
-  'initializationStage',
-  'nameReservation',
-  'accountDeletion',
-] as const;
+export { WORKSPACE_SCHEMA_FAMILIES } from './workspace-families';
 const categories = [
   ['family', 'Family', 'family_restroom'],
   ['finance', 'Finance', 'wallet'],

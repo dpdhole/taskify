@@ -144,7 +144,18 @@ export default defineConfig(({ mode }) => {
           ? [entry, 'tests/support/session-browser-fixture.ts']
           : [entry],
     },
-    server: { host: '127.0.0.1', port: 5173, strictPort: true },
+    server: {
+      host: '127.0.0.1',
+      port: 5173,
+      strictPort: true,
+      watch: {
+        ignored: [
+          '**/.local/**',
+          '**/test-results/**',
+          '**/playwright-report/**',
+        ],
+      },
+    },
     preview: { host: '127.0.0.1', port: 4173, strictPort: true },
     build: { outDir, rollupOptions: { input: entry } },
   };

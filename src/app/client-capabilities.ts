@@ -1,12 +1,13 @@
-import { WORKSPACE_SCHEMA_FAMILIES } from '../domain/workspace-seeds';
+import { WORKSPACE_SCHEMA_FAMILIES } from '../domain/workspace-families.ts';
 import type { ClientCapabilities } from '../domain/compatibility';
+export const APP_VERSION = '0.2.0';
 export function clientCapabilities(
   environmentId: string,
   buildId: string,
   workspace = false,
 ): ClientCapabilities {
   return {
-    appVersion: '0.1.0',
+    appVersion: APP_VERSION,
     buildId,
     environmentId,
     contractFormats: [1],

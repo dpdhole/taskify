@@ -1,0 +1,50 @@
+{
+  "environmentId": "taskify-dev-dpdhole",
+  "recordFamilies": {
+    "compatibilityProbe": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "workspaceInitialization": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "profile": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "settings": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "category": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "location": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "view": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "initializationStage": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "nameReservation": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    },
+    "accountDeletion": {
+      "presentSchemaVersions": [1],
+      "allowedWriteSchemaVersions": [1]
+    }
+  },
+  "serverRelease": 2,
+  "maxAppVersion": "0.2.0",
+  "revision": 2,
+  "contractFormatVersion": 1,
+  "minAppVersion": "0.2.0"
+}

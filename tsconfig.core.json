@@ -10,7 +10,8 @@
     "exactOptionalPropertyTypes": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src/domain", "src/application"]
 }

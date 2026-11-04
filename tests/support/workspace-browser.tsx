@@ -17,7 +17,10 @@ import { createCompatibilityStore } from '../../src/state/compatibility-store';
 import { createSessionController } from '../../src/application/session-controller';
 import type { SessionIdentity } from '../../src/application/session-controller';
 import { createSessionStore } from '../../src/state/session-store';
-import { clientCapabilities } from '../../src/app/client-capabilities';
+import {
+  APP_VERSION,
+  clientCapabilities,
+} from '../../src/app/client-capabilities';
 import { SessionView } from '../../src/ui/SessionView';
 import { WorkspaceError } from '../../src/application/workspace-port';
 import { attachCompatibilityLifecycle } from '../../src/infrastructure/browser/compatibility-lifecycle';
@@ -126,7 +129,7 @@ root.render(
     }}
     retryCompatibility={() => gate.recheck()}
     reload={() => location.reload()}
-    appVersion="0.1.0"
+    appVersion={APP_VERSION}
     buildId="synthetic-workspace"
     workspace={{
       projection: workspaceProjection,

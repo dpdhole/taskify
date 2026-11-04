@@ -123,7 +123,7 @@ export async function publishCandidate(
 async function main(args) {
   if (!args.length || args.includes('--help')) {
     console.log(
-      'Validate: node tools/publish-compatibility.mjs --candidate FILE\nPublish: add --apply --account EMAIL --bootstrap OR --expected-revision N; project is pinned. No login prompts or automatic retries.',
+      'Validate: node tools/publish-compatibility.mjs --candidate FILE [--rules-profile compatibility|workspace]\nPublish: add --apply --account EMAIL --bootstrap OR --expected-revision N; project is pinned. No login prompts or automatic retries.',
     );
     return;
   }
@@ -133,6 +133,7 @@ async function main(args) {
     if (
       ![
         '--candidate',
+        '--rules-profile',
         '--apply',
         '--account',
         '--bootstrap',
@@ -152,7 +153,14 @@ async function main(args) {
   const candidate = decodeContract(
     JSON.parse(fs.readFileSync(options['--candidate'], 'utf8')),
   );
-  const client = clientCapabilities(target.projectId, 'operator-validation');
+  const profile = options['--rules-profile'] ?? 'compatibility';
+  if (!['compatibility', 'workspace'].includes(profile))
+    throw Error('Unknown Rules profile');
+  const client = clientCapabilities(
+    target.projectId,
+    'operator-validation',
+    profile === 'workspace',
+  );
   const contractSha256 = crypto
     .createHash('sha256')
     .update(JSON.stringify(candidate))
@@ -218,14 +226,19 @@ async function main(args) {
   const ruleset = (await rules.get('/' + release.rulesetName)).body;
   const files = ruleset.source?.files || [];
   const localSource = fs
-    .readFileSync('firestore.compatibility.rules', 'utf8')
+    .readFileSync(
+      profile === 'workspace'
+        ? 'firestore.workspace.rules'
+        : 'firestore.compatibility.rules',
+      'utf8',
+    )
     .replaceAll('\r\n', '\n');
   if (
     files.length !== 1 ||
     files[0].content.replaceAll('\r\n', '\n') !== localSource
   )
     throw Error(
-      'Deployed Rules do not match reviewed compatibility-only Rules',
+      'Deployed Rules do not match the explicitly selected reviewed Rules profile',
     );
   const api = new Client({
     urlPrefix: 'https://firestore.googleapis.com',
@@ -240,6 +253,7 @@ async function main(args) {
     revision: result.revision,
     serverRelease: result.serverRelease,
     contractSha256,
+    rulesProfile: profile,
     rulesetName: release.rulesetName,
     rulesSourceSha256: crypto
       .createHash('sha256')
