@@ -2,6 +2,20 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-04 — Slice5 workspace runtime implemented locally
+
+- [Runtime checkpoint](slices/05-workspace-provisioning-implementation.md): guarded
+ 24-stage transaction adapter, concurrent/uncertain-result reconciliation, shared
+ runtime, session-bound controller, cleanup/fences and Loading/recovery/ready UI.
+- Explicit timezone/profile recovery preserves first committed values. Completed
+ accounts do not reseed removed ordinary defaults.22 approved icon keys resolve to
+ pinned self-hosted Rounded assets; two legacy keys retain documented aliases.
+- Local verification and limits are recorded in the checkpoint's evidence files.
+ Slice5 stays open; Slice4 stays held. No cloud, staging, commit or push.
+- Actual version/revision/release bounds and coordinated Rules/contract/client
+ publication remain release gates. Current cloud policy blocks the expanded Auth
+ build, as intended; this is not ready for isolated Hosting deployment.
+
 ## 2026-11-04 — Slice5 initialization Rules finalized for source commit
 
 - [Rules checkpoint](slices/05-workspace-provisioning-rules.md): generated production
@@ -193,6 +207,178 @@
   codec, deletion fence and Rules feasibility remain unresolved before dependent
   implementation. Slice4 remains open/on hold and the testing hold continues.
 - Documentation only; no code, tests, staging, commit, push or cloud changes.
+
+## 2026-11-04 — Slice9 final review and staging
+
+- Owner requested final checking and staging preparation. Seven documentation files are staged for review, including [Slice9 final checkpoint](slices/09-onboarding-tasks-manual.md#final-review-and-staging-checkpoint--4-november-2026).
+- Confirmed accepted design consistency and corrected acceptance wording: ordinary Task access is blocked between provisioning stages; ordinary ownership actions apply after readiness. Documentation links/anchors and whitespace checked.
+- No application tests/builds, implementation, commit, push or cloud action. Exact engineering proof remains pending; Slice4 hold is unchanged. Earlier entries below are historical checkpoints superseded by the accepted design and this staging record.
+
+## 2026-11-04 — Slice9 revised G1–G8 accepted; design closure
+
+- Owner accepted every revised G1–G8 recommendation. [Slice9 design closure](slices/09-onboarding-tasks-manual.md#design-closure--4-november-2026) records blocking provisioning, verified ready transition, reserved seed identities, independent completion retention, scoped initializer admission, public manual delivery, safe new-target links and pinned-bundle recovery/rollback.
+- All identified design decisions are resolved. Exact persistence/Rules/cleanup/compatibility/manual-build contracts and passing validation remain implementation work; proposed starter prose must match the released feature set.
+- Documentation only; no implementation/tests/builds, staging, commit, push or cloud actions. Slice4 remains open/on hold; overall platform feasibility remains INCONCLUSIVE.
+
+## 2026-11-04 — Slice9 N1–N8 accepted; gaps re-examined
+
+- Owner accepted N1–N8 with blocking onboarding/provisioning progress until complete. Manual-route restrictions apply only to relative links; permitted absolute links remain allowed. All permitted links request a new target tab/window.
+- [Revised G1–G8](slices/09-onboarding-tasks-manual.md#gap-review--4-november-2026) preserve no-backfill, atomic seed completion and independent markers. Require final readiness checks and narrowly scoped initializer admission; unsupported/pinned-bundle recovery stays blocking. Revised gaps remain recommendations for review.
+- Updated controlling detailing/specification and dependency amendments. Documentation only; no code/tests, staging, commit, push or cloud actions. Slice4 hold remains unchanged.
+
+## 2026-11-04 — Slice9 gap review prepared
+
+- [Slice9 gap review](slices/09-onboarding-tasks-manual.md#gap-review--4-november-2026) adds G1–G8 recommendations: precise enrollment boundary, reserved seed identities, independent completion retention, honest template-integrity boundary, manual routing, cross-release links, bounded recovery and pinned-bundle rollback.
+- N1–N8 and G1–G8 remain proposals; no owner acceptance inferred from continuation. Current Hosting catch-all is an implementation integration gap, not an existing manual route.
+- Documentation only; no tests, executable changes, staging, commit, push or cloud action. Slice4 hold remains unchanged.
+
+## 2026-11-04 — Slice9 detailing proposal prepared
+
+- [Three onboarding Tasks and initial manual](slices/09-onboarding-tasks-manual.md) is prepared for owner review against clean fetched main cf77bc4. Established scope is unchanged; N1–N8 concrete recommendations remain proposals.
+- Covers new-workspace eligibility, pinned bundles, atomic per-Task completion, no overwrite/backfill/resurrection, starter copy and required acceptance evidence. Same-origin public manual routes and a narrow relative-Markdown-link exception require owner agreement.
+- Documentation only; no implementation/tests, staging, commit, push or cloud actions. Slice4 hold remains unchanged.
+
+## 2026-11-04 — Slice8A all gap resolutions agreed
+
+- Owner explicitly agreed all remaining [A1–A10 recommendations](slices/08A-advanced-create.md#accepted-gap-resolutions--a1a10) after A3. All design gaps are resolved; engineering proof remains required.
+- More Details may open despite invalid/empty Title (not during pending/unknown creation), preserves input/errors, focuses Reference and announces expansion. One-way mode and dismissal guards remain; Create depends on validity, not optional-field changes.
+- Complete root/detail/receipt correlation, changed-intent handling only after outcome resolution, minimal-ID reload recovery and actual Rules/dependency/test authority are agreed. No draft restoration, partial creation or held-test bypass is implied.
+- Documentation review only: no code/tests, staging, commit, push or cloud actions. Implementation acceptance remains pending.
+
+## 2026-11-04 — Slice8A A3 creation receipt agreed
+
+- Owner agreed [A3](slices/08A-advanced-create.md#a3-accepted--atomic-creation-completion-receipt): Task root, required description and immutable minimal creation receipt commit atomically; receipt proves original completion despite later edits/lost acknowledgement.
+- Reuse operation receipts with type create; no copied Markdown, credentials, Activity Event or history UI. Rules atomicity, repeated-request reconciliation and trusted cleanup require implementation proof.
+- Remaining A1–A2/A4–A10 recommendations are documented for review, not inferred approved. Documentation only; no code/tests, staging, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8A Advanced Create detailing accepted and documented
+
+- Owner proceeded after amending the action to More Details and prohibiting Less/return to compact form. [Slice8A detailing](slices/08A-advanced-create.md) records one-way same-draft mobile full-screen/desktop large-modal expansion with retained fields/state.
+- No additional required fields without defaults: Title remains the only required user input; Reference/description empty, Important/Urgent Unset, Category/Location defaults unchanged. All preference/metadata values commit together in one Create, not separately.
+- Task2 root and any nonempty description1 child commit atomically with complete recovery correlation; no live Markdown preview, scheduling/lifecycle controls, partial Task patching or creation Activity Event. Update Rules, trusted cleanup and applicable validation evidence during implementation.
+- Documentation only; no code, tests, staging, commit, push or cloud actions. Existing Slice4 hold remains unchanged; overall platform feasibility remains INCONCLUSIVE.
+
+## 2026-11-04 — Slice8 D12 agreed; all design gaps resolved
+
+- Owner proceeded with [D12](slices/08-task-detail-metadata.md#d12-accepted--dependencies-and-validation-authority): actual dependency contracts, focused/adversarial/browser validation, schema/rollback/deletion evidence, unchanged Slice4 hold and separate cloud authority.
+- All D1–D12 design decisions are now resolved. Controlling baseline uses plain-text GFM, approved safe rendering and source-byte bound, coherent detail/root/receipt writes, lazy compatible schemas, valid-change Save, Refresh/Stay conflicts, per-Task serialization and account-safe recovery/navigation/read-only access.
+- Exact engineering contracts, pinned dependency checks and passing implementation evidence remain required; no feature acceptance or test-hold release is claimed. Seven docs restaged after consistency/whitespace/link review. No code, tests/builds, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8 D11 read-only boundaries approved
+
+- Owner approved [D11](slices/08-task-detail-metadata.md#d11-accepted--closeddeleted-read-only-boundaries): authorized Closed/deleted Task Detail is read-only with clear indicators, All Tasks scope unchanged and no early Reopen/Restore/Permanent Delete.
+- Remote editability loss blocks Save and Rules enforce it at commit. Metadata cannot mutate lifecycle/pause/outcome/system dates; missing/access-denied records do not disclose cached content or create replacements. Account deletion fences still apply.
+- Documentation restaged; no executable changes, tests, commit, push or cloud actions. D12 dependency/validation/test-authority is the final gap.
+
+## 2026-11-04 — Slice8 D10 navigation restoration approved
+
+- Owner approved [D10](slices/08-task-detail-metadata.md#d10-accepted--originating-list-restoration): capture real View/groups/anchor; restore still-valid context while confirmed edits immediately update membership/position. Use nearest surviving scroll position, not stale rows or forced Task jumps.
+- Deleted origin Views show guidance and an All Tasks choice; direct links use actual history. Panel/full-page/resize preserve identity/input/origin; Search restoration waits for its feature. Dirty/pending guards remain in force.
+- Documentation restaged; no code/tests, commit, push or cloud actions. D11 read-only Closed/deleted boundaries are next.
+
+## 2026-11-04 — Slice8 D9 input/account isolation accepted
+
+- Owner accepted [D9](slices/08-task-detail-metadata.md#d9-accepted--unsaved-input-and-account-isolation): temporary readiness failures preserve authorized input in memory; Save stays blocked. Same-account conflicts retain Refresh/Stay semantics.
+- Closed/deleted copying is allowed only while access remains authorized. Confirmed access loss, Logout or account switch clears/hides Task/editor content and invalidates callbacks. Minimal D8 recovery IDs may persist for authorized status checks, never draft-content restoration.
+- Documentation restaged; no code/tests, commit, push or cloud actions. D10 origin/list restoration is next.
+
+## 2026-11-04 — Slice8 D8 Save receipts approved
+
+- Owner approved [D8 outcome recovery](slices/08-task-detail-metadata.md#d8-accepted--immutable-save-completion-receipts): stable operation identity, atomic immutable minimal receipt and authoritative Check save status after timeout/reload.
+- Receipts identify original success despite later edits. Absent receipt does not prove cancellation; same-ID/original-version retry rechecks receipt on conflict. Missing Tasks are not recreated. Retain receipts with Task initially and include in permanent Task/account cleanup; no Activity Events or copied form content.
+- Documentation restaged; no code/tests, dependencies, commit, push or cloud actions. D9 input/account isolation is next.
+
+## 2026-11-04 — Slice8 D7 overlapping-edit behavior agreed
+
+- Owner agreed [D7 serialization](slices/08-task-detail-metadata.md#d7-accepted--one-editmutation-per-task): one dirty editor/mutation per Task, Stay/Discard on dirty switches, unchanged direct switches and no competing writes while pending/unknown.
+- Unknown outcome offers Check save status; preferences distinguish confirmed failure/conflict/unknown. Leaving retains tracking, Logout stays available and previously committed changes are never discarded.
+- Documentation restaged; no executable changes, tests, commit, push or cloud actions. D8 lost-acknowledgement recovery is next.
+
+## 2026-11-04 — Slice8 D6 simplified conflicts and Save gating
+
+- Owner removed the proposed conflict reapplication workflow for this single-user product and required Save only for valid actual changes. Case-only changes to user-defined text are valid; dirty detection cannot use lowercase search/sort keys.
+- [D6 contract](slices/08-task-detail-metadata.md#d6-accepted--valid-change-save-and-simple-conflict-recovery): reject stale Save, explain a fresh version exists and offer Refresh (discard/restart) or Stay (preserve authorized input without saving/rebasing). No Apply my changes, merge, overwrite or unchanged write/version/schema upgrade.
+- Unknown acknowledgement remains operation-recovery work, not a conflict shortcut. Earlier reapplication/no-op proposals below are superseded for Slice8 metadata/description. Documentation restaged; no code/tests, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8 D5 schema evolution approved
+
+- Owner approved [D5 compatible evolution](slices/08-task-detail-metadata.md#d5-accepted--compatible-schema-evolution): explicit retained Task1/2 readers, lazy transactional upgrade to2 on deliberate edit and independent description1/GFM format.
+- Missing legacy fields/description decode as empty without read rewrites. Enable schema2 creation/writers only after compatible readers/Rules, retire unproven older writers and establish a data-aware rollback floor. Unknown/malformed records are not reset or downgraded.
+- Design recorded/restaged; no migration, code, tests, commit, push or cloud publication. D6 conflict/reapplication/no-op behavior is next.
+
+## 2026-11-04 — Slice8 D4 storage/concurrency agreed
+
+- Owner agreed root Task metadata with a separate detail/description document, on-demand detail loading and shared root concurrency counter. Description Save atomically writes detail plus root version; metadata Save leaves detail untouched.
+- [D4 contract](slices/08-task-detail-metadata.md#d4-accepted--separate-description-and-aggregate-concurrency) uses a transactional root/detail editing baseline. No claim that independent listeners are atomic or that unchanged detail must be rewritten on metadata edits.
+- Schema-aware empty legacy descriptions, adversarial Rules/atomicity evidence and explicit trusted cleanup coverage remain required. D5 compatible schema rollout is next. Documentation restaged; no code/tests, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8 D3 safe GFM policy approved
+
+- Owner approved safe rendering and added tel: to https/http/mailto. [D3 contract](slices/08-task-detail-metadata.md#d3-accepted--safe-gfm-rendering) selects react-markdown/remark-gfm, no raw HTML or image fetch, relative labels without navigation, inert task lists, escaped code and contained tables.
+- HTTP(S) links use a new tab with noopener noreferrer; mailto/tel remain explicit browser/OS handlers. Renderer versions and adversarial/browser evidence remain implementation requirements. D4 storage/coherent versioning is next.
+- Related docs restaged; no dependencies installed, code/tests, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8 D2 byte contract approved
+
+- Owner approved [D2 source contract](slices/08-task-detail-metadata.md#d2-accepted--markdown-source-byte-contract): 65,536 UTF-8 bytes inclusive, CRLF/CR normalized to LF, other content preserved without trim/Unicode normalization, empty string for empty description and malformed-surrogate rejection before encoding.
+- Client validates size and Rules directly enforce string UTF-8 byte size; no client-reported count is trusted. Boundary/adversarial direct-write evidence remains pending implementation. D3 safe GFM rendering/URI/image policy is next.
+- Documentation restaged for review; no executable changes, tests, commit, push or cloud operations.
+
+## 2026-11-04 — Slice8 replaces WYSIWYG with plain-text GFM
+
+- Owner removed WYSIWYG; [Slice8 detailing](slices/08-task-detail-metadata.md) now uses plain-text Markdown authoring and rendered GFM in Task Detail. No rich-text editor, visual authoring toolbar or live preview. Tiptap was suggested, never approved or installed.
+- Persist Markdown source/format version; existing 64 KiB bound applies to UTF-8 source. D1 closes by scope reduction. Source-byte enforcement and safe rendering/link/image handling remain D2/D3; other save/concurrency/navigation gates remain.
+- GFM task-list checkboxes are noninteractive description notation, not Todos. Code does not execute; raw HTML is not interpreted. No remote image loading is authorized before resource policy closure.
+- Earlier WYSIWYG/structured-rich-text agreement is superseded. Related documentation restaged for review under existing authority; no executable edits, dependency installation, tests, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8 gap review completed; documentation staged
+
+- Owner requested pending-issue evaluation and preparation for stage. [Slice8 gap register](slices/08-task-detail-metadata.md#gap-evaluation--4-november-2026) lists twelve concrete implementation/security/integration gates without changing approved scope.
+- Clarified confirmed-only editor/shared-state updates, canonical no-op/intended patches, per-Task pending/dirty serialization and preservation of local input only within an authorized same-account context. No cross-account or access-loss draft disclosure is permitted.
+- Editor/node/link/paste policy, actual UTF-8/structure enforcement, metadata/detail versioning, schema rollout and operation-receipt/retention proof remain unresolved before coding/acceptance. No browser-only check or unchecked receipt is represented as server enforcement.
+- Seven documentation files staged for review. Whitespace, conflict-marker and local-link checks only; no executable edits, tests/builds, commit, push, cloud checks or deployment. Held Slice4 test authority is unchanged.
+
+## 2026-11-04 — Slice8 Task Detail/metadata detailing accepted and documented
+
+- Owner accepted [Slice8 detailing](slices/08-task-detail-metadata.md) and all eighteen recommendations. Explicit editors and individually committed tri-state preferences preserve the existing non-audited metadata contract; Advanced Create remains Slice8A.
+- Reference is optional single-line text up to 255 Unicode code points. WYSIWYG description uses allowlisted versioned structured content, maximum 64 KiB serialized UTF-8, with explicit Save/Cancel and no automatic rich-text merging.
+- Conflicts preserve intended edits and offer Reload latest / Apply my changes / Cancel. Dirty navigation, remote editability changes, archived references, unknown acknowledgement and actual-origin mobile/desktop restoration are specified.
+- Editor selection, rich-text schema/link/paste/size enforcement, metadata/detail storage, atomic versions/receipts and schema rollout remain implementation contracts requiring validation. Held Slice4 test scope is unchanged.
+- Documentation only in taskify-slice-detailing: no executable edits, tests, staging, commit, push or cloud actions. Overall platform feasibility remains INCONCLUSIVE.
+
+## 2026-11-04 — Slice7 documentation complete; staged for commit review
+
+- Owner requested documentation completion and review for commit. Seven files cover accepted Slice7 scope, concrete gap resolutions, Slice8A placement and Slice5A inventory extension.
+- Reconciled proposal-era wording, Task path/schema/null baseline and shared comparator references. Product scope is accepted; exact validation vectors, Rules/query proof, receipt/retention design, dependency implementations and held-test authority remain technical gates.
+- Whitespace and local documentation links checked. No executable files, application tests/builds, commit, push or cloud actions. Staging prepares review only; no implementation readiness claim.
+
+## 2026-11-04 — Slice7 concrete gap resolutions accepted
+
+- Owner accepted all gap-resolution recommendations. [Slice7 detailing](slices/07-quick-create-basic-list.md#accepted-gap-resolutions--4-november-2026) now records them as the accepted design baseline; previous proposal entries below are historical.
+- Approved deterministic NFC/lowercase Title ordering with original Title/ID ties, Task path and initial schema/concurrency version 1, explicit physical nulls for semantic absence, minimal persistent recovery IDs without durable form drafts, and commit-time/inventory safeguards.
+- Advanced Create is approved as Slice8A after Task Detail/metadata editing and before onboarding; other slice numbers remain stable. More stays absent in Slice7.
+- Exact validation/Rules/query/operation-receipt and retention proofs remain pending; acceptance of design does not establish implementation readiness or lift the Slice4 testing hold. Documentation only; no executable edits, tests, staging, commit, push or cloud actions.
+
+## 2026-11-04 — Slice7 concrete gap-resolution proposals prepared
+
+- Continued documentation review with [concrete proposals](slices/07-quick-create-basic-list.md#accepted-gap-resolutions--4-november-2026) for Title validation/collation, Task physical null representation and versions, eligible loading, minimal persistent recovery references and safe retry after reload.
+- Proposed comparator uses NFC/lowercase Unicode code-point ordering with original Title/ID ties; no locale or accent stripping. Proposed recovery stores IDs only, not form content/credentials, and does not promise durable draft restoration.
+- Proposed Advanced Create checkpoint is Slice8A after metadata editing; it is not an approved sequence change. Exact operation-receipt/retention, Rules enforcement and test-authority proofs remain open before implementation/acceptance.
+- No new owner approval of these alternatives is claimed. Documentation only; no executable changes, tests, staging, commit, push or cloud actions.
+
+## 2026-11-04 — Slice7 documentation gap review
+
+- Owner requested documentation updates and gap review. [Slice7 gap register](slices/07-quick-create-basic-list.md#gap-review--4-november-2026) separates twelve technical/product integration items from accepted scope; no new approval of proposed alternatives is claimed.
+- Clarified pending-write exclusion, acknowledgement/listener deduplication, archived-reference visibility, modal navigation state and stale Show Task behavior. Reload recovery must reacquire session admission; absent cloud reads never imply cancellation of a pending original create.
+- Remaining design gates include exact text/Title enforcement, absent-field query representation, operation recovery retention/storage failure, commit-time classification/fence races and concrete schema/deletion/Rules dependencies. Advanced Create delivery needs an explicit later checkpoint; exact collation remains for review. FAB accessibility and held-test scope require validation/appropriate authority.
+- Documentation only; no executable changes, tests, staging, commit, push or cloud actions. Implementation readiness is not claimed.
+
+## 2026-11-04 — Slice7 Quick Create/basic list detailing accepted
+
+- Owner approved [Slice7 detailing](slices/07-quick-create-basic-list.md) and all twelve recommendations: required trimmed single-line Title up to 255 Unicode code points, duplicate titles, explicit Category/Location defaults, Draft/unpaused/Unset state and no creation Activity Event.
+- Responsive Quick Create omits More pending Advanced Create. Minimal All Tasks retains Category grouping, complete eligible metadata, collapsed groups, counts and deterministic Due/Title/ID ordering. Show Task expands its target Category; no fake Detail, Search, query engine or Saved View execution is added.
+- Stable Task/operation recovery, classification revalidation, current admission and deletion-fence checks plus Rules/schema/deletion-inventory coverage are required. Concrete implementation contracts/validation remain pending; the Slice4 testing hold is unchanged.
+- Documented in taskify-slice-detailing after confirming origin/main at 8320898. Documentation only: no executable changes, tests, staging, commit, push or cloud actions. Overall feasibility remains INCONCLUSIVE.
 
 ## 2026-11-02 — Slice5 integration amendment documented after main update
 

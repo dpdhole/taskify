@@ -1,3 +1,5 @@
+import { WorkspaceView } from './WorkspaceView';
+import type { WorkspacePresentation } from './WorkspaceView';
 import type { SignInProvider } from '../application/session-controller';
 import { useEffect, useRef } from 'react';
 import { useStore } from 'zustand';
@@ -18,6 +20,7 @@ export function SessionView({
   appVersion,
   buildId,
   methods,
+  workspace,
 }: {
   projection: ReturnType<typeof createSessionStore>;
   compatibility: ReturnType<typeof createCompatibilityStore>;
@@ -29,6 +32,7 @@ export function SessionView({
   appVersion: string;
   buildId: string;
   methods?: SignInMethodsPresentation | undefined;
+  workspace?: WorkspacePresentation | undefined;
 }) {
   const state = useStore(projection.store, (s) => s.state);
   const gate = useStore(compatibility.store, (s) => s.state);
@@ -117,14 +121,31 @@ export function SessionView({
         <p role="status" aria-live="polite" className={styles.status}>
           {message}
         </p>
-        {state.status === 'signed-in' && methods && (
+        {state.status === 'signed-in' && workspace && (
+          <>
+            <WorkspaceView
+              key={(state.identity?.uid ?? '') + ':' + state.generation}
+              workspace={workspace}
+              ready={state.protectedReady}
+            />
+            {methods && (
+              <WorkspaceMethods
+                workspace={workspace}
+                methods={methods}
+                identity={state.identity}
+                ready={state.protectedReady}
+              />
+            )}
+          </>
+        )}
+        {state.status === 'signed-in' && methods && !workspace && (
           <SignInMethodsView
             methods={methods}
             identity={state.identity}
             ready={state.protectedReady}
           />
         )}
-        {state.protectedReady && !methods && (
+        {state.protectedReady && !methods && !workspace && (
           <section
             aria-label="Authenticated account"
             className={styles.account}
@@ -232,5 +253,28 @@ export function SessionView({
         </details>
       </footer>
     </main>
+  );
+}
+
+function WorkspaceMethods({
+  workspace,
+  methods,
+  identity,
+  ready,
+}: {
+  workspace: WorkspacePresentation;
+  methods: SignInMethodsPresentation;
+  identity: import('../application/session-controller').SessionIdentity | null;
+  ready: boolean;
+}) {
+  const state = useStore(workspace.projection.store, (value) => value.state);
+  if (state.status !== 'ready' || !ready) return null;
+  return (
+    <SignInMethodsView
+      methods={methods}
+      identity={identity}
+      ready={ready}
+      workspaceReady
+    />
   );
 }

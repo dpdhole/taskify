@@ -256,11 +256,91 @@ future forms, Search, creation or query execution already work. Home/View shells
 and unavailable entries must communicate current availability honestly. This is
 accepted design, not an implemented or validated application shell.
 
+## Task capture — Slice7 accepted detailing
+
+[Slice7 detailing](slices/07-quick-create-basic-list.md) introduces UID-owned Draft
+creation with stable Task/operation correlation, cloud-confirmed acknowledgement
+and reconciliation before retry. Title uses a 255-Unicode-code-point bound; prove
+consistent domain/Rules enforcement before acceptance. No creation Activity Event
+is required. Minimal All Tasks derives Category-grouped rows/counts from complete
+eligible metadata and explicit sorting, not a partial render or cache. Extend
+schema policy and Rules plus Slice5A's trusted cleanup inventory alongside Tasks.
+The [Slice7 gap review](slices/07-quick-create-basic-list.md#gap-review--4-november-2026)
+requires pending-write exclusion/deduplication, query completeness for semantic
+absence, fresh admission for same-UID operation recovery, readable archived
+references and commit-time deletion/classification checks. These are unresolved
+implementation proofs, not an existing Task schema or validated integrity boundary.
+Accepted refinements include physical nulls, initial schema/concurrency 1,
+NFC/lowercase code-point Title sorting with original Title/ID ties, minimal durable
+recovery IDs without form content, and separately delivered Advanced Create as
+Slice8A. This is accepted design, not a deployed Task schema or implementation.
+
+## Task Detail and metadata — Slice8 accepted detailing
+
+[Slice8 detailing](slices/08-task-detail-metadata.md) introduces explicit metadata
+editors, individual tri-state preference commits and plain-text GFM description
+source with a 64 KiB UTF-8 bound, rendered only in Task Detail. WYSIWYG is removed. Load descriptions on demand, outside lightweight
+list metadata. Choose and validate storage split/coherent versions, transactional
+Save/receipt contracts, Markdown/link/image rendering policy and compatible schema before
+coding. Slice8 optimistic conflicts reject stale saves and offer Refresh (discard/restart)
+or Stay; no reapplication/merge. Save is enabled only for valid changes, and user
+text dirty detection is case-sensitive; unchanged input writes nothing. Metadata changes cannot mutate
+lifecycle or require/invent Activity Events. Update deletion inventory if new detail/
+operation families appear. The owner selected react-markdown/remark-gfm (exact versions pending) and D4:
+root Task metadata plus detail/description, shared root concurrency counter and
+transactional coherent reads; atomic detail/root-version Save. Description is
+explicitly included in account cleanup. The
+[Slice8 gap register](slices/08-task-detail-metadata.md#gap-evaluation--4-november-2026)
+requires actual Markdown-source byte enforcement proof, explicit link/image policy,
+coherent versioned saves and operation correlation robust to later edits. Preserve
+same-account conflict input without leaking drafts after Logout/access loss.
+Document review/staging does not establish these integrity boundaries.
+
+### Slice8 design closure — D1–D12
+
+All twelve design gaps are resolved as recorded in Slice8. Markdown source and
+safe rendering replace WYSIWYG; stale Save uses Refresh/Stay, not reapplication.
+Valid case-sensitive changes alone enable Save. Dependencies, exact schemas/Rules
+atomicity and runtime tests still require proof. The Slice4 test hold and separate
+cloud authority remain unchanged; design closure is not feature acceptance.
+
+### Slice8 Save outcome recovery — D8 approved
+
+Save atomically writes an immutable minimal operation receipt with root/detail
+changes, allowing authoritative outcome verification despite later edits. Retry
+preserves operation identity/original version; absent receipt alone does not prove
+cancellation. Recheck receipt on a retry conflict. Keep receipt with Task initially
+and include it in trusted cleanup; never recreate a missing Task on metadata retry.
+No Activity Event, copied description or permanent audit service is added.
+
+### Slice8 schema rollout — D5 agreed
+
+Read retained Task schemas1/2 explicitly; schema1 Reference/description decode as
+empty without writes. Upgrade to Task2 only transactionally during deliberate
+edits; new creation uses Task2 after permitted writer activation. Description
+schema1 with explicit GFM format evolves independently. Permit missing description
+as empty under declared schemas, reject malformed/unknown data, stage compatible
+readers/Rules before writers and record a data-aware rollback floor. Retire older
+writers unless preservation is proven. No bulk migration/cloud rollout is implied.
+
+## Advanced Create — Slice8A accepted detailing
+
+[Slice8A](slices/08A-advanced-create.md) expands Quick Create one-way via More Details
+while retaining one unsaved draft. Optional Reference/preferences/GFM use already
+accepted Task2/description1 codecs. Preferences commit only with Create, not via
+Task Detail's individual preference mutations. Atomically create root and required
+description child, with operation correlation sufficient to verify the complete
+outcome after lost acknowledgement; root existence alone is insufficient. A3
+selects an immutable creation completion receipt atomic with root/required detail;
+reuse the receipt mechanism with type create and no copied description. No new
+version solely for exposing existing fields, lifecycle side effects or Activity
+Event. Extend Rules and trusted cleanup for actual create/detail/recovery records.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |
 |---|---|---|
-| Task | User-owned root; Draft/In Progress/Closed, independent Pause, closure outcome, Deleted Date and concurrency metadata | User-scoped Task collection proposed; final metadata/detail split open |
+| Task | User-owned root; Draft/In Progress/Closed, independent Pause, closure outcome, Deleted Date and concurrency metadata | Slice7 accepts users/{uid}/tasks/{taskId}, initial schema/concurrency 1 and physical nulls for semantic absence; exact required keys/Rules proof pending |
 | Todo | Task-owned checklist; no comments, Entries or attachments | Task child collection proposed |
 | Discussion Entry | Task-owned editable plaintext comment; Discussion-owned external links | Child records/link placement to detail |
 | Activity Event | Task-owned immutable structured system event | Child collection proposed; mandatory events paired atomically with audited effects |

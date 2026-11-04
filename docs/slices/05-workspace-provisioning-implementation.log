@@ -1,0 +1,378 @@
+Slice5 local implementation verification — 2026-11-04
+Source baseline 0c8db30 plus uncommitted implementation.
+Combined attempt:69 integration passed;47 browser passed/2 failed.
+Final affected reruns:9 workspace browser passed;12 adapter integration passed.
+Distinct accepted totals:364 unit/component,70 integration,49 browser.
+Two preflight unit cases excluded to preserve preview5173.
+Failed fixture attempts are not acceptance results; focused reruns supersede them.
+Local Auth/data only; required static Google iframe JS allowed in SDK tests.
+No cloud publication or external provider authentication.
+
+===== unit =====
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  25 passed (25)
+      Tests  364 passed (364)
+   Start at  19:02:49
+   Duration  31.53s (import 31%, transform 27%, environment 22%, tests 12%, setup 8%, worker 1%)
+
+
+
+===== verification =====
+
+> taskify@0.1.0 test:workspace:local
+> node tools/run-provisioning-stage-probe.mjs --workspace
+
+Synthetic workspace verification; loopback services only; preview5173 untouched
+i  emulators: Starting emulators: auth, firestore, hosting
+i  emulators: Detected demo project ID "demo-taskify-provisioning-stage", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator was started in standard edition.
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  hosting[demo-taskify-provisioning-stage]: Serving hosting files from: dist
++  hosting[demo-taskify-provisioning-stage]: Local server: http://127.0.0.1:5000
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/run-provisioning-stage-probe.mjs --tests
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+i  hosting: 127.0.0.1 - - [04/Nov/2026:13:25:10 +0000] "GET / HTTP/1.1" 200 392 "-" "node"
+i  hosting: 127.0.0.1 - - [04/Nov/2026:13:25:10 +0000] "GET /direct-link HTTP/1.1" 200 392 "-" "node"
+!  Multiple projectIds are not recommended in single project mode. Requested project ID demo-taskify-foundation, but the emulator is configured for demo-taskify-provisioning-stage. To opt-out of single project mode add/set the '"singleProjectMode"' false' property in the firebase.json emulators config.
+
+ Test Files  5 passed (5)
+      Tests  69 passed (69)
+   Start at  18:55:07
+   Duration  76.45s (tests 99%, import 1%)
+
+[WebServer] (node:30480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 49 tests using 1 worker
+
+(node:480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google success (10.6s)
+  ok  2 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google wrong-account (4.2s)
+  ok  3 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google logout (6.0s)
+  ok  4 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: google account-switch (6.8s)
+  ok  5 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft success (3.9s)
+  ok  6 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft wrong-account (4.4s)
+  ok  7 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft logout (6.8s)
+  ok  8 tests\e2e\redirect-startup.spec.ts:30:5 › isolated redirect probe: microsoft account-switch (7.5s)
+  ok  9 tests\e2e\session.spec.ts:19:3 › SDK session persists across refresh and supports gated Logout at 390px (3.9s)
+  ok 10 tests\e2e\session.spec.ts:19:3 › SDK session persists across refresh and supports gated Logout at 1280px (3.8s)
+  ok 11 tests\e2e\session.spec.ts:82:1 › SDK propagates identity changes and Logout across tabs without mixing account state (4.5s)
+  ok 12 tests\e2e\session.spec.ts:140:3 › Google button completes an emulator popup and persists the session (4.1s)
+  ok 13 tests\e2e\session.spec.ts:185:3 › cancelling a pending Google popup rejects its late result (3.6s)
+  ok 14 tests\e2e\session.spec.ts:234:3 › blocked Google popup offers explicit redirect and restores the emulator return (4.1s)
+  ok 15 tests\e2e\session.spec.ts:275:3 › Logout in another tab invalidates an unfinished Google popup (6.7s)
+  ok 16 tests\e2e\session.spec.ts:140:3 › Microsoft button completes an emulator popup and persists the session (3.8s)
+  ok 17 tests\e2e\session.spec.ts:185:3 › cancelling a pending Microsoft popup rejects its late result (4.1s)
+  ok 18 tests\e2e\session.spec.ts:234:3 › blocked Microsoft popup offers explicit redirect and restores the emulator return (4.5s)
+  ok 19 tests\e2e\session.spec.ts:275:3 › Logout in another tab invalidates an unfinished Microsoft popup (6.2s)
+  ok 20 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 320px (2.2s)
+  ok 21 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 390px (2.3s)
+  ok 22 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 768px (2.3s)
+  ok 23 tests\e2e\session.spec.ts:327:3 › centered login presentation and keyboard access at 1280px (2.6s)
+  ok 24 tests\e2e\session.spec.ts:380:3 › server-refreshed sign-in methods stay session-bound at 390px (2.4s)
+  ok 25 tests\e2e\session.spec.ts:380:3 › server-refreshed sign-in methods stay session-bound at 1280px (2.4s)
+  ok 26 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: success (3.4s)
+  ok 27 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: wrong-account (3.0s)
+  ok 28 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: cancel (2.9s)
+  ok 29 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: redirect (4.9s)
+  ok 30 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: visibility-before-result (3.0s)
+  ok 31 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: visibility-after-result (3.2s)
+  ok 32 tests\e2e\session.spec.ts:479:5 › Google fresh current-account proof: visibility-wrong-account (3.6s)
+  ok 33 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: success (3.7s)
+  ok 34 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: wrong-account (2.9s)
+  ok 35 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: cancel (2.9s)
+  ok 36 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: redirect (4.4s)
+  ok 37 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: visibility-before-result (3.1s)
+  ok 38 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: visibility-after-result (3.0s)
+  ok 39 tests\e2e\session.spec.ts:479:5 › Microsoft fresh current-account proof: visibility-wrong-account (3.1s)
+  ok 40 tests\e2e\shared-auth-firestore.spec.ts:22:1 › shared Auth and Firestore settle provider checks without primary token notifications or a recovery loop (3.6s)
+  ok 41 tests\e2e\workspace.spec.ts:48:3 › single-provider workspace setup, reload and Logout at 390 (5.8s)
+  ok 42 tests\e2e\workspace.spec.ts:48:3 › single-provider workspace setup, reload and Logout at 1280 (6.0s)
+  ok 43 tests\e2e\workspace.spec.ts:85:1 › invalid timezone requires explicit recovery and never silently writes UTC (5.5s)
+  ok 44 tests\e2e\workspace.spec.ts:112:1 › invalid optional profile requires explicit omission, then setup can finish (5.6s)
+  ok 45 tests\e2e\workspace.spec.ts:132:1 › lost acknowledgement is checked before resuming without replaying the committed stage (5.5s)
+  ok 46 tests\e2e\workspace.spec.ts:157:1 › compatibility revocation stops writes, then fresh admission resumes committed progress (6.1s)
+  ok 47 tests\e2e\workspace.spec.ts:191:1 › deletion fence blocks setup and hides workspace content while preserving Logout (2.8s)
+[WebServer] 6:59:59 pm [vite] (client) [console.warn] [2026-11-04T13:29:59.822Z]  @firebase/firestore: Firestore (13.1.0): RestConnection RPC 'Commit' 0x5765fc24 failed with error:  {"code":"permission-denied","name":"FirebaseError"} url:  http://127.0.0.1:8080/v1/projects/demo-taskify-workspace-browser/databases/(default)/documents:commit?key=synthetic-key request: {"writes":[{"update":{"name":"projects/demo-taskify-workspace-browser/databases/(default)/documents/users/tMTmVSl30EJ7ICRDXCWhxZr87e2I/initialization/workspace","fields":{"schemaVersion":{"integerValue":"1"},"recordVersion":{"integerValue":"1"},"templateVersion":{"integerValue":"1"},"status":{"stringValue":"initializing"}}},"updateTransforms":[{"fieldPath":"createdAt","setToServerValue":"REQUEST_TIME"},{"fieldPath":"updatedAt","setToServerValue":"REQUEST_TIME"}],"currentDocument":{"exists":false}},{"update":{"name":"projects/demo-taskify-workspace-browser/databases/(default)/documents/users/tMTmVSl30EJ7ICRDXCWhxZr87e2I/profile/main","fields":{"schemaVersion":{"integerValue":"1"},"recordVersion":{"integerValue":"1"},"displayName":{"stringValue":"Workspace Google"}}},"updateTransforms":[{"fieldPath":"createdAt","setToServerValue":"REQUEST_TIME"},{"fieldPath":"updatedAt","setToServerValue":"REQUEST_TIME"}],"currentDocument":{"exists":false}},{"update":{"name":"projects/demo-taskify-workspace-browser/databases/(default)/documents/users/tMTmVSl30EJ7ICRDXCWhxZr87e2I/settings/main","fields":{"schemaVersion":{"integerValue":"1"},"recordVersion":{"integerValue":"1"},"timezone":{"stringValue":"UTC"}}},"updateTransforms":[{"fieldPath":"createdAt","setToServerValue":"REQUEST_TIME"},{"fieldPath":"updatedAt","setToServerValue":"REQUEST_TIME"}],"currentDocument":{"exists":false}},{"update":{"name":"projects/demo-taskify-workspace-browser/databases/(default)/documents/users/tMTmVSl30EJ7ICRDXCWhxZr87e2I/initializationStages/base","fields":{"schemaVersion":{"integerValue":"1"},"templateVersion":{"integerValue":"1"}}},"updateTransforms":[{"fieldPath":"completedAt","setToServerValue":"REQUEST_TIME"}],"currentDocument":{"exists":false}},{"verify":"projects/demo-taskify-workspace-browser/databases/(default)/documents/accountDeletion/tMTmVSl30EJ7ICRDXCWhxZr87e2I","currentDocument":{"exists":false}}]}
+  x  48 tests\e2e\workspace.spec.ts:216:3 › real SDK Google emulator sign-in provisions on the shared database and survives reload (33.5s)
+(node:5832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  49 tests\e2e\workspace.spec.ts:216:3 › real SDK Microsoft emulator sign-in provisions on the shared database and survives reload (1.0m)
+
+
+  1) tests\e2e\workspace.spec.ts:216:3 › real SDK Google emulator sign-in provisions on the shared database and survives reload
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Workspace ready', exact: true })
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Workspace ready', exact: true }) with timeout 30000ms
+      - waiting for getByRole('heading', { name: 'Workspace ready', exact: true })
+
+
+      239 |       await expect(
+      240 |         page.getByRole('heading', { name: 'Workspace ready', exact: true }),
+    > 241 |       ).toBeVisible({ timeout: 30000 });
+          |         ^
+      242 |       const identity = await page.evaluate(() =>
+      243 |         window.workspaceFixture.sessionUid(),
+      244 |       );
+        at C:\DD\Projects\TaskifyIt\taskify-slice-implementation\tests\e2e\workspace.spec.ts:241:9
+
+    Error Context: test-results\workspace-real-SDK-Google--68ef9-atabase-and-survives-reload\error-context.md
+
+    Error Context: test-results\workspace-real-SDK-Google--68ef9-atabase-and-survives-reload\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-real-SDK-Google--68ef9-atabase-and-survives-reload\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\workspace-real-SDK-Google--68ef9-atabase-and-survives-reload\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests\e2e\workspace.spec.ts:216:3 › real SDK Microsoft emulator sign-in provisions on the shared database and survives reload
+
+    Test timeout of 60000ms exceeded.
+
+    Error Context: test-results\workspace-real-SDK-Microso-2825b-atabase-and-survives-reload\error-context.md
+
+    Error Context: test-results\workspace-real-SDK-Microso-2825b-atabase-and-survives-reload\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-real-SDK-Microso-2825b-atabase-and-survives-reload\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\workspace-real-SDK-Microso-2825b-atabase-and-survives-reload\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests\e2e\workspace.spec.ts:216:3 › real SDK Google emulator sign-in provisions on the shared database and survives reload
+    tests\e2e\workspace.spec.ts:216:3 › real SDK Microsoft emulator sign-in provisions on the shared database and survives reload
+  47 passed (5.2m)
+!  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  hosting: Stopping Hosting Emulator
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script ""C:/Program Files/nodejs/node.exe" tools/run-provisioning-stage-probe.mjs --tests" exited with code 1
+
+
+===== browser-final =====
+Synthetic workspace verification; loopback services only; preview5173 untouched
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-taskify-provisioning-stage", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator was started in standard edition.
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/run-provisioning-stage-probe.mjs --tests
+[WebServer] (node:31420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:29312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\workspace.spec.ts:48:3 › single-provider workspace setup, reload and Logout at 390 (13.4s)
+  ok 2 tests\e2e\workspace.spec.ts:48:3 › single-provider workspace setup, reload and Logout at 1280 (6.6s)
+  ok 3 tests\e2e\workspace.spec.ts:85:1 › invalid timezone requires explicit recovery and never silently writes UTC (4.8s)
+  ok 4 tests\e2e\workspace.spec.ts:112:1 › invalid optional profile requires explicit omission, then setup can finish (4.7s)
+  ok 5 tests\e2e\workspace.spec.ts:132:1 › lost acknowledgement is checked before resuming without replaying the committed stage (4.9s)
+  ok 6 tests\e2e\workspace.spec.ts:157:1 › compatibility revocation stops writes, then fresh admission resumes committed progress (6.0s)
+  ok 7 tests\e2e\workspace.spec.ts:191:1 › deletion fence blocks setup and hides workspace content while preserving Logout (2.6s)
+  ok 8 tests\e2e\workspace.spec.ts:216:3 › real SDK Google emulator sign-in provisions on the shared database and survives reload (8.1s)
+  ok 9 tests\e2e\workspace.spec.ts:216:3 › real SDK Microsoft emulator sign-in provisions on the shared database and survives reload (7.0s)
+
+  9 passed (1.1m)
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+
+===== adapter-final =====
+Synthetic workspace verification; loopback services only; preview5173 untouched
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-taskify-provisioning-stage", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator was started in standard edition.
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: "C:/Program Files/nodejs/node.exe" tools/run-provisioning-stage-probe.mjs --tests
+
+ RUN  v5.0.5 C:/DD/Projects/TaskifyIt/taskify-slice-implementation
+
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  19:06:52
+   Duration  24.42s (tests 99%, import 1%)
+
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+
+===== typecheck =====
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+
+===== boundaries =====
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 47 files
+
+
+===== rules-drift =====
+
+> taskify@0.1.0 check:workspace-rules
+> node tools/generate-workspace-rules.mjs --check
+
+Workspace Rules match pinned policy and tested template
+
+
+===== icons =====
+
+> taskify@0.1.0 check:workspace-icons
+> node tools/check-workspace-icons.mjs
+
+22 pinned self-hosted Rounded icons verified; unfilled/400/grade0/24px; two documented semantic aliases
+
+
+===== lint =====
+
+> taskify@0.1.0 lint
+> eslint src tests tools *.ts *.mjs
+
+
+
+===== format =====
+
+> taskify@0.1.0 format:check
+> prettier --check src tests tools package.json tsconfig*.json *.ts *.mjs index.html foundation.html firebase.local.json firebase.hosting.json firebase.compatibility.json config/**/*.json compatibility.html .prettierrc.json
+
+Checking formatting...
+All matched files use Prettier code style!
+
+
+===== build =====
+
+> taskify@0.1.0 build
+> node node_modules/vite/bin/vite.js build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 70 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist/assets/index-vU1t0-nM.js   695.89 kB │ gzip: 214.61 kB
+
+✓ built in 406ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+===== build-proof =====
+
+> taskify@0.1.0 build:proof
+> node node_modules/vite/bin/vite.js build --mode foundation
+
+vite v8.3.5 building client environment for foundation...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-proof/foundation.html                   0.41 kB │ gzip:   0.27 kB
+dist-proof/assets/foundation-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-proof/assets/foundation-DZgjg7Aa.js   785.08 kB │ gzip: 241.52 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 304ms
+
+
+===== build-compatibility =====
+
+> taskify@0.1.0 build:compatibility
+> node node_modules/vite/bin/vite.js build --mode compatibility
+
+vite v8.3.5 building client environment for compatibility...
+transforming...
+✓ 46 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-compatibility/compatibility.html                   0.42 kB │ gzip:   0.27 kB
+dist-compatibility/assets/compatibility-I7l8Jcwq.css    0.66 kB │ gzip:   0.41 kB
+dist-compatibility/assets/compatibility-p5SzTqwl.js   711.13 kB │ gzip: 218.61 kB
+
+✓ built in 308ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+===== build-auth =====
+
+> taskify@0.1.0 build:auth
+> node node_modules/vite/bin/vite.js build --mode auth
+
+vite v8.3.5 building client environment for auth...
+transforming...
+✓ 70 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-auth/index.html                   0.39 kB │ gzip:   0.26 kB
+dist-auth/assets/index-Cel9E0B9.css    4.19 kB │ gzip:   1.40 kB
+dist-auth/assets/index-UwJISweb.js   859.20 kB │ gzip: 260.98 kB
+
+✓ built in 359ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+===== bundles =====
+dist: 69 modules; isolation verified
+dist-proof: 115 modules; isolation verified
+dist-compatibility: 45 modules; isolation verified
+dist-auth: 69 modules; isolation verified

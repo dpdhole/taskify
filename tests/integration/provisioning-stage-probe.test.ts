@@ -57,7 +57,9 @@ beforeAll(async () => {
       host: '127.0.0.1',
       port: 8080,
       rules: fs.readFileSync(
-        process.env.TASKIFY_PROVISIONING_POLICY === 'production'
+        ['production', 'workspace'].includes(
+          process.env.TASKIFY_PROVISIONING_POLICY ?? '',
+        )
           ? 'firestore.workspace.rules'
           : 'tests/support/provisioning-stage-probe.rules',
         'utf8',

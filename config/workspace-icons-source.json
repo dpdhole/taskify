@@ -1,0 +1,146 @@
+{
+  "family": "Material Symbols Rounded",
+  "icons": [
+    {
+      "file": "public/icons/material-symbols-rounded/family_restroom.svg",
+      "name": "family_restroom",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/family_restroom/materialsymbolsrounded/family_restroom_24px.svg",
+      "sha256": "b755d39bf1dac9929a3e978b3daeeedeb54306b8594920bcbaeead29f9069e16"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/wallet.svg",
+      "name": "wallet",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/wallet/materialsymbolsrounded/wallet_24px.svg",
+      "sha256": "6e3b7d1cbfa08306678ed02a1d0a46e16cfbc72d35e32d9fc84c7eec5dc60812"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/group.svg",
+      "name": "group",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/group/materialsymbolsrounded/group_24px.svg",
+      "sha256": "911624e04d36c60f9b1a8d9266df0eeb92fe764e852142e23d3f1a47489cd325"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/trending_up.svg",
+      "name": "trending_up",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/trending_up/materialsymbolsrounded/trending_up_24px.svg",
+      "sha256": "1b7ab42e79308d863a097d3d527fd061618068675bcede86dbbe0bbd0b1540c3"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/palette.svg",
+      "name": "palette",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/palette/materialsymbolsrounded/palette_24px.svg",
+      "sha256": "0b847ea803e92b6e1c792103c89e7448659cb001032ffd5699c1f956ca74f656"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/home_and_garden.svg",
+      "name": "home_and_garden",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/home_and_garden/materialsymbolsrounded/home_and_garden_24px.svg",
+      "sha256": "9fda1b4f9310a97303cff92153d68fa202cb8919080563956462a9279fa9da55"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/weekend.svg",
+      "name": "weekend",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/weekend/materialsymbolsrounded/weekend_24px.svg",
+      "sha256": "b5ed3916af4580e71e68a512a67d45d2f0df1f98571a89ae3ab3488878acb928"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/person.svg",
+      "name": "person",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/person/materialsymbolsrounded/person_24px.svg",
+      "sha256": "b60e9574bc2566ea0e72710cd40e4f61a00449130bdc258c0a1006af6857d727"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/celebration.svg",
+      "name": "celebration",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/celebration/materialsymbolsrounded/celebration_24px.svg",
+      "sha256": "d0f6d1348cf2c2f9a5d659f2d65fc8c36ce684bb3d99f49ead66943fa7cdb798"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/heart_plus.svg",
+      "name": "heart_plus",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/heart_plus/materialsymbolsrounded/heart_plus_24px.svg",
+      "sha256": "a1dcdd873fcd9d88c06749bb83cf67f5d712327c2c7177b28d67828171e36b15"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/work.svg",
+      "name": "work",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/work/materialsymbolsrounded/work_24px.svg",
+      "sha256": "5de01618f5799f5224cc28f0f4ac322df0ef7d75d0b68344a257d797a360603b"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/category.svg",
+      "name": "category",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/category/materialsymbolsrounded/category_24px.svg",
+      "sha256": "14a86a24d551efc734e7814d3542dbb329946666aa5a88bedbf894a8d556e7c1"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/fitness_center.svg",
+      "name": "fitness_center",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/fitness_center/materialsymbolsrounded/fitness_center_24px.svg",
+      "sha256": "948a05e5c14c6d7d48115b1e55980ef3d8b9f675368674efe4b9c7be002d5e0d"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/storefront.svg",
+      "name": "storefront",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/storefront/materialsymbolsrounded/storefront_24px.svg",
+      "sha256": "6f72edf132242c91135b01d7608e2f5d5eaf99eb34b74d62fcf70932020a4935"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/local_mall.svg",
+      "name": "local_mall",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/local_mall/materialsymbolsrounded/local_mall_24px.svg",
+      "sha256": "4176752934a7573a64b5a01d7b2894f51009ea697e49dc0707889644e69401e7"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/store.svg",
+      "name": "store",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/store/materialsymbolsrounded/store_24px.svg",
+      "sha256": "8b5a2445d49eb806ec42e41030fcad30c81a34c2bd6f1445349179886736b6e2"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/language.svg",
+      "name": "language",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/language/materialsymbolsrounded/language_24px.svg",
+      "sha256": "7bef4e741ed558c37c166b8f06c7abbc7c964e100057f6c725a7be40809113b0"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/local_pharmacy.svg",
+      "name": "local_pharmacy",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/local_pharmacy/materialsymbolsrounded/local_pharmacy_24px.svg",
+      "sha256": "4cf509a76d19dcb634a6cf19e13920173d47f7420748a4efb2699889f251f7ee"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/home.svg",
+      "name": "home",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/home/materialsymbolsrounded/home_24px.svg",
+      "sha256": "b29e5deb4467a06ec02ac358516fd8e5955c0d704fba8776f055b638cfbab607"
+    },
+    {
+      "file": "public/icons/material-symbols-rounded/school.svg",
+      "name": "school",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/school/materialsymbolsrounded/school_24px.svg",
+      "sha256": "4b19c6f8ffc399ca3f30fc230ab0e8b32eb7460a78a5ece4354a0f1a503266ee"
+    },
+    {
+      "sha256": "aa70db8571dce433f335b79399c9a53225943b0bf42eac1c42d7982e3255bd91",
+      "file": "public/icons/material-symbols-rounded/local_grocery_store.svg",
+      "symbol": "shopping_cart",
+      "name": "local_grocery_store",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/shopping_cart/materialsymbolsrounded/shopping_cart_24px.svg"
+    },
+    {
+      "sha256": "e4385e82c3e0b686407af7b0529c8076a4ade779b126302ab4f687a5e48424e0",
+      "file": "public/icons/material-symbols-rounded/business.svg",
+      "symbol": "apartment",
+      "name": "business",
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/apartment/materialsymbolsrounded/apartment_24px.svg"
+    }
+  ],
+  "opticalSize": 24,
+  "fill": 0,
+  "weight": 400,
+  "repository": "https://github.com/google/material-design-icons",
+  "revision": "10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7",
+  "license": "Apache-2.0",
+  "grade": 0
+}

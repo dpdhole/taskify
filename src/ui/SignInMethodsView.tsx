@@ -20,10 +20,12 @@ export function SignInMethodsView({
   methods,
   identity,
   ready,
+  workspaceReady = false,
 }: {
   methods: SignInMethodsPresentation;
   identity: SessionIdentity | null;
   ready: boolean;
+  workspaceReady?: boolean;
 }) {
   const state = useStore(methods.projection.store, (s) => s.state);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -65,10 +67,15 @@ export function SignInMethodsView({
   if (!isOpen)
     return ready ? (
       <>
-        <section aria-label="Authenticated account" className={styles.account}>
-          <p>{identity?.displayName || 'Signed in'}</p>
-          <p>Your workspace is not available yet.</p>
-        </section>
+        {!workspaceReady && (
+          <section
+            aria-label="Authenticated account"
+            className={styles.account}
+          >
+            <p>{identity?.displayName || 'Signed in'}</p>
+            <p>Your workspace is not available yet.</p>
+          </section>
+        )}
         <div className={styles.actions}>
           <button
             ref={entry}

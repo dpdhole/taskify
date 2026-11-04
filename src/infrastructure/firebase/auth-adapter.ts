@@ -262,6 +262,7 @@ export function createAuthAdapter(
             ? {
                 uid: user.uid,
                 ...(user.displayName ? { displayName: user.displayName } : {}),
+                ...(user.photoURL ? { photoUrl: user.photoURL } : {}),
                 ...(user.email ? { email: user.email } : {}),
               }
             : null;

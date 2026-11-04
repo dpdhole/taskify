@@ -15,6 +15,15 @@ export default defineConfig({
       command:
         '"' +
         process.execPath +
+        '" node_modules/vite/bin/vite.js --mode session-test --host 127.0.0.1 --port 5177 --strictPort',
+      url: 'http://127.0.0.1:5177/tests/support/workspace.html',
+      reuseExistingServer: false,
+      timeout: 30000,
+    },
+    {
+      command:
+        '"' +
+        process.execPath +
         '" node_modules/vite/bin/vite.js --mode session-test --host 127.0.0.1 --port 5176 --strictPort',
       url: 'http://127.0.0.1:5176',
       reuseExistingServer: false,

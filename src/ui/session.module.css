@@ -204,3 +204,23 @@
   padding: 0.75rem 0;
   border-bottom: 1px solid #d7e1e7;
 }
+
+.workspace {
+  margin-bottom: 1.5rem;
+}
+.workspace label {
+  display: block;
+}
+.workspace select {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+  font: inherit;
+  padding: 0.6rem;
+  border: 1px solid #b8c7d8;
+  border-radius: 0.5rem;
+}
+.workspace button {
+  max-width: 100%;
+  white-space: normal;
+}

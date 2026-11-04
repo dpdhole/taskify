@@ -1,3 +1,6 @@
+import { createWorkspaceController } from '../application/workspace-controller';
+import type { WorkspaceController } from '../application/workspace-controller';
+import { createWorkspaceStore } from '../state/workspace-store';
 import { attachCompatibilityLifecycle } from '../infrastructure/browser/compatibility-lifecycle';
 import { createSignInMethodsController } from '../application/sign-in-methods-controller';
 import { createSignInMethodsStore } from '../state/sign-in-methods-store';
@@ -20,8 +23,8 @@ const environmentId =
   import.meta.env.VITE_TASKIFY_PROJECT_ID || 'taskify-dev-dpdhole';
 const buildId =
   import.meta.env.VITE_TASKIFY_BUILD_ID || 'development-unpublished';
-const client = clientCapabilities(environmentId, buildId);
 const authMode = import.meta.env.MODE === 'auth';
+const client = clientCapabilities(environmentId, buildId, authMode);
 let runtime: ReturnType<typeof createBrowserRuntime> | undefined;
 let firebase: ReturnType<typeof createContractReader> | undefined;
 let reader: ContractReader;
@@ -63,6 +66,7 @@ const gate = createCompatibilityGate(reader, client, {
   },
 });
 const projection = createCompatibilityStore(gate);
+let workspaceController: WorkspaceController | undefined;
 const session = authMode
   ? createSessionController(
       runtime?.auth ?? {
@@ -85,10 +89,26 @@ const session = authMode
           return () => window.clearTimeout(timer);
         },
       },
-      () => {},
+      () => workspaceController?.clearAccountState(),
     )
   : undefined;
 const sessionProjection = session ? createSessionStore(session) : undefined;
+if (session && runtime)
+  workspaceController = createWorkspaceController(
+    runtime.workspace,
+    session,
+    {
+      schedule(fn, ms) {
+        const timer = window.setTimeout(fn, ms);
+        return () => window.clearTimeout(timer);
+      },
+    },
+    () => Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
+const workspaceProjection = workspaceController
+  ? createWorkspaceStore(workspaceController)
+  : undefined;
+
 const methodsController =
   session && runtime
     ? createSignInMethodsController(runtime.auth, session, {
@@ -107,6 +127,8 @@ const stopLifecycle = attachCompatibilityLifecycle(gate);
 if (import.meta.hot)
   import.meta.hot.dispose(() => {
     stopLifecycle();
+    workspaceController?.dispose();
+    workspaceProjection?.dispose();
     methodsController?.dispose();
     methodsProjection?.dispose();
     session?.dispose();
@@ -122,6 +144,18 @@ createRoot(root).render(
   <StrictMode>
     {session && sessionProjection ? (
       <SessionView
+        workspace={
+          workspaceController && workspaceProjection
+            ? {
+                projection: workspaceProjection,
+                retry: () => workspaceController?.retry(),
+                selectTimezone: (zone) =>
+                  workspaceController?.selectTimezone(zone),
+                continueWithoutProfile: () =>
+                  workspaceController?.continueWithoutProfile(),
+              }
+            : undefined
+        }
         methods={
           methodsController && methodsProjection
             ? {

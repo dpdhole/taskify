@@ -66,6 +66,20 @@ export default defineConfig(({ mode }) => {
         configureServer(server) {
           server.middlewares.use((req, res, next) => {
             const url = req.url?.split('?')[0] ?? '';
+            // Port5177 is the isolated workspace fixture, not the cloud-backed entry.
+            if (
+              mode === 'session-test' &&
+              server.config.server.port === 5177 &&
+              url === '/'
+            ) {
+              res.statusCode = 302;
+              res.setHeader(
+                'Location',
+                '/tests/support/workspace.html?sdkAuth=1',
+              );
+              res.end();
+              return;
+            }
             if (url.startsWith('/tests/') && mode !== 'session-test') {
               res.statusCode = 404;
               res.end('Not available');

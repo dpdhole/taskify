@@ -205,6 +205,36 @@ credential provisioning. Use narrow permissions and trusted local credentials
 outside Git/browser assets. Script creation is not blanket execution authority;
 each destructive run must be explicitly authorized for its exact target.
 
+## Slice7 inventory dependency — 4 November 2026
+
+[Slice7 Task creation](07-quick-create-basic-list.md) is accepted for detailing,
+not implemented here. Its implementation must extend the operator inventory,
+verification and cleanup tests with all owned Tasks, including interrupted-create
+outcomes. No creation Activity Event is introduced by Slice7; add future child
+families when their feature slices arrive. A deletion fence blocks creation and
+must win races with admitted writes according to the final Rules contract. Never
+release Task persistence without matching account-deletion coverage.
+
+## Slice8 inventory dependency — 4 November 2026
+
+[Task Detail/metadata](08-task-detail-metadata.md) now selects users/{uid}/tasks/{taskId}/detail/description for Markdown source;
+Slice8 D8 also requires immutable Save completion receipts retained with the
+Task initially (exact receipt path remains implementation review). Include them
+in enumeration/verification/cleanup, not just the description child. If introduced, extend
+trusted enumeration, verification and cleanup with it alongside the feature.
+Keeping metadata/detail under a Task parent does not prove recursive cleanup.
+No metadata Activity Event family is introduced by Slice8. Verify fence enforcement
+against pending saves, not only new Task creation.
+
+## Slice8A inventory dependency — 4 November 2026
+
+[Advanced Create](08A-advanced-create.md) atomically creates Task2 root and required
+nonempty description1 child. Verify trusted inventory/cleanup covers this combined
+operation and the owner-approved atomic creation completion receipts, including lost
+acknowledgement. Receipts are internal recovery records, not Activity Events.
+No new Activity Event family is added. A parent-only or seed-ID-only sweep is not
+complete account deletion; fence/quiescence checks remain mandatory.
+
 ## Acceptance plan
 
 Test cancellation before intent, failed/mismatched proof, interrupted/unknown

@@ -22,32 +22,74 @@ async function execute(file, args, env) {
     process.removeListener('SIGTERM', interrupt);
   }
 }
-if (process.argv[2] === '--tests') {
+if (process.argv[2] === '--preview-server') {
+  await import('./workspace-preview.mjs');
+} else if (process.argv[2] === '--tests') {
   if (process.env.FIRESTORE_EMULATOR_HOST !== '127.0.0.1:8080')
     throw Error('Checked loopback emulator required');
-  await execute(
-    process.execPath,
-    [
-      'node_modules/vitest/vitest.mjs',
-      'run',
-      '--config',
-      'vitest.integration.config.ts',
-      'tests/integration/provisioning-stage-probe.test.ts',
-      ...(process.env.TASKIFY_PROVISIONING_POLICY === 'production'
-        ? ['tests/integration/workspace-rules.test.ts']
-        : []),
-    ],
-    process.env,
-  );
+  const mode = process.env.TASKIFY_PROVISIONING_POLICY;
+  if (mode !== 'browser') {
+    const files =
+      mode === 'workspace'
+        ? [
+            'tests/integration/provisioning-stage-probe.test.ts',
+            'tests/integration/workspace-rules.test.ts',
+            'tests/integration/workspace-adapter.test.ts',
+            'tests/integration/compatibility.test.ts',
+            'tests/integration/emulator.test.ts',
+          ]
+        : mode === 'adapter'
+          ? ['tests/integration/workspace-adapter.test.ts']
+          : [
+              'tests/integration/provisioning-stage-probe.test.ts',
+              ...(mode === 'production'
+                ? ['tests/integration/workspace-rules.test.ts']
+                : []),
+            ];
+    await execute(
+      process.execPath,
+      [
+        'node_modules/vitest/vitest.mjs',
+        'run',
+        '--config',
+        'vitest.integration.config.ts',
+        ...files,
+      ],
+      process.env,
+    );
+  }
+  if ((mode === 'browser' || mode === 'workspace') && !process.exitCode)
+    await execute(
+      process.execPath,
+      [
+        'node_modules/@playwright/test/cli.js',
+        'test',
+        '--config',
+        'playwright.workspace.config.ts',
+      ],
+      process.env,
+    );
 } else {
+  const preview = process.argv[2] === '--preview';
+  const workspace = process.argv[2] === '--workspace';
+  const browser = process.argv[2] === '--browser';
+  const adapter = process.argv[2] === '--adapter';
   const production = process.argv[2] === '--production';
   if (
-    (!production && process.argv.length !== 2) ||
-    (production && process.argv.length !== 3)
+    (!preview &&
+      !production &&
+      !adapter &&
+      !browser &&
+      !workspace &&
+      process.argv.length !== 2) ||
+    ((preview || production || adapter || browser || workspace) &&
+      process.argv.length !== 3)
   )
     throw Error('Unexpected probe arguments');
   const config = JSON.parse(fs.readFileSync('firebase.local.json', 'utf8'));
   for (const [service, port] of Object.entries({
+    ...(workspace || browser || preview ? { auth: 9099 } : {}),
+    ...(workspace ? { hosting: 5000 } : {}),
     firestore: 8080,
     hub: 4400,
     logging: 4500,
@@ -58,7 +100,15 @@ if (process.argv[2] === '--tests') {
     )
       throw Error('Unexpected local emulator configuration');
   }
-  for (const port of [8080, 4400, 4500, 9150]) {
+  for (const port of [
+    8080,
+    4400,
+    4500,
+    9150,
+    ...(browser || workspace || preview ? [5177] : []),
+    ...(workspace || browser || preview ? [9099] : []),
+    ...(workspace ? [5176, 5000] : []),
+  ]) {
     await new Promise((resolve, reject) => {
       const server = net.createServer();
       server.once('error', () =>
@@ -94,7 +144,17 @@ if (process.argv[2] === '--tests') {
   const env = {
     ...process.env,
     CI: 'true',
-    TASKIFY_PROVISIONING_POLICY: production ? 'production' : 'probe',
+    PLAYWRIGHT_BROWSERS_PATH: path.resolve('.local/browsers'),
+    TASKIFY_WORKSPACE_REGRESSION: workspace ? '1' : '0',
+    TASKIFY_PROVISIONING_POLICY: workspace
+      ? 'workspace'
+      : browser
+        ? 'browser'
+        : adapter
+          ? 'adapter'
+          : production
+            ? 'production'
+            : 'probe',
     FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true',
     FIREBASE_EMULATORS_PATH: path.resolve('.local/emulators'),
   };
@@ -110,12 +170,13 @@ if (process.argv[2] === '--tests') {
   ].join(path.delimiter);
   if (java !== 'java') env.JAVA_HOME = path.dirname(path.dirname(java));
   console.log(
-    'Synthetic stage-integrity probe; loopback Firestore only; preview5173 untouched',
+    'Synthetic workspace verification; loopback services only; preview5173 untouched',
   );
   const command =
     '"' +
     process.execPath.replaceAll('\\', '/') +
-    '" tools/run-provisioning-stage-probe.mjs --tests';
+    '" tools/run-provisioning-stage-probe.mjs ' +
+    (preview ? '--preview-server' : '--tests');
   await execute(
     process.execPath,
     [
@@ -126,7 +187,11 @@ if (process.argv[2] === '--tests') {
       '--project',
       'demo-taskify-provisioning-stage',
       '--only',
-      'firestore',
+      workspace
+        ? 'firestore,auth,hosting'
+        : browser || preview
+          ? 'firestore,auth'
+          : 'firestore',
       command,
     ],
     env,

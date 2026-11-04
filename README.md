@@ -31,6 +31,10 @@ This supersedes earlier progress summaries; full-slice/regression testing stays 
 - [Slice5 workspace-provisioning detailing](docs/slices/05-workspace-provisioning.md) — approved catalogues/icons, default Views, safe initialization and recovery; concrete specification prepared for review, implementation pending.
 - [Slice5A Delete Account detailing](docs/slices/05A-delete-account.md) — approved deletion scope and Option 3 operator-run trusted finalizer; concrete safety contracts require implementation validation.
 - [Slice6 responsive-navigation detailing](docs/slices/06-responsive-navigation.md) — accepted mobile drawer, desktop rail/sidebar, contextual routing, accessibility and feature-availability boundaries; implementation pending.
+- [Slice7 Quick Create/basic list detailing](docs/slices/07-quick-create-basic-list.md) — accepted Draft capture, Title validation, cloud-confirmed recovery and minimal Category-grouped All Tasks; implementation pending.
+- [Slice8 Task Detail/metadata detailing](docs/slices/08-task-detail-metadata.md) — accepted explicit editors, tri-state preferences, plain-text GFM editing/rendering, Refresh/Stay conflict recovery and Back protection; implementation pending.
+- [Slice8A Advanced Create detailing](docs/slices/08A-advanced-create.md) — accepted one-way More Details expansion, optional metadata/GFM source, atomic creation and recovery; implementation pending.
+- [Slice9 onboarding Tasks/manual detailing](docs/slices/09-onboarding-tasks-manual.md) — N1–N8 accepted with blocking provisioning and link amendments; revised G1–G8 accepted, implementation pending.
 - [Developer setup](docs/development.md) — pinned toolchain, local commands, architecture boundaries and troubleshooting.
 - [Foundation validation](docs/slices/01-foundation-validation.md) — executed local checks, exact evidence and limitations.
 - [Firebase clean start](docs/slices/firebase-clean-start.md) — completed legacy application-resource reset and verified empty baseline.

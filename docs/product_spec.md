@@ -753,7 +753,7 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 - Global **Create** is a **bottom-right anchored floating action button (FAB)** on Home and Task Views, including All Tasks and Saved Views. It is **absent** from Task Detail and Settings/subpages. A duplicate Create entry at the top of the drawer was considered but **not adopted**; revisit only if usage warrants it.
 - **Initial/idle state:** extended, right-aligned FAB with icon and **Create** label. **Normal scrolling:** label slides/collapses inward, leaving the icon fixed at the same bottom-right position; icon size/emphasis may reduce. **Sustained or rapid scrolling:** retain the icon at approximately **20% opacity** rather than hiding it. On scroll reversal/idle, restore prominence and then the label. Keep the icon's position and effective touch target stable through transitions.
 - The faded icon remains actionable, not disabled; avoid stealing scrolling gestures. Precise scroll thresholds, transition timings, hit-area behavior and accessibility require validation in the UI slice. FAB is not shown while the Create sheet is active.
-- Create opens a **bottom quick-create sheet** containing **Title, Category and Location**; Category and Location are prepopulated with their applicable defaults. **More** expands the **same form** to full-screen mobile detailed creation, retaining entered values. Exact default selection rules, required fields, validation and additional form fields remain slice decisions.
+- Create opens a **bottom quick-create sheet** containing **Title, Category and Location**; Category and Location are prepopulated with their applicable defaults. **More Details** expands the **same form** one-way to full-screen mobile detailed creation, retaining entered values. Exact default selection rules, required fields, validation and additional form fields remain slice decisions.
 
 ### 19.5 Desktop and implementation status
 
@@ -821,8 +821,68 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 - Column selection, stacked-field order and row actions are slice-level.
 
 ### 21.3 Create
-- Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More expands the same form to full-screen Advanced Create, retaining entered values.
-- Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More expands the same form to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
+
+**Slice8A gap closure, 4 November 2026:** all A1–A10 recommendations are agreed.
+More Details can expand an empty/invalid-title draft; it does not submit, and is
+disabled during pending/unknown creation. Preserve values/errors, focus Reference
+and announce expansion. No Less or Back/Escape collapse; use normal dismissal
+protection. Root, required description and immutable create receipt are atomic.
+Changed intent starts a new attempt only after original outcome is resolved;
+minimal-ID reload recovery does not restore drafts or authorize blind replay.
+Validity enables Create even when optional fields remain at defaults. Rules,
+dependencies and applicable test authority still require implementation evidence.
+
+
+**Slice8A A3 approval, 4 November 2026:** create Task root, any required description
+and an immutable minimal creation completion receipt atomically. Verify original
+success by operation receipt after lost acknowledgement, even if Task values later
+change. No copied description, creation Activity Event or user-visible history is
+added. Include receipts in permanent cleanup; exact Rules/contracts require proof.
+
+
+**Slice8A owner agreement, 4 November 2026:** [Advanced Create](slices/08A-advanced-create.md)
+uses **More Details**, never More/Less. Expansion preserves the same unsaved draft
+and cannot collapse back; resizing retains expanded state. Title is the only field
+requiring user input. Category defaults Uncategorized, Location Unspecified,
+Reference/description empty and Important/Urgent Unset. Advanced fields are one
+creation draft, not individually committed edits. One Create atomically persists
+root metadata and any nonempty description child; no partial Task then patch.
+Description is plain-text GFM with no live preview; rendering is in Task Detail.
+No scheduling/pause/lifecycle controls. Close/Stay/Discard, original destination,
+Show Task and uncertain-outcome recovery reuse existing contracts. No creation
+Activity Event. This supersedes any earlier More/Less creation interaction and
+does not rename unrelated description expansion or overflow actions.
+
+
+**Slice7 gap-resolution acceptance, 4 November 2026:** Title sorting uses
+NFC-normalized lowercase keys in Unicode code-point order, then original Title
+and stable ID; preserve stored Title and do not strip accents or use device-locale
+collation. Physical optional fields may be explicit nulls decoding to semantic
+absence; initial Task record schema/concurrency version is 1. Recovery stores
+minimal UID/project-scoped operation references, not persistent form content;
+there is no durable-draft promise. Advanced Create is separately delivered as
+Slice8A after metadata editing and before onboarding, preserving existing slice
+numbers. Exact runtime/Rules/query/receipt safety requires implementation evidence.
+
+
+**Slice7 owner agreement, 4 November 2026:** [Quick Create/basic list detailing](slices/07-quick-create-basic-list.md)
+introduces Title, Category and optional Location only. Title is outer-trimmed,
+nonblank and single-line, maximum 255 Unicode code points, preserving internal
+spaces and permitting duplicates. Category defaults to Uncategorized; Location to
+absent/Unspecified. Task starts Draft, unpaused, both Important/Urgent Unset, Created
+cloud-confirmed and other lifecycle dates/closure outcome absent. No creation
+Activity Event is required. More is omitted until complete Advanced Create scope
+is implemented; its final behavior below remains the product target. Changed-form
+dismissal offers Discard/Stay. Unknown submission outcome is reconciled using the
+same Task/operation identity before retry, never a fresh ID on timeout. Creation
+preserves current destination; Show Task opens All Tasks and expands its Category.
+Minimal All Tasks preserves Category grouping and Due ascending, missing last,
+with Title then stable-ID tie-breaking; define the exact comparator consistently.
+It does not implement every Saved View/query or fake Task Detail. Account deletion
+inventory must include introduced Tasks. This is design agreement, not execution.
+
+- Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More Details expands the same form one-way to full-screen Advanced Create, retaining entered values.
+- Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More Details expands the same form one-way to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
 - Both modes share Task defaults, validation and submission. Detailed fields, dimensions, dismissal and unsaved-change behavior remain slice-level.
 
 ### 21.4 Settings management and forms
@@ -881,6 +941,123 @@ execution; exact safety contracts require validation and each destructive run
 requires explicit authorization.
 
 ### 21.6 Task Detail responsive sections
+
+**Slice8 D12/design closure, 4 November 2026:** all twelve design gaps are resolved
+in the [controlling Slice8 document](slices/08-task-detail-metadata.md). Acceptance
+still requires actual dependency integration and focused domain/component,
+adversarial Rules/integration and browser evidence, including schema/rollback and
+trusted deletion coverage. Existing held Slice4 tests and separate cloud/deployment
+authority are unchanged; design agreement is not implementation acceptance.
+
+
+**Slice8 D11 approval, 4 November 2026:** authorized Closed/soft-deleted Task Detail
+is read-only with clear status; All Tasks still excludes those records. No early
+Reopen/Restore/Permanent Delete actions. Remote closure/deletion blocks Save at
+observation and Rules enforce editability at commit; metadata requests cannot alter
+lifecycle/pause/outcome/system dates. Access loss/permanent removal shows unavailable
+without cached disclosure or replacement records. Account deletion fences still apply.
+
+
+**Slice8 D10 approval, 4 November 2026:** capture actual origin View ID, expanded
+groups and scroll anchor on Task Detail entry. Back restores still-valid context;
+confirmed changes immediately reconcile list position/group/membership. Restore
+nearest surviving position when the anchor moves/disappears, not a forced jump to
+the edited Task. Deleted origin View gets explanation and an All Tasks choice;
+never silently substitute. Direct links use actual history. Layout changes retain
+Task/input/origin without new navigation; Search restoration waits for its slice.
+
+
+**Slice8 D9 acceptance, 4 November 2026:** preserve authorized input in memory on
+temporary network/compatibility failure, with Save disabled. Closed/deleted Task
+input may be copied only while access remains authorized. Confirmed access loss,
+Logout or UID switch hides/clears Task/editor content and invalidates callbacks.
+No durable draft promise. Minimal account-bound operation IDs may survive pending
+Save Logout for later authorized verification, never content restoration/access.
+
+
+**Slice8 D8 approval, 4 November 2026:** stable Save operation ID and an immutable
+minimal receipt commit atomically with Task/detail changes. Timeout remains Save
+status unknown until authoritative receipt reconciliation. Matching receipt proves
+original success despite later edits; absence alone is not cancellation. Retry
+uses the same ID/original version/intent; recheck receipt before handling a retry
+conflict. Reload restores minimal tracking, not draft content. Retain receipts
+with the Task initially and include them in permanent cleanup; no Activity Event.
+
+
+**Slice8 D7 agreement, 4 November 2026:** one active edit/mutation per Task. Dirty
+editor switching or preference selection offers Stay/Discard Changes; unchanged
+editors switch directly. Pending/unknown Saves block competing mutations and
+unknown outcomes offer Check save status. Confirmed preference failures restore
+the confirmed value; conflicts use D6. Leaving pending presentation preserves
+recovery tracking with clear guidance; Logout remains available. No Discard can
+undo an earlier committed preference or submitted write.
+
+
+**Controlling Slice8 D6 amendment, 4 November 2026:** enable Save only for valid
+actual changes against the loaded baseline and current editability/admission.
+Case-only user-text changes are valid; reverted/unchanged or invalid input leaves
+Save disabled with no write/version bump/upgrade. Stale-version Save is rejected:
+“A newer version of this Task is available. Refresh to load it, then restart your
+edit.” Refresh explicitly discards/reloads; Stay preserves authorized input without
+saving/rebasing. No Apply my changes, merge or overwrite for Slice8 metadata/
+description. This supersedes the earlier reapplication guidance for this scope;
+unknown acknowledgement must still be reconciled before conflict recovery.
+
+
+**Slice8 D5 approval, 4 November 2026:** retain explicit Task schema1/2 readers;
+upgrade to schema2 transactionally on deliberate edit, without read rewrites or
+bulk migration. Description schema1/GFM version is independent; missing description
+is empty under declared schemas. Enable new writers/creation only after compatible
+readers/Rules and retire older writers unless preservation is proven. Record the
+data-aware rollback floor; unknown schemas never reset/downgrade automatically.
+
+
+**Slice8 D3 approval, 4 November 2026:** use react-markdown with remark-gfm for
+safe Task Detail rendering. Allow user-activated https/http/mailto/tel links only;
+HTTP(S) opens a new tab with noopener noreferrer. Relative links are non-navigating
+labels; protocol-relative links are rejected. No raw HTML interpretation or image
+fetch/rendering; image alt text remains visible and source is preserved. Task-list
+checkboxes are noninteractive; code is escaped display only; tables scroll within
+their narrow-screen container. Exact dependency versions and implementation
+security/browser evidence remain required.
+
+
+**Slice8 D2 approval, 4 November 2026:** Markdown source limit is 65,536 UTF-8 bytes
+inclusive after CRLF/CR-to-LF normalization. Preserve other whitespace/Unicode;
+empty description is an empty string. Client checks and Rules UTF-8 byte-size
+validation enforce the bound; reject oversized input without truncation. Direct-
+write and Unicode boundary tests remain required implementation evidence.
+
+
+**Controlling Slice8 amendment, 4 November 2026:** remove WYSIWYG description
+support. Users author GFM syntax in a plain-text editor with explicit Save/Cancel;
+Task Detail renders Markdown. This supersedes all earlier WYSIWYG/structured-rich-
+text and restricted-formatting requirements for descriptions, including the earlier
+Slice8 agreement below. Store source text with format/version; the 64 KiB UTF-8
+limit applies to Markdown source. No toolbar, visual authoring or live-preview
+feature. GFM task-list notation is noninteractive description content, not real
+Todo records; code blocks do not execute. Raw HTML is not interpreted; exact
+safe-link/image policy and renderer selection require technical closure. Other
+save/conflict/read-only/navigation guarantees remain unchanged.
+
+
+**Slice8 owner agreement, 4 November 2026:** [Task Detail/metadata detailing](slices/08-task-detail-metadata.md)
+introduces explicit Save/Cancel contextual editors for Title, Reference, Category
+and Location, one dirty editor at a time. Reference is optional single-line text,
+255 Unicode code points maximum, outer-trimmed, duplicates permitted; empty means
+absence. Important/Urgent Yes/No/Unset changes commit individually and are not
+undone by discarding another draft. Description is versioned structured WYSIWYG
+content, maximum 64 KiB serialized UTF-8, supporting paragraphs, headings, bold,
+italic, ordered/unordered lists and validated links; no arbitrary HTML, images,
+embeds, tables or scripts. Editor/storage/allowlist mechanics require implementation
+review and security proof. Metadata/description changes create no Activity Event
+and never implicitly change lifecycle/pause/actual dates. Conflicts preserve input
+and offer Reload latest, Apply my changes or Cancel, reapplying intended fields
+against latest valid state; no automatic rich-text merge. Dirty Task navigation
+uses Stay/Discard separately from View-setting warnings. Closed/deleted Tasks are
+read-only where accessible. Advanced Create remains separate Slice8A. This is
+accepted design, not evidence of implementation or validation.
+
 - Retain contextual Back/action bar (§§19–20), mobile full-page and desktop side-panel-by-default expandable presentation where compatible.
 - **Mobile order:** action bar; Title/Reference; status and planning dates; Task preferences; description preview with Show All; Todo CRUD checklist; Discussion latest five complete entries with More and new-entry field; external-link Attachments list with Add; Activity Log.
 - **Desktop/wider:** action bar and Title/Reference span width, then two columns. Left: longer description preview, Todo management, external-link attachment management. Right: status/planning, Task preferences, Discussion management, Activity Log viewer.
@@ -970,3 +1147,16 @@ slices are the core delivery theme; broad rows split further during detailing.
 Each applicable slice includes responsive behavior, integrity/compatibility,
 recovery, tests, user guidance and template updates. See the plan for order and
 dependencies, not a blanket authorization to implement, commit or deploy.
+
+
+### 23.1 Slice9 accepted detailing amendments — 4 November 2026
+
+Owner accepted N1–N8 in [Slice9](slices/09-onboarding-tasks-manual.md), amending
+onboarding to be a blocking provisioning stage with visible progress before an
+eligible workspace becomes ready. Existing completed workspaces receive no backfill.
+The public manual is delivered under the app Hosting origin. Registered manual-route
+restrictions apply only to relative description links; other relative links stay
+inert. Absolute links under the accepted http/https/mailto/tel safe-protocol policy
+remain allowed. Every permitted link requests a new target tab/window with safe
+opener handling; browser/OS handler behavior still applies. Revised G1–G8 are
+owner-accepted; this is design closure, not implementation acceptance. Publication authority remains separate.

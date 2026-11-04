@@ -7,6 +7,7 @@ import type {
 export interface SessionIdentity {
   uid: string;
   displayName?: string;
+  photoUrl?: string;
   email?: string;
 }
 export type SessionReason =

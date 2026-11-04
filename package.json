@@ -50,7 +50,7 @@
     "test:unit": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:e2e": "playwright test",
-    "verify": "npm run typecheck && npm run check:boundaries && npm run check:workspace-rules && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && npm run build:auth && node tools/check-bundles.mjs",
+    "verify": "npm run typecheck && npm run check:boundaries && npm run check:workspace-rules && npm run check:workspace-icons && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && npm run build:auth && node tools/check-bundles.mjs",
     "verify:all": "npm run verify && node tools/run-emulators.mjs",
     "setup:browsers": "node tools/install-browser.mjs",
     "build:compatibility": "node node_modules/vite/bin/vite.js build --mode compatibility",
@@ -58,6 +58,9 @@
     "test:provisioning-stage": "node tools/run-provisioning-stage-probe.mjs",
     "generate:workspace-rules": "node tools/generate-workspace-rules.mjs",
     "check:workspace-rules": "node tools/generate-workspace-rules.mjs --check",
-    "test:workspace-rules:local": "node tools/run-provisioning-stage-probe.mjs --production"
+    "test:workspace-rules:local": "node tools/run-provisioning-stage-probe.mjs --production",
+    "check:workspace-icons": "node tools/check-workspace-icons.mjs",
+    "dev:workspace": "node tools/run-provisioning-stage-probe.mjs --preview",
+    "test:workspace:local": "node tools/run-provisioning-stage-probe.mjs --workspace"
   }
 }

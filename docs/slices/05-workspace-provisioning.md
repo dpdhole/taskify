@@ -1,12 +1,12 @@
 # Slice 5 — Workspace provisioning
 
-Status: **contract detailing in progress, 4 November 2026; ownership/version axes, core fields, numeric ordering, query envelope and date buckets agreed; pure query/seed implementation started**.
-The owner put Slice 4 on hold and directed proceeding to this slice. Linking is not
-a prerequisite; use the accepted single-provider Auth/session and compatibility
-boundaries. See [Slice 4 hold and handoff](04-identity-linking-hold.md). Concrete
-persistence/stage/query decisions below still require resolution before dependent
-implementation. No executable changes, dependencies, Rules publication, cloud setup,
-staging, commit, push or deployment are performed by this documentation update.
+Status: **runtime implementation and local verification, 4 November 2026; Slice5 remains open for coordinated release and hosted acceptance**.
+The owner put Slice4 on hold and directed proceeding with Slice5. Linking is not
+a prerequisite. The accepted single-provider Auth/session and compatibility
+boundaries now admit initialization. See the [runtime checkpoint](05-workspace-provisioning-implementation.md)
+and [Slice4 hold/handoff](04-identity-linking-hold.md). Earlier checkpoints below
+are historical; the runtime checkpoint controls current implementation status.
+No cloud publication, staging, commit or push is included.
 
 Authority: [product specification](../product_spec.md),
 [architecture](../architecture.md), [slice plan](../implementation_plan.md),
@@ -22,8 +22,9 @@ firestore.workspace.rules, explicit firebase.workspace.json, shared597-zone
 policy, bounded optional social profile fields and owner-status-only read fencing.
 72 focused unit/51 integration checks and static/generation checks pass. Earlier
 fixture-only Rules and missing-production-policy statements below are historical.
-No deployment/capability/contract publication. Adapter/controller/UI remain pending;
-Slice5 stays open. Implementation pauses after the requested source commit.
+No deployment/capability/contract publication occurred at that checkpoint. The
+requested source commit is0c8db30; subsequent adapter/controller/UI work is recorded
+in the runtime checkpoint. Slice5 stays open.
 
 ## Second implementation checkpoint — 4 November 2026
 
@@ -710,35 +711,34 @@ with [machine evidence](05-workspace-provisioning-readiness-evidence.json) and
 Source/runner hashes match; normalized execution-log byte hash is verified. No
 new test execution is implied by this documentation reconciliation.
 
-| Pending item | What remains / recommendation | Classification and gate |
+| Item | Current position | Remaining gate |
 |---|---|---|
-| Executable schema/codec contract | Enumerate exact fields/enums, reserved IDs, required/optional fields, duplicate handling and validated field/condition/payload limits. Accepted query semantics/paths are settled; do not reopen them | Engineering detailing before codec/Rules freeze; raise only material behavior changes for owner decision |
-| Due precision | Implement the accepted selected-calendar-day interpretation using explicit precision metadata; define exact-time Due sorting and mixed-precision comparison consistently. Never infer date-only precision from midnight alone | Remaining representation/edge contract; resolve user-visible ordering ambiguity before execution, Task physical schema belongs to its slice |
-| Name reservations | Initialization record/guard/hash/receipt checks verified against production initialization policy; later create/rename/archive management operations remain separate slices | Current initialization verified locally; not future CRUD acceptance |
-| Stage receipts/finalization |24-stage chain now verified against finalized initialization Rules; admitted transaction/controller retries and lifecycle reconciliation remain pending | Source policy verified locally; feature/controller acceptance and cloud verification pending |
-| Fence integration | Initialization Rules enforce fence absence for reads/writes, with only own status reads allowed. Implement controller/admission integration; proof/operator/token-retirement remain Slice5A | Rules verified locally; runtime integration and full Slice5A still pending |
-| Compatibility rollout | Assign actual app version, contract revision/server release and coordinated client/Rules/contract sequence; define rollback floor. New families alone do not retire older clients, as the readiness test demonstrates | Remaining release choice and engineering plan; synthetic0.2.0 is not assigned; cloud publication separately authorized |
-| Runtime/presentation | Replace no-op account cleanup, bind late results to UID/generation/admission, reuse shared runtime, add optional initial photo and timezone recovery, show truthful Loading/ready | Implementation work on accepted behavior; no dependence on linking/provider-status success |
-| Icon delivery | Select pinned self-hosted Material Symbols Rounded assets and verify catalogue coverage/style | Routine implementation choice; no extra product decision required |
-| Slice5-specific verification | Test exact seeds, concurrent/interrupted setup, unknown acknowledgement, cache/offline/gate recovery, forged receipts, fence/cross-UID denial and affected session behavior | Local verification now authorized. Existing readiness checks do not cover unimplemented Slice5 code. Slice4 linking remains held; real-provider/cloud work remains separate |
+| Schema/codec contract | Exact persisted decoders, seed/query bounds and snapshot translation implemented | Later CRUD/Task physical schemas stay in their slices |
+| Initialization integrity | Finalized Rules plus guarded transaction adapter, immutable receipts and reconciliation implemented | Hosted acceptance after coordinated release |
+| Runtime/fence/presentation | Shared runtime, UID/generation/admission binding, cleanup, fence watcher, Loading/recovery/ready implemented | Hosted lifecycle verification; Slice5A request/finalizer remains separate |
+| Icons |22 pinned self-hosted Rounded assets, license, semantic aliases and offline integrity check supplied | Future catalogue/navigation presentation uses these assets |
+| Local verification | See runtime report and machine evidence for final counts and limitations | Does not claim real-provider/cloud acceptance or Slice4 completion |
+| Compatibility rollout | Auth source declares nine workspace families; current cloud contract lacks them and fails closed | Assign actual app/revision/release bounds and approve coordinated publication |
+| Due precision/query execution | Initialization stores the agreed query envelope | Task precision and mixed-precision execution remain later-slice work |
 
-Verdict: ready to begin domain/schema implementation and staged Rules feasibility
-work. Not ready to claim complete provisioning, publish new workspace writes or
-close Slice5. No unresolved high-level product decision requires reopening agreed
-scope. Concrete stage-integrity proof is the principal remaining feasibility gate.
-User-visible precision/sorting choices or necessary constraint changes return for
-owner agreement; release identifiers/publication choices are decided before release.
-
-Recommended sequence: finish exhaustive schema/codec tokens and bounds; design
-stage/finalization checks together with Rules; implement pure codecs/templates;
-implement adapters/orchestration and Loading/recovery/ready UI; run Slice5-specific
-local verification. Icon/runtime work can follow accepted scope. Preserve one
-small feature checkpoint at a time; do not reopen Slice4 linking as a dependency.
-Later user reorder commands and complete query execution/editor remain their
-respective slices, with the currently approved initial ranks and query payloads.
+Verdict: initialization runtime is implemented for local verification. Slice5 is
+not closed or cloud-released. No agreed product decision needs reopening for
+initialization. Release identity/bounds and publication sequence must be reviewed
+before deploying this Auth build. Slice4 remains held; Slice5A remains separate.
 
 Original detailing used baseline ca822f3, integration amendment d013515; readiness
 baseline is8320898 with uncommitted contract documentation and the new unit test.
 Frozen experiments/legacy spec are unchanged. The evidence reconciliation itself performed no code implementation or tests;
 subsequent domain implementation is recorded at the top. No staging, commit,
 push or deployment is included.
+
+## Slice9 accepted provisioning amendment — 4 November 2026
+
+Owner accepted Slice9 N1–N8 and selected blocking onboarding within provisioning.
+For newly enrolled initialization plans, starter Tasks are required stages before
+workspace readiness; retain per-stage markers and show blocking progress/recovery.
+Legacy ready accounts are not backfilled. This supersedes any implication that
+separate onboarding markers permit eligible workspace readiness before completion.
+Slice5 alone still creates no Tasks; Slice9 integrates the additional stages.
+See [Slice9](09-onboarding-tasks-manual.md). Revised G1–G8 are owner-accepted;
+exact implementation proof remains required; no code, tests or cloud actions are performed.
