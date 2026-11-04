@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-04",
+  "baselineCommit": "e0b8e0b",
+  "scope": "Finalized Slice5 initialization Rules source, including pending codec dependencies; not deployed or Slice5-complete",
+  "validation": {
+    "unitPassed": 72,
+    "unitFiles": 5,
+    "integrationPassed": 51,
+    "integrationFiles": 2,
+    "timezonesExhaustivelyAccepted": 597,
+    "typecheck": "all targets passed",
+    "boundaries": "41 files passed",
+    "lint": "full configured lint passed",
+    "format": "full configured format check passed",
+    "generatedPolicyDrift": "passed"
+  },
+  "commands": {
+    "unit": "npx vitest run tests/unit/workspace-policy.test.ts tests/unit/workspace-records.test.ts tests/unit/workspace-record-decoder.test.ts tests/unit/workspace-domain.test.ts tests/unit/provisioning-compatibility-readiness.test.ts",
+    "integration": "npm run test:workspace-rules:local",
+    "generation": "npm run check:workspace-rules"
+  },
+  "policy": {
+    "file": "firestore.workspace.rules",
+    "explicitConfig": "firebase.workspace.json",
+    "stageCount": 24,
+    "timezoneTable": "src/domain/workspace-policy.ts",
+    "timezoneProvenance": "config/workspace-policy-source.json",
+    "profileNameMaxUtf8Bytes": 1024,
+    "profilePhotoMaxUtf8Bytes": 8192,
+    "workspaceReadWhileFenced": false,
+    "deleteRequestWritesEnabled": false,
+    "ordinaryManagementWritesEnabled": false,
+    "environmentCheck": "runtime compatibility environment equals verified auth token audience",
+    "schemaChecks": "format1, positive revision/release, present and permitted write schema1"
+  },
+  "limits": [
+    "Initialization scope only; no Task or management CRUD or Slice5A intent creation.",
+    "URI server validation is structural HTTPS/credential/ASCII-whitespace/payload validation; full URL parsing additionally applies in infrastructure.",
+    "App release bounds remain client gate/deployment controls, not browser-code attestation in Rules.",
+    "Adapter/controller/Loading-recovery UI and coordinated cloud rollout still pending.",
+    "Earlier checkpoint evidence binds historical sources, not this changed source snapshot."
+  ],
+  "preparationFailures": [
+    "Initial >4096-character timezone regex failed compilation; zero tests executed and49 skipped. Same597 entries split into bounded patterns.",
+    "Trusted inspection callback typing and package formatting corrected before final static pass.",
+    "Approval review hit usage limit; final launch not executed until owner Continue; no bypass."
+  ],
+  "stagedSourceSha256": {
+    ".gitattributes": "9fa681d662b6f692db4219f2c63f44747e7a295f1618db9423b7a41213b989cf",
+    "package.json": "9dae64ea93587064295e2994f4a5c901df3f4f028b937120c58a6f816c057404",
+    "config/workspace-policy-source.json": "7cd60aa3094a23e4a70b19916457473079a277555efb80ca81ec45b9545978d9",
+    "firebase.workspace.json": "5d2c34b09099ebc832dd0aacf7dbc39aa6ae9f214f7b23369b2ca24bd128cf3f",
+    "firestore.workspace.rules": "445e474d22abbe1dee1d746436e96dd92411531734332090ae953ed6746b416f",
+    "src/domain/workspace-policy.ts": "9523e4dad404a907d36d682f918cc0a2496be5821b512dee4a5bd1af014c2c89",
+    "src/domain/workspace-query.ts": "145fca1b76d25ebd59a698f4a8308fa7c3dd78fb42585a46257f91f2697c2f63",
+    "src/domain/workspace-records.ts": "7e180227cb10cd800aca9e3967426f117a10e24bbae90369de56bfebbe7069c5",
+    "src/domain/workspace-seeds.ts": "c333181bb83e352390f754acab58d1d1b8bd5f9ca51be0bd6a534f6128e13047",
+    "src/domain/workspace-validation.ts": "86d3fda84a9a8adc95bfb389df7ecce0ef6af6c91a9574b1d5431729915c43e8",
+    "src/infrastructure/firebase/workspace-record-decoder.ts": "e318de8c73d932866e49881e484284c2cddbacbad30aac7dd7b4bd504bc0a2af",
+    "tests/integration/provisioning-stage-probe.test.ts": "80baa753cbb9dd5f806d1edd3df78d832a8944575fc5c6bbc460ff02e8a23632",
+    "tests/integration/workspace-rules.test.ts": "d13cba6b9464dd77f4a330e76f5f6871e6afa5fd6b8308ca804e43bc32981079",
+    "tests/support/provisioning-stage-layout.ts": "cd08c9a996b3375648483e955d73f8d869ef838483bc46a952672d4bd1c0970b",
+    "tests/support/provisioning-stage-probe.rules": "91c03b944b11851bc457464871f9f7fad3ec3c70ae2c8221015e81e36f755271",
+    "tests/support/workspace-write-fixtures.ts": "4d9ed4348a3289b1ef3f62a999c4b08944c886110c73c0590add6ef4ca2f25bb",
+    "tests/unit/workspace-domain.test.ts": "ded72c9e5ccec22f15e09b4924f24b13a0389146137c99158b8198d3a9d8681b",
+    "tests/unit/workspace-policy.test.ts": "d93f29fb330d9d90083437dd016bfc6d63c2a79f12e4be7a1873cde2ae8a13fc",
+    "tests/unit/workspace-record-decoder.test.ts": "5f20c24b9dc8f4b1a314b9841c673bf6a62bb118e8a45181cc5a552a572841a9",
+    "tests/unit/workspace-records.test.ts": "f6463b770c8a7b63400642088f79a94069e2c8c95b5ee4f75aa5565e870fcbe4",
+    "tools/generate-workspace-rules.mjs": "d703c202282738d4128c53a850cf5c2349339af665288f7bf29fde5177af21f1",
+    "tools/run-provisioning-stage-probe.mjs": "ab0ad8df6ac180f7fa78b41ac07ac46dee587d0158decfb6ed667514f204f3c5",
+    "firestore.compatibility.rules": "7eefe1aebd7911936d3ff56de9d19439195d98cca10239e75332bb5c720103a8",
+    "firebase.compatibility.json": "d0eb536bfebc7fb1bdfeeceeacc46370914160981efbc9ddb9879834df2b6f59",
+    "src/app/client-capabilities.ts": "1ee0e39b0089db049f653bfb21885ab14767bb390ab94530281b9dd29214ade1",
+    "package-lock.json": "612d2a6b30b5e7fcc865ee85c3225d5072381e8fb10dcd7591ee7a24f81e7ca1"
+  },
+  "stagedLogSha256": "d1ddf8fcdcc5da1d41877e147ee8b0a3f6503e01ae121bd151f4dc6f571d4bcb",
+  "sourceHashBasis": "Git index bytes with repository EOL normalization, immediately before the requested source commit",
+  "actions": {
+    "localDemoWritesOnly": true,
+    "ownedEmulatorShutdown": true,
+    "owner5173Stopped": false,
+    "deployedRulesChanged": false,
+    "cloudContractChanged": false,
+    "appCapabilitiesActivated": false,
+    "push": false,
+    "deployment": false,
+    "commit": "owner authorized; evidence prepared immediately before execution"
+  }
+}

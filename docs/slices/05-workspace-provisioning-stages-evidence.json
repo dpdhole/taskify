@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-04",
+  "baselineCommit": "e0b8e0b",
+  "checkpoint": "Persisted-record codecs and local stage-integrity feasibility probe; production writes disabled",
+  "results": {
+    "unitPassed": 66,
+    "unitFiles": 4,
+    "newRecordAndSnapshotCases": 25,
+    "emulatorIntegrationPassed": 18,
+    "emulatorFiles": 1,
+    "actualSnapshotsDecoded": "all eight workspace record families",
+    "typecheck": "passed",
+    "boundaries": "40 files passed",
+    "targetedLint": "passed",
+    "targetedFormat": "passed"
+  },
+  "stageRecipe": {
+    "base": 1,
+    "categoryPairs": 6,
+    "singleLocations": 10,
+    "singleViews": 7,
+    "totalReceipts": 24,
+    "finalization": "one update after last committed immutable receipt",
+    "atomicBatchWritesPerStage": {
+      "base": 4,
+      "categoryPair": 5,
+      "singleLocation": 3,
+      "singleView": 2
+    },
+    "recipeOnlyWritesIncludingFinalization": 79,
+    "countLimit": "not billing; excludes reads, Rules access calls, retries and fixture setup"
+  },
+  "corrections": [
+    "Initial literal recipe-map candidate: 11 pass/3 fail, Rules expression limit.",
+    "Optimized lazy recipe selection; identified Rules hex casing vs Node lowercase fixture mismatch and canonicalized Rules to lowercase.",
+    "Two named-record Location candidate still hit expression limit; six Category pairs retained, ten Locations split individually, recipe lookups separated by kind.",
+    "Revised probe: all18 pass with exact guard/receipt/predecessor/fence checks retained.",
+    "Compat test database type annotations corrected; final TypeScript check passed."
+  ],
+  "scopeLimits": [
+    "Rules fixture only accepts explicit UTC and an empty optional profile; not a production settings/profile policy.",
+    "Probe uses atomic batches and immutable predecessor receipts, not the future app transaction retry/controller implementation.",
+    "Schema policy checks cover allowedWriteSchemaVersions; real app release/contract rollout remains separate.",
+    "No ordinary post-initialization management writes or active cloud Rules changes.",
+    "No proof of future Unicode names beyond the previously accepted client-only boundary.",
+    "No browser/UI, new builds, real providers or cloud validation in this checkpoint."
+  ],
+  "sourceSha256": {
+    "src/domain/workspace-records.ts": "afd3a05e45203a30bf7a9c4850f6552fa3c6b7c7c66a3dcde19bd989fbd97790",
+    "src/infrastructure/firebase/workspace-record-decoder.ts": "e318de8c73d932866e49881e484284c2cddbacbad30aac7dd7b4bd504bc0a2af",
+    "tests/unit/workspace-records.test.ts": "f6463b770c8a7b63400642088f79a94069e2c8c95b5ee4f75aa5565e870fcbe4",
+    "tests/unit/workspace-record-decoder.test.ts": "5f20c24b9dc8f4b1a314b9841c673bf6a62bb118e8a45181cc5a552a572841a9",
+    "tests/integration/provisioning-stage-probe.test.ts": "cbc63b74452e4973a3e8212cabb7c2ca6c9c4e140c49a44157f5e6382a88fa14",
+    "tests/support/provisioning-stage-layout.ts": "cd08c9a996b3375648483e955d73f8d869ef838483bc46a952672d4bd1c0970b",
+    "tests/support/provisioning-stage-probe.rules": "ccc0928c75e3000f4914d174dd824e8ede29baf369ea02b6fba278cdb6eef76b",
+    "tools/run-provisioning-stage-probe.mjs": "398ee9b4492721f8f090e34b30c422d11da2682022610610baa29f88b4be7226",
+    "package.json": "695202933d2194a877d7b153c1b226e110b996b86d65c19bca07daf04e645b28",
+    "src/domain/workspace-query.ts": "145fca1b76d25ebd59a698f4a8308fa7c3dd78fb42585a46257f91f2697c2f63",
+    "src/domain/workspace-seeds.ts": "1a69d444fe1e9874b31e34bc911a73ac4e06f0746d770bd79750ee35836e7934",
+    "src/domain/workspace-validation.ts": "5e6a4c16b9b89835647f6d7777a3a7f6467472c18d2093cf08138188e07e5b21",
+    "firebase.local.json": "a0f4dd8826d1ef2030b806f338a5a9a17bad79a32765fb64aae22011863b1812"
+  },
+  "logSha256": "050ebc62a0e0c6304557a6263584e27daee7010fb108df4495240814db6ca9bf",
+  "commands": {
+    "unit": "npx vitest run tests/unit/workspace-records.test.ts tests/unit/workspace-record-decoder.test.ts tests/unit/workspace-domain.test.ts tests/unit/provisioning-compatibility-readiness.test.ts",
+    "integration": "npm run test:provisioning-stage"
+  },
+  "actions": {
+    "cloudChanges": false,
+    "productionRulesChanged": false,
+    "runtimeWiringChanged": false,
+    "localSyntheticWrites": true,
+    "ownedEmulatorsStopped": true,
+    "preview5173Stopped": false,
+    "commit": false,
+    "push": false,
+    "deployment": false
+  }
+}

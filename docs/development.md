@@ -257,3 +257,15 @@ criteria. Do not treat historical unit evidence as reproduction of the defect or
 proof that shared sign-in/restoration/Logout are unaffected. Keep full-slice and
 regression testing held until prompted. Single-provider provisioning must not
 require current-account linking proof. No Slice 5 code is included in this update.
+
+## Slice5 initialization policy commands
+
+Generate/check the reviewed source policy with `npm run generate:workspace-rules`
+and `npm run check:workspace-rules`. The latter is part of `npm run verify`.
+Run the isolated loopback production-policy suite with
+`npm run test:workspace-rules:local`; Java21+, installed dependencies and the
+cached emulator are required. It preserves the manual preview on5173 and never
+deploys. See the [Rules checkpoint](slices/05-workspace-provisioning-rules.md)
+for test evidence, shared timezone/profile limits and outstanding adapter/UI work.
+New `firebase.workspace.json` is an explicit future deploy target; using the test
+command does not publish that policy or change current cloud compatibility Rules.

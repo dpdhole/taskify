@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-04",
+  "baselineCommit": "e0b8e0b",
+  "checkpoint": "Slice5 pure query codec and seed plan; not persisted workspace provisioning",
+  "unit": {
+    "passed": 41,
+    "newDomainCases": 34,
+    "candidateCompatibilityCases": 7,
+    "command": "npx vitest run tests/unit/workspace-domain.test.ts tests/unit/provisioning-compatibility-readiness.test.ts"
+  },
+  "static": {
+    "typecheck": "passed",
+    "boundaries": "38 files passed",
+    "targetedLint": "passed",
+    "targetedFormat": "passed"
+  },
+  "initialCorrections": [
+    "TypeScript exposed date-condition union inference issue; explicit result typing fixed it.",
+    "TypeScript exposed data-table argument spreading; condition arrays wrapped as named cases, valid-range/reason assertions added. Final tests/statics passed."
+  ],
+  "sourceSha256": {
+    "src/domain/workspace-validation.ts": "5e6a4c16b9b89835647f6d7777a3a7f6467472c18d2093cf08138188e07e5b21",
+    "src/domain/workspace-query.ts": "145fca1b76d25ebd59a698f4a8308fa7c3dd78fb42585a46257f91f2697c2f63",
+    "src/domain/workspace-seeds.ts": "1a69d444fe1e9874b31e34bc911a73ac4e06f0746d770bd79750ee35836e7934",
+    "tests/unit/workspace-domain.test.ts": "ded72c9e5ccec22f15e09b4924f24b13a0389146137c99158b8198d3a9d8681b",
+    "tests/unit/provisioning-compatibility-readiness.test.ts": "a27a394c6028b83afd71d1eeb7f9f5cc9b37d4afac2d664cae874905b5250f94"
+  },
+  "logSha256": "e6e7da7c68f8601823455169ffe8b4fe550759638be5fb8c98c14eb1e8d0ede8",
+  "notExecuted": [
+    "emulator/browser runs for this pure domain change",
+    "builds",
+    "new workspace Rules/transactions",
+    "cloud or real-provider checks"
+  ],
+  "actions": {
+    "persistedDataWrites": false,
+    "productionWiringChanged": false,
+    "cloudChanges": false,
+    "commit": false,
+    "push": false,
+    "deployment": false
+  }
+}

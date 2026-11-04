@@ -2,6 +2,46 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-04 — Slice5 initialization Rules finalized for source commit
+
+- [Rules checkpoint](slices/05-workspace-provisioning-rules.md): generated production
+  initialization policy and explicit deploy config,597 shared timezone IDs/aliases,
+  optional byte-bounded profile fields, environment/schema checks and read/write
+  fencing. Existing deployed policy/config, contract and client capability are unchanged.
+- 72 focused unit/51 integration tests pass, including all timezone IDs and conflicting
+  initial values. Types,41-file boundaries, full lint/format and generation drift pass.
+  Compile/preparation failures are recorded; no cloud production acceptance claimed.
+- Owner requested commit before continuing: commit includes preceding uncommitted
+  Slice5 codecs, probe, tests and evidence. Adapter/controller/UI remain pending.
+  No push or deployment; Slice4 stays held and preview5173 is preserved.
+
+## 2026-11-04 — Slice5 record codecs and stage-integrity probe
+
+- [Second checkpoint](slices/05-workspace-provisioning-stages.md): strict persisted
+  record codecs and confirmed, UID-path-checked SDK snapshot translation, preserving
+  nanoseconds.66 focused unit cases pass; actual stored family snapshots decode.
+- New reproducible local command test:provisioning-stage passes18 integration tests.
+  Immutable predecessor receipts enforce24 bounded stages/finalization with paired
+  name guards and existence-based fence checks. Initial expression-limit candidates
+  failed; optimized lookup plus single Locations passed without dropping checks.
+- Candidate uses fixture UTC/empty profile and atomic batches, not production
+  policy/transaction retry logic. All types,40-file boundaries and targeted style
+  checks passed. No UI/controller/shared-runtime writes or cloud configuration.
+- Next: production policy, admitted adapter/controller and recovery presentation.
+  Unstaged; no commit/push/deploy. Slice4 remains held; local5173 preserved.
+
+## 2026-11-04 — Slice5 implementation begun: pure query and seed checkpoint
+
+- [First checkpoint](slices/05-workspace-provisioning-domain.md): strict query
+  decoding,34 new unit cases, exact12/10/7 fresh seed plans, numeric ranks,
+  client name validation and explicit timezone recovery validation implemented.
+- Final41 focused tests (34 domain+7 readiness), types,38-file boundaries and
+  targeted lint/format passed. Type/test-table issues corrected before final pass.
+- No persistence/Rules/runtime/UI wiring yet; receipts/finalization/fence integrity
+  remain unverified. Earlier81/7/4 readiness is historical, not feature acceptance.
+- Incoming known main504de97 Slice7 docs reviewed, not merged. No cloud operations,
+  staging, commit, push or deployment. Slice4 remains held; preview preserved.
+
 ## 2026-11-04 — Readiness evidence audited; pending gaps reconciled
 
 - Linked report, machine evidence and execution log from the implementation plan,

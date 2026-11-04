@@ -1,0 +1,29 @@
+unit.log
+
+ RUN  v5.0.5 <repo>
+
+
+ Test Files  2 passed (2)
+      Tests  41 passed (41)
+   Start at  15:33:35
+   Duration  1.60s (transform 36%, tests 31%, import 24%, worker 8%, environment 1%)
+
+
+typecheck.log
+
+> taskify@0.1.0 typecheck
+> tsc -p tsconfig.core.json && tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+
+boundaries.log
+
+> taskify@0.1.0 check:boundaries
+> node tools/check-boundaries.mjs
+
+Source boundaries and cycles verified: 38 files
+
+lint.log
+
+format.log
+Checking formatting...
+All matched files use Prettier code style!

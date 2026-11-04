@@ -50,6 +50,34 @@ and verify rollout/rollback before publication. Schema limits, stage/finalizatio
 proof, fence/runtime integration and new feature verification remain pending in the
 [current register](slices/05-workspace-provisioning.md#remaining-gaps-and-decision-register--4-november-2026).
 
+## Slice5 implementation begun — 4 November 2026
+
+[Pure domain checkpoint](slices/05-workspace-provisioning-domain.md) implements
+query decoding and exact fresh seed plans, plus name/timezone validation;41 focused
+unit tests and static checks pass. Persisted-record codecs, bounded-stage Rules
+feasibility and shared runtime/presentation remain next. No workspace writes,
+cloud rollout or Slice5 completion is claimed. Earlier not-started text is history.
+
+## Slice5 second checkpoint — 4 November 2026
+
+[Record codecs and stage probe](slices/05-workspace-provisioning-stages.md) adds
+lossless confirmed SDK snapshot translation and a24-stage test-only Rules chain.
+66 focused unit and18 local integration cases pass; Types/boundaries/style pass.
+Locations use one per stage after expression-limit failures; Categories retain
+pairs. Production profile/timezone Rules, admitted transactions/controller and
+Loading/recovery presentation remain next. No active workspace-write policy or
+cloud deployment, and no Slice5 completion claim.
+
+## Slice5 initialization Rules finalized — 4 November 2026
+
+[Finalized source policy](slices/05-workspace-provisioning-rules.md) replaces the
+UTC/empty-profile fixture assumptions with shared pinned timezone/profile validation,
+keeps the verified24-stage receipt chain and enforces fence read/write blocking.
+72 focused unit/51 integration tests and static checks pass. Owner requested
+committing this dependency-complete checkpoint before further development.
+Adapter/controller/recovery UI and coordinated publication remain pending; no cloud
+policy, runtime contract or application capability has been activated by this work.
+
 ## Delivery approach
 
 **Keep slices small and feature-focused.** Except for the enabling foundation,

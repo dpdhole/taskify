@@ -1,0 +1,13 @@
+{
+  "timezoneDataVersion": 1,
+  "node": "v24.21.0",
+  "icu": "78.3",
+  "tz": "2026c",
+  "base": "Intl.supportedValuesOf(timeZone)",
+  "aliasesSource": "https://data.iana.org/time-zones/tzdb-2026c/backward",
+  "aliasesSourceSha256": "d2f4c8953f204982ddf4dc0c2debf41b2464de376dad7d546d0fc70f889fa706",
+  "count": 597,
+  "profileNameMaxUtf8Bytes": 1024,
+  "profilePhotoMaxUtf8Bytes": 8192,
+  "notes": "Public-domain IANA aliases combined with pinned ICU-supported IDs; no fallback timezone or offset inference."
+}

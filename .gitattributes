@@ -9,3 +9,7 @@
 /verification/firebase/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 /docs/product_spec_legacy.md -text
 /docs/slices/01-foundation-validation.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+/firestore.workspace.rules text eol=lf
+/tests/support/provisioning-stage-probe.rules text eol=lf
+/docs/slices/05-workspace-provisioning-*.log text eol=lf
