@@ -60,7 +60,7 @@ broad rows further during detailing.
 | 6 | [Responsive navigation](slices/06-responsive-navigation.md) | Mobile drawer, desktop rail/sidebar and contextual navigation |
 | 7 | [Quick Create and basic list](slices/07-quick-create-basic-list.md) | Create a Draft Task and show it in a minimal All Tasks workspace |
 | 8 | [Task Detail and metadata editing](slices/08-task-detail-metadata.md) | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
-| 8A | Advanced Create | Separately detail expanded creation using implemented metadata; mobile full-screen/desktop large modal with retained inputs |
+| 8A | [Advanced Create](slices/08A-advanced-create.md) | One-way More Details expansion with retained draft; optional Reference/preferences/GFM, atomic root/detail creation |
 | 9 | Three onboarding Tasks | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
 | 10 | Complete query engine | All supported predicates, grouping, sorting and date semantics over complete metadata |
 | 11 | Query workspace controls | Filter/group/sort editing, counts, collapsed groups and responsive rows |
@@ -497,3 +497,37 @@ pinned renderer versions and required passing evidence remain implementation wor
 Keep Slice4 linking acceptance and held tests unchanged until separately authorized;
 cloud publication remains separate. Documentation restaged, no code/test execution,
 commit, push or deployment. Design closure is not implementation acceptance.
+
+
+## Slice8A detailing accepted — 4 November 2026
+
+Owner proceeded with [Advanced Create detailing](slices/08A-advanced-create.md),
+amending More to **More Details** and rejecting Less/back-to-compact for the draft.
+Retain one draft on mobile full-screen/desktop large-modal expansion. Title remains
+the only input the user must supply; Reference/description default empty and
+Important/Urgent Unset. All changes submit together through one Create; no individual
+preference commits or live Markdown preview. Create Task2 and required nonempty
+description1 atomically with complete recovery correlation, no partial Task patching.
+No scheduling/lifecycle controls or creation Activity Event. Update trusted cleanup
+and actual Rules/operation proofs; implementation and validation remain pending.
+Documentation only; no code, tests, staging, commit, push or cloud actions.
+
+
+### Slice8A A3 approved — 4 November 2026
+
+Owner agreed an immutable creation completion receipt atomic with Task root and
+required description, allowing original-operation verification despite timeout or
+later edits. Reuse receipt mechanism with type create, no copied description or
+Activity Event. Include receipt in trusted cleanup and prove atomic Rules. Other
+8A gap recommendations remain for review; no code, tests, staging or commit.
+
+
+### Slice8A A1–A10 agreed/design closure — 4 November 2026
+
+Owner explicitly agreed every remaining gap recommendation after A3. More Details
+is available with invalid/empty Title except pending/unknown creation; focus moves
+to Reference with values/errors preserved. One-way dismissal/validity rules,
+complete atomic creation receipt correlation, safe changed-intent/reload recovery,
+Rules proof and actual dependency/test-authority boundaries are agreed. All ten
+design gaps are resolved; implementation evidence remains pending. No staging,
+commit, push, code/tests or cloud actions are performed by this documentation.

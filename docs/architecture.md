@@ -299,6 +299,19 @@ as empty under declared schemas, reject malformed/unknown data, stage compatible
 readers/Rules before writers and record a data-aware rollback floor. Retire older
 writers unless preservation is proven. No bulk migration/cloud rollout is implied.
 
+## Advanced Create — Slice8A accepted detailing
+
+[Slice8A](slices/08A-advanced-create.md) expands Quick Create one-way via More Details
+while retaining one unsaved draft. Optional Reference/preferences/GFM use already
+accepted Task2/description1 codecs. Preferences commit only with Create, not via
+Task Detail's individual preference mutations. Atomically create root and required
+description child, with operation correlation sufficient to verify the complete
+outcome after lost acknowledgement; root existence alone is insufficient. A3
+selects an immutable creation completion receipt atomic with root/required detail;
+reuse the receipt mechanism with type create and no copied description. No new
+version solely for exposing existing fields, lifecycle side effects or Activity
+Event. Extend Rules and trusted cleanup for actual create/detail/recovery records.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |

@@ -2,6 +2,26 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-04 — Slice8A all gap resolutions agreed
+
+- Owner explicitly agreed all remaining [A1–A10 recommendations](slices/08A-advanced-create.md#accepted-gap-resolutions--a1a10) after A3. All design gaps are resolved; engineering proof remains required.
+- More Details may open despite invalid/empty Title (not during pending/unknown creation), preserves input/errors, focuses Reference and announces expansion. One-way mode and dismissal guards remain; Create depends on validity, not optional-field changes.
+- Complete root/detail/receipt correlation, changed-intent handling only after outcome resolution, minimal-ID reload recovery and actual Rules/dependency/test authority are agreed. No draft restoration, partial creation or held-test bypass is implied.
+- Documentation review only: no code/tests, staging, commit, push or cloud actions. Implementation acceptance remains pending.
+
+## 2026-11-04 — Slice8A A3 creation receipt agreed
+
+- Owner agreed [A3](slices/08A-advanced-create.md#a3-accepted--atomic-creation-completion-receipt): Task root, required description and immutable minimal creation receipt commit atomically; receipt proves original completion despite later edits/lost acknowledgement.
+- Reuse operation receipts with type create; no copied Markdown, credentials, Activity Event or history UI. Rules atomicity, repeated-request reconciliation and trusted cleanup require implementation proof.
+- Remaining A1–A2/A4–A10 recommendations are documented for review, not inferred approved. Documentation only; no code/tests, staging, commit, push or cloud actions.
+
+## 2026-11-04 — Slice8A Advanced Create detailing accepted and documented
+
+- Owner proceeded after amending the action to More Details and prohibiting Less/return to compact form. [Slice8A detailing](slices/08A-advanced-create.md) records one-way same-draft mobile full-screen/desktop large-modal expansion with retained fields/state.
+- No additional required fields without defaults: Title remains the only required user input; Reference/description empty, Important/Urgent Unset, Category/Location defaults unchanged. All preference/metadata values commit together in one Create, not separately.
+- Task2 root and any nonempty description1 child commit atomically with complete recovery correlation; no live Markdown preview, scheduling/lifecycle controls, partial Task patching or creation Activity Event. Update Rules, trusted cleanup and applicable validation evidence during implementation.
+- Documentation only; no code, tests, staging, commit, push or cloud actions. Existing Slice4 hold remains unchanged; overall platform feasibility remains INCONCLUSIVE.
+
 ## 2026-11-04 — Slice8 D12 agreed; all design gaps resolved
 
 - Owner proceeded with [D12](slices/08-task-detail-metadata.md#d12-accepted--dependencies-and-validation-authority): actual dependency contracts, focused/adversarial/browser validation, schema/rollback/deletion evidence, unchanged Slice4 hold and separate cloud authority.

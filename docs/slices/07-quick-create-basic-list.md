@@ -51,6 +51,13 @@ their separately agreed grapheme semantics.
 
 ## Responsive create behavior
 
+**Slice8A amendment, 4 November 2026:** the deferred expansion action is named
+**More Details** and is one-way for the same draft, with no Less action. Implement
+it only with the accepted [Advanced Create slice](08A-advanced-create.md); Quick
+Create alone remains limited to its three fields. Earlier More references below
+are the historical incremental scope, not the final control label.
+
+
 Below 960 CSS px, expose Create on Home/Task Views through the accepted mobile
 FAB and open a bottom sheet. At/above 960px, top-of-navigation Create opens a
 centered modal. No Create on Settings/Task Detail. Omit **More** until Advanced

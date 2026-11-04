@@ -753,7 +753,7 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 - Global **Create** is a **bottom-right anchored floating action button (FAB)** on Home and Task Views, including All Tasks and Saved Views. It is **absent** from Task Detail and Settings/subpages. A duplicate Create entry at the top of the drawer was considered but **not adopted**; revisit only if usage warrants it.
 - **Initial/idle state:** extended, right-aligned FAB with icon and **Create** label. **Normal scrolling:** label slides/collapses inward, leaving the icon fixed at the same bottom-right position; icon size/emphasis may reduce. **Sustained or rapid scrolling:** retain the icon at approximately **20% opacity** rather than hiding it. On scroll reversal/idle, restore prominence and then the label. Keep the icon's position and effective touch target stable through transitions.
 - The faded icon remains actionable, not disabled; avoid stealing scrolling gestures. Precise scroll thresholds, transition timings, hit-area behavior and accessibility require validation in the UI slice. FAB is not shown while the Create sheet is active.
-- Create opens a **bottom quick-create sheet** containing **Title, Category and Location**; Category and Location are prepopulated with their applicable defaults. **More** expands the **same form** to full-screen mobile detailed creation, retaining entered values. Exact default selection rules, required fields, validation and additional form fields remain slice decisions.
+- Create opens a **bottom quick-create sheet** containing **Title, Category and Location**; Category and Location are prepopulated with their applicable defaults. **More Details** expands the **same form** one-way to full-screen mobile detailed creation, retaining entered values. Exact default selection rules, required fields, validation and additional form fields remain slice decisions.
 
 ### 19.5 Desktop and implementation status
 
@@ -822,6 +822,38 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 
 ### 21.3 Create
 
+**Slice8A gap closure, 4 November 2026:** all A1–A10 recommendations are agreed.
+More Details can expand an empty/invalid-title draft; it does not submit, and is
+disabled during pending/unknown creation. Preserve values/errors, focus Reference
+and announce expansion. No Less or Back/Escape collapse; use normal dismissal
+protection. Root, required description and immutable create receipt are atomic.
+Changed intent starts a new attempt only after original outcome is resolved;
+minimal-ID reload recovery does not restore drafts or authorize blind replay.
+Validity enables Create even when optional fields remain at defaults. Rules,
+dependencies and applicable test authority still require implementation evidence.
+
+
+**Slice8A A3 approval, 4 November 2026:** create Task root, any required description
+and an immutable minimal creation completion receipt atomically. Verify original
+success by operation receipt after lost acknowledgement, even if Task values later
+change. No copied description, creation Activity Event or user-visible history is
+added. Include receipts in permanent cleanup; exact Rules/contracts require proof.
+
+
+**Slice8A owner agreement, 4 November 2026:** [Advanced Create](slices/08A-advanced-create.md)
+uses **More Details**, never More/Less. Expansion preserves the same unsaved draft
+and cannot collapse back; resizing retains expanded state. Title is the only field
+requiring user input. Category defaults Uncategorized, Location Unspecified,
+Reference/description empty and Important/Urgent Unset. Advanced fields are one
+creation draft, not individually committed edits. One Create atomically persists
+root metadata and any nonempty description child; no partial Task then patch.
+Description is plain-text GFM with no live preview; rendering is in Task Detail.
+No scheduling/pause/lifecycle controls. Close/Stay/Discard, original destination,
+Show Task and uncertain-outcome recovery reuse existing contracts. No creation
+Activity Event. This supersedes any earlier More/Less creation interaction and
+does not rename unrelated description expansion or overflow actions.
+
+
 **Slice7 gap-resolution acceptance, 4 November 2026:** Title sorting uses
 NFC-normalized lowercase keys in Unicode code-point order, then original Title
 and stable ID; preserve stored Title and do not strip accents or use device-locale
@@ -849,8 +881,8 @@ with Title then stable-ID tie-breaking; define the exact comparator consistently
 It does not implement every Saved View/query or fake Task Detail. Account deletion
 inventory must include introduced Tasks. This is design agreement, not execution.
 
-- Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More expands the same form to full-screen Advanced Create, retaining entered values.
-- Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More expands the same form to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
+- Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More Details expands the same form one-way to full-screen Advanced Create, retaining entered values.
+- Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More Details expands the same form one-way to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
 - Both modes share Task defaults, validation and submission. Detailed fields, dimensions, dismissal and unsaved-change behavior remain slice-level.
 
 ### 21.4 Settings management and forms

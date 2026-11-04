@@ -207,6 +207,15 @@ Keeping metadata/detail under a Task parent does not prove recursive cleanup.
 No metadata Activity Event family is introduced by Slice8. Verify fence enforcement
 against pending saves, not only new Task creation.
 
+## Slice8A inventory dependency — 4 November 2026
+
+[Advanced Create](08A-advanced-create.md) atomically creates Task2 root and required
+nonempty description1 child. Verify trusted inventory/cleanup covers this combined
+operation and the owner-approved atomic creation completion receipts, including lost
+acknowledgement. Receipts are internal recovery records, not Activity Events.
+No new Activity Event family is added. A parent-only or seed-ID-only sweep is not
+complete account deletion; fence/quiescence checks remain mandatory.
+
 ## Acceptance plan
 
 Test cancellation before intent, failed/mismatched proof, interrupted/unknown
