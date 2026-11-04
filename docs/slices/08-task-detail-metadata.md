@@ -577,3 +577,15 @@ feature is introduced. Exact physical receipt fields, Rules relationships, pinne
 dependencies and tests remain implementation work within the accepted baseline.
 Seven documentation files are staged for review; no code, tests/builds, commit,
 push or cloud action is performed. Design closure is not implementation acceptance.
+
+
+## Slice9 accepted link amendment — 4 November 2026
+
+Owner accepted Slice9 N6 with amendments: the registered /manual/ route restriction
+applies only to relative links. Other relative links remain inert; permitted
+absolute http/https/mailto/tel links remain allowed after the existing security
+validation. Every permitted link requests a new target tab/window with safe opener
+handling, superseding the earlier mailto/tel same-target rule. Browser/OS handling
+may launch an external application. No unsafe protocol, image fetch or raw HTML is
+allowed. See [Slice9](09-onboarding-tasks-manual.md#manual-delivery-and-link-contract).
+No implementation or rendering validation is claimed.

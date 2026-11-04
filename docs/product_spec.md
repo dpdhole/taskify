@@ -1147,3 +1147,16 @@ slices are the core delivery theme; broad rows split further during detailing.
 Each applicable slice includes responsive behavior, integrity/compatibility,
 recovery, tests, user guidance and template updates. See the plan for order and
 dependencies, not a blanket authorization to implement, commit or deploy.
+
+
+### 23.1 Slice9 accepted detailing amendments — 4 November 2026
+
+Owner accepted N1–N8 in [Slice9](slices/09-onboarding-tasks-manual.md), amending
+onboarding to be a blocking provisioning stage with visible progress before an
+eligible workspace becomes ready. Existing completed workspaces receive no backfill.
+The public manual is delivered under the app Hosting origin. Registered manual-route
+restrictions apply only to relative description links; other relative links stay
+inert. Absolute links under the accepted http/https/mailto/tel safe-protocol policy
+remain allowed. Every permitted link requests a new target tab/window with safe
+opener handling; browser/OS handler behavior still applies. Revised G1–G8 are
+owner-accepted; this is design closure, not implementation acceptance. Publication authority remains separate.

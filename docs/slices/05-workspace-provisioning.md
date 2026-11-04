@@ -314,3 +314,15 @@ Original detailing used baseline ca822f3. The integration amendment follows
 fetch/fast-forward to origin/main at d013515, including the Slice4 hold/handoff. Frozen experiments and legacy specification remain unchanged.
 No new validation or cloud readiness is claimed. Review this detailing before
 implementation; overall platform feasibility remains INCONCLUSIVE.
+
+
+## Slice9 accepted provisioning amendment — 4 November 2026
+
+Owner accepted Slice9 N1–N8 and selected blocking onboarding within provisioning.
+For newly enrolled initialization plans, starter Tasks are required stages before
+workspace readiness; retain per-stage markers and show blocking progress/recovery.
+Legacy ready accounts are not backfilled. This supersedes any implication that
+separate onboarding markers permit eligible workspace readiness before completion.
+Slice5 alone still creates no Tasks; Slice9 integrates the additional stages.
+See [Slice9](09-onboarding-tasks-manual.md). Revised G1–G8 are owner-accepted;
+exact implementation proof remains required; no code, tests or cloud actions are performed.

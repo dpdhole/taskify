@@ -61,7 +61,7 @@ broad rows further during detailing.
 | 7 | [Quick Create and basic list](slices/07-quick-create-basic-list.md) | Create a Draft Task and show it in a minimal All Tasks workspace |
 | 8 | [Task Detail and metadata editing](slices/08-task-detail-metadata.md) | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
 | 8A | [Advanced Create](slices/08A-advanced-create.md) | One-way More Details expansion with retained draft; optional Reference/preferences/GFM, atomic root/detail creation |
-| 9 | Three onboarding Tasks | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
+| 9 | [Three onboarding Tasks](slices/09-onboarding-tasks-manual.md) | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
 | 10 | Complete query engine | All supported predicates, grouping, sorting and date semantics over complete metadata |
 | 11 | Query workspace controls | Filter/group/sort editing, counts, collapsed groups and responsive rows |
 | 12 | Full-query persistence | Save, Save As, Reset, protected All Tasks and safe schema handling |
@@ -531,3 +531,14 @@ complete atomic creation receipt correlation, safe changed-intent/reload recover
 Rules proof and actual dependency/test-authority boundaries are agreed. All ten
 design gaps are resolved; implementation evidence remains pending. No staging,
 commit, push, code/tests or cloud actions are performed by this documentation.
+
+
+## Slice9 N1–N8 accepted with amendments — 4 November 2026
+
+Owner accepted [Slice9 recommendations](slices/09-onboarding-tasks-manual.md).
+Starter provisioning blocks eligible workspace readiness with progress/recovery.
+The manual-route restriction applies to relative links only; permitted absolute
+links remain allowed, and all permitted links request a new tab/window. Revised
+G1–G8 are owner-accepted; Slice9 design decisions are resolved. Implementation
+and validation remain pending. Seven documentation files are staged for review
+on owner instruction; no held-test release, commit, push or publication is implied.

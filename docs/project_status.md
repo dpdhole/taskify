@@ -2,6 +2,36 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-04 — Slice9 final review and staging
+
+- Owner requested final checking and staging preparation. Seven documentation files are staged for review, including [Slice9 final checkpoint](slices/09-onboarding-tasks-manual.md#final-review-and-staging-checkpoint--4-november-2026).
+- Confirmed accepted design consistency and corrected acceptance wording: ordinary Task access is blocked between provisioning stages; ordinary ownership actions apply after readiness. Documentation links/anchors and whitespace checked.
+- No application tests/builds, implementation, commit, push or cloud action. Exact engineering proof remains pending; Slice4 hold is unchanged. Earlier entries below are historical checkpoints superseded by the accepted design and this staging record.
+
+## 2026-11-04 — Slice9 revised G1–G8 accepted; design closure
+
+- Owner accepted every revised G1–G8 recommendation. [Slice9 design closure](slices/09-onboarding-tasks-manual.md#design-closure--4-november-2026) records blocking provisioning, verified ready transition, reserved seed identities, independent completion retention, scoped initializer admission, public manual delivery, safe new-target links and pinned-bundle recovery/rollback.
+- All identified design decisions are resolved. Exact persistence/Rules/cleanup/compatibility/manual-build contracts and passing validation remain implementation work; proposed starter prose must match the released feature set.
+- Documentation only; no implementation/tests/builds, staging, commit, push or cloud actions. Slice4 remains open/on hold; overall platform feasibility remains INCONCLUSIVE.
+
+## 2026-11-04 — Slice9 N1–N8 accepted; gaps re-examined
+
+- Owner accepted N1–N8 with blocking onboarding/provisioning progress until complete. Manual-route restrictions apply only to relative links; permitted absolute links remain allowed. All permitted links request a new target tab/window.
+- [Revised G1–G8](slices/09-onboarding-tasks-manual.md#gap-review--4-november-2026) preserve no-backfill, atomic seed completion and independent markers. Require final readiness checks and narrowly scoped initializer admission; unsupported/pinned-bundle recovery stays blocking. Revised gaps remain recommendations for review.
+- Updated controlling detailing/specification and dependency amendments. Documentation only; no code/tests, staging, commit, push or cloud actions. Slice4 hold remains unchanged.
+
+## 2026-11-04 — Slice9 gap review prepared
+
+- [Slice9 gap review](slices/09-onboarding-tasks-manual.md#gap-review--4-november-2026) adds G1–G8 recommendations: precise enrollment boundary, reserved seed identities, independent completion retention, honest template-integrity boundary, manual routing, cross-release links, bounded recovery and pinned-bundle rollback.
+- N1–N8 and G1–G8 remain proposals; no owner acceptance inferred from continuation. Current Hosting catch-all is an implementation integration gap, not an existing manual route.
+- Documentation only; no tests, executable changes, staging, commit, push or cloud action. Slice4 hold remains unchanged.
+
+## 2026-11-04 — Slice9 detailing proposal prepared
+
+- [Three onboarding Tasks and initial manual](slices/09-onboarding-tasks-manual.md) is prepared for owner review against clean fetched main cf77bc4. Established scope is unchanged; N1–N8 concrete recommendations remain proposals.
+- Covers new-workspace eligibility, pinned bundles, atomic per-Task completion, no overwrite/backfill/resurrection, starter copy and required acceptance evidence. Same-origin public manual routes and a narrow relative-Markdown-link exception require owner agreement.
+- Documentation only; no implementation/tests, staging, commit, push or cloud actions. Slice4 hold remains unchanged.
+
 ## 2026-11-04 — Slice8A all gap resolutions agreed
 
 - Owner explicitly agreed all remaining [A1–A10 recommendations](slices/08A-advanced-create.md#accepted-gap-resolutions--a1a10) after A3. All design gaps are resolved; engineering proof remains required.
