@@ -23,6 +23,33 @@ implement the approved seed catalogues and pure codecs; add persistence/Rules an
 initialization orchestration; then the Loading/recovery/ready presentation. Deferred
 validation must be explicitly resumed before acceptance or publication claims.
 
+## Slice5 contract progress — 4 November 2026
+
+Ownership/version axes, core fields, per-record numeric ordering, initial query
+structure, grouped-field filtering and date buckets are agreed. Separate ordering
+documents/family are superseded. See the
+[remaining decision register](slices/05-workspace-provisioning.md#remaining-gaps-and-decision-register--4-november-2026)
+for open query operators/date edges, exact serialized schemas, name uniqueness,
+bounded stages, deletion fence and compatibility rollout. These are contract and
+verification gates, not all new product decisions. Production implementation has not begun; Slice4 remains on hold. Subsequent
+owner authorization permitted the readiness checks recorded below.
+
+## Slice5 local readiness evidence — 4 November 2026
+
+[Readiness report](slices/05-workspace-provisioning-readiness.md),
+[machine evidence](slices/05-workspace-provisioning-readiness-evidence.json) and
+[execution log](slices/05-workspace-provisioning-readiness.log) record81 focused unit,
+7 existing emulator integration and4 compatibility browser passes, plus type/static
+checks and ordinary/compatibility builds. Owner authorized relevant local checks;
+older held-test statements describe earlier checkpoints. Slice4 remains held.
+
+Start implementation with exhaustive schemas and Rules/stage feasibility; this is
+not Slice5 provisioning acceptance. Candidate family checks demonstrate that an
+expanded contract alone does not retire an old client; set deliberate app bounds
+and verify rollout/rollback before publication. Schema limits, stage/finalization
+proof, fence/runtime integration and new feature verification remain pending in the
+[current register](slices/05-workspace-provisioning.md#remaining-gaps-and-decision-register--4-november-2026).
+
 ## Delivery approach
 
 **Keep slices small and feature-focused.** Except for the enabling foundation,

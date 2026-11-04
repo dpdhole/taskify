@@ -50,7 +50,8 @@ already accepted job. The script verifies the recorded intent and original UID.
 ## Data inventory and protections
 
 Include every Slice5 record family: profile, settings, Categories, Locations,
-Views, ordering, workspace initialization, seed receipts and any root/control
+Views (including their inline order fields), workspace initialization, seed receipts, name reservations
+(`users/{uid}/nameKeys/{kind}/keys/{digest}`) and any root/control
 records actually introduced by implementation. Protected Uncategorized and All
 Tasks may be physically removed only under the explicit account-deletion state;
 ordinary application operations retain their protections.
@@ -66,6 +67,24 @@ resolution against the implemented Slice5 schema. Progress data is minimal and
 content-free, bound to UID and job identity, with monotonic stage transitions and
 cloud acknowledgement. A client-supplied completion Boolean is not proof that
 collections are empty.
+
+## Shared provisioning fence — owner agreement, 4 November 2026
+
+The [Slice5 shared contract](05-workspace-provisioning.md#agreed-shared-deletion-fence-contract--4-november-2026)
+selects `accountDeletion/{uid}` as the control path, outside the workspace tree.
+Any existing control fences workspace writes regardless of state; Rules must check
+absence for provisioning/receipts/reservations too. Failed reads cannot mean absent.
+Family `accountDeletion`, schema 1, has initial request fields `schemaVersion`,
+`jobId`, `inventoryVersion`, `state: requested`, and server-confirmed `requestedAt`.
+The owner may read and create a valid request after approved proof; no browser
+update/delete/progress authority. Only the explicitly invoked trusted finalizer
+advances the job and retires the control after all existing cleanup/Auth/token
+safety prerequisites. No automatic expiry or client-cleared blocked flag.
+
+Include this root control in deletion inventory as retained operational control,
+retired last; it is not ordinary workspace content. Exact request-proof checks,
+operator progress/state fields and token-safety bounds still require detailing and
+verification. This agreement executes no deletion and creates no cloud resources.
 
 ## Processing, interruption and recovery
 

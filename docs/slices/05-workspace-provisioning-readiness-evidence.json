@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-04",
+  "baselineCommit": "83208984b58dff38cf5977f96b66a750aa86f12f",
+  "scope": "Local readiness baseline and candidate family-map gate tests; not Slice5 provisioning acceptance",
+  "authorization": "Owner: proceed with local verification; applicable local emulator/browser checks authorized. No real providers or cloud mutations.",
+  "results": {
+    "unit": {
+      "passed": 81,
+      "files": 5,
+      "candidateNewCases": 7
+    },
+    "integration": {
+      "passed": 7,
+      "files": 2,
+      "scope": "existing Foundation/compatibility Rules and reader/gate"
+    },
+    "headlessBrowser": {
+      "passed": 4,
+      "file": "tests/e2e/compatibility.spec.ts",
+      "widths": [
+        390,
+        1280
+      ]
+    },
+    "typecheck": "passed",
+    "targetedLint": "passed",
+    "targetedFormat": "passed",
+    "builds": [
+      "ordinary",
+      "compatibility"
+    ],
+    "buildWarning": "existing large minified chunk warning; no bundle/performance acceptance"
+  },
+  "findings": [
+    "Adding policy families alone admits old clients when app range still permits them; raise minimum app version deliberately.",
+    "Candidate new-family client fails against old family map.",
+    "Read-only fence capability still blocks unknown retained fence schema.",
+    "Prohibited workspace writer blocked.",
+    "0.2.0 in the synthetic tests is illustrative, not an assigned release."
+  ],
+  "notVerified": [
+    "Slice5 schema codecs and seed definitions",
+    "initialization transactions, concurrent setup, interruption/unknown-acknowledgement recovery",
+    "receipt/finalization integrity and new Rules access budgets",
+    "new name reservations and root deletion fence Rules",
+    "real Google/Microsoft, linking, full Auth/browser regression",
+    "cloud rollout, quotas, production performance"
+  ],
+  "attempts": [
+    "Sandbox emulator startup failed before tests; authorized external-process retry succeeded.",
+    "First browser runner omitted server4174: 3 passed/1 connection-refused.",
+    "Browser-only retry omitted integration-installed Rules: 3 passed/1 missing-ready.",
+    "Corrected sequence includes fixture preparation and both servers: 7 integration/4 browser passed."
+  ],
+  "actions": {
+    "productionSourceChanged": false,
+    "testFileAdded": true,
+    "cloudMutation": false,
+    "visibleBrowser": false,
+    "commit": false,
+    "push": false,
+    "deployment": false,
+    "owner5173Stopped": false,
+    "ownedEmulatorsShutdown": true
+  },
+  "sourceSha256": {
+    "tests/unit/provisioning-compatibility-readiness.test.ts": "a27a394c6028b83afd71d1eeb7f9f5cc9b37d4afac2d664cae874905b5250f94",
+    "src/domain/compatibility.ts": "8552f9c0428fbdfe7e4e922ef89338a96e026c5adecba16df760f4f9b20acf5b",
+    "src/application/compatibility-gate.ts": "6786c5588717c4635fc401335fd6e328d639844fd1575387da13add0b0959583",
+    "src/application/session-controller.ts": "a35c84a6ffa5b982ca920bf85b52023b49b728e1b2cd6e903ad3935742a26835",
+    "src/infrastructure/firebase/auth-adapter.ts": "3998629314451d283dd4497b53354a551abec4e45ef78b903953df319dd8a826",
+    "tests/integration/compatibility.test.ts": "158a9d0161f5d3762f4ab824c3b939fd496d086a32772df89ef2f5842eb7ba0a",
+    "tests/integration/emulator.test.ts": "e680b65879fc474583c225a6491a6f5e799e079a85e3044a068cf8b8aaf7945c",
+    "tests/e2e/compatibility.spec.ts": "018c8700a43a0df524109a2989d474213d11c2fe6c0ba6fb898064cf108c0963",
+    "firestore.compatibility.rules": "56f74c83b7a70b484dbf9294b1b47192ce4e50c7ea8d5d5bee765d050a6e6101",
+    "tests/support/compatibility-write.rules": "258f7bf29a19767762d34af789855eae2eae2e9c12bfe3a2e8c5ca8e72b961e7",
+    "tests/support/firestore.rules": "3df7ac7b8195851291953260c9ce352f1cef1b72433879acf86f68e40b703f02",
+    "firebase.local.json": "a0f4dd8826d1ef2030b806f338a5a9a17bad79a32765fb64aae22011863b1812",
+    ".local/slice5-readiness/run-emulators.mjs": "ed876eba9f76658066a0807aa4a8c7da27c6a0cca7f88a3f83bf0af79ef92b52",
+    ".local/slice5-readiness/run-local-tests.mjs": "d07ae141d0ea0f34410031e24c4b5436eac08e6722408855207c4eefcb73d5fb",
+    ".local/slice5-readiness/playwright.config.ts": "7bd5b0414242c512ab06c5ec604990e1c1f7d3ecdcfeeb0ddd407ee40899242f"
+  },
+  "executionLogSha256": "67baacbd8c522c10c1a09aa19a4dfc064995999684d6f4ed15556de1c582c9c1",
+  "artifactAudit": {
+    "sourceAndRunnerHashes": "all matched",
+    "executionLogHash": "verified against LF-normalized UTF-8 bytes",
+    "note": "Windows newline conversion corrected; test results unchanged"
+  }
+}

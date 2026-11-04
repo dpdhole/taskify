@@ -192,14 +192,38 @@ without explicit implementation and evidence.
 
 [Slice5 detailing](slices/05-workspace-provisioning.md) records owner-approved
 catalogues, icon names, seven initial Views, one-time optional profile capture and
-persisted timezone initialization. Category order is alphabetical plus protected
-Uncategorized last; Location order is alphabetical plus synthetic Unspecified last.
+persisted timezone initialization. Categories, Locations and Views carry spaced
+integer `order` ranks, initially in steps of 1000 following the approved catalogues.
+Order ties use stable document IDs; protected Uncategorized and synthetic Unspecified
+remain last. No separate ordering documents are introduced (owner agreement,
+4 November 2026); All Tasks starts last but remains movable.
 Versioned UID-owned templates, bounded transactional stages and validated progress
 receipts must prevent duplicate/partial completion under simultaneous access.
 Blocking Loading/progress and guidance do not replace integrity. Exact physical
 paths/stage grouping/query codec remain review/implementation proposals; no new
 records or Rules are implemented by detailing. Preserve user changes and never
 reseed completed ordinary defaults. No Task provisioning/backfill occurs here.
+Owner also agreed Category/Location name reservations under each UID, separately
+scoped by record kind. Record/reservation creation and rename are atomic; archives
+retain claims. Add `nameReservation` schema 1 to compatibility and deletion
+inventory. Carry forward the accepted PoC/beta client-only NFC/grapheme boundary;
+Rules enforce ownership, literal-key consistency and atomic claims, not canonical
+Unicode compliance against a modified client. Exact staged Rules feasibility is
+still pending; frozen feasibility evidence is not product acceptance.
+
+Shared deletion fence is `accountDeletion/{uid}` (owner agreement, 4 November
+2026), outside workspace cleanup. Existence blocks all ordinary workspace writes;
+Rules independently check absence for each write. Add accountDeletion schema 1
+as the ninth Slice5-associated family, read-only for provisioning clients. Browser
+request creation belongs to implemented Slice5A admission; progress and retirement
+remain trusted-only. No expiry or automatic teardown of the control is approved.
+
+[Local readiness evidence](slices/05-workspace-provisioning-readiness.md) covers
+existing compatibility/Rules/browser baseline and candidate family admission, not
+new provisioning integrity. New policy families alone do not retire older clients;
+coordinate app bounds and verified Rules/client/contract sequencing. Final stage
+receipt/content enforcement and fence/runtime integration remain to implement.
+
 Early [Delete Account detailing](slices/05A-delete-account.md) selects Option 3:
 browser-confirmed intent followed by a local operator-run trusted finalizer. The
 script verifies data cleanup, deletes Auth last and safely retires a temporary

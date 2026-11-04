@@ -1,6 +1,6 @@
 # Slice 5 — Workspace provisioning
 
-Status: **next development slice by owner direction, 2 November 2026; scope/defaults agreed; implementation not started**.
+Status: **contract detailing in progress, 4 November 2026; ownership/version axes, core fields, numeric ordering, query envelope and date buckets agreed; implementation not started**.
 The owner put Slice 4 on hold and directed proceeding to this slice. Linking is not
 a prerequisite; use the accepted single-provider Auth/session and compatibility
 boundaries. See [Slice 4 hold and handoff](04-identity-linking-hold.md). Concrete
@@ -13,6 +13,17 @@ Authority: [product specification](../product_spec.md),
 [Slice 3](03-provider-sign-in.md) and [Slice 4](04-identity-linking.md).
 This amendment supersedes the earlier absence of a required starter Location list
 and resolves the previously open starter Category catalogue.
+
+## Local verification checkpoint — 4 November 2026
+
+Owner authorized local verification after the testing explanation. The applicable
+local emulator/headless readiness checks are now permitted; earlier hold statements
+below record historical authorization checkpoints. Slice4 remains open/on hold;
+this does not authorize cloud actions, interactive provider tests or claim linking
+acceptance. [Readiness report](05-workspace-provisioning-readiness.md): 81 focused
+unit, 7 existing integration and 4 compatibility browser checks passed. Candidate
+family-map tests demonstrate the need for deliberate app bounds; production Slice5
+transactions/Rules remain unimplemented and unverified. No full regression claim.
 
 ## Deliverable and exclusions
 
@@ -94,7 +105,7 @@ owner's test hold and obtain applicable authorization before running held checks
 Keep Slice4 failure reproduction, linking acceptance and multi-provider readiness
 separate from provisioning results. This amendment executes no tests.
 
-Physical paths, exact bounded seed stages, query codec/default decisions,
+Physical paths are now agreed below. Exact bounded seed stages, query codec/default decisions,
 compatibility family changes, Rules and Slice5A deletion-fence contracts still
 require concrete resolution/verification. New Auth code does not supply those
 persistence guarantees or authorize cloud policy publication.
@@ -178,10 +189,163 @@ before its value is persisted. Full predicate support/editor remains Slices 10�
 expand compatibly, preserving meaning and rejecting unknown queries safely.
 
 All Tasks definition/name/protection/Home inclusion cannot be overwritten or
-removed. Its order is separate mutable user state, initially last; later View
+removed. Its `order` is mutable independently of its protected definition, initially last; later View
 management may reorder it. Ordinary Views can later be renamed, edited, hidden,
 reordered or deleted. A completed initializer never recreates an intentionally
 deleted ordinary View or resets user-modified definitions/order.
+
+## Agreed query structure — 4 November 2026
+
+Owner directed proceeding after the Step 3 proposal. Each persisted View query
+contains required `querySchemaVersion` (initially 1), `includeClosed` and
+`includeDeleted` booleans, a `filters` object, a mandatory supported `groupBy`
+and `sort: { field, direction }`. Empty filters impose no additional restriction
+within the candidate scope. OR applies within filter dimensions, AND across them.
+Include controls expand scope; they do not mean only Closed or only deleted.
+One sort applies within groups, with stable Task ID resolving equal sort values.
+Paused Tasks remain eligible unless explicitly filtered. Workspace settings supply
+the timezone. Search text, scroll and expansion state are not query fields.
+
+Initial definitions are the seven approved rows above. Completed explicitly filters
+Closed/Done; Deleted explicitly requires Deleted Date Is Set with both scope flags
+on. This step does not finalize filter operators or operand serialization; grouping
+boundaries were subsequently agreed below. Owner resolved the grouped-dimension conflict on 4 November
+2026: all grouping fields remain available in filters, including Deleted Date.
+Grouping changes do not clear otherwise valid filters; evaluate filters before
+partitioning the eligible population into groups.
+Closure reasons remain stored but inactive when Include Closed is off, as required
+by product specification section 17.5. Query schema v1 is not final until these
+remaining codec edge contracts are resolved. JSON operand shapes, filter/date-sort
+semantics and group boundaries below are now accepted. No query implementation or test run is claimed.
+
+## Agreed grouped-field filtering and date buckets — 4 November 2026
+
+Owner rejected the historical restriction on filtering a grouped dimension.
+Every supported grouping field remains filterable using its applicable operators;
+there is no presence-only exception. Filters select the population first, grouping
+partitions the result. Grouping changes alone do not erase valid filter selections.
+Mandatory grouping, retained zero-count groups and matching-count invariants remain.
+Closure outcome is still filter-only; this amendment does not introduce new
+Group By dimensions or new filter operators.
+
+Owner also removed standalone Yesterday and Tomorrow buckets, including those
+calendar days in the previous and next 1–7-day windows respectively:
+
+| Group | Calendar-day offset from today, in workspace timezone |
+|---|---|
+| Older | -31 or earlier |
+| Previous 8–30 days | -30 through -8 |
+| Previous 1–7 days | -7 through -1 |
+| Today | 0 |
+| Next 1–7 days | +1 through +7 |
+| Next 8–30 days | +8 through +30 |
+| Later | +31 or later |
+| Unspecified | Missing grouping date; always last |
+
+Each valid date belongs to exactly one bucket; zero-count buckets remain visible.
+Use calendar-day boundaries rather than elapsed 24-hour durations. This changes
+date groups, not Tomorrow/Yesterday date-entry shortcuts or Task date-storage
+semantics. Invalid dates remain validation errors, not Unspecified. Exact operand
+serialization remains to be finalized; the subsequent filter/date-sort agreement
+below resolves relative evaluation and date-only Due semantics.
+
+## Agreed filter and date/sort semantics — 4 November 2026
+
+Owner directed proceeding after review of the operator/date-edge proposal.
+The following semantics are accepted; exact JSON discriminators and operand
+shapes remain the next proposal. The executable query codec is not implemented.
+
+| Concern | Accepted semantics |
+|---|---|
+| Selection filters | Nonempty stable-ID or enum lists; OR within a dimension, AND across dimensions |
+| Empty selections | Remove the filter; reject persisted empty selection lists |
+| Unspecified Location | Explicit no-assignment operand, distinct from a Location ID |
+| Date operators | Is Set, Is Not Set, Before, On or After, Between |
+| Between | Inclusive lower bound and exclusive upper bound, `[from, to)` |
+| Relative dates | Persist calendar-day offsets, evaluate against today in workspace timezone rather than freezing dates on save |
+| Evaluation anchor | Capture one now/timezone for each query evaluation; use consistently for filtering and grouping |
+| Date-only Due | Group/filter by the selected calendar day despite next-midnight exclusive expiry storage; exact-time Due uses its actual timestamp |
+| Missing sort values | Always last in either direction; stable Task ID resolves ties |
+| Date-group ordering | Chronological Older through Later; Unspecified last; task sort direction does not reverse group order |
+| Invalid conditions | Reject unknown operators, malformed operands, reversed/empty ranges and contradictory conditions; preserve stored data for recovery |
+
+Date-only Due interpretation requires precision metadata or an equivalent explicit
+codec contract: midnight alone cannot distinguish a date-only expiry from an
+exact-time Due at midnight. Concrete Task storage remains a later slice; do not
+infer precision by subtracting time from every midnight timestamp. This record
+establishes query semantics without inventing a Task schema or migrating data.
+
+## Approved query JSON representation — 4 November 2026
+
+Owner explicitly approved the following representation. Stable camelCase field
+and enum tokens are independent of display labels. View name, `order` and
+`showOnHome` are outside `query`.
+
+| Operand / condition | Approved representation |
+|---|---|
+| Selection | `{"op":"in","values":["closed"]}`; nonempty values |
+| Actual Location | Tagged value `{"kind":"id","id":"office"}` |
+| Unspecified Location | Tagged value `{"kind":"unassigned"}`, distinct from a record ID |
+| Date presence | `{"op":"isSet"}` or `{"op":"isNotSet"}` |
+| Date comparison | `{"op":"before","value":…}` or `{"op":"onOrAfter","value":…}` |
+| Date range | `{"op":"between","from":…,"to":…}`; half-open |
+| Absolute calendar boundary | `{"kind":"calendarDate","date":"2026-11-04"}`; start of that calendar day in workspace timezone |
+| Relative calendar boundary | `{"kind":"relativeDay","offset":0}`; start of today, with 1 meaning tomorrow |
+| Exact instant | `{"kind":"instant","value":"2026-11-04T10:30:00Z"}` |
+| Multiple date conditions | Array under the date field, combined with AND; reject contradictions |
+
+Approved Completed example:
+
+```json
+{
+  "querySchemaVersion": 1,
+  "includeClosed": true,
+  "includeDeleted": false,
+  "filters": {
+    "lifecycle": { "op": "in", "values": ["closed"] },
+    "closureOutcome": { "op": "in", "values": ["done"] }
+  },
+  "groupBy": "actualEnd",
+  "sort": { "field": "actualEnd", "direction": "desc" }
+}
+```
+
+The envelope, operators, operand shapes and date-group behavior are agreed.
+This does not claim a complete executable v1 codec: enumerate the full field/enum
+allowlists, bounds, duplicate-value handling, operand combinations and precise validation checks before codec freeze;
+subsequent accepted validation policy below resolves the date-kind/Due choices.
+Relative conditions may become empty/reversed as time advances; distinguish
+invalid persisted structure from an evaluation-time empty intersection without
+rewriting the saved query. These residual edge contracts remain for explicit
+resolution, not silent implementation choices. No query engine or Task schema
+is introduced by JSON approval.
+
+## Accepted query validation policy — 4 November 2026
+
+Owner directed continuing after the final-validation proposal. Apply these rules
+when detailing/implementing the v1 codec; exhaustive token lists and resource
+bounds are still engineering work and are not supplied by this policy alone.
+
+- Explicit field/enumeration allowlists; reject unknown fields and duplicate
+  selection values. Editor output uses unique selections and stable enum tokens.
+- Validate referenced IDs structurally without requiring active records. Archived
+  references remain valid; never silently strip missing references from a query.
+- Date operands are strict valid calendar dates, UTC instant strings or safe-integer
+  relative-day offsets. Both boundaries in a Between condition use the same kind;
+  mixed-kind ranges are rejected.
+- Multiple date conditions combine with AND and may mix absolute/relative kinds
+  across separate conditions. Evaluation-time empty intersections yield no results,
+  not a malformed saved query. Reject permanent structural contradictions such as
+  Is Not Set combined with a comparison on the same date field.
+- Due filters in query v1 accept calendarDate/relativeDay operands, not instant
+  operands. Interpret date-only Due as its selected calendar day, not its exclusive
+  next-midnight expiry; day-based filtering also applies to exact-time Due in the
+  workspace timezone. Exact-time Due filtering is deferred for separate semantics.
+- Establish explicit selection/condition/payload bounds alongside physical schema
+  and Rules-budget design. This is not approval of arbitrary account/product caps.
+
+This accepts validation behavior, not an implemented or frozen exhaustive codec.
+Full query execution/editor remain later slices; Slice5 validates and stores seeds.
 
 ## Profile, settings and defaults
 
@@ -200,19 +364,46 @@ agreed warning-enabled, Monday week-start and Last 7 Days defaults in versioned
 feature templates until those features need persistence. Default Category is
 Uncategorized; default Location is absent. Do not reintroduce DOW/TOD fields.
 
-## Proposed persistence and version boundaries
+## Agreed ownership and versioning — 4 November 2026
 
-Use a user-owned namespace keyed by authenticated UID, with proposed paths:
+Owner accepted the following Step 1 decisions. Core document fields and query representation were subsequently agreed below;
+validation bounds, stage layout and deletion-fence contracts remain open;
+this agreement does not claim implementation or authorize cloud publication.
 
-| Record | Proposed path / purpose |
+| Concern | Accepted contract |
+|---|---|
+| Ownership | One workspace per Firebase UID under `users/{uid}/…`; ownership derives from the path, independently of sign-in provider |
+| Record families | Independently version `workspaceInitialization`, `profile`, `settings`, `category`, `location`, `view` and `initializationStage` |
+| Record schema | Every document carries `schemaVersion`, initially `1`, identifying persisted structure and meaning |
+| Concurrency | Mutable documents carry `recordVersion`, initially `1`, incremented once per committed change; independent of schema version |
+| Receipts | Stage receipts are immutable after creation, carry schema/template versions and have no edit counter; retries read rather than modify them |
+| Seed template | Initialization and receipts carry `templateVersion`, initially `1`; later templates do not automatically reset completed workspaces |
+| Query payload | Saved View queries carry independent `querySchemaVersion`, initially `1`; query meaning evolves separately from View metadata |
+| Compatibility | Register every introduced record family in client capabilities and the authoritative contract before admitting dependent operations; current probe-only support is insufficient |
+| Unknown data | Unsupported schemas or malformed required records block affected operations while preserving stored data; no silent reinterpretation or destructive repair |
+| Upgrades | Only explicit, tested, transactional conversions; ordinary reads never silently upgrade records; preserve concurrent edits and meaning |
+
+App version, contract revision, record schema, record edit counter, query schema
+and seed template version are distinct axes; numeric equality is not required.
+Existing backward-compatibility and integrity policies remain controlling. No
+deletion-control schema or new record family beyond the seven listed is approved
+by this step; align Slice5A controls separately before workspace writes.
+
+## Agreed persistence paths — 4 November 2026
+
+Owner explicitly agreed the following UID-owned paths. Stage receipt IDs remain
+for the bounded-stage design; path agreement does not approve extra guard/control
+families or claim implementation.
+
+| Record | Agreed path / purpose |
 |---|---|
 | Initialization | users/{uid}/initialization/workspace — template version, progress/completion |
 | Profile | users/{uid}/profile/main — initial optional presentation |
 | Settings | users/{uid}/settings/main — required persisted preferences |
 | Classifications | users/{uid}/categories/{id}, users/{uid}/locations/{id} |
 | View definition | users/{uid}/views/{id} — protection, query and Home inclusion |
-| Ordering | users/{uid}/orders/{family} — Category, Location and View ID sequences |
 | Stage receipts | users/{uid}/initializationStages/{stageId} — bounded seed completion |
+| Name reservation | users/{uid}/nameKeys/{kind}/keys/{digest} — approved Category/Location name claim |
 
 Validate all external records at runtime. Separate record-family schema versions,
 query schema versions, mutable-record concurrency versions and template versions.
@@ -221,6 +412,111 @@ The current compatibilityProbe-only family map is insufficient: extend client an
 authoritative contract deliberately for every introduced family before admission.
 No contract publication is authorized here. Unknown/malformed required records
 block with recovery guidance rather than trigger wholesale overwrite.
+
+## Agreed document fields and ordering — 4 November 2026
+
+Owner approved the Step 2 fields other than ordering, then selected spaced integer
+`order` fields with steps of 1000. This supersedes the separate ordering documents
+and `ordering` record family in the original Step 1 proposal; neither is introduced.
+Physical paths above are owner-agreed; exact stage IDs and guard/control additions
+remain subsequent contracts.
+
+All documents carry `schemaVersion`. Mutable records additionally carry
+`recordVersion`, `createdAt` and `updatedAt`, using server-confirmed timestamps.
+Ownership and identity derive from the path. Omit absent optional fields
+consistently; reject unknown fields within a known schema. Receipt documents use
+`completedAt` without mutable-record timestamps or an edit counter.
+
+| Document | Accepted fields / validation |
+|---|---|
+| Initialization | `templateVersion`, `status` (`initializing` or `complete`), optional `completedAt`; completion requires valid receipts, with `completedAt` present only when complete |
+| Profile | Optional `displayName` and `photoUrl`; photo URL uses HTTPS; capture once without later provider-driven overwrite |
+| Settings | Required validated supported `timezone`; invalid/missing browser timezone requires explicit selection |
+| Category | `name`, `icon`, `archived`, `order`; approved normalization/naming constraints and allowlisted icon; reserved Uncategorized ID determines protection |
+| Location | `name`, `icon`, `archived`, `order`; approved naming constraints and allowlisted icon; no coordinates or synthetic Unspecified document |
+| View | `name`, `query`, `showOnHome`, `order`; query carries `querySchemaVersion`; reserved All Tasks ID determines protection; query envelope/JSON agreed; exhaustive validation contracts remain |
+| Stage receipt | `templateVersion`, `completedAt`; deterministic stage ID; immutable and atomic with required stage records |
+
+Initial ranks follow each approved catalogue: 1000, 2000, 3000 and so on,
+independently per family. Initial All Tasks rank is 7000 and it remains movable.
+`order` is a finite safe integer; later insertion between adjacent records may
+use `ceil((left.order + right.order) / 2)`, not necessarily a multiple of 1000
+(owner clarification). The result must be strictly between the neighbours. If
+there is no such gap, renumber the family in its current order to 1000, 2000,
+3000 and so on, then recalculate the insertion rank. Compute the midpoint without
+unsafe integer arithmetic; equal-rank neighbours also require normalization.
+Use ascending `(order, stable document ID)` as the deterministic tie-break. Equal
+ranks do not constitute corruption or a uniqueness violation. Preserve archived
+records' ranks. Uncategorized is displayed last by protected-position semantics;
+Unspecified follows named Locations synthetically. Home uses global View order
+while respecting `showOnHome`; All Tasks inclusion stays protected.
+
+Reordering changes `order` and mutable-record metadata, preserving identity and
+other content. Existing stale-version reload/explicit-overwrite policies apply;
+no overwrite may bypass integrity. When an insertion gap is exhausted, normalize
+the affected family's ranks back to steps of 1000 through a safe transactional
+operation. Exact concurrency, collection-size bounds, Rules budgets and atomic
+renumbering mechanics remain to be verified before implementing reorder commands;
+no partially visible multi-record renumbering is accepted. Seed retries must never
+reset committed user ordering in a completed workspace. Later management slices
+implement user reordering; Slice5 persists initial ranks only.
+
+## Agreed name uniqueness and reservation contract — 4 November 2026
+
+The path structure and subsequent reservation approach are owner-agreed. No additional root `users/{uid}` document is
+needed absent a concrete operation; renames preserve stable record IDs, reserved
+IDs determine protection, and no separate ordering documents are introduced.
+
+Review found a previously accepted PoC/beta boundary in
+[feasibility decisions](../feasibility/firebase-validation-decisions.md) and the
+[later assessment](../feasibility/firebase-verification-assessment.md): NFC
+normalization and the 30-grapheme policy are client-enforced; Rules enforce
+trim/lower consistency, UID isolation and atomic reservations of literal name keys.
+A modified owner client can bypass canonical Unicode/grapheme validation within
+its own namespace. Do not claim adversarial canonical-equivalence uniqueness.
+The initial failed name probe predates this accepted limitation; do not reopen it
+as an unmade owner decision. Frozen candidate Rules are evidence, not production
+policy. Existing accepted boundaries do not waive other integrity protections.
+
+Owner directed proceeding after the reservation proposal; the following contract
+is accepted but not implemented or freshly validated:
+
+- For Category and Location separately within each UID, add `nameKey` to the
+  named record and one `nameReservation` schema family, initially schema 1.
+  App canonicalization is trim, NFC, then locale-independent lowercase; Rules
+  require the exact literal relation `nameKey == name.lower()` and trimmed names.
+  Define/test the app/Rules Unicode lowercasing behavior; do not substitute an
+  unverified full Unicode case-folding algorithm.
+- Reservation path: `users/{uid}/nameKeys/{kind}/keys/{digest}`, with kind restricted
+  to `categories` or `locations`, digest the SHA-256 hex of UTF-8 `nameKey`.
+  Hashing keeps slashes/path punctuation out of the ID. Verify the digest/key
+  relation in Rules, not merely in the app. Treat unexpected digest/key mismatch
+  as an integrity error, never overwrite another name's reservation.
+- Reservation fields: `schemaVersion`, `nameKey`, `entityId`, `createdAt` using
+  server-confirmed time. Immutable binding; no edit counter. Rename deletes the
+  old reservation and creates the new one, rather than editing its binding.
+- Create entity and reservation atomically; enforce correspondence both ways.
+  Two clients claiming the same key must yield one winner and a name-conflict
+  outcome for the other. No preflight query is proof of uniqueness.
+- Rename atomically acquires the new key, updates the entity/version and releases
+  the old key. Case-only renames retain the existing reservation. Cross-entity
+  swaps and standalone reservation removal are not ordinary supported operations.
+- Archived records retain their reservation, so active/archived names share one
+  namespace per kind. Category and Location may have the same name. View-name
+  uniqueness is not introduced by this proposal.
+- Protected Uncategorized and all seeded named records receive reservations too.
+  Reordering, icon edits and archive/restore do not change the reservation.
+  Account deletion removes entities/reservations under the separate trusted fence
+  contract; later entity deletion must specify atomic release/reference handling.
+
+The reservation agreement increases the seven record families to eight, adding
+`nameReservation` with schema 1. Include guard writes in stage budgets, declare
+the family in client capabilities/authoritative compatibility policy and include
+its nested path in Slice5A deletion inventory. This supersedes the earlier
+seven-family-only scope. Bounded-stage Rules feasibility and fresh tests remain
+pending under the current broader-test hold.
+Firebase documents `getAfter()` for validating post-write state in atomic operations:
+[Rules conditions](https://firebase.google.com/docs/firestore/security/rules-conditions).
 
 ## Safe initialization and progress
 
@@ -259,6 +555,72 @@ offline write queue is introduced. Preserve useful recovery input where feasible
 After confirmation show Workspace ready; this does not assert Task-population
 completeness, an empty inventory, a functioning Dashboard or later navigation.
 
+## Accepted initialization stages and recovery — 4 November 2026
+
+Owner explicitly accepted the proposed stage/recovery approach. Transactions are
+sequential and bounded; exact stage IDs, receipts, counters/prerequisites and
+Rules expressions still require concrete design and budget verification.
+
+| Phase | Accepted behavior |
+|---|---|
+| Admission | Check session, compatibility, connectivity and absence of deletion fence |
+| Base setup | Atomically create initialization state, initial profile/settings and receipt; concurrent clients retain first committed values |
+| Categories | Deterministic seed records together with name reservations and receipts |
+| Locations | Same paired-record/receipt approach as Categories |
+| Views | Seed all seven explicit definitions with initial numeric ranks and receipts |
+| Finalization | Mark complete only after Rules-verifiable evidence confirms every required stage |
+| Recovery | Read committed progress and resume unfinished stages without overwriting completed stages or user changes |
+
+Candidate maximum is two named records plus their reservations per stage; this
+is a design starting point, not a certified Rules limit or immutable batch size.
+Reduce grouping if needed for verified budgets. Receipt creation must be enforced
+alongside required records; a client-supplied receipt/count alone cannot prove
+completion. Design finalization evidence without assuming one transaction can
+read every receipt or that a mutable counter is inherently trustworthy.
+
+Unknown acknowledgement requires authoritative server reconciliation before retry.
+Logout/account switch or gate loss stops new submissions and invalidates stale UI
+results; already submitted work can commit and must later be reconciled. Do not
+promise rollback or restart a template because admission expired. The one-device
+setup message is guidance, never a substitute for concurrent-client convergence.
+
+No implementation, Rules/emulator/browser verification or cloud publication is
+claimed by stage acceptance. The broader-test hold remains active. The shared Slice5A fence control is subsequently agreed below; exact finalizer
+states, proof admission and retirement safety remain Slice5A verification work.
+
+## Agreed shared deletion-fence contract — 4 November 2026
+
+Owner directed proceeding after the shared-fence proposal. This agreement prepares
+Slice5 admission/Rules; the deletion request UI, trusted finalizer and destructive
+execution remain Slice5A and separately authorized operations.
+
+| Concern | Accepted contract |
+|---|---|
+| Path | `accountDeletion/{uid}` outside the workspace data subtree |
+| Fence | Existence blocks provisioning and ordinary workspace writes, independent of job state |
+| Versioning | Add `accountDeletion` family, initially schema 1; declare in compatibility capabilities/policy; nine families including nameReservation |
+| Initial fields | `schemaVersion`, `jobId`, `inventoryVersion`, `state: requested`, server-confirmed `requestedAt` |
+| Operator fields | Validated minimal progress/timestamps; no profile data or credentials |
+| Browser rights | Matching owner reads status; creates one strictly validated request after the approved fresh-proof flow; no update/delete |
+| Operator rights | Explicitly invoked trusted script progresses same job, cleans data, deletes Auth last, eventually retires fence |
+| Failed/unknown control read | Block safely; never infer absence from a read failure or unsupported schema |
+| Concurrency | Every workspace write's Rules enforce fence absence, including initialization/receipts/name reservations; committed setup stages remain deletion inventory |
+| Retirement | Only trusted finalizer after verified data cleanup, Auth absence and validated stale-token safety interval; no automatic expiry |
+
+No mutable `blocked` Boolean controls admission: all existing control states are
+fenced, including unknown states. Existence checks must still fence unsupported
+schemas even where the UI cannot decode progress. Root control is intentionally
+outside ordinary workspace deletion; include it in trusted inventory as a control
+retired last, not as ordinary data to purge first. Cloud deletion job execution is
+not authorized by accepting the contract.
+
+Exact proof admission, job states/progress shape, inventory versions, token-safety
+bound and control mutation/version concurrency rules remain Slice5A detailing.
+Do not claim their verification or silently grant client progress writes. Slice5
+must implement fence admission/Rules without exposing an incomplete deletion UI.
+Its client capability declares readable schema 1; a write capability is declared
+only by a build implementing the authorized request creation operation.
+
 ## Security and recovery acceptance
 
 Replace the current deny-all application-data policy only with explicit UID-owned
@@ -273,7 +635,7 @@ at every stage, unknown acknowledgement, retry, malformed/unknown schema,
 cache-only boot, offline/resume, gate revocation, Logout and account switching.
 Verify exact catalogue counts/order/icons, all seven query definitions, no seed
 reset/recreation after completion, profile/timezone preservation, protected All
-Tasks/Uncategorized, reorder separation and cross-UID denials. Run meaningful
+Tasks/Uncategorized, ordering independent of query/name changes and cross-UID denials. Run meaningful
 adapter/Rules/browser integration and affected Auth/compatibility regressions.
 Record reads/writes/retries/listener lifetimes for first and returning access;
 local counts are not actual billing or platform-capacity proof. Do not impose a
@@ -301,16 +663,50 @@ accounts motivate early delivery; no accounts are deleted by this document.
 Do not add the old in-scope seed-only deletion logic as a future unsafe shortcut:
 the deletion contract must evolve with every new owned record family.
 
-## Review and next checkpoint
+## Remaining gaps and decision register — 4 November 2026
 
-The owner-approved scope/catalogues/icons are recorded above. Physical paths,
-stage layout, exact query codec and any previously unspecified query defaults are
-concrete design proposals requiring resolution/verification before implementation.
-Select icon delivery, implement explicit runtime/Rules boundaries and update
-feature guidance/templates without teaching unavailable features. Initial manual
-publication stays Slice 9. No invented manual URLs or external publication.
+Accepted: UID paths; nine record families; version axes; core fields; per-record
+integer ranks with 1000 initial spacing/midpoint insertion; seven starter queries;
+query JSON/operators/validation policies; group/filter coexistence; eight date
+buckets; client-only NFC/grapheme boundary plus atomic name reservations; sequential
+bounded initialization/recovery; existence-based root deletion fence. These are
+not reopened as unresolved product decisions.
 
-Original detailing used baseline ca822f3. The integration amendment follows
-fetch/fast-forward to origin/main at d013515, including the Slice4 hold/handoff. Frozen experiments and legacy specification remain unchanged.
-No new validation or cloud readiness is claimed. Review this detailing before
-implementation; overall platform feasibility remains INCONCLUSIVE.
+Local readiness evidence is [reported](05-workspace-provisioning-readiness.md),
+with [machine evidence](05-workspace-provisioning-readiness-evidence.json) and
+[execution output](05-workspace-provisioning-readiness.log). The baseline passed
+81 focused unit,7 existing emulator integration and4 compatibility browser checks.
+Source/runner hashes match; normalized execution-log byte hash is verified. No
+new test execution is implied by this documentation reconciliation.
+
+| Pending item | What remains / recommendation | Classification and gate |
+|---|---|---|
+| Executable schema/codec contract | Enumerate exact fields/enums, reserved IDs, required/optional fields, duplicate handling and validated field/condition/payload limits. Accepted query semantics/paths are settled; do not reopen them | Engineering detailing before codec/Rules freeze; raise only material behavior changes for owner decision |
+| Due precision | Implement the accepted selected-calendar-day interpretation using explicit precision metadata; define exact-time Due sorting and mixed-precision comparison consistently. Never infer date-only precision from midnight alone | Remaining representation/edge contract; resolve user-visible ordering ambiguity before execution, Task physical schema belongs to its slice |
+| Name reservations | Implement bidirectional record/guard checks, hash/key validation, archive retention and atomic rename; exercise concurrent claims and reserved seeds | Accepted design, fresh product Rules verification pending; frozen naming evidence is not current acceptance |
+| Stage receipts/finalization | Fix stage IDs and prerequisite graph, show Rules-verifiable receipt/content checks and finalization proof. Candidate two named records is conditional; measure budgets and reduce grouping if needed | Engineering feasibility gate; must precede persistence acceptance; counters/receipts alone are not trusted evidence |
+| Fence integration | Implement root-control absence checks for every workspace write and blocking owner status reads; align inventoryVersions and schema. Full proof/operator-state/token-retirement details remain Slice5A | Shared contract agreed; new Rules/adapter verification pending; no full Delete Account implementation in Slice5 |
+| Compatibility rollout | Assign actual app version, contract revision/server release and coordinated client/Rules/contract sequence; define rollback floor. New families alone do not retire older clients, as the readiness test demonstrates | Remaining release choice and engineering plan; synthetic0.2.0 is not assigned; cloud publication separately authorized |
+| Runtime/presentation | Replace no-op account cleanup, bind late results to UID/generation/admission, reuse shared runtime, add optional initial photo and timezone recovery, show truthful Loading/ready | Implementation work on accepted behavior; no dependence on linking/provider-status success |
+| Icon delivery | Select pinned self-hosted Material Symbols Rounded assets and verify catalogue coverage/style | Routine implementation choice; no extra product decision required |
+| Slice5-specific verification | Test exact seeds, concurrent/interrupted setup, unknown acknowledgement, cache/offline/gate recovery, forged receipts, fence/cross-UID denial and affected session behavior | Local verification now authorized. Existing readiness checks do not cover unimplemented Slice5 code. Slice4 linking remains held; real-provider/cloud work remains separate |
+
+Verdict: ready to begin domain/schema implementation and staged Rules feasibility
+work. Not ready to claim complete provisioning, publish new workspace writes or
+close Slice5. No unresolved high-level product decision requires reopening agreed
+scope. Concrete stage-integrity proof is the principal remaining feasibility gate.
+User-visible precision/sorting choices or necessary constraint changes return for
+owner agreement; release identifiers/publication choices are decided before release.
+
+Recommended sequence: finish exhaustive schema/codec tokens and bounds; design
+stage/finalization checks together with Rules; implement pure codecs/templates;
+implement adapters/orchestration and Loading/recovery/ready UI; run Slice5-specific
+local verification. Icon/runtime work can follow accepted scope. Preserve one
+small feature checkpoint at a time; do not reopen Slice4 linking as a dependency.
+Later user reorder commands and complete query execution/editor remain their
+respective slices, with the currently approved initial ranks and query payloads.
+
+Original detailing used baseline ca822f3, integration amendment d013515; readiness
+baseline is8320898 with uncommitted contract documentation and the new unit test.
+Frozen experiments/legacy spec are unchanged. No code implementation, new tests,
+staging, commit, push or deployment is performed by this evidence reconciliation.

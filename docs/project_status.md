@@ -2,6 +2,158 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-04 — Readiness evidence audited; pending gaps reconciled
+
+- Linked report, machine evidence and execution log from the implementation plan,
+  architecture and Slice5. All recorded source/runner hashes match. Corrected
+  execution-log newline/checksum mismatch; no results changed or tests rerun.
+- Replaced stale decision-register entries: path/query/uniqueness/stage/fence
+  policies are agreed. Remaining work is concrete codec bounds/precision, Rules
+  stage/finalization proof, runtime/fence integration and Slice5-specific validation.
+- Ready to begin implementation, not provisioning acceptance/cloud publication.
+  Actual release identifiers/app bounds and rollout remain to select before release.
+  Slice4 remains held. Documentation/evidence only; unstaged, no commit or push.
+
+## 2026-11-04 — Local readiness baseline verified
+
+- Owner authorized applicable local emulator/headless checks. [Readiness report](slices/05-workspace-provisioning-readiness.md)
+  records81 focused unit (including7 new family-map cases),7 existing emulator
+  integration and4 compatibility browser passes; types/targeted lint/format and
+  ordinary/compatibility builds passed. Runner prerequisite failures are recorded.
+- Important rollout finding: new contract families alone do not retire old clients;
+  appropriate minimum app version is needed. Synthetic0.2.0 is not a release choice.
+- Production Slice5 code is still unimplemented: receipts/transactions/fence Rules
+  and concurrency remain unverified. This is baseline readiness, not slice closure.
+  No real provider, full regression or cloud action; Slice4 remains open/on hold.
+- Local5173 preview preserved; owned emulators stopped. Changes unstaged; no commit,
+  push or deployment.
+
+## 2026-11-04 — Shared deletion fence agreed
+
+- Owner directed proceeding with accountDeletion/{uid}: existence fences setup
+  and workspace writes; failed control reads block. Initial schema/request fields
+  and browser-create/read versus trusted-progress/retirement boundaries agreed.
+- Nine families now include accountDeletion and nameReservation. Provisioning
+  needs readable fence capability; request writing belongs to implemented Slice5A.
+  Finalizer fields/proof/token-safety remain pending; no deletion executed.
+- Next: client/contract schema capability and rollout plan. Documentation only;
+  no code, tests, staging, commit, push, deployment or cloud change.
+
+## 2026-11-04 — Initialization stage/recovery approach accepted
+
+- Owner explicitly accepted admission, atomic base setup, bounded Category and
+  Location seed/reservation stages, View seeding, verified finalization and resume.
+  Concurrent clients retain first committed profile/settings; unknown results are
+  reconciled before retry and submitted writes are never described as rolled back.
+- Two named records per stage is a candidate maximum pending Rules-budget checks.
+  Exact stage IDs, receipt/finalization enforcement and fence schema remain to
+  detail; no acceptance evidence or stronger batch-size claim is implied.
+- Next owner contract: Slice5A deletion fence shared with provisioning. Documentation
+  only; no code, tests, staging, commit, push or cloud changes; holds continue.
+
+## 2026-11-04 — Name-reservation contract accepted
+
+- Owner directed proceeding with per-UID/per-kind Category/Location reservations,
+  atomic create/rename and retained claims while archived. Add nameReservation
+  schema 1: eight families total, with compatibility and deletion inventory updated
+  during implementation. No Unicode/server boundary is newly relaxed.
+- Next: bounded initialization stages, receipt/finalization integrity and safe
+  reconciliation. Exact stage sizes remain conditional on Rules-budget evidence.
+- Updated Slice5, architecture and Slice5A inventory. Documentation only; no code,
+  tests, staging, commit, push or cloud changes. Existing holds remain in effect.
+
+## 2026-11-04 — Persistence paths agreed; name-reservation proposal
+
+- Owner explicitly accepted the UID-owned path structure; stable IDs survive
+  rename, with no separate root/order document introduced.
+- Recovered existing owner acceptance of client-only NFC/grapheme validation for
+  PoC/beta. This supersedes the original failed-probe policy gate; literal-key
+  atomic uniqueness and ownership still require Rules enforcement.
+- Proposed a separate nameReservation family for Category/Location keys, hashed
+  paths and atomic entity/guard create/rename with archive retention. Family,
+  fields and lifecycle remain for agreement; no extra family silently approved.
+- No code/test execution, staging, commit, push or cloud changes. Slice4 and
+  broader testing remain held.
+
+## 2026-11-04 — Query validation policy accepted
+
+- Owner directed continuing after the v1 validation proposal: allowlists, unique
+  selections, structural ID validation, strict date values, same-kind Between
+  bounds, AND intersections and structural-contradiction rejection are accepted.
+- Due filters are calendar-day based in v1; instant operands on Due are deferred.
+  Mixed absolute/relative conditions can become empty without invalidating a View.
+- Next is concrete persistence/uniqueness design; exhaustive codec tokens and
+  resource bounds remain engineering detailing. Documentation only; all prior
+  implementation/testing holds remain; no staging, commit or cloud action.
+
+## 2026-11-04 — Query JSON representation approved
+
+- Owner explicitly approved camelCase query tokens, selection/date operators,
+  tagged Location/date operands, AND date-condition arrays and the Completed
+  example. Name/order/Home inclusion remain outside the query payload.
+- Query design decisions are recorded in Slice5. Exhaustive field/enumeration
+  allowlists, bounds and mixed date-operand/precision validation still need a
+  complete executable contract. Schema paths/uniqueness/stages/fence are next.
+- Documentation only; implementation and tests have not started. Slice4 and
+  broader testing remain held; no stage, commit, push or cloud changes.
+
+## 2026-11-04 — Query filter/date-sort semantics agreed
+
+- Owner accepted selection/empty-filter semantics, explicit Unspecified Location,
+  five date operators, half-open ranges and relative calendar-day evaluation.
+- One captured now/timezone anchors each evaluation. Date-only Due uses the
+  selected calendar day, not next-midnight expiry; Task precision encoding remains
+  for the concrete storage contract. Missing sort values are last; date groups
+  remain chronological independently of task sort direction.
+- Exact JSON operands are next for review. Documentation only; no code, tests,
+  staging, commit, push or cloud changes; broader-test and Slice4 holds continue.
+
+## 2026-11-04 — Slice5 documentation reconciliation and gap review
+
+- Consolidated accepted ownership/versioning, core fields, inline numeric ranks,
+  query envelope, all-field group/filter coexistence and eight date buckets.
+- [Decision register](slices/05-workspace-provisioning.md#remaining-gaps-and-decision-register--4-november-2026)
+  separates remaining owner-visible semantics from engineering/verification work.
+  Query operands/date-only Due interpretation, uniqueness guards, stage/receipt
+  integrity, deletion fence and compatible release preparation remain open.
+- Implementation is not started. Slice4 remains held; required broader tests are
+  still held. Documentation/whitespace checks only; no code, tests, stage, commit,
+  push, deployment or cloud changes.
+
+## 2026-11-04 — Group/filter coexistence and date windows agreed
+
+- Owner allows filtering every supported grouped field; grouping changes do not
+  clear valid filters. This supersedes the historical dimension-exclusion rule,
+  resolving Deleted Date grouping plus Is Set without a special exception.
+- Yesterday/Tomorrow groups are removed; previous/next 1–7-day windows include
+  them. Other buckets are past 8–30 days/Older, Today, next 8–30 days/Later and
+  Unspecified last, evaluated in workspace timezone.
+- Updated active product specification and Slice5 detailing; filter operators and
+  operand serialization remain proposals. Documentation only; no tests or code.
+
+## 2026-11-04 — Slice5 document fields and numeric ordering agreed
+
+- Owner approved the proposed document fields and selected per-record integer
+  `order` with initial steps of 1000 for Categories, Locations and Views. This
+  replaces separate ordering documents/family: seven record families remain.
+- Intermediate integer ranks support later insertions; stable IDs break ties.
+  Protected/synthetic last positions and movable All Tasks remain intact. Exact
+  atomic renumbering/Rules mechanics belong to later ordering implementation.
+- Updated Slice5, architecture and Slice5A inventory references. Query codec,
+  stage layout and deletion fence are still pending. Documentation only; no
+  implementation, tests, staging, commit, push or cloud changes.
+
+## 2026-11-04 — Slice5 ownership and versioning agreed
+
+- Owner accepted Step 1: UID-path ownership, initially eight independently versioned record
+  families (subsequently seven after inline ordering), schema/edit/query/template version separation, immutable stage receipts,
+  compatibility declarations and explicit safe upgrades. See the
+  [agreed contract](slices/05-workspace-provisioning.md#agreed-ownership-and-versioning--4-november-2026).
+- Exact document fields/validation are next for agreement. Stage layout, query
+  codec, deletion fence and Rules feasibility remain unresolved before dependent
+  implementation. Slice4 remains open/on hold and the testing hold continues.
+- Documentation only; no code, tests, staging, commit, push or cloud changes.
+
 ## 2026-11-02 — Slice5 integration amendment documented after main update
 
 - Owner requested updating from main and assessing Slice5 impact, then authorized the documentation amendment. This checkout was fast-forwarded to d013515 without conflicts; no local source modifications were introduced.
