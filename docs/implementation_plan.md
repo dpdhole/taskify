@@ -1,8 +1,8 @@
 # Taskify implementation slices
 
-2 November 2026. **Owner-agreed order.** Slice1 implementation/validation and
+4 November 2026. **Owner-agreed order.** Slice1 implementation/validation and
 closure documentation are committed and pushed. Slice2 implementation and preview are committed. Slice3 configuration, Auth/session
-and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; provider status and popup/redirect current-account verification are implemented locally, with explicit linking now implemented under a unit-only testing instruction; full regression and hosted acceptance remain held. Slice5 provisioning detailing is prepared for review; implementation remains pending. Early Delete Account is inserted as Slice5A before Slice6; Slice6 responsive-navigation detailing is accepted; implementation remains pending. Slices6–30 retain their identifiers. This plan is not blanket execution, commit or cloud deployment authority.
+and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; provider status and popup/redirect current-account verification are implemented locally, with explicit linking now implemented under a unit-only testing instruction; full regression and hosted acceptance remain held. Slice5 provisioning detailing is prepared for review; implementation remains pending. Early Delete Account is inserted as Slice5A before Slice6; Slice6 responsive-navigation detailing is accepted; implementation remains pending. Slice7 detailing/gap resolutions are accepted and Slice8A Advanced Create is inserted after Slice8/before Slice9. Existing slice identifiers remain stable. This plan is not blanket execution, commit or cloud deployment authority.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
@@ -58,8 +58,9 @@ broad rows further during detailing.
 | 5 | [Workspace provisioning](slices/05-workspace-provisioning.md) | Retryable initialization of profile/settings, approved Categories/Locations, protected All Tasks and initial Saved Views |
 | 5A | [Delete Account](slices/05A-delete-account.md) | Approved deletion scope; Option 3 operator-run trusted finalizer with temporary fencing |
 | 6 | [Responsive navigation](slices/06-responsive-navigation.md) | Mobile drawer, desktop rail/sidebar and contextual navigation |
-| 7 | Quick Create and basic list | Create a Draft Task and show it in a minimal All Tasks workspace |
+| 7 | [Quick Create and basic list](slices/07-quick-create-basic-list.md) | Create a Draft Task and show it in a minimal All Tasks workspace |
 | 8 | Task Detail and metadata editing | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
+| 8A | Advanced Create | Separately detail expanded creation using implemented metadata; mobile full-screen/desktop large modal with retained inputs |
 | 9 | Three onboarding Tasks | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
 | 10 | Complete query engine | All supported predicates, grouping, sorting and date semantics over complete metadata |
 | 11 | Query workspace controls | Filter/group/sort editing, counts, collapsed groups and responsive rows |
@@ -303,3 +304,59 @@ workspace runtime; reconcile stages across gate/session changes. Catalogue/defau
 scope is unchanged. Required integration evidence must respect the existing
 Slice4 testing hold until applicable authorization. No code, tests, staging,
 commit, push, cloud action or deployment is performed by this documentation update.
+
+
+## Slice7 detailing accepted — 4 November 2026
+
+Owner approved [Quick Create/basic list detailing](slices/07-quick-create-basic-list.md)
+and all twelve recommendations. Title is trimmed, nonblank, single-line, maximum
+255 Unicode code points; duplicate titles allowed. Create a Draft/unpaused Task
+with Uncategorized/absent Location defaults, both Important/Urgent Unset and no
+planning/actual/deletion dates. Created is cloud-confirmed; no creation Activity
+Event. Omit More until Advanced Create is fully implemented. Category-grouped
+All Tasks uses Due ascending, missing last, then Title/ID tie-breaking and complete
+eligible metadata. Preserve operation identity across unknown acknowledgement;
+Show Task expands the new Task's Category group. Extend Rules/schema compatibility
+and Slice5A inventory with Tasks. Slice4 remains held. No implementation, tests,
+staging, commit, push or cloud actions are performed by documentation.
+
+
+### Slice7 gap review — 4 November 2026
+
+[Gap register](slices/07-quick-create-basic-list.md#gap-review--4-november-2026)
+clarifies confirmed-only list state, creation/listener races, recovery across new
+session admission, archived classifications and route preservation. Remaining
+contracts include Unicode/collation, absent-field query completeness, operation
+retention, commit-time fence races and concrete persistence/deletion integration.
+Allocate Advanced Create explicitly in a later scope review; Slice7 omits More
+and Slice8 editing must not be silently expanded. Accepted functional scope is
+unchanged. No implementation or new validation evidence is added by this review.
+
+
+### Slice7 concrete proposals for review — 4 November 2026
+
+[Proposed gap resolutions](slices/07-quick-create-basic-list.md#accepted-gap-resolutions--4-november-2026)
+specify candidate Unicode comparison, physical absence representation, record
+versions and minimal persistent operation references. These are not new approvals.
+Advanced Create is proposed for separately detailed Slice8A after metadata editing,
+not inserted into the agreed sequence until accepted. Durable form drafts are not
+promised; safe unknown-outcome recovery is required. No implementation or tests.
+
+
+### Slice7 gap resolutions accepted — 4 November 2026
+
+Owner accepted all concrete gap resolutions. Task path users/{uid}/tasks/{taskId},
+initial record schema/concurrency version 1, explicit physical nulls decoded as
+semantic absence, NFC/lowercase code-point Title ordering with original Title/ID
+ties, minimal persistent operation references and no durable form-draft promise
+are now agreed baselines. Exact Rules/query/receipt/retention contracts require
+implementation validation. **Slice8A Advanced Create** is inserted after Slice8
+and before Slice9, preserving existing identifiers. This supersedes proposal/open-
+approval wording in the prior review checkpoints. No code, staging or commit.
+
+
+### Slice7 commit-review preparation — 4 November 2026
+
+Owner requested completion and review for commit. Seven documentation files are
+staged, with accepted baseline and technical validation gates distinguished. No
+implementation, application tests, commit, push or cloud operation is performed.

@@ -2,6 +2,40 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-04 — Slice7 documentation complete; staged for commit review
+
+- Owner requested documentation completion and review for commit. Seven files cover accepted Slice7 scope, concrete gap resolutions, Slice8A placement and Slice5A inventory extension.
+- Reconciled proposal-era wording, Task path/schema/null baseline and shared comparator references. Product scope is accepted; exact validation vectors, Rules/query proof, receipt/retention design, dependency implementations and held-test authority remain technical gates.
+- Whitespace and local documentation links checked. No executable files, application tests/builds, commit, push or cloud actions. Staging prepares review only; no implementation readiness claim.
+
+## 2026-11-04 — Slice7 concrete gap resolutions accepted
+
+- Owner accepted all gap-resolution recommendations. [Slice7 detailing](slices/07-quick-create-basic-list.md#accepted-gap-resolutions--4-november-2026) now records them as the accepted design baseline; previous proposal entries below are historical.
+- Approved deterministic NFC/lowercase Title ordering with original Title/ID ties, Task path and initial schema/concurrency version 1, explicit physical nulls for semantic absence, minimal persistent recovery IDs without durable form drafts, and commit-time/inventory safeguards.
+- Advanced Create is approved as Slice8A after Task Detail/metadata editing and before onboarding; other slice numbers remain stable. More stays absent in Slice7.
+- Exact validation/Rules/query/operation-receipt and retention proofs remain pending; acceptance of design does not establish implementation readiness or lift the Slice4 testing hold. Documentation only; no executable edits, tests, staging, commit, push or cloud actions.
+
+## 2026-11-04 — Slice7 concrete gap-resolution proposals prepared
+
+- Continued documentation review with [concrete proposals](slices/07-quick-create-basic-list.md#accepted-gap-resolutions--4-november-2026) for Title validation/collation, Task physical null representation and versions, eligible loading, minimal persistent recovery references and safe retry after reload.
+- Proposed comparator uses NFC/lowercase Unicode code-point ordering with original Title/ID ties; no locale or accent stripping. Proposed recovery stores IDs only, not form content/credentials, and does not promise durable draft restoration.
+- Proposed Advanced Create checkpoint is Slice8A after metadata editing; it is not an approved sequence change. Exact operation-receipt/retention, Rules enforcement and test-authority proofs remain open before implementation/acceptance.
+- No new owner approval of these alternatives is claimed. Documentation only; no executable changes, tests, staging, commit, push or cloud actions.
+
+## 2026-11-04 — Slice7 documentation gap review
+
+- Owner requested documentation updates and gap review. [Slice7 gap register](slices/07-quick-create-basic-list.md#gap-review--4-november-2026) separates twelve technical/product integration items from accepted scope; no new approval of proposed alternatives is claimed.
+- Clarified pending-write exclusion, acknowledgement/listener deduplication, archived-reference visibility, modal navigation state and stale Show Task behavior. Reload recovery must reacquire session admission; absent cloud reads never imply cancellation of a pending original create.
+- Remaining design gates include exact text/Title enforcement, absent-field query representation, operation recovery retention/storage failure, commit-time classification/fence races and concrete schema/deletion/Rules dependencies. Advanced Create delivery needs an explicit later checkpoint; exact collation remains for review. FAB accessibility and held-test scope require validation/appropriate authority.
+- Documentation only; no executable changes, tests, staging, commit, push or cloud actions. Implementation readiness is not claimed.
+
+## 2026-11-04 — Slice7 Quick Create/basic list detailing accepted
+
+- Owner approved [Slice7 detailing](slices/07-quick-create-basic-list.md) and all twelve recommendations: required trimmed single-line Title up to 255 Unicode code points, duplicate titles, explicit Category/Location defaults, Draft/unpaused/Unset state and no creation Activity Event.
+- Responsive Quick Create omits More pending Advanced Create. Minimal All Tasks retains Category grouping, complete eligible metadata, collapsed groups, counts and deterministic Due/Title/ID ordering. Show Task expands its target Category; no fake Detail, Search, query engine or Saved View execution is added.
+- Stable Task/operation recovery, classification revalidation, current admission and deletion-fence checks plus Rules/schema/deletion-inventory coverage are required. Concrete implementation contracts/validation remain pending; the Slice4 testing hold is unchanged.
+- Documented in taskify-slice-detailing after confirming origin/main at 8320898. Documentation only: no executable changes, tests, staging, commit, push or cloud actions. Overall feasibility remains INCONCLUSIVE.
+
 ## 2026-11-02 — Slice5 integration amendment documented after main update
 
 - Owner requested updating from main and assessing Slice5 impact, then authorized the documentation amendment. This checkout was fast-forwarded to d013515 without conflicts; no local source modifications were introduced.

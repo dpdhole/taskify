@@ -821,6 +821,34 @@ This section supplements §§17–20 and supersedes conflicting presentation-onl
 - Column selection, stacked-field order and row actions are slice-level.
 
 ### 21.3 Create
+
+**Slice7 gap-resolution acceptance, 4 November 2026:** Title sorting uses
+NFC-normalized lowercase keys in Unicode code-point order, then original Title
+and stable ID; preserve stored Title and do not strip accents or use device-locale
+collation. Physical optional fields may be explicit nulls decoding to semantic
+absence; initial Task record schema/concurrency version is 1. Recovery stores
+minimal UID/project-scoped operation references, not persistent form content;
+there is no durable-draft promise. Advanced Create is separately delivered as
+Slice8A after metadata editing and before onboarding, preserving existing slice
+numbers. Exact runtime/Rules/query/receipt safety requires implementation evidence.
+
+
+**Slice7 owner agreement, 4 November 2026:** [Quick Create/basic list detailing](slices/07-quick-create-basic-list.md)
+introduces Title, Category and optional Location only. Title is outer-trimmed,
+nonblank and single-line, maximum 255 Unicode code points, preserving internal
+spaces and permitting duplicates. Category defaults to Uncategorized; Location to
+absent/Unspecified. Task starts Draft, unpaused, both Important/Urgent Unset, Created
+cloud-confirmed and other lifecycle dates/closure outcome absent. No creation
+Activity Event is required. More is omitted until complete Advanced Create scope
+is implemented; its final behavior below remains the product target. Changed-form
+dismissal offers Discard/Stay. Unknown submission outcome is reconciled using the
+same Task/operation identity before retry, never a fresh ID on timeout. Creation
+preserves current destination; Show Task opens All Tasks and expands its Category.
+Minimal All Tasks preserves Category grouping and Due ascending, missing last,
+with Title then stable-ID tie-breaking; define the exact comparator consistently.
+It does not implement every Saved View/query or fake Task Detail. Account deletion
+inventory must include introduced Tasks. This is design agreement, not execution.
+
 - Mobile: adaptive Create FAB opens Quick Create bottom sheet with Title, defaulted Category and Location. More expands the same form to full-screen Advanced Create, retaining entered values.
 - Desktop/tablet: top-of-navigation Create opens centered Quick Create modal. More expands the same form to a **large centered Advanced Create modal**, not full-screen or a separate page. Retain entered values; modal content may scroll.
 - Both modes share Task defaults, validation and submission. Detailed fields, dimensions, dismissal and unsaved-change behavior remain slice-level.

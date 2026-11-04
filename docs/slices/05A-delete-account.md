@@ -186,6 +186,16 @@ credential provisioning. Use narrow permissions and trusted local credentials
 outside Git/browser assets. Script creation is not blanket execution authority;
 each destructive run must be explicitly authorized for its exact target.
 
+## Slice7 inventory dependency — 4 November 2026
+
+[Slice7 Task creation](07-quick-create-basic-list.md) is accepted for detailing,
+not implemented here. Its implementation must extend the operator inventory,
+verification and cleanup tests with all owned Tasks, including interrupted-create
+outcomes. No creation Activity Event is introduced by Slice7; add future child
+families when their feature slices arrive. A deletion fence blocks creation and
+must win races with admitted writes according to the final Rules contract. Never
+release Task persistence without matching account-deletion coverage.
+
 ## Acceptance plan
 
 Test cancellation before intent, failed/mismatched proof, interrupted/unknown

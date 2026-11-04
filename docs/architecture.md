@@ -232,11 +232,30 @@ future forms, Search, creation or query execution already work. Home/View shells
 and unavailable entries must communicate current availability honestly. This is
 accepted design, not an implemented or validated application shell.
 
+## Task capture — Slice7 accepted detailing
+
+[Slice7 detailing](slices/07-quick-create-basic-list.md) introduces UID-owned Draft
+creation with stable Task/operation correlation, cloud-confirmed acknowledgement
+and reconciliation before retry. Title uses a 255-Unicode-code-point bound; prove
+consistent domain/Rules enforcement before acceptance. No creation Activity Event
+is required. Minimal All Tasks derives Category-grouped rows/counts from complete
+eligible metadata and explicit sorting, not a partial render or cache. Extend
+schema policy and Rules plus Slice5A's trusted cleanup inventory alongside Tasks.
+The [Slice7 gap review](slices/07-quick-create-basic-list.md#gap-review--4-november-2026)
+requires pending-write exclusion/deduplication, query completeness for semantic
+absence, fresh admission for same-UID operation recovery, readable archived
+references and commit-time deletion/classification checks. These are unresolved
+implementation proofs, not an existing Task schema or validated integrity boundary.
+Accepted refinements include physical nulls, initial schema/concurrency 1,
+NFC/lowercase code-point Title sorting with original Title/ID ties, minimal durable
+recovery IDs without form content, and separately delivered Advanced Create as
+Slice8A. This is accepted design, not a deployed Task schema or implementation.
+
 ## Logical data and operation boundaries
 
 | Logical record | Ownership / behavior | Physical design status |
 |---|---|---|
-| Task | User-owned root; Draft/In Progress/Closed, independent Pause, closure outcome, Deleted Date and concurrency metadata | User-scoped Task collection proposed; final metadata/detail split open |
+| Task | User-owned root; Draft/In Progress/Closed, independent Pause, closure outcome, Deleted Date and concurrency metadata | Slice7 accepts users/{uid}/tasks/{taskId}, initial schema/concurrency 1 and physical nulls for semantic absence; exact required keys/Rules proof pending |
 | Todo | Task-owned checklist; no comments, Entries or attachments | Task child collection proposed |
 | Discussion Entry | Task-owned editable plaintext comment; Discussion-owned external links | Child records/link placement to detail |
 | Activity Event | Task-owned immutable structured system event | Child collection proposed; mandatory events paired atomically with audited effects |
