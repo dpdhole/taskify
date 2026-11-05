@@ -19,7 +19,12 @@ provisioning uses a single-provider session and does not depend on linking.
 Slice 5 local/affected-boundary testing was authorized and passed; it does not
 constitute full Slice 4 acceptance. See the [hold/handoff](docs/slices/04-identity-linking-hold.md).
 
-Next is Slice 5A Delete Account readiness review, then Slice 6 navigation.
+Slice 5A readiness review is complete; the owner accepted the implementation
+preparation contracts and fresh registration after Auth removal while the old
+UID remains fenced. [Technical contract DA1](docs/slices/05A-delete-account-contract.md)
+defines the implementation target; next implement and validate its T1–T8 gates
+before Slice 6 navigation. See the
+[preparation checkpoint](docs/slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026).
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.
 Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during development.
@@ -41,7 +46,7 @@ Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during dev
 - [Slice3 login presentation](docs/slices/03-provider-sign-in-presentation.md) — shared responsive sign-in, keyboard recovery and local browser evidence.
 - [Slice3 real-provider acceptance](docs/slices/03-provider-sign-in-acceptance.md) — observed Google desktop checks, owner-verified Microsoft personal results and remaining gates.
 - [Slice4 identity-linking detailing](docs/slices/04-identity-linking.md) — accepted Google/Microsoft linking; provider status and popup/redirect current-account verification and explicit linking implemented locally; linking validation is unit-only, with full regression held.
-- [Slice5 workspace-provisioning detailing](docs/slices/05-workspace-provisioning.md) — approved catalogues/icons, default Views, safe initialization and recovery; implemented and deployed to dev as 0.2.0; owner acceptance pending.
+- [Slice5 workspace-provisioning detailing](docs/slices/05-workspace-provisioning.md) — approved catalogues/icons, default Views, safe initialization and recovery; implemented and deployed to dev as 0.2.0; owner-accepted and closed.
 - [Slice5A Delete Account detailing](docs/slices/05A-delete-account.md) — approved deletion scope and Option 3 operator-run trusted finalizer; concrete safety contracts require implementation validation.
 - [Slice6 responsive-navigation detailing](docs/slices/06-responsive-navigation.md) — accepted mobile drawer, desktop rail/sidebar, contextual routing, accessibility and feature-availability boundaries; implementation pending.
 - [Slice7 Quick Create/basic list detailing](docs/slices/07-quick-create-basic-list.md) — accepted Draft capture, Title validation, cloud-confirmed recovery and minimal Category-grouped All Tasks; implementation pending.

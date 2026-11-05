@@ -9,7 +9,13 @@ on mobile and desktop. **Slice5 is owner-accepted and closed**; see its
 [closure record](slices/05-workspace-provisioning-closure.md). [Deployment evidence](slices/05-workspace-provisioning-preview.md)
 records the actual source, channel and remaining checks.
 
-Next: Slice5A Delete Account readiness review, then Slice6 navigation.
+Next: implement/validate Slice5A against [technical contract DA1](slices/05A-delete-account-contract.md),
+then Slice6 navigation. DA1 fixes schemas, admission, inventory, concurrency,
+retirement and candidate rollout; its T1–T8 execution gates remain unproven.
+The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
+including distinct-UID registration during old-fence retention. Exact proof/Rules,
+inventory, lease, retirement interval and release contracts require engineering
+validation before acceptance; no deletion or publication is authorized here.
 Slice7/8/8A/9 designs are accepted; implementation remains separate. Existing slice
 identifiers remain stable. Microsoft work/school testing and Slice4 acceptance
 stay deferred; live promotion requires explicit owner approval. This plan is not
@@ -27,7 +33,10 @@ single-provider provisioning. Later owner authorization permitted Slice5 local
 and affected-boundary regression checks; those checks pass without accepting the
 held linking feature. See [hold/handoff](slices/04-identity-linking-hold.md).
 
-Next: review Slice5A implementation readiness. Slice5 closure follows the
+Slice5A readiness review and DA1 technical detailing are complete; implement/test
+the domain, operator, Rules/adapters and UI in the documented order. Retirement
+stays disabled until gate T7 proves the selected4,200-second safety assumptions.
+Slice5 closure follows the
 [owner report](slices/05-workspace-provisioning-acceptance.md), recorded automated
 evidence and explicit [closure instruction](slices/05-workspace-provisioning-closure.md).
 Slice6 remains accepted detailing only. No automatic later implementation,

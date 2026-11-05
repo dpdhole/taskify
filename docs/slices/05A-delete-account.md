@@ -1,7 +1,7 @@
 # Slice 5A — Delete Account
 
-Status: **scope and Option 3 manual trusted finalizer approved; documentation
-staged for review, 2 November 2026**. The browser records confirmed deletion
+Status: **implementation preparation contracts accepted, 5 November 2026;
+implementation and validation pending**. The browser records confirmed deletion
 intent; an explicitly invoked operator script performs and verifies cleanup,
 deletes Auth last, and retires the temporary fence after stale-session safety
 checks. No hosted backend, permanent tombstone, automatic schedule or execution
@@ -13,7 +13,160 @@ Authority: [Slice5 provisioning](05-workspace-provisioning.md),
 [product specification](../product_spec.md) and [slice plan](../implementation_plan.md).
 Deliver after Slice5 and before Slice6, preserving existing slice identifiers.
 
-## Approved objective and boundaries
+## Technical contract DA1 — 5 November 2026
+
+The [technical implementation contract](05A-delete-account-contract.md) now fixes
+the request/control schema, Rules admission, proof-token transfer, inventory1,
+monotonic operator states, transaction-fenced lease/batches, external Auth-operation
+latch, retirement anchor, commands and candidate app0.3.0/revision3 rollout.
+It supersedes earlier statements that these implementation choices are undecided.
+The selected retirement interval is4,200 seconds from trusted Auth absence, with
+retirement disabled until platform/cloud gate T7 validates the safety assumptions.
+The interval is not a claim of validated behavior or an automatic retention limit.
+DA1 is ready as an implementation target; T1–T8 and dependency pins remain execution
+evidence work. No Rules, application or administrative implementation occurs here.
+
+## Accepted implementation preparation — 5 November 2026
+
+The owner accepted the readiness recommendations, fresh-registration policy and
+subsequent gap evaluation. This section supersedes earlier pending design wording
+where applicable. Product policy and implementation direction are settled; exact
+serialized contracts and platform proofs below remain engineering gates, not
+evidence of working deletion. Slice5 is closed; Slice4 linking remains held.
+
+### Request admission and proof
+
+- Use deletion-specific reauthentication through an already linked Google or
+  Microsoft provider; require typed DELETE and unchanged original UID/session.
+  Do not assume the unaccepted Slice4 proof implementation is reliable. Validate
+  popup and redirect independently without making linking acceptance a dependency.
+- Use a five-minute recent-auth admission window, enforced with trusted token
+  claims and server time. Refresh the token used by shared Firestore before intent
+  submission. Define/test future-time rejection, clock boundary behavior and the
+  expressible same-UID/provider checks. Typed DELETE is a UI safeguard, not trusted
+  server evidence.
+- Create one immutable request with schemaVersion, inventoryVersion, jobId,
+  state requested and server-confirmed requestedAt. Additional persisted admission
+  evidence must be minimal and validated by Rules; never store credentials/tokens.
+  Exact fields and validation expressions must be frozen before adapter/UI wiring.
+- Reconcile uncertain submission by server-reading the original job. Do not create
+  a replacement job or claim cancellation merely because acknowledgement was lost.
+  The operator validates proof at admission time; normal processing delay does not
+  expire an already accepted request.
+
+### Inventory version 1
+
+Freeze the initial manifest against the implemented Slice5 schema:
+
+| Family | Owned path relative to users/{uid} |
+|---|---|
+| Profile | profile/main |
+| Settings | settings/main |
+| Categories | categories/{id} |
+| Locations | locations/{id} |
+| Views, including inline order | views/{id} |
+| Workspace initialization | initialization/workspace |
+| Immutable stage receipts | initializationStages/{id} |
+| Name reservations | nameKeys/{kind}/keys/{digest} |
+| Actual root/container documents | users/{uid} itself and any materialized containers, if present |
+
+Enumerate actual documents, not only these singleton or seed IDs. Trusted recursive
+discovery must find descendants beneath missing parent documents and validate all
+discovered paths/schema versions against the manifest. Unknown families or versions
+pause before cleanup; unknown additions found during cleanup also pause without
+claiming success. Define an explicit recovery procedure rather than silently
+deleting unsupported data. Independently enumerate again to prove final emptiness.
+The root accountDeletion/{uid} is retained operational control and retired last.
+Tasks, descriptions and operation receipts enter the manifest when their feature
+slices are implemented; the future-family obligations below remain mandatory.
+
+### Operator state, concurrency and retirement
+
+- Provide inspect/dry-run, execute, resume and retire commands bound to exact
+  project ID/number, original UID and job ID. Never resolve mutation targets by
+  email/provider lookup or infer authority from a supplied UID alone.
+- Use a transactional lease with increasing ownership generation. Every state
+  transition and destructive batch must enforce current ownership; checking an
+  expiry before an unguarded batch is insufficient. Freeze the concrete fencing
+  mechanism, bounded batch size and takeover behavior before executable cleanup.
+- Use monotonic stages and retryable cleanup. Counts are informational; resume
+  re-enumerates remaining records. Reconcile unknown Auth deletion through trusted
+  Auth lookup, retaining the fence across errors and lost responses.
+- Start the safety interval at trusted confirmation of Auth absence. A crash before
+  recording that confirmation requires a new conservative observation time. Never
+  backdate from intent or browser time. Validate the platform-specific maximum
+  stale-token authorization lifetime plus a documented margin before fixing the
+  numerical interval; a nominal token lifetime alone is not retirement proof.
+- Retire only after rechecking Auth absence, data emptiness, job/lease ownership and
+  elapsed safety time. No waiting background process is required. If the old UID
+  unexpectedly exists again, retain its fence and require investigation; do not
+  automatically delete the unexpected identity. Administrative UID reuse is prohibited.
+
+### Fresh registration while deletion is pending
+
+The fence is UID-scoped, not email- or provider-scoped. Account removal and final
+control-metadata erasure are distinct milestones. Fresh registration is permitted
+after original Auth removal while the old UID's fence remains.
+
+| Authentication result / stage | Required behavior |
+|---|---|
+| Original Auth still exists, including after data cleanup | Same-provider sign-in returns the old identity; its fence blocks provisioning and ordinary access. Show deletion recovery, Refresh status and Logout. |
+| Sign-in races Auth deletion | Trust the returned UID and server-confirmed fence checks. Old UID stays blocked; authentication uncertainty enters session recovery, never speculative initialization. |
+| Fresh authentication returns distinct UID B after old UID A removal | Admit a new workspace under B only after normal session/compatibility checks and server-confirmed absence of B's fence. Do not wait for A's fence retirement. |
+| Old session/token survives Auth deletion | Keep A fenced through the validated interval; never transfer its callbacks, writes or deletion state to B. |
+| Operator resumes/retires A after B registers | Operate only on A and its job; B's identity, workspace and fence are untouched. |
+
+Clear old user-scoped state and stop listeners before displaying B. Bind callbacks
+and pending operations to their originating UID/session/job. Matching emails do
+not transfer initialization markers, old data, deletion status or authorization.
+Do not promise restoration of former provider links: each formerly linked method
+follows current identity/conflict/linking policy, with Slice4 acceptance still held.
+Auth/listener failure alone does not prove completion. Show session recovery when
+uncertain; any completion message must name only the verified milestone. The new
+UID cannot read the old job; final retirement evidence remains operator-facing.
+
+### Release and implementation checkpoints
+
+1. Freeze request/progress schemas, state transitions, admission evidence, inventory
+   and exact recent-auth Rules checks; prove fresh proof reaches shared Firestore
+   through popup and redirect. This is the first technical risk to investigate.
+2. Implement domain and trusted tooling with pinned administrative dependencies in
+   a separate tooling package. Credentials stay outside Git/browser assets; document
+   narrow permissions and exact project verification. Prove concurrent-run fencing,
+   bounded cleanup and recovery before enabling destructive commands.
+3. Validate Rules/adapters, token-safety retirement and UID isolation; then wire UI.
+   Current app0.2.0 declares deletion read capability only and current Rules deny
+   browser fence writes. Define the new capability/contract revision and rollout
+   bounds; publish validated Rules/compatibility support before exposing creation.
+   Preserve read-only recovery across releases/rollback and fence older clients.
+4. Prepare the operator runbook for inspect/execute/resume/retire, minimal evidence,
+   interrupted recovery and separate account-removal/metadata-retirement milestones.
+5. Complete local/emulator fault-injection and browser evidence before separately
+   authorized cloud Rules, real-provider and destructive-target verification.
+
+No further product-policy decision is currently identified. Exact schema fields,
+lease implementation, numerical token-safety bound, batch limits, permissions and
+rollout versions remain engineering work and must be recorded with evidence.
+Preparing/implementing tooling never grants blanket authority for account deletion,
+cloud publication, commit or push. This documentation instruction starts no code.
+
+### Expanded acceptance and readiness evidence
+
+Add explicit cases for sign-in before/during/after Auth removal; B provisioning
+while A remains fenced; operator resume/retirement leaving B untouched; stale tabs
+and queued writes against A; each formerly linked provider and provider conflicts;
+and crash after Auth deletion before trusted confirmation is recorded. Also cover
+unknown inventory, descendants beneath absent parents, concurrent operators, stale
+lease holders, partial initialization and lost request/batch/Auth acknowledgements.
+Real-provider checks must confirm distinct-UID registration; mocks are insufficient.
+
+Readiness review at source 8dbe29b ran three focused existing suites:
+workspace-controller, provisioning-compatibility-readiness and workspace-release.
+All 23 tests passed. These support the existing fence/controller/capability baseline
+only, not deletion implementation or provider/cloud acceptance. The documentation
+update performs no new application tests or cloud actions.
+
+## Approved objective and boundaries (retained scope)
 
 Permanently delete the signed-in Taskify account and its owned application records,
 allowing the same provider identities to register again with a fresh workspace.

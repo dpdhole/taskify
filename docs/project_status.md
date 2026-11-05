@@ -2,6 +2,39 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5A technical implementation target DA1 finalized
+
+- Owner requested finalizing the technical contract. [DA1](slices/05A-delete-account-contract.md)
+  fixes schema1 admission/control fields, inventory1, proof-token transfer into
+  shared Auth, monotonic states,120-second transactional leases,100-delete batches,
+  explicit Auth reconciliation and inspect/execute/resume/retire command boundaries.
+- Candidate release is app0.3.0/revision3/serverRelease3 against the existing revision2
+  baseline. Retirement uses trusted Auth absence plus4,200 seconds; T7 platform/cloud
+  evidence must pass before retirement is enabled. No unconditional safety claim.
+- Official request/time, token lifecycle, missing-parent traversal and transaction
+  references were checked. Existing isolated redirect proof currently discards its
+  SDK proof context; deletion must transfer the verified token before disposal.
+- Next implement against DA1 and collect T1–T8 evidence. This checkpoint changes
+  documentation only; no application tests, cloud actions, deletion, staging,
+  commit, push or deployment are performed.
+
+## 2026-11-05 — Slice5A readiness reviewed; preparation contracts accepted
+
+- Owner accepted the readiness recommendations, fresh-registration policy and gap
+  evaluation, and requested documentation/implementation preparation. The
+  [controlling checkpoint](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026)
+  records request/proof, inventory v1, operator lease/recovery, retirement and rollout.
+- Fresh UID B may provision after A's Auth removal while A remains fenced. The
+  operator targets A/job only; email cannot transfer cleanup authority. Races,
+  unexpected UID recreation, stale clients and milestone visibility are specified.
+- Next freeze/test exact serialized schemas, proof admission, concurrent-run fencing,
+  token-safety interval, permissions and release versions; then implement/validate.
+  No additional product-policy decision is currently identified. Slice4 stays held.
+- Readiness baseline at 8dbe29b: 23 tests passed across three existing focused suites
+  (workspace controller, compatibility readiness, workspace release). This is not
+  new deletion/provider/cloud evidence. This update changes documentation only;
+  no executable edits, staging, commit, push, cloud actions or account deletion.
+
 ## 2026-11-05 — Slice5 owner-accepted and closed; closure staged
 
 - Owner verified the primary workflow on mobile/desktop, reviewed the closure

@@ -940,6 +940,20 @@ hosted backend or permanent tombstone is selected. Completion depends on operato
 execution; exact safety contracts require validation and each destructive run
 requires explicit authorization.
 
+**Accepted 5 November 2026:** before Auth removal, the original UID remains in
+deletion recovery even if its application records are already empty. After Auth
+removal, fresh provider registration with a distinct UID may initialize a new
+workspace while the original UID's temporary fence remains. No old data, markers
+or provider-link restoration is promised. Email matching does not transfer deletion
+authority; the operator targets only the original UID/job. Account removal and
+final control-metadata retirement are separate milestones. Authentication errors
+alone prove neither. The [accepted preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026)
+define races, isolation, proof, inventory and remaining engineering gates.
+The [DA1 technical contract](slices/05A-delete-account-contract.md) fixes the
+implementation target and acceptance gates. Its selected retirement interval is
+conditional on real platform safety evidence; pending jobs remain fenced if that
+evidence is unavailable. This technical detailing does not execute account deletion.
+
 ### 21.6 Task Detail responsive sections
 
 **Slice8 D12/design closure, 4 November 2026:** all twelve design gaps are resolved

@@ -234,6 +234,25 @@ mutations are denied. Future [Slice5A](slices/05A-delete-account.md) adds fresh-
 intent and Option3 local operator cleanup, Auth deletion last and safe temporary
 fence retirement. Its request/finalizer/token-retirement mechanics remain unimplemented.
 
+The owner accepted the [5 November implementation preparation](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026):
+five-minute trusted recent-auth admission, immutable request, versioned recursive
+inventory, leased/generation-fenced operator stages and conservative retirement
+from trusted Auth-absence observation. Exact expressions, concurrency mechanism
+and numerical token-safety interval still require validation. After Auth removal,
+distinct UID B may initialize while old UID A remains fenced; all cleanup remains
+bound to A/job, never email. UID reuse is prohibited, unexpected A recreation
+blocks retirement, and B cannot inherit A's data, markers or job visibility.
+
+[Technical contract DA1](slices/05A-delete-account-contract.md) resolves the concrete
+implementation target: immutable schema1 request, Rules-validated auth claims,
+same-UID proof-token transfer, inventory1, 120-second leases with atomic control/
+cleanup transactions of at most100 deletes, and manual reconciliation for the
+non-transactional Auth step. Candidate app0.3.0/revision3/serverRelease3 preserves
+fence recovery. Retirement uses trusted Auth-absence time plus4,200 seconds and
+remains disabled until T7 validates actual token/stream/write behavior; no platform
+proof is inferred from elapsed time alone. Earlier pending-mechanics descriptions
+refer to unimplemented behavior, not unresolved design choices.
+
 [Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
 for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
 and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).
