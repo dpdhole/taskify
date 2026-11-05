@@ -10,11 +10,13 @@ Foundation and Slice2 deployment evidence remains unchanged.
 | Channel | Purpose | Last recorded deployment state |
 |---|---|---|
 | `dev` | Development previews | Slice5A, app0.3.0, policy3/serverRelease3, version16f946a5cd6a587a from clean commit78e59ef |
-| `qc` | Testing and verification | Created; no release |
+| `qc` | Testing and verification | Slice5A app0.3.0, shared policy3, exact dev version16f946a5cd6a587a; awaiting user UAT verification |
 | `uat` | External/beta review | Existing version7664413ad02b4666 preserved by the Slice5 dev release; no new UAT publication |
 | `live` | Product release when ready | Unchanged; no live release approved |
 
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
+Current [qc preview](https://taskify-dev-dpdhole--qc-xnxat620.web.app) serves the same
+Slice5A version after [5 November promotion](slices/05A-delete-account-qc-promotion.md).
 No qc/uat Hosting publication was performed by the Slice5 dev release. The shared
 contract now requires app0.3.0; older artifacts are blocked.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).

@@ -2,6 +2,15 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice 5A on qc; awaiting user UAT verification
+
+- Owner-approved [qc promotion](slices/05A-delete-account-qc-promotion.md) reuses
+  dev version `16f946a5cd6a587a`, app 0.3.0, build `78e59efd1273-cf161c48e0041603`.
+- Shared DA1 Rules/policy 3 remain unchanged. All 27 hashes, headers and 390/1280px
+  readiness/refresh checks pass. Other releases, Auth settings and expiry preserved.
+- Await user UAT verification on qc. No uat-channel promotion, deletion, retirement,
+  commit or push. The local spacing fix is not part of this unchanged dev artifact.
+
 ## 2026-11-05 — Slice 5A ready and awaiting user verification
 
 - Owner confirmed revision 3 on dev and requested the verification handoff.

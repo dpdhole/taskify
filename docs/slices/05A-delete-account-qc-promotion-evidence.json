@@ -1,0 +1,362 @@
+{
+  "ownerInstruction": "deploy 0.3.0 rev 3 to qc channel. then await UAT verification",
+  "sourceVersion": "16f946a5cd6a587a",
+  "destination": "qc",
+  "rebuilt": false,
+  "before": {
+    "recordedAt": "2026-11-05T14:35:47.157Z",
+    "project": {
+      "id": "taskify-dev-dpdhole",
+      "number": "243252492098",
+      "state": "ACTIVE"
+    },
+    "cloudChanged": false,
+    "checks": {
+      "billing": {
+        "ok": true,
+        "billingEnabled": false,
+        "billingAccountAttached": false
+      },
+      "database": {
+        "ok": true,
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "concurrencyMode": "PESSIMISTIC"
+      },
+      "compatibility": {
+        "ok": true,
+        "revision": 3,
+        "serverRelease": 3,
+        "minAppVersion": "0.3.0",
+        "maxAppVersion": "0.3.0",
+        "environmentId": "taskify-dev-dpdhole",
+        "updateTime": "2026-11-05T14:14:44.889488Z",
+        "families": [
+          "accountDeletion",
+          "category",
+          "compatibilityProbe",
+          "initializationStage",
+          "location",
+          "nameReservation",
+          "profile",
+          "settings",
+          "view",
+          "workspaceInitialization"
+        ]
+      },
+      "rules": {
+        "ok": true,
+        "release": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+        "ruleset": "projects/taskify-dev-dpdhole/rulesets/564f5136-8a2f-4016-b851-36c1df0707ef",
+        "fileCount": 1,
+        "activeSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+        "candidateSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+        "matchesCandidate": true
+      },
+      "providers": {
+        "ok": true,
+        "providers": [
+          {
+            "provider": "apple.com",
+            "enabled": true
+          },
+          {
+            "provider": "google.com",
+            "enabled": true
+          },
+          {
+            "provider": "microsoft.com",
+            "enabled": true
+          }
+        ],
+        "more": false
+      },
+      "authDomains": {
+        "ok": true,
+        "name": "projects/243252492098/config",
+        "authorizedDomains": [
+          "localhost",
+          "taskify-dev-dpdhole.firebaseapp.com",
+          "taskify-dev-dpdhole.web.app",
+          "taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+        ]
+      },
+      "channels": {
+        "ok": true,
+        "channels": [
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev",
+            "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/16f946a5cd6a587a",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-12-04T15:14:17.787049294Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/uat",
+            "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/7664413ad02b4666",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-11-22T07:49:33.998777426Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc",
+            "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+            "expireTime": "2026-11-22T07:49:33.336597957Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+            "url": "https://taskify-dev-dpdhole.web.app"
+          }
+        ],
+        "more": false
+      },
+      "cliPermissions": {
+        "ok": true,
+        "requested": [
+          "datastore.entities.get",
+          "datastore.entities.list",
+          "datastore.entities.create",
+          "datastore.entities.update",
+          "datastore.entities.delete",
+          "firebaseauth.users.get",
+          "firebaseauth.users.delete",
+          "resourcemanager.projects.get"
+        ],
+        "granted": [
+          "datastore.entities.create",
+          "datastore.entities.delete",
+          "datastore.entities.get",
+          "datastore.entities.list",
+          "datastore.entities.update",
+          "firebaseauth.users.delete",
+          "firebaseauth.users.get",
+          "resourcemanager.projects.get"
+        ],
+        "operatorAdcVerified": false
+      },
+      "pendingRequests": {
+        "ok": true,
+        "count": 0,
+        "more": false
+      }
+    },
+    "operatorAdc": {
+      "configured": false,
+      "verified": false
+    }
+  },
+  "after": {
+    "recordedAt": "2026-11-05T14:36:49.909Z",
+    "project": {
+      "id": "taskify-dev-dpdhole",
+      "number": "243252492098",
+      "state": "ACTIVE"
+    },
+    "cloudChanged": false,
+    "checks": {
+      "billing": {
+        "ok": true,
+        "billingEnabled": false,
+        "billingAccountAttached": false
+      },
+      "database": {
+        "ok": true,
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "concurrencyMode": "PESSIMISTIC"
+      },
+      "compatibility": {
+        "ok": true,
+        "revision": 3,
+        "serverRelease": 3,
+        "minAppVersion": "0.3.0",
+        "maxAppVersion": "0.3.0",
+        "environmentId": "taskify-dev-dpdhole",
+        "updateTime": "2026-11-05T14:14:44.889488Z",
+        "families": [
+          "accountDeletion",
+          "category",
+          "compatibilityProbe",
+          "initializationStage",
+          "location",
+          "nameReservation",
+          "profile",
+          "settings",
+          "view",
+          "workspaceInitialization"
+        ]
+      },
+      "rules": {
+        "ok": true,
+        "release": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+        "ruleset": "projects/taskify-dev-dpdhole/rulesets/564f5136-8a2f-4016-b851-36c1df0707ef",
+        "fileCount": 1,
+        "activeSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+        "candidateSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+        "matchesCandidate": true
+      },
+      "providers": {
+        "ok": true,
+        "providers": [
+          {
+            "provider": "apple.com",
+            "enabled": true
+          },
+          {
+            "provider": "google.com",
+            "enabled": true
+          },
+          {
+            "provider": "microsoft.com",
+            "enabled": true
+          }
+        ],
+        "more": false
+      },
+      "authDomains": {
+        "ok": true,
+        "name": "projects/243252492098/config",
+        "authorizedDomains": [
+          "localhost",
+          "taskify-dev-dpdhole.firebaseapp.com",
+          "taskify-dev-dpdhole.web.app",
+          "taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+        ]
+      },
+      "channels": {
+        "ok": true,
+        "channels": [
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc",
+            "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/16f946a5cd6a587a",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-11-22T07:49:33.336597957Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev",
+            "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/16f946a5cd6a587a",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-12-04T15:14:17.787049294Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/uat",
+            "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/7664413ad02b4666",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-11-22T07:49:33.998777426Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+            "url": "https://taskify-dev-dpdhole.web.app"
+          }
+        ],
+        "more": false
+      },
+      "cliPermissions": {
+        "ok": true,
+        "requested": [
+          "datastore.entities.get",
+          "datastore.entities.list",
+          "datastore.entities.create",
+          "datastore.entities.update",
+          "datastore.entities.delete",
+          "firebaseauth.users.get",
+          "firebaseauth.users.delete",
+          "resourcemanager.projects.get"
+        ],
+        "granted": [
+          "datastore.entities.create",
+          "datastore.entities.delete",
+          "datastore.entities.get",
+          "datastore.entities.list",
+          "datastore.entities.update",
+          "firebaseauth.users.delete",
+          "firebaseauth.users.get",
+          "resourcemanager.projects.get"
+        ],
+        "operatorAdcVerified": false
+      },
+      "pendingRequests": {
+        "ok": true,
+        "count": 0,
+        "more": false
+      }
+    },
+    "operatorAdc": {
+      "configured": false,
+      "verified": false
+    }
+  },
+  "checks": {
+    "recordedAt": "2026-11-05T14:38:49.368Z",
+    "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+    "artifact": {
+      "appVersion": "0.3.0",
+      "buildId": "78e59efd1273-cf161c48e0041603",
+      "commit": "78e59efd127325e6b40bac7249d7a0035ef31d1a",
+      "sourceDirty": false,
+      "builtAt": "2026-11-05T13:36:51.755Z"
+    },
+    "filesVerified": 27,
+    "securityAndCacheHeaders": true,
+    "views": [
+      {
+        "width": 390,
+        "gate": "ready",
+        "refresh": true,
+        "signInEnabled": true,
+        "overflow": false,
+        "pageErrors": 0
+      },
+      {
+        "width": 1280,
+        "gate": "ready",
+        "refresh": true,
+        "signInEnabled": true,
+        "overflow": false,
+        "pageErrors": 0
+      }
+    ]
+  },
+  "preserved": [
+    "shared Rules and policy",
+    "billing",
+    "database",
+    "providers",
+    "Auth domains",
+    "dev/uat/live Hosting",
+    "qc expiry"
+  ],
+  "initialBrowserObservation": "Site Not Found; fresh URL retry passed readiness and refresh at both widths",
+  "status": "awaiting user UAT verification"
+}
