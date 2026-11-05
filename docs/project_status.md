@@ -2,6 +2,20 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5A implementation started: domain/inventory/Rules
+
+- Owner instructed beginning implementation. [First checkpoint](slices/05A-delete-account-domain.md)
+  adds strict controls/transitions, inventory1 validation and generated DA1 Rules.
+  Same-batch intent/provisioning is denied; browser progress/retirement stays denied.
+- New domain/inventory tests96 pass; local production Rules95 pass, including44
+  deletion cases and51 existing regressions. Full verification results and corrected
+  initial compilation/type issues are recorded in the checkpoint.
+- Current compatibility remains revision2/serverRelease2/app0.2.0; candidate request
+  admission requires revision3/serverRelease3. No cloud policy/artifact is changed.
+- Next operator tooling/discovery/cleanup, then proof/adapters/controller and UI.
+  T1–T8 remain incomplete, retirement disabled and Slice4 held. No staging, commit,
+  push, real deletion or publication is included.
+
 ## 2026-11-05 — Slice5A technical implementation target DA1 finalized
 
 - Owner requested finalizing the technical contract. [DA1](slices/05A-delete-account-contract.md)

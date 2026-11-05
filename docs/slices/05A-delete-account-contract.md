@@ -345,4 +345,6 @@ a contract revision or retained fence, not an unverified completion claim.
 - [CollectionReference.listDocuments](https://docs.cloud.google.com/nodejs/docs/reference/firestore/latest/firestore/collectionreference):
   discovery includes document references whose data is absent but children remain.
 
-These are source constraints. T1–T8 remain unexecuted for DA1.
+These are source constraints. The [first implementation checkpoint](05A-delete-account-domain.md)
+records partial local T1/T3/T4 evidence. T1–T8 remain incomplete for DA1; no
+provider/cloud/retirement acceptance is claimed.

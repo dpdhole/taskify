@@ -22,8 +22,9 @@ constitute full Slice 4 acceptance. See the [hold/handoff](docs/slices/04-identi
 Slice 5A readiness review is complete; the owner accepted the implementation
 preparation contracts and fresh registration after Auth removal while the old
 UID remains fenced. [Technical contract DA1](docs/slices/05A-delete-account-contract.md)
-defines the implementation target; next implement and validate its T1–T8 gates
-before Slice 6 navigation. See the
+defines the implementation target. The [first local checkpoint](docs/slices/05A-delete-account-domain.md)
+implements strict domain/inventory validation and Rules admission; operator,
+proof/adapters and UI remain. Complete T1–T8 before Slice 6 navigation. See the
 [preparation checkpoint](docs/slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026).
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.

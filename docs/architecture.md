@@ -253,6 +253,11 @@ remains disabled until T7 validates actual token/stream/write behavior; no platf
 proof is inferred from elapsed time alone. Earlier pending-mechanics descriptions
 refer to unimplemented behavior, not unresolved design choices.
 
+The [first DA1 checkpoint](slices/05A-delete-account-domain.md) implements domain/
+inventory validation and candidate recent-auth request Rules locally. Current cloud
+Rules/compatibility remain the Slice5 release. Operator, proof-token transfer,
+browser request/recovery and retirement verification remain pending.
+
 [Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
 for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
 and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).

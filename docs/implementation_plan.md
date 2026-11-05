@@ -12,6 +12,9 @@ records the actual source, channel and remaining checks.
 Next: implement/validate Slice5A against [technical contract DA1](slices/05A-delete-account-contract.md),
 then Slice6 navigation. DA1 fixes schemas, admission, inventory, concurrency,
 retirement and candidate rollout; its T1–T8 execution gates remain unproven.
+The [first implementation checkpoint](slices/05A-delete-account-domain.md) adds
+domain/control/inventory validation and candidate Rules with local evidence.
+Next: isolated operator discovery/cleanup, then proof/adapters/controller and UI.
 The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering

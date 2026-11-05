@@ -1,5 +1,9 @@
 import fs from 'node:fs';
 import ts from 'typescript';
+import {
+  accountDeletionFunctions,
+  accountDeletionMatch,
+} from './account-deletion-rules.mjs';
 const policyFile = 'src/domain/workspace-policy.ts';
 const tree = ts.createSourceFile(
   policyFile,
@@ -46,7 +50,7 @@ let rules = fs
   .replace(/\r\n/g, '\n');
 rules = rules.replace(
   '// LOCAL STAGE-INTEGRITY PROBE ONLY. Not a production/deployment policy.\n// Fixed seed recipe, fixture-only explicit UTC settings. No ordinary management writes.',
-  '// Generated Slice5 initialization policy. Run npm run generate:workspace-rules.\n// Owner reads and exact template1 provisioning only; management/deletion-request writes denied.\n// No deployment is performed by generation or local tests.',
+  '// Generated workspace/DA1 admission policy. Run npm run generate:workspace-rules.\n// Exact provisioning and recent-auth deletion intent only; browser cleanup/progress denied.\n// No deployment is performed by generation or local tests.',
 );
 rules = rules.replace(
   /function allowed\(family\) \{[^\n]+\}/,
@@ -76,6 +80,23 @@ rules = rules.replace(
   'profileShape(p)',
 );
 rules = rules.replace("s.timezone=='UTC'", 'validTimezone(s.timezone)');
+rules = rules.replace(
+  '  function meta(d)',
+  () => accountDeletionFunctions + '  function meta(d)',
+);
+rules = rules.replace(
+  'match /accountDeletion/{uid} { allow get: if owner(uid); allow list,write: if false; }',
+  () => accountDeletionMatch,
+);
+// Reads use pre-request existence; writes also reject a fence created in this batch.
+rules = rules.replaceAll(
+  'allow create: if unfenced(uid)',
+  'allow create: if workspaceWritable(uid)',
+);
+rules = rules.replace(
+  "id=='workspace' && unfenced(uid)",
+  "id=='workspace' && workspaceWritable(uid)",
+);
 rules = rules.replace(
   "allow read: if owner(uid) && kind in ['profile'",
   "allow read: if unfenced(uid) && kind in ['profile'",

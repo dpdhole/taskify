@@ -1,12 +1,13 @@
 # Slice 5A — Delete Account
 
-Status: **implementation preparation contracts accepted, 5 November 2026;
-implementation and validation pending**. The browser records confirmed deletion
+Status: **implementation started, 5 November 2026; first domain/inventory/Rules
+checkpoint implemented locally; slice unaccepted**. The browser design records confirmed deletion
 intent; an explicitly invoked operator script performs and verifies cleanup,
 deletes Auth last, and retires the temporary fence after stale-session safety
 checks. No hosted backend, permanent tombstone, automatic schedule or execution
-of account deletion is approved by this design selection. No executable changes,
-cloud actions, commit, push or deployment occur.
+of account deletion is approved by this design selection. See the
+[implementation checkpoint](05A-delete-account-domain.md) for actual changes and
+local evidence. No cloud actions, real deletion, commit, push or deployment occur.
 
 Authority: [Slice5 provisioning](05-workspace-provisioning.md),
 [identity policy](../architecture.md#identity-and-account-linking--owner-agreed-policy),
