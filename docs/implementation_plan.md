@@ -15,8 +15,10 @@ retirement and candidate rollout; its T1–T8 execution gates remain unproven.
 The [first implementation checkpoint](slices/05A-delete-account-domain.md) adds
 domain/control/inventory validation and candidate Rules with local evidence.
 The [operator checkpoint](slices/05A-delete-account-operator.md) implements isolated
-discovery/leased bounded cleanup through data_verified. Next: Auth deletion/latch
-reconciliation, then proof/adapters/controller and UI. Retirement stays disabled.
+discovery/leased bounded cleanup through data_verified. The
+[Auth finalization checkpoint](slices/05A-delete-account-auth-finalization.md) now
+adds the durable Auth latch, explicit reconciliation and trusted absence/deadline
+recording. Next: proof/adapters/controller and UI. Retirement stays disabled.
 The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering

@@ -1,4 +1,4 @@
-import { beforeAll, afterAll, expect, it } from 'vitest';
+import { beforeAll, afterAll, expect, it, vi } from 'vitest';
 import {
   initializeApp,
   deleteApp,
@@ -183,4 +183,103 @@ it('rejects cloud/emulator endpoint mixing before connection', () => {
   expect(() => createFirebaseOperatorPort(target, false)).toThrow(
     'invalid-target',
   );
+});
+
+it('deletes only the original Auth UID and retains the server-anchored fence', async () => {
+  const f = await fixture(2);
+  const newUid = 'new-' + crypto.randomUUID();
+  try {
+    await getAuth(app).createUser({ uid: newUid });
+    await db
+      .doc(`users/${newUid}/profile/main`)
+      .set({ synthetic: 'untouched' });
+    await f.engine.cleanup('execute', f.jobId);
+    const result = await f.engine.finalizeAuth(f.jobId);
+    expect(result).toMatchObject({
+      state: 'awaiting_retirement',
+      accountRemoved: true,
+      controlRetired: false,
+    });
+    await expect(getAuth(app).getUser(f.uid)).rejects.toMatchObject({
+      code: 'auth/user-not-found',
+    });
+    const c = decodeAccountDeletion(
+      (await f.runtime.port.get(`accountDeletion/${f.uid}`)).data,
+    );
+    expect(c.authAttempt).toBeDefined();
+    expect(c.authAbsentObservedAt).toBeDefined();
+    expect(c.retireNotBefore!.seconds).toBe(
+      c.authAbsentObservedAt!.seconds + 4200,
+    );
+    expect(c.retireNotBefore!.nanoseconds).toBe(
+      c.authAbsentObservedAt!.nanoseconds,
+    );
+    expect(c.lease).toBeUndefined();
+    expect((await getAuth(app).getUser(newUid)).uid).toBe(newUid);
+    expect((await db.doc(`users/${newUid}/profile/main`).get()).data()).toEqual(
+      { synthetic: 'untouched' },
+    );
+    const anchor = c.authAbsentObservedAt;
+    await f.engine.finalizeAuth(f.jobId);
+    expect(
+      decodeAccountDeletion(
+        (await f.runtime.port.get(`accountDeletion/${f.uid}`)).data,
+      ).authAbsentObservedAt,
+    ).toEqual(anchor);
+  } finally {
+    await f.runtime.close();
+  }
+});
+it('reconciles a lost response after actual emulator Auth deletion', async () => {
+  const f = await fixture();
+  try {
+    await f.engine.cleanup('execute', f.jobId);
+    const original = f.runtime.port.deleteAuth;
+    let calls = 0;
+    f.runtime.port.deleteAuth = async (uid, beforeSend) => {
+      calls++;
+      await original(uid, beforeSend);
+      throw Error('lost-response');
+    };
+    await f.engine.finalizeAuth(f.jobId);
+    expect(calls).toBe(1);
+    expect((await f.engine.inspect()).state).toBe('awaiting_retirement');
+    expect((await f.engine.inspect()).authPresent).toBe(false);
+  } finally {
+    await f.runtime.close();
+  }
+});
+it('bounds Auth transport to one nonredirecting request and rejects cross-UID deletion', async () => {
+  const f = await fixture();
+  const fetchMock = vi
+    .spyOn(globalThis, 'fetch')
+    .mockResolvedValue(new Response('{}', { status: 503 }));
+  try {
+    await expect(
+      f.runtime.port.deleteAuth('another-uid', async () => {}),
+    ).rejects.toThrow('invalid-target');
+    expect(fetchMock).not.toHaveBeenCalled();
+    await expect(
+      f.runtime.port.deleteAuth(f.uid, async () => {
+        throw Error('lease-lost');
+      }),
+    ).rejects.toThrow('lease-lost');
+    expect(fetchMock).not.toHaveBeenCalled();
+    await expect(
+      f.runtime.port.deleteAuth(f.uid, async () => {}),
+    ).rejects.toThrow('auth-uncertain');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0]![0]).toBe(
+      `http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/projects/${project}/accounts:delete`,
+    );
+    expect(fetchMock.mock.calls[0]![1]).toMatchObject({
+      method: 'POST',
+      redirect: 'error',
+      body: JSON.stringify({ localId: f.uid }),
+    });
+    expect(fetchMock.mock.calls[0]![1]?.signal).toBeInstanceOf(AbortSignal);
+  } finally {
+    fetchMock.mockRestore();
+    await f.runtime.close();
+  }
 });

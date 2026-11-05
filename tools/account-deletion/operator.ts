@@ -6,6 +6,7 @@ import {
   deletionId,
   DELETION_BATCH_LIMIT,
   DELETION_LEASE_SECONDS,
+  DELETION_RETIREMENT_SECONDS,
 } from '../../src/domain/account-deletion';
 import type { AccountDeletionControl } from '../../src/domain/account-deletion';
 import {
@@ -44,6 +45,8 @@ export interface OperatorPort {
   auth(
     uid: string,
   ): Promise<{ uid: string; createdAt: WorkspaceTimestamp } | null>;
+  /** One bounded external call, no retry. A failure does not establish its outcome. */
+  deleteAuth(uid: string, beforeSend: () => Promise<void>): Promise<void>;
   transaction<T>(work: (tx: OperatorTransaction) => Promise<T>): Promise<T>;
 }
 export class OperatorError extends Error {
@@ -168,10 +171,18 @@ export function createDeletionOperator(
     await walk(`users/${target.uid}`);
     return { paths, counts };
   }
-  async function acquire() {
+  async function acquire(authRecovery = false, finalization = false) {
     return port.transaction(async (tx) => {
       const { c, now } = await control(tx);
-      if (!['requested', 'cleaning', 'data_verified'].includes(c.state))
+      if (c.state === 'auth_deleting' && !authRecovery)
+        throw new OperatorError('reconciliation-required');
+      if (
+        !(
+          finalization
+            ? ['data_verified', 'auth_deleting', 'awaiting_retirement']
+            : ['requested', 'cleaning', 'data_verified']
+        ).includes(c.state)
+      )
         throw new OperatorError('stage-pending');
       if (c.lease && compareDeletionTime(c.lease.expiresAt, now) > 0)
         throw new OperatorError('busy');
@@ -201,6 +212,119 @@ export function createDeletionOperator(
     });
   }
   return {
+    async finalizeAuth(
+      confirmedJob: string,
+      recovery: { reconcileAuth?: boolean; priorRunStopped?: boolean } = {},
+    ) {
+      if (confirmedJob !== target.jobId)
+        throw new OperatorError('job-mismatch');
+      await port.verifyProject(target);
+      const { c: initial } = await control();
+      if (
+        !['data_verified', 'auth_deleting', 'awaiting_retirement'].includes(
+          initial.state,
+        )
+      )
+        throw new OperatorError('stage-pending');
+      const attested =
+        recovery.reconcileAuth === true && recovery.priorRunStopped === true;
+      if (initial.state === 'auth_deleting' && !attested)
+        throw new OperatorError('reconciliation-required');
+      if ((await discover()).paths.length)
+        throw new OperatorError('reconciliation-required');
+      if (initial.state === 'data_verified') await identity(initial);
+      if (
+        initial.state === 'awaiting_retirement' &&
+        (await port.auth(target.uid))
+      )
+        throw new OperatorError('auth-changed');
+      generation = await acquire(attested, true);
+      try {
+        const { c: acquired } = await control();
+        if (acquired.state === 'data_verified') {
+          await identity(acquired);
+          await port.transaction(async (tx) => {
+            const { c, now } = await control(tx);
+            owned(c, now);
+            if (c.state !== 'data_verified')
+              throw new OperatorError('stage-pending');
+            write(tx, c, {
+              ...renewed(c, now),
+              state: 'auth_deleting',
+              authAttempt: { runId, generation: generation! },
+            });
+          });
+        }
+        const { c: latched, now } = await control();
+        owned(latched, now);
+        if (latched.state === 'auth_deleting') {
+          const user = await port.auth(target.uid);
+          if (user) {
+            if (
+              !latched.authCreatedAt ||
+              user.uid !== target.uid ||
+              compareDeletionTime(user.createdAt, latched.authCreatedAt) !== 0
+            )
+              throw new OperatorError('auth-changed');
+            // Recheck ownership immediately before the non-transactional operation.
+            const latest = await control();
+            owned(latest.c, latest.now);
+            if (latest.c.state !== 'auth_deleting')
+              throw new OperatorError('stage-pending');
+            try {
+              await port.deleteAuth(target.uid, async () => {
+                const current = await control();
+                owned(current.c, current.now);
+                if (current.c.state !== 'auth_deleting')
+                  throw new OperatorError('stage-pending');
+              });
+            } catch {
+              /* Query authoritative outcome, never blind-retry. */
+            }
+          }
+          if (await port.auth(target.uid))
+            throw new OperatorError('auth-uncertain');
+          if ((await discover()).paths.length)
+            throw new OperatorError('reconciliation-required');
+          await port.transaction(async (tx) => {
+            const { c, now: observed } = await control(tx);
+            owned(c, observed);
+            if (c.state !== 'auth_deleting')
+              throw new OperatorError('stage-pending');
+            write(tx, c, {
+              ...renewed(c, observed),
+              state: 'awaiting_retirement',
+              authAbsentObservedAt: observed,
+            });
+          });
+        }
+        // Use the resolved server anchor, including after an interrupted marker write.
+        await port.transaction(async (tx) => {
+          const { c, now: verified } = await control(tx);
+          owned(c, verified);
+          if (c.state !== 'awaiting_retirement' || !c.authAbsentObservedAt)
+            throw new OperatorError('stage-pending');
+          if (!c.retireNotBefore)
+            write(tx, c, {
+              ...renewed(c, verified),
+              retireNotBefore: addDeletionSeconds(
+                c.authAbsentObservedAt,
+                DELETION_RETIREMENT_SECONDS,
+              ),
+            });
+        });
+        const { c: result } = await control();
+        return {
+          state: result.state,
+          accountRemoved: true,
+          controlRetired: false,
+          retirementEnabled: false,
+          retireNotBefore: result.retireNotBefore,
+        };
+      } finally {
+        await release().catch(() => {});
+      }
+    },
     async inspect() {
       await port.verifyProject(target);
       const { c } = await control();

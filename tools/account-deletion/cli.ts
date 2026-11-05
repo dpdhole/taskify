@@ -18,6 +18,8 @@ async function main() {
       'job-id': { type: 'string' },
       'confirm-job': { type: 'string' },
       emulator: { type: 'boolean', default: false },
+      'reconcile-auth': { type: 'boolean', default: false },
+      'prior-run-stopped': { type: 'boolean', default: false },
     },
     allowPositionals: true,
     strict: true,
@@ -36,6 +38,13 @@ async function main() {
     jobId: values['job-id'] ?? '',
   };
   validateTarget(target);
+  if (
+    (values['reconcile-auth'] || values['prior-run-stopped']) &&
+    (command !== 'resume' ||
+      !values['reconcile-auth'] ||
+      !values['prior-run-stopped'])
+  )
+    throw new OperatorError('invalid-target');
   if (command !== 'inspect' && values['confirm-job'] !== target.jobId)
     throw new OperatorError('job-mismatch');
   if (command === 'retire') throw new OperatorError('retirement-disabled');
@@ -46,13 +55,21 @@ async function main() {
       target,
       crypto.randomUUID(),
     );
-    const result =
-      command === 'inspect'
-        ? await operator.inspect()
-        : await operator.cleanup(
-            command as 'execute' | 'resume',
-            values['confirm-job']!,
-          );
+    const inspected = await operator.inspect();
+    let result: unknown = inspected;
+    if (command !== 'inspect') {
+      if (command === 'execute' && inspected.state !== 'requested')
+        throw new OperatorError('stage-pending');
+      if (['requested', 'cleaning'].includes(inspected.state))
+        await operator.cleanup(
+          command as 'execute' | 'resume',
+          values['confirm-job']!,
+        );
+      result = await operator.finalizeAuth(values['confirm-job']!, {
+        reconcileAuth: values['reconcile-auth'],
+        priorRunStopped: values['prior-run-stopped'],
+      });
+    }
     process.stdout.write(JSON.stringify(result) + '\n');
   } finally {
     await runtime.close();

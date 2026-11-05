@@ -155,6 +155,31 @@ export function createFirebaseOperatorPort(target: Target, emulator = false) {
         throw error;
       }
     },
+    async deleteAuth(uid, beforeSend) {
+      if (uid !== target.uid) throw new OperatorError('invalid-target');
+      const token = await credential.getAccessToken();
+      // Refreshing credentials can take time; recheck ownership after it settles.
+      await beforeSend();
+      const base = emulator
+        ? 'http://127.0.0.1:9099/identitytoolkit.googleapis.com'
+        : 'https://identitytoolkit.googleapis.com';
+      // fetch does not retry this request; forbid redirects and bound the operation.
+      const response = await fetch(
+        `${base}/v1/projects/${target.project}/accounts:delete`,
+        {
+          method: 'POST',
+          redirect: 'error',
+          signal: AbortSignal.timeout(60000),
+          headers: {
+            Authorization: `Bearer ${token.access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ localId: uid }),
+        },
+      );
+      if (!response.ok) throw new OperatorError('auth-uncertain');
+      await response.body?.cancel();
+    },
     transaction: (work) =>
       db.runTransaction(
         (tx) =>
@@ -168,6 +193,8 @@ export function createFirebaseOperatorPort(target: Target, emulator = false) {
               body.updatedAt = FieldValue.serverTimestamp();
               if (!before.dataVerifiedAt && after.dataVerifiedAt)
                 body.dataVerifiedAt = FieldValue.serverTimestamp();
+              if (!before.authAbsentObservedAt && after.authAbsentObservedAt)
+                body.authAbsentObservedAt = FieldValue.serverTimestamp();
               tx.set(db.doc(path), body);
             },
           }),

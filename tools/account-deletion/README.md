@@ -1,7 +1,8 @@
-# Account deletion operator — cleanup checkpoint
+# Account deletion operator — Auth finalization checkpoint
 
-Implements DA1 through **data_verified** only. Auth deletion and retirement are
-disabled. Source: [DA1](../../docs/slices/05A-delete-account-contract.md).
+Implements DA1 through **awaiting_retirement**. Trusted Auth deletion and explicit
+reconciliation are implemented; fence retirement remains disabled. Source:
+[DA1](../../docs/slices/05A-delete-account-contract.md).
 No command schedules itself. Creating this tool does not authorize a destructive run.
 
 ## Setup and targeting
@@ -16,8 +17,8 @@ npm --prefix tools/account-deletion run typecheck
 This package pins firebase-admin14.5.0 and tsx4.23.15 with its own lockfile;
 node_modules is ignored. Administrative dependencies are not browser imports.
 Production credentials use ADC/approved local impersonation outside Git. Project
-metadata read and Auth user read are required alongside Firestore get/list/create/
-update/delete permissions. This checkpoint requires no Auth deletion permission.
+metadata read and Auth user read/delete are required alongside Firestore get/list/create/
+update/delete permissions. No Auth create/update/token-mint permission is required.
 Firestore IAM is not per-UID isolation; the operator's target validation is mandatory.
 
 Supported target: taskify-dev-dpdhole, project number243252492098, default database.
@@ -37,10 +38,17 @@ npm --prefix tools/account-deletion run operator -- inspect --project taskify-de
 
 After separately authorizing the exact destructive target, use the same options
 with execute or resume and append `--confirm-job JOB_UUID`. execute requires state
-requested; resume processes requested/cleaning. Both stop at data_verified, retaining
-Auth identity and fence. Running resume at later states reports stage-pending.
+requested; resume handles the current unfinished stage. After verifying empty data,
+both finalize the original Auth UID, record trusted absence and stop at
+awaiting_retirement with the fence retained. At auth_deleting, resume additionally
+requires `--reconcile-auth --prior-run-stopped`. Both flags attest that the earlier
+process is stopped and its external call has settled or been reconciled. A timeout
+alone does not establish remote cancellation. Wait for any live lease to expire;
+there is no force takeover. Inspect before and after recovery. A repeated resume in
+awaiting_retirement verifies Auth/data and repairs a missing deadline without
+resetting its existing anchor. Unexpected old-UID recreation blocks processing.
 retire always reports retirement-disabled before connecting. No force/ignore-unknown,
-bulk target, Auth deletion, email resolution or automatic lease takeover of Auth work.
+bulk target, email resolution or automatic expiry-based takeover of Auth work.
 
 Output contains state, aggregate known-family counts or bounded error codes, never
 record contents, paths or raw SDK exceptions. Zero means the reported command/
@@ -83,5 +91,5 @@ emulator warnings reflect the production target namespace inside the isolated
 demo emulator, not production access. Do not use emulator flags to target cloud.
 
 Cloud metadata/IAM/ADC and real accounts are not validated by these tests. Later
-checkpoints must implement Auth reconciliation, provider proof/browser request/UI,
+checkpoints must implement provider proof/browser request/UI,
 T7 retirement verification and authorized release before Slice5A acceptance.

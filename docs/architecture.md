@@ -263,6 +263,12 @@ discovery and transaction-fenced cleanup through data_verified in separate pinne
 Node tooling. It retains Auth and control; administrative Auth finalization,
 browser proof/request flow and validated retirement remain subsequent work.
 
+[Auth finalization](slices/05A-delete-account-auth-finalization.md) now extends the
+operator through awaiting_retirement: durable Auth latch, single bounded REST
+deletion outside transactions, explicit prior-run reconciliation, authoritative
+absence and server-anchored deadline. Retirement remains disabled; browser flow
+and actual cloud/provider safety evidence remain pending.
+
 [Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
 for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
 and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).

@@ -2,6 +2,22 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5A Auth finalization/reconciliation checkpoint
+
+- Previous operator checkpoint committed locally as d184f36; no push. Owner then
+  instructed continuing. [Auth checkpoint](slices/05A-delete-account-auth-finalization.md)
+  implements the durable Auth-operation latch, one bounded REST deletion request,
+  explicit interrupted-run attestations and trusted absence/deadline recording.
+- Execute/resume now stop at awaiting_retirement. Account removal and control
+  retirement remain distinct; no fence retirement path is enabled. Lost outcomes
+  reconcile through Auth lookup; unexpected old-UID recreation blocks processing.
+- Operator units19 and SDK emulator cases8 pass. Full verification passes484
+  unit/component tests, static/build/bundle checks; standalone types and CLI checks
+  pass. Sequential verification resolved the initial preflight-port collision. No real
+  accounts, cloud policy, billing or provider configuration changed.
+- Next provider proof/token transfer, request/controller and UI. T1–T8 incomplete,
+  Slice4 held. No staging, additional commit, push or deployment is included.
+
 ## 2026-11-05 — Slice5A operator discovery/cleanup checkpoint
 
 - Owner instructed proceeding. [Operator checkpoint](slices/05A-delete-account-operator.md)

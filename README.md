@@ -25,8 +25,9 @@ UID remains fenced. [Technical contract DA1](docs/slices/05A-delete-account-cont
 defines the implementation target. The [first local checkpoint](docs/slices/05A-delete-account-domain.md)
 implements strict domain/inventory validation and Rules admission. The
 [operator checkpoint](docs/slices/05A-delete-account-operator.md) adds discovery,
-leases and cleanup through data_verified; Auth finalization, proof/adapters and UI
-remain. Complete T1–T8 before Slice 6 navigation. See the
+leases and cleanup. [Auth finalization](docs/slices/05A-delete-account-auth-finalization.md)
+now reaches awaiting_retirement with explicit reconciliation and a retained fence;
+proof/adapters and UI remain. Complete T1–T8 before Slice 6 navigation. See the
 [preparation checkpoint](docs/slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026).
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.

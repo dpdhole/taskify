@@ -57,7 +57,8 @@ function fixture(count = 205) {
     uid: target.uid,
     createdAt: stamp(100),
   };
-  let hook: ((deletes: string[]) => void) | undefined;
+  let hook:
+    ((deletes: string[], next?: AccountDeletionControl) => void) | undefined;
   const batches: number[] = [];
   function snapshot(path: string): Snapshot {
     return {
@@ -98,6 +99,10 @@ function fixture(count = 205) {
         ),
       ].sort(),
     auth: async () => structuredClone(user),
+    deleteAuth: async (_uid, beforeSend) => {
+      await beforeSend();
+      user = null;
+    },
     async transaction(work) {
       for (let attempt = 0; attempt < 5; attempt++) {
         const read = new Map<string, string | undefined>(),
@@ -115,7 +120,10 @@ function fixture(count = 205) {
             pending.set(path, structuredClone(after));
           },
         });
-        hook?.(removes);
+        hook?.(
+          removes,
+          pending.get(controlPath) as AccountDeletionControl | undefined,
+        );
         if (
           [...read].some(
             ([path, value]) => JSON.stringify(records.get(path)) !== value,
@@ -296,4 +304,182 @@ it('rejects namespace injection from a broken discovery adapter', async () => {
     'invalid-target',
   );
   expect(f.stats().deleted).toBe(0);
+});
+
+it('persists the Auth latch before its only deletion call and retains the fence', async () => {
+  const f = fixture(1),
+    engine = f.operator();
+  await engine.cleanup('execute', target.jobId);
+  let calls = 0;
+  f.port.deleteAuth = async (uid) => {
+    calls++;
+    expect(uid).toBe(target.uid);
+    expect(f.control().state).toBe('auth_deleting');
+    expect(f.control().authAttempt).toEqual({ runId: run, generation: 2 });
+    expect(
+      [...f.records.keys()].some((p) => p.startsWith(`users/${target.uid}/`)),
+    ).toBe(false);
+    f.setUser(null);
+  };
+  const result = await engine.finalizeAuth(target.jobId);
+  expect(calls).toBe(1);
+  expect(result).toMatchObject({
+    state: 'awaiting_retirement',
+    accountRemoved: true,
+    controlRetired: false,
+    retirementEnabled: false,
+  });
+  expect(f.control().retireNotBefore!.seconds).toBe(
+    f.control().authAbsentObservedAt!.seconds + 4200,
+  );
+  expect(f.control().lease).toBeUndefined();
+  expect(f.records.get('users/new-account/profile/main')).toEqual({
+    private: 'untouched',
+  });
+});
+it('reconciles lost Auth acknowledgement without repeating deletion', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  let calls = 0;
+  f.port.deleteAuth = async () => {
+    calls++;
+    f.setUser(null);
+    throw Error('lost-ack');
+  };
+  await f.operator(otherRun).finalizeAuth(target.jobId);
+  expect(calls).toBe(1);
+  expect(f.control().state).toBe('awaiting_retirement');
+});
+it('unknown Auth outcome leaves its latch and requires both explicit recovery attestations', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  let calls = 0;
+  f.port.deleteAuth = async () => {
+    calls++;
+    throw Error('timeout');
+  };
+  await expect(f.operator(otherRun).finalizeAuth(target.jobId)).rejects.toThrow(
+    'auth-uncertain',
+  );
+  expect(f.control().state).toBe('auth_deleting');
+  const attempt = structuredClone(f.control().authAttempt);
+  for (const recovery of [
+    {},
+    { reconcileAuth: true },
+    { priorRunStopped: true },
+  ])
+    await expect(
+      f.operator().finalizeAuth(target.jobId, recovery),
+    ).rejects.toThrow('reconciliation-required');
+  expect(calls).toBe(1);
+  f.setUser(null);
+  f.setNow(2000);
+  await f
+    .operator()
+    .finalizeAuth(target.jobId, { reconcileAuth: true, priorRunStopped: true });
+  expect(calls).toBe(1);
+  expect(f.control().authAttempt).toEqual(attempt);
+  expect(f.control().authAbsentObservedAt!.seconds).toBeGreaterThanOrEqual(
+    2000,
+  );
+});
+it('an attested Auth retry targets only the pinned existing identity', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  let calls = 0;
+  f.port.deleteAuth = async () => {
+    calls++;
+    throw Error('timeout');
+  };
+  await expect(f.operator().finalizeAuth(target.jobId)).rejects.toThrow(
+    'auth-uncertain',
+  );
+  f.port.deleteAuth = async () => {
+    calls++;
+    f.setUser(null);
+  };
+  await f
+    .operator(otherRun)
+    .finalizeAuth(target.jobId, { reconcileAuth: true, priorRunStopped: true });
+  expect(calls).toBe(2);
+  expect(f.control().state).toBe('awaiting_retirement');
+});
+it('crash after Auth removal before anchor recording establishes a new conservative anchor', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  f.hook((_deletes, next) => {
+    if (next?.state === 'awaiting_retirement') {
+      f.hook(undefined);
+      throw Error('crash-before-anchor');
+    }
+  });
+  await expect(f.operator().finalizeAuth(target.jobId)).rejects.toThrow(
+    'crash-before-anchor',
+  );
+  expect(f.control().state).toBe('auth_deleting');
+  expect(f.control().authAbsentObservedAt).toBeUndefined();
+  expect((await f.operator().inspect()).authPresent).toBe(false);
+  f.setNow(2500);
+  await f
+    .operator(otherRun)
+    .finalizeAuth(target.jobId, { reconcileAuth: true, priorRunStopped: true });
+  expect(f.control().authAbsentObservedAt!.seconds).toBeGreaterThanOrEqual(
+    2500,
+  );
+  expect(f.control().retireNotBefore!.seconds).toBeGreaterThanOrEqual(6700);
+});
+it('crash after anchor recording preserves that anchor while repairing a missing deadline', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  f.hook((_deletes, next) => {
+    if (next?.retireNotBefore) {
+      f.hook(undefined);
+      throw Error('crash-before-deadline');
+    }
+  });
+  await expect(f.operator().finalizeAuth(target.jobId)).rejects.toThrow(
+    'crash-before-deadline',
+  );
+  const anchor = structuredClone(f.control().authAbsentObservedAt!);
+  expect(f.control().state).toBe('awaiting_retirement');
+  expect(f.control().retireNotBefore).toBeUndefined();
+  f.setNow(2500);
+  await f.operator(otherRun).finalizeAuth(target.jobId);
+  expect(f.control().authAbsentObservedAt).toEqual(anchor);
+  expect(f.control().retireNotBefore!.seconds).toBe(anchor.seconds + 4200);
+});
+it('blocks external Auth absence before the latch and unexpected UID recreation afterward', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  f.setUser(null);
+  await expect(f.operator().finalizeAuth(target.jobId)).rejects.toThrow(
+    'auth-uncertain',
+  );
+  expect(f.control().state).toBe('data_verified');
+  f.setUser({ uid: target.uid, createdAt: stamp(100) });
+  await f.operator().finalizeAuth(target.jobId);
+  f.setUser({ uid: target.uid, createdAt: stamp(2000) });
+  await expect(f.operator(otherRun).finalizeAuth(target.jobId)).rejects.toThrow(
+    'auth-changed',
+  );
+  expect(f.control().state).toBe('awaiting_retirement');
+});
+it('requires empty inventory again before deleting Auth', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  f.records.set(`users/${target.uid}/profile/main`, {
+    schemaVersion: 1,
+    recordVersion: 1,
+    createdAt: stamp(1000),
+    updatedAt: stamp(1000),
+  });
+  let calls = 0;
+  f.port.deleteAuth = async () => {
+    calls++;
+  };
+  await expect(f.operator().finalizeAuth(target.jobId)).rejects.toThrow(
+    'reconciliation-required',
+  );
+  expect(calls).toBe(0);
+  expect(f.control().state).toBe('data_verified');
 });
