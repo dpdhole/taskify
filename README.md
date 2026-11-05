@@ -6,8 +6,9 @@ Taskify is being redesigned as a lightweight, personal, single-user task manager
 published to [dev](https://taskify-dev-dpdhole--dev-por3atkf.web.app/) as app **0.2.0**,
 from clean pushed commit `02458ff`. Initialization Rules and compatibility contract
 revision 2/server release 2 are published; older clients are intentionally blocked.
-Hosted artifact/gate checks pass. Owner verification of first-use provisioning,
-refresh, Logout and account isolation is pending, so Slice 5 remains open. See the
+Hosted artifact/gate checks pass. The owner verified sign-in → Workspace ready →
+refresh → Logout on mobile and desktop after removing previous Firebase Auth
+identities. Slice 5 remains open for closure review. See the
 [deployment report and evidence](docs/slices/05-workspace-provisioning-preview.md).
 
 Slices 1–2 are implemented; Slice 3 Google/Microsoft personal-account workflows
@@ -17,7 +18,7 @@ provisioning uses a single-provider session and does not depend on linking.
 Slice 5 local/affected-boundary testing was authorized and passed; it does not
 constitute full Slice 4 acceptance. See the [hold/handoff](docs/slices/04-identity-linking-hold.md).
 
-Next is Slice 5 owner acceptance, then Slice 5A Delete Account and Slice 6 navigation.
+Next is Slice 5 closure review, then Slice 5A Delete Account and Slice 6 navigation.
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.
 Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during development.

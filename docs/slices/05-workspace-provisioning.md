@@ -1,9 +1,10 @@
 # Slice 5 — Workspace provisioning
 
-Status: **implemented and deployed to dev; owner acceptance pending, 5 November 2026**.
+Status: **implemented and deployed to dev; primary workflow owner-verified on mobile/desktop; closure review pending, 5 November 2026**.
 App0.2.0, contract revision2/serverRelease2 and initialization Rules were published
 from clean pushed02458ff. See the [deployment report/evidence](05-workspace-provisioning-preview.md)
-and [runtime checkpoint](05-workspace-provisioning-implementation.md). Earlier dated
+[owner verification](05-workspace-provisioning-acceptance.md) and
+[runtime checkpoint](05-workspace-provisioning-implementation.md). Earlier dated
 checkpoints below are historical. Slice5 remains open; Slice4 remains on hold.
 Linking is not a provisioning prerequisite. No further promotion is authorized.
 
@@ -724,8 +725,8 @@ new test execution is implied by this documentation reconciliation.
 | Due precision/query execution | Initialization stores the agreed query envelope | Task precision and mixed-precision execution remain later-slice work |
 
 Verdict: initialization runtime is implemented, locally verified and released to
-dev. Hosted artifact/gate checks pass; owner first-use/provider verification and
-Slice5 closure remain pending. Release identity/bounds and coordinated publication
+dev. Hosted artifact/gate checks pass; the owner reports the primary workflow
+passed on mobile and desktop. Slice5 closure review remains pending. Release identity/bounds and coordinated publication
 are complete. Slice4 remains held; Slice5A remains separate.
 
 Original detailing used baseline ca822f3, integration amendment d013515; readiness

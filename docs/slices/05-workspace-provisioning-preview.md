@@ -35,17 +35,16 @@ unchanged. No key values or provider secrets were retrieved. Exactly dev/qc/uat
 preview channels remain. Temporary verification emulators/servers are stopped;
 the existing local5173 server remains available.
 
-## Owner acceptance still pending
+## Owner workflow verified — 5 November 2026
 
-1. Open dev and refresh to load app0.2.0; confirm the version in Technical details.
-2. Sign in with an existing Google or Microsoft test account. An Auth identity
-   without a workspace should receive first-use initialization; deletion is unnecessary.
-3. Confirm Loading reaches Workspace ready with the expected name/timezone.
-4. Refresh, Logout and sign in again; confirm settings persist and account details
-   disappear after Logout. Repeat at desktop/mobile widths and with another account.
+The owner reports **sign-in → Workspace ready → refresh → Logout** passed on
+mobile and desktop after deleting the previous Firebase Auth identities.
+[Acceptance record](05-workspace-provisioning-acceptance.md) preserves the scope:
+provider/account types and the exact browser build were not independently captured.
+Auth-only test preparation does not verify Firestore cleanup or Slice5A deletion.
 
-This publication does not close Slice5 or accept hosted provisioning/provider
-flows. Slice4 stays held; Slice5A deletion and Slice9 onboarding remain separate.
+The primary hosted workflow is now owner-verified. Slice5 remains open for closure
+review; Slice4 stays held, and Slice5A deletion/Slice9 onboarding remain separate.
 The rollback floor remains0.2.0 with retained schemas/fences and confirmed progress.
 Deployment documentation was written after building/publishing; it does not cause
 another build, release, commit or push.

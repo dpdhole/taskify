@@ -20,6 +20,14 @@ initialization Rules and clean source02458ff. Release-identifier/publication gat
 below are now historical. Hosted first-use/provider acceptance and Slice5 closure
 remain pending; the release does not accept Slice4 or authorize further promotion.
 
+## Owner workflow verification — 5 November 2026
+
+The owner reports sign-in → Workspace ready → refresh → Logout passed on mobile
+and desktop after removing previous Firebase Auth identities. See the scoped
+[acceptance record](05-workspace-provisioning-acceptance.md). This supersedes earlier
+pending-primary-workflow statements; closure review remains pending. No additional
+manual checks, deletion mechanics or provider coverage are inferred.
+
 ## Implemented behavior
 
 - The Auth entry declares the nine workspace schema families. Account deletion is
