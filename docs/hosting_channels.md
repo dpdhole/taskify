@@ -16,26 +16,26 @@ Foundation and Slice2 deployment evidence remains unchanged.
 
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
 Current [qc preview](https://taskify-dev-dpdhole--qc-xnxat620.web.app) serves the same
-Slice5A version after [5 November promotion](slices/05A-delete-account-qc-promotion.md).
+Slice5A version after [5 November promotion](slices/05A-delete-account/qc-promotion.md).
 No qc/uat Hosting publication was performed by the Slice5 dev release. The shared
 contract now requires app0.3.0; older artifacts are blocked.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
-Latest recorded deployment: [Slice5A dev publication](slices/05A-delete-account-dev-deployment.md),
+Latest recorded deployment: [Slice5A dev publication](slices/05A-delete-account/dev-deployment.md),
 clean local commit `78e59ef`, version `16f946a5cd6a587a`, published on 5 November
 with shared DA1 Rules and policy revision 3. No push occurred.
-[Slice4 verification preview](slices/04-identity-linking-preview.md) remains historical.
-The [23 October Google/Microsoft preview](slices/03-provider-sign-in-preview.md)
+[Slice4 verification preview](slices/04-identity-linking/preview.md) remains historical.
+The [23 October Google/Microsoft preview](slices/03-provider-sign-in/preview.md)
 remains historical evidence; Slice4 linking remains held and unaccepted.
 On 2 November 2026 the owner reported Google and Microsoft personal-account
 workflow verification on desktop/mobile at the dev URL and accepted Slice3.
 The exact build tested by that later report was not independently captured;
 the deployment record supplies publication provenance without identifying the
 owner-tested build. Work/school testing is deferred until product/features mature.
-See the [closure record](slices/03-provider-sign-in-closure.md).
+See the [closure record](slices/03-provider-sign-in/closure.md).
 The earlier Google-only release used an owner-approved uncommitted snapshot;
 that exception is historical. The clean-commit policy below remains in effect.
 
-Slice5 was [owner-accepted and closed](slices/05-workspace-provisioning-closure.md)
+Slice5 was [owner-accepted and closed](slices/05-workspace-provisioning/closure.md)
 on5 November after reported desktop/mobile workflow verification. Closure does
 not change the deployed artifact, preview expiry or promotion authorization.
 

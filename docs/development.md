@@ -3,8 +3,8 @@
 Foundation provides an isolated synthetic read proof. Slice2 adds the ordinary
 compatibility gate and a separate compatibility harness. Auth mode adds incremental Google/Microsoft sign-in; Tasks and
 provisioning remain pending. The ordinary entry is not
-an implemented Taskify workspace. See [slice detailing](slices/01-foundation.md),
-[readiness](slices/readiness-check.md) and [dependency conditions](slices/01-foundation-dependencies.md).
+an implemented Taskify workspace. See [slice detailing](slices/01-foundation/index.md),
+[readiness](slices/readiness-check.md) and [dependency conditions](slices/01-foundation/dependencies.md).
 
 ## Setup and checks
 
@@ -95,7 +95,7 @@ formatters/lint intentionally target only the new application/test/tool sources.
 - Audit warnings: follow the accepted Foundation-only conditions. Known findings
   remain reported; no audit fix --force or blanket major override is approved.
 
-The [validation report](slices/01-foundation-validation.md) records exact local results and limitations. A synthetic
+The [validation report](slices/01-foundation/validation.md) records exact local results and limitations. A synthetic
 proof does not establish product compatibility, real Google/Apple sessions,
 production indexes, actual quota costs, Safari/device support or leak-free behavior
 for all future features. User backup/recovery remains FUTURE.
@@ -140,7 +140,7 @@ is approved.
 The owner permits automated headless browser/emulator tests after port preflight.
 Ask before visible browser windows, interactive sign-in or other interactive
 tests because a parallel project may be active. Never stop unrelated processes.
-See [Slice2 validation](slices/02-compatibility-validation.md) for cloud observations,
+See [Slice2 validation](slices/02-compatibility/validation.md) for cloud observations,
 remaining acceptance gates and audit/bundle limitations.
 
 ## Hosting destination policy
@@ -158,9 +158,9 @@ Auth-mode public SDK settings are kept in ignored `.env.auth.local`, separate
 from ordinary test/build configuration. Run `node tools/check-auth-config.mjs`
 to validate identity and the exact channel host allowlist without displaying the
 key. The stable app factory composes Auth/session and Google/Microsoft flows in
-Auth mode. See [configuration and provider verification](slices/03-provider-sign-in-configuration.md)
+Auth mode. See [configuration and provider verification](slices/03-provider-sign-in/configuration.md)
 for callback URIs and Microsoft personal/work-school audience; see the
-[closure record](slices/03-provider-sign-in-closure.md) for current acceptance.
+[closure record](slices/03-provider-sign-in/closure.md) for current acceptance.
 
 ## Auth/session implementation checkpoint
 
@@ -170,16 +170,16 @@ in the client configuration. `npm run build:auth` writes ignored `dist-auth`;
 ordinary mode retains the compatibility-only surface. Auth mode reads
 `.env.auth.local`. Both Google and Microsoft controls are implemented.
 
-The [session checkpoint](slices/03-provider-sign-in-session.md) records restoration
-and Logout. The [Google checkpoint](slices/03-provider-sign-in-google.md) and
-[Microsoft checkpoint](slices/03-provider-sign-in-microsoft.md) record provider
+The [session checkpoint](slices/03-provider-sign-in/session.md) records restoration
+and Logout. The [Google checkpoint](slices/03-provider-sign-in/google.md) and
+[Microsoft checkpoint](slices/03-provider-sign-in/microsoft.md) record provider
 behavior and historical local validation. Slice3 and the current responsive login
 presentation are owner-accepted as of 2 November 2026. Google and Microsoft
 personal-account workflows were owner-verified on desktop/mobile; work/school
 testing is deferred until product/features mature. Retain technical diagnostics
-during slice development. See the [closure record](slices/03-provider-sign-in-closure.md).
-The [presentation checkpoint](slices/03-provider-sign-in-presentation.md) and
-[earlier desktop acceptance record](slices/03-provider-sign-in-acceptance.md) retain
+during slice development. See the [closure record](slices/03-provider-sign-in/closure.md).
+The [presentation checkpoint](slices/03-provider-sign-in/presentation.md) and
+[earlier desktop acceptance record](slices/03-provider-sign-in/acceptance.md) retain
 their original source/test scope; the newer closure record controls current status.
 
 On 23 October 2026 the owner requested this local Auth preview; the server started
@@ -212,17 +212,17 @@ Back restores keyboard focus and Logout remains accessible. Adding another
 method is not available yet. Linked Google/Microsoft methods now offer popup
 verification of the current account. No account linking or Firestore permissions/records change.
 
-The [Slice4 status checkpoint](slices/04-identity-linking-status.md) records tests,
-project preflight and the owner-accepted SDK mutation boundary. The [popup proof checkpoint](slices/04-identity-linking-proof.md) adds fresh
+The [Slice4 status checkpoint](slices/04-identity-linking/status.md) records tests,
+project preflight and the owner-accepted SDK mutation boundary. The [popup proof checkpoint](slices/04-identity-linking/proof.md) adds fresh
 reauthentication, wrong-account guidance and cancellation. Popup blockers require
-allowing popups or explicit redirect verification. The [redirect checkpoint](slices/04-identity-linking-redirect.md) adds an isolated SDK-managed session context for the same UID; hosted coarse-pointer devices select redirect. Return handling opens Sign-in methods only after session/compatibility readiness and a current provider reload. Linking/outcome verification is next.
+allowing popups or explicit redirect verification. The [redirect checkpoint](slices/04-identity-linking/redirect.md) adds an isolated SDK-managed session context for the same UID; hosted coarse-pointer devices select redirect. Return handling opens Sign-in methods only after session/compatibility readiness and a current provider reload. Linking/outcome verification is next.
 Provider automatic-resolution behavior remains a feasibility item. This work has
 not been deployed; interactive provider testing remains separately approved.
 
 
 ### Verification and browser visibility
 
-[Visibility recovery](slices/04-identity-linking-visibility.md) corrects the popup-return
+[Visibility recovery](slices/04-identity-linking/visibility.md) corrects the popup-return
 case where the session was ready but Sign-in methods remained blocked. Nonmutating
 proof waits for resumed server readiness and a fresh provider reload. Logout,
 identity changes and hard compatibility failures still invalidate proof. The
@@ -230,7 +230,7 @@ headless session fixture now shares production lifecycle event wiring, with expl
 hidden/resume ordering checks; hosted Google/Chrome retest remains outstanding.
 
 
-[Provider-status feedback correction](slices/04-identity-linking-checking.md) keeps
+[Provider-status feedback correction](slices/04-identity-linking/checking.md) keeps
 metadata reads off primary Auth notifications using a memory-only SDK-owned copy.
 The shared Auth/Firestore browser case detects listener-driven retry loops; automatic
 recovery is bounded. Refresh the local page after these controller/runtime changes
@@ -239,7 +239,7 @@ before manual acceptance. The running manual preview is preserved during focused
 
 ### Linking checkpoint — unit validation only
 
-[Explicit provider linking](slices/04-identity-linking-implementation.md) adds fresh
+[Explicit provider linking](slices/04-identity-linking/implementation.md) adds fresh
 current-method proof, explicit target continuation, UID-bound SDK linking and status
 reconciliation. Standalone verification is not reused as a grant. Redirect return
 processing cannot automatically replay mutation; uncertain status checks are reads.
@@ -252,7 +252,7 @@ real-provider acceptance is claimed. No new provisioning template is needed.
 
 Slice 4 is open and on hold; defer the reported local verification-cancellation
 defect and proceed to Slice 5 provisioning. See the
-[hold and handoff](slices/04-identity-linking-hold.md) for impact and resumption
+[hold and handoff](slices/04-identity-linking/hold.md) for impact and resumption
 criteria. Do not treat historical unit evidence as reproduction of the defect or
 proof that shared sign-in/restoration/Logout are unaffected. Keep full-slice and
 regression testing held until prompted. Single-provider provisioning must not
@@ -265,7 +265,7 @@ and `npm run check:workspace-rules`. The latter is part of `npm run verify`.
 Run the isolated loopback production-policy suite with
 `npm run test:workspace-rules:local`; Java21+, installed dependencies and the
 cached emulator are required. It preserves the manual preview on5173 and never
-deploys. See the [Rules checkpoint](slices/05-workspace-provisioning-rules.md)
+deploys. See the [Rules checkpoint](slices/05-workspace-provisioning/rules.md)
 for test evidence, shared timezone/profile limits and outstanding adapter/UI work.
 New `firebase.workspace.json` is an explicit future deploy target; using the test
 command does not publish that policy or change current cloud compatibility Rules.

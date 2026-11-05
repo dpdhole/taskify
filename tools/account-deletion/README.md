@@ -2,7 +2,7 @@
 
 Implements DA1 through **awaiting_retirement**. Trusted Auth deletion and explicit
 reconciliation are implemented; fence retirement remains disabled. Source:
-[DA1](../../docs/slices/05A-delete-account-contract.md).
+[DA1](../../docs/slices/05A-delete-account/contract.md).
 No command schedules itself. Creating this tool does not authorize a destructive run.
 
 ## Setup and targeting

@@ -11,9 +11,9 @@ Items explicitly marked **proposed** are design recommendations for review, not
 new approved product requirements or claims of implementation.
 
 The Foundation skeleton/proof is implemented and locally validated; see its
-[validation](slices/01-foundation-validation.md). Task product features remain unimplemented. Compatibility and provider sign-in
+[validation](slices/01-foundation/validation.md). Task product features remain unimplemented. Compatibility and provider sign-in
 are implemented with recorded dev Hosting checkpoints; Slice3 is owner-accepted.
-See the [closure record](slices/03-provider-sign-in-closure.md). Overall Firebase
+See the [closure record](slices/03-provider-sign-in/closure.md). Overall Firebase
 Spark feasibility remains **INCONCLUSIVE**. The isolated compatibility candidate
 passed 247/247 local tests; that result does not establish browser integration,
 live identity-provider behavior, production indexes or actual billed usage.
@@ -39,7 +39,7 @@ application/domain services and persistence adapters; static responsive browser
 delivery. Provider-specific SDK calls stay inside adapters, and UI uses application
 services. Foundation selected React/Vite, React Router data mode, Zustand vanilla stores,
 CSS Modules/tokens and Vitest/Testing Library/Playwright. Exact pins and accepted
-local-tooling advisory conditions are in the [dependency review](slices/01-foundation-dependencies.md).
+local-tooling advisory conditions are in the [dependency review](slices/01-foundation/dependencies.md).
 The application toolchain is separate from frozen experiment dependencies. The experiment's Node 22.16.0,
 Java 21.0.12.1, Firebase SDK 11.10.0, CLI 14.27.0 and emulator 1.19.8 identify
 reproduction tools, not an approved current production dependency set. Java and
@@ -95,19 +95,19 @@ Owner agreement, 22 October 2026:
 - Workspace provisioning is idempotent and retryable; interrupted initialization
   must not duplicate defaults.
 
-[Slice 3 detailing](slices/03-provider-sign-in.md), accepted 23 October 2026,
+[Slice 3 detailing](slices/03-provider-sign-in/index.md), accepted 23 October 2026,
 records the sign-in/session boundary: Firebase UID ownership, optional profile
 presentation, persistent authentication, independent auth/compatibility state,
 session-generation isolation and confirmed Logout with safe failure recovery.
 Provider flows are implemented. The owner accepted Slice3 on 2 November 2026
 after Google and Microsoft personal-account desktop/mobile verification. Work/school
 account testing is deferred until product/features mature; technical diagnostics
-remain during development. See the [closure record](slices/03-provider-sign-in-closure.md).
+remain during development. See the [closure record](slices/03-provider-sign-in/closure.md).
 Further live setup/testing needs its applicable authorization. The minimal authenticated screen provisions no records
 and grants no additional Firestore access. Linking remains Slice 4 and workspace/
 profile provisioning remains Slice 5. The current minimal login presentation is accepted.
 
-[Slice 4 detailing](slices/04-identity-linking.md), accepted 2 November 2026,
+[Slice 4 detailing](slices/04-identity-linking/index.md), accepted 2 November 2026,
 requires fresh current-account reauthentication and additional-provider proof for
 Google/Microsoft linking, preserving UID and ownership. Collision recovery restarts
 provider proof; already submitted operations require outcome verification after
@@ -190,14 +190,14 @@ without explicit implementation and evidence.
 
 ## Workspace provisioning — Slice 5 implementation and dev release
 
-As of5 November2026, [Slice5](slices/05-workspace-provisioning.md) is implemented
-and published to dev, with [deployment evidence](slices/05-workspace-provisioning-preview.md).
+As of5 November2026, [Slice5](slices/05-workspace-provisioning/index.md) is implemented
+and published to dev, with [deployment evidence](slices/05-workspace-provisioning/preview.md).
 Clean source02458ff supplies app0.2.0; the authoritative database contract is
 revision2/serverRelease2, with minimum/maximum app0.2.0. Older clients are blocked.
 Rules cannot attest browser code versions; the client gate enforces app bounds.
 Hosted artifact/gate checks pass. The owner reports the primary sign-in → ready →
 refresh → Logout workflow passed on mobile/desktop; Slice5 is subsequently
-[owner-accepted and closed](slices/05-workspace-provisioning-closure.md).
+[owner-accepted and closed](slices/05-workspace-provisioning/closure.md).
 
 Provisioning uses the shared Firebase Auth/Firestore runtime, UID/session generation
 and fresh compatibility admission. It does not depend on provider membership,
@@ -230,11 +230,11 @@ atomic claims, not Unicode normalization against a modified client.
 The ninth workspace-associated family is read-only `accountDeletion/{uid}` outside
 workspace cleanup. Any existing control, including unknown schema/state, blocks
 workspace reads/writes; only own control status can be read. All client fence
-mutations are denied. Future [Slice5A](slices/05A-delete-account.md) adds fresh-proof
+mutations are denied. Future [Slice5A](slices/05A-delete-account/index.md) adds fresh-proof
 intent and Option3 local operator cleanup, Auth deletion last and safe temporary
 fence retirement. Its request/finalizer/token-retirement mechanics remain unimplemented.
 
-The owner accepted the [5 November implementation preparation](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026):
+The owner accepted the [5 November implementation preparation](slices/05A-delete-account/index.md#accepted-implementation-preparation--5-november-2026):
 five-minute trusted recent-auth admission, immutable request, versioned recursive
 inventory, leased/generation-fenced operator stages and conservative retirement
 from trusted Auth-absence observation. Exact expressions, concurrency mechanism
@@ -243,7 +243,7 @@ distinct UID B may initialize while old UID A remains fenced; all cleanup remain
 bound to A/job, never email. UID reuse is prohibited, unexpected A recreation
 blocks retirement, and B cannot inherit A's data, markers or job visibility.
 
-[Technical contract DA1](slices/05A-delete-account-contract.md) resolves the concrete
+[Technical contract DA1](slices/05A-delete-account/contract.md) resolves the concrete
 implementation target: immutable schema1 request, Rules-validated auth claims,
 same-UID proof-token transfer, inventory1, 120-second leases with atomic control/
 cleanup transactions of at most100 deletes, and manual reconciliation for the
@@ -253,37 +253,37 @@ remains disabled until T7 validates actual token/stream/write behavior; no platf
 proof is inferred from elapsed time alone. Earlier pending-mechanics descriptions
 refer to unimplemented behavior, not unresolved design choices.
 
-The [first DA1 checkpoint](slices/05A-delete-account-domain.md) implements domain/
+The [first DA1 checkpoint](slices/05A-delete-account/domain.md) implements domain/
 inventory validation and candidate recent-auth request Rules locally. Current cloud
 Rules/compatibility remain the Slice5 release. Operator, proof-token transfer,
 browser request/recovery and retirement verification remain pending.
 
-The [next operator checkpoint](slices/05A-delete-account-operator.md) now implements
+The [next operator checkpoint](slices/05A-delete-account/operator.md) now implements
 discovery and transaction-fenced cleanup through data_verified in separate pinned
 Node tooling. It retains Auth and control; administrative Auth finalization,
 browser proof/request flow and validated retirement remain subsequent work.
 
-[Auth finalization](slices/05A-delete-account-auth-finalization.md) now extends the
+[Auth finalization](slices/05A-delete-account/auth-finalization.md) now extends the
 operator through awaiting_retirement: durable Auth latch, single bounded REST
 deletion outside transactions, explicit prior-run reconciliation, authoritative
 absence and server-anchored deadline. Retirement remains disabled; browser flow
 and actual cloud/provider safety evidence remain pending.
 
-The [browser checkpoint](slices/05A-delete-account-browser.md) adds a dedicated proof
+The [browser checkpoint](slices/05A-delete-account/browser.md) adds a dedicated proof
 context with same-UID token transfer to shared Auth, immutable request adapter,
 UID-scoped uncertain-submission recovery and blocking account UI. Local app0.3.0/
 revision3 is a candidate only; dev remains0.2.0/revision2. SDK popup emulator checks
 are distinct from live provider/mobile redirect and T7 cloud safety acceptance.
 
-[Owned-work renewal](slices/05A-delete-account-lease-renewal.md) now schedules one
+[Owned-work renewal](slices/05A-delete-account/lease-renewal.md) now schedules one
 renewal transaction at a time every30 seconds, using fresh server time and the
 current lease generation. Failure stops subsequent mutations; shutdown waits for
 in-flight renewal before release. Inspection remains read-only and retirement
 remains disabled; no hosted scheduler or automatic deletion invocation is added.
 
-[Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
-for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
-and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).
+[Historical readiness](slices/05-workspace-provisioning/readiness.md) is superseded
+for implemented scope by [runtime verification](slices/05-workspace-provisioning/implementation.md)
+and the approved [0.2.0 release plan](slices/05-workspace-provisioning/release.md).
 New families alone do not retire old clients; the owner explicitly selected the
 0.2.0 floor. Rollback must preserve that floor, retained schemas, fences and user
 progress. Dev/qc/uat share the database policy; only dev Hosting was updated.
@@ -295,7 +295,7 @@ enrolled plans without backfilling previously completed workspaces.
 
 ## Responsive navigation — Slice 6 accepted detailing
 
-[Slice6 detailing](slices/06-responsive-navigation.md) defines the shell over shared
+[Slice6 detailing](slices/06-responsive-navigation/index.md) defines the shell over shared
 validated UID-owned View metadata. Mobile modal drawer below 960 CSS px; desktop
 rail/sidebar at or above it. Separate transient overlays and per-tab/account sidebar
 retention from persisted View order. Navigation never writes View definitions/order.
@@ -308,14 +308,14 @@ accepted design, not an implemented or validated application shell.
 
 ## Task capture — Slice7 accepted detailing
 
-[Slice7 detailing](slices/07-quick-create-basic-list.md) introduces UID-owned Draft
+[Slice7 detailing](slices/07-quick-create-basic-list/index.md) introduces UID-owned Draft
 creation with stable Task/operation correlation, cloud-confirmed acknowledgement
 and reconciliation before retry. Title uses a 255-Unicode-code-point bound; prove
 consistent domain/Rules enforcement before acceptance. No creation Activity Event
 is required. Minimal All Tasks derives Category-grouped rows/counts from complete
 eligible metadata and explicit sorting, not a partial render or cache. Extend
 schema policy and Rules plus Slice5A's trusted cleanup inventory alongside Tasks.
-The [Slice7 gap review](slices/07-quick-create-basic-list.md#gap-review--4-november-2026)
+The [Slice7 gap review](slices/07-quick-create-basic-list/index.md#gap-review--4-november-2026)
 requires pending-write exclusion/deduplication, query completeness for semantic
 absence, fresh admission for same-UID operation recovery, readable archived
 references and commit-time deletion/classification checks. These are unresolved
@@ -327,7 +327,7 @@ Slice8A. This is accepted design, not a deployed Task schema or implementation.
 
 ## Task Detail and metadata — Slice8 accepted detailing
 
-[Slice8 detailing](slices/08-task-detail-metadata.md) introduces explicit metadata
+[Slice8 detailing](slices/08-task-detail-metadata/index.md) introduces explicit metadata
 editors, individual tri-state preference commits and plain-text GFM description
 source with a 64 KiB UTF-8 bound, rendered only in Task Detail. WYSIWYG is removed. Load descriptions on demand, outside lightweight
 list metadata. Choose and validate storage split/coherent versions, transactional
@@ -340,7 +340,7 @@ operation families appear. The owner selected react-markdown/remark-gfm (exact v
 root Task metadata plus detail/description, shared root concurrency counter and
 transactional coherent reads; atomic detail/root-version Save. Description is
 explicitly included in account cleanup. The
-[Slice8 gap register](slices/08-task-detail-metadata.md#gap-evaluation--4-november-2026)
+[Slice8 gap register](slices/08-task-detail-metadata/index.md#gap-evaluation--4-november-2026)
 requires actual Markdown-source byte enforcement proof, explicit link/image policy,
 coherent versioned saves and operation correlation robust to later edits. Preserve
 same-account conflict input without leaking drafts after Logout/access loss.
@@ -375,7 +375,7 @@ writers unless preservation is proven. No bulk migration/cloud rollout is implie
 
 ## Advanced Create — Slice8A accepted detailing
 
-[Slice8A](slices/08A-advanced-create.md) expands Quick Create one-way via More Details
+[Slice8A](slices/08A-advanced-create/index.md) expands Quick Create one-way via More Details
 while retaining one unsaved draft. Optional Reference/preferences/GFM use already
 accepted Task2/description1 codecs. Preferences commit only with Create, not via
 Task Detail's individual preference mutations. Atomically create root and required
@@ -511,7 +511,7 @@ Owner agreement, 22 October 2026:
 Owner agreement, 22 October 2026: use the checks below without a separate
 client-maintained server-release range. Server release identifies the deployment
 for traceability; it is not an additional compatibility predicate. Contract
-field shapes and family maps are accepted in [Slice2 detailing](slices/02-compatibility-gate.md); implementation remains pending.
+field shapes and family maps are accepted in [Slice2 detailing](slices/02-compatibility/gate.md); implementation remains pending.
 
 The privileged published contract should express:
 
@@ -581,7 +581,7 @@ Rules must remain safe for all permitted writes despite old, modified or bypassi
 clients. Browser-supplied version numbers do not prove which code is running.
 Slice2 specifies public get-only access to `runtime/compatibility`, no client
 publication/listing and no unrelated cloud access. Synthetic write-policy fixtures
-remain emulator-only; see [detailing](slices/02-compatibility-gate.md).
+remain emulator-only; see [detailing](slices/02-compatibility/gate.md).
 Owner confirmation, 23 October 2026: the Firestore contract is authoritative.
 Hosting build identity remains separate; any future hosted policy is secondary/
 external only, identifies its source revision and cannot override the contract
@@ -741,8 +741,8 @@ provisioning, deployment or live recovery is implied.
 
 ## Slice10 accepted query execution contract — 5 November 2026
 
-[Accepted detailing](slices/10-complete-query-engine.md) and its
-[engineering resolution](slices/10-query-engineering.md) define complete UID-scoped
+[Accepted detailing](slices/10-complete-query-engine/index.md) and its
+[engineering resolution](slices/10-complete-query-engine/query-engineering.md) define complete UID-scoped
 Task-root/catalogue subscriptions, a pure evaluator and one derived store revision.
 Typed contracts live in docs until implementation. Calendar conversion belongs to
 an injected infrastructure adapter; selected @js-temporal/polyfill0.5.1 requires
