@@ -275,6 +275,12 @@ UID-scoped uncertain-submission recovery and blocking account UI. Local app0.3.0
 revision3 is a candidate only; dev remains0.2.0/revision2. SDK popup emulator checks
 are distinct from live provider/mobile redirect and T7 cloud safety acceptance.
 
+[Owned-work renewal](slices/05A-delete-account-lease-renewal.md) now schedules one
+renewal transaction at a time every30 seconds, using fresh server time and the
+current lease generation. Failure stops subsequent mutations; shutdown waits for
+in-flight renewal before release. Inspection remains read-only and retirement
+remains disabled; no hosted scheduler or automatic deletion invocation is added.
+
 [Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
 for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
 and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).

@@ -72,10 +72,20 @@ reports busy. Expired/released leases acquire a new generation. Stale generation
 cannot commit deletes or release another run's lease. On graceful errors lease
 release is attempted; if unavailable it safely expires. No fence is cleared.
 
-Discovery uses SDK collection listings and buffers paths. Long discovery beyond
-the lease duration safely stops before the next mutation; automatic heartbeat/
-large-volume traversal optimization remains follow-on work. Do not bypass expiry
-to force progress. Privileged out-of-band writers violate quiescence assumptions.
+Discovery uses SDK collection listings and buffers paths. During an owned invocation,
+a local30-second heartbeat renews the120-second lease in a server transaction.
+Only one renewal runs at a time. Server readTime and the current run/generation
+determine authority; a local timer never revives an expired or replaced lease.
+Failed/unknown renewal stops further mutations. Shutdown cancels the next tick,
+waits for any in-flight renewal, then attempts release. Read-only inspect and
+pre-acquisition discovery do not start renewal writes. This is not a daemon or an
+automatic account-deletion schedule. Auth-latch reconciliation still requires the
+explicit attestations; no timer clears the fence or retires metadata.
+
+A blocked process or request can still outlast its lease and must then stop safely.
+Listing/path buffering and very-large-volume performance remain optimization work;
+there is no constant-memory claim or speculative user-data cap. Privileged
+out-of-band writers violate quiescence assumptions.
 
 ## Local verification
 
@@ -90,6 +100,6 @@ metadata discovery. Mixed cloud/emulator endpoints are rejected. Multiple-projec
 emulator warnings reflect the production target namespace inside the isolated
 demo emulator, not production access. Do not use emulator flags to target cloud.
 
-Cloud metadata/IAM/ADC and real accounts are not validated by these tests. Later
-checkpoints must implement provider proof/browser request/UI,
-T7 retirement verification and authorized release before Slice5A acceptance.
+Cloud metadata/IAM/ADC and real accounts are not validated by these tests. Provider
+proof/browser request/UI are implemented locally; live provider/mobile redirect,
+T7 retirement verification and authorized release remain before Slice5A acceptance.

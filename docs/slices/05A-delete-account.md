@@ -23,6 +23,10 @@ transfer, request recovery, authoritative status and the minimal account UI. Loc
 source/candidate is0.3.0/revision3; deployed dev remains0.2.0/revision2. Real-provider,
 redirect/cloud and T7 acceptance still remain; no retirement or release is enabled.
 
+The [lease-renewal checkpoint](05A-delete-account-lease-renewal.md) implements
+long-discovery renewal and safe failure/shutdown. It changes neither schema nor
+Auth-recovery authority; remaining acceptance is provider/cloud/T7 and release work.
+
 Authority: [Slice5 provisioning](05-workspace-provisioning.md),
 [identity policy](../architecture.md#identity-and-account-linking--owner-agreed-policy),
 [product specification](../product_spec.md) and [slice plan](../implementation_plan.md).

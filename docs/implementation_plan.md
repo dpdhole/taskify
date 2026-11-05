@@ -20,8 +20,10 @@ discovery/leased bounded cleanup through data_verified. The
 adds the durable Auth latch, explicit reconciliation and trusted absence/deadline
 recording. The [browser checkpoint](slices/05A-delete-account-browser.md) now adds
 proof/adapters/controller and UI as local app0.3.0/revision3. Dev remains0.2.0/
-revision2. Next: remaining real-provider/cloud/release acceptance and long-discovery
-renewal; retirement stays disabled pending T7.
+revision2. The subsequent
+[lease-renewal checkpoint](slices/05A-delete-account-lease-renewal.md) now implements
+long-discovery renewal locally. Next: real provider/cloud/T7 and release/rollback
+evidence. Retirement remains disabled pending T7.
 The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering

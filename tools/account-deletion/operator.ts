@@ -49,6 +49,17 @@ export interface OperatorPort {
   deleteAuth(uid: string, beforeSend: () => Promise<void>): Promise<void>;
   transaction<T>(work: (tx: OperatorTransaction) => Promise<T>): Promise<T>;
 }
+export interface OperatorScheduler {
+  schedule(callback: () => void, milliseconds: number): () => void;
+}
+export const LEASE_RENEWAL_INTERVAL_MS = 30000;
+const scheduler: OperatorScheduler = {
+  schedule(callback, milliseconds) {
+    const timer = setTimeout(callback, milliseconds);
+    timer.unref();
+    return () => clearTimeout(timer);
+  },
+};
 export class OperatorError extends Error {
   constructor(
     readonly code:
@@ -79,11 +90,16 @@ export function createDeletionOperator(
   port: OperatorPort,
   target: Target,
   runId: string,
+  clock: OperatorScheduler = scheduler,
 ) {
   validateTarget(target);
   deletionId(runId);
   const path = `accountDeletion/${target.uid}`;
   let generation: number | undefined;
+  let heartbeatFailure: unknown;
+  function healthy() {
+    if (heartbeatFailure !== undefined) throw heartbeatFailure;
+  }
   async function control(tx?: OperatorTransaction) {
     const snap = await (tx ?? port).get(path);
     if (!snap.exists) throw new OperatorError('reconciliation-required');
@@ -111,6 +127,7 @@ export function createDeletionOperator(
     tx.control(path, before, assertDeletionTransition(before, after));
   }
   function owned(c: AccountDeletionControl, now: WorkspaceTimestamp) {
+    healthy();
     if (
       !c.lease ||
       c.lease.runId !== runId ||
@@ -136,16 +153,21 @@ export function createDeletionOperator(
     delete next.pauseCode;
     return next;
   }
-  /** Full validation first; no writes, global queries, contents or document IDs in output. */
-  async function discover() {
+  /** Read-only discovery; an owned traversal also stops on failed lease renewal. */
+  async function discover(leased = false) {
+    const check = () => {
+      if (leased) healthy();
+    };
     const paths: string[] = [];
     const counts: Record<string, number> = Object.create(null) as Record<
       string,
       number
     >;
     async function walk(docPath: string): Promise<void> {
+      check();
       deletionInventoryFamily(target.uid, docPath);
       const snap = await port.get(docPath);
+      check();
       if (snap.exists) {
         const family = validateDeletionInventoryRecord(
           target.uid,
@@ -154,9 +176,13 @@ export function createDeletionOperator(
         );
         counts[family] = (counts[family] ?? 0) + 1;
       }
-      for (const collection of (await port.collections(docPath)).sort()) {
+      const collections = await port.collections(docPath);
+      check();
+      for (const collection of collections.sort()) {
         assertDeletionCollection(target.uid, collection);
-        for (const child of (await port.documents(collection)).sort()) {
+        const documents = await port.documents(collection);
+        check();
+        for (const child of documents.sort()) {
           // A malicious/broken port cannot escape the enumerated collection.
           if (
             !child.startsWith(collection + '/') ||
@@ -211,6 +237,41 @@ export function createDeletionOperator(
       write(tx, c, next);
     });
   }
+  function startRenewal() {
+    heartbeatFailure = undefined;
+    let running = true;
+    let cancel = () => {};
+    let flight: Promise<void> | undefined;
+    function arm() {
+      if (!running || heartbeatFailure !== undefined) return;
+      cancel = clock.schedule(() => {
+        if (!running) return;
+        // Schedule the next tick only after this transaction settles: no overlap.
+        flight = port
+          .transaction(async (tx) => {
+            const { c, now } = await control(tx);
+            owned(c, now);
+            const next = renewed(c, now);
+            // Heartbeats renew ownership only; they never resume a paused stage.
+            if (c.pauseCode) next.pauseCode = c.pauseCode;
+            write(tx, c, next);
+          })
+          .catch((error: unknown) => {
+            heartbeatFailure = error ?? new OperatorError('lease-lost');
+          })
+          .finally(() => {
+            flight = undefined;
+            arm();
+          });
+      }, LEASE_RENEWAL_INTERVAL_MS);
+    }
+    arm();
+    return async () => {
+      running = false;
+      cancel();
+      await flight;
+    };
+  }
   return {
     async finalizeAuth(
       confirmedJob: string,
@@ -239,6 +300,7 @@ export function createDeletionOperator(
       )
         throw new OperatorError('auth-changed');
       generation = await acquire(attested, true);
+      const stopRenewal = startRenewal();
       try {
         const { c: acquired } = await control();
         if (acquired.state === 'data_verified') {
@@ -284,7 +346,7 @@ export function createDeletionOperator(
           }
           if (await port.auth(target.uid))
             throw new OperatorError('auth-uncertain');
-          if ((await discover()).paths.length)
+          if ((await discover(true)).paths.length)
             throw new OperatorError('reconciliation-required');
           await port.transaction(async (tx) => {
             const { c, now: observed } = await control(tx);
@@ -322,6 +384,7 @@ export function createDeletionOperator(
           retireNotBefore: result.retireNotBefore,
         };
       } finally {
+        await stopRenewal();
         await release().catch(() => {});
       }
     },
@@ -356,6 +419,7 @@ export function createDeletionOperator(
       const user = await identity(initial);
       await discover(); // Unknown data blocks before acquiring or deleting anything.
       generation = await acquire();
+      const stopRenewal = startRenewal();
       try {
         await port.transaction(async (tx) => {
           const { c, now } = await control(tx);
@@ -370,7 +434,7 @@ export function createDeletionOperator(
         });
         for (;;) {
           await identity((await control()).c);
-          const inventory = await discover();
+          const inventory = await discover(true);
           const candidates = inventory.paths.slice(0, DELETION_BATCH_LIMIT);
           if (!candidates.length) break;
           await port.transaction(async (tx) => {
@@ -394,7 +458,7 @@ export function createDeletionOperator(
           });
         }
         // Separate independent traversal before verification marker; no Auth side effects.
-        if ((await discover()).paths.length)
+        if ((await discover(true)).paths.length)
           throw new OperatorError('reconciliation-required');
         await identity((await control()).c);
         await port.transaction(async (tx) => {
@@ -413,6 +477,7 @@ export function createDeletionOperator(
           retirementEnabled: false,
         };
       } finally {
+        await stopRenewal();
         // Preserve the original error if infrastructure prevents release; expiry is safe.
         await release().catch(() => {});
       }

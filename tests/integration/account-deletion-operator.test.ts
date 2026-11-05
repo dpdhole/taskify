@@ -283,3 +283,62 @@ it('bounds Auth transport to one nonredirecting request and rejects cross-UID de
     await f.runtime.close();
   }
 });
+
+it('renews an owned discovery through an actual server transaction without changing generation', async () => {
+  const f = await fixture(2);
+  const callbacks = new Set<() => void>();
+  const engine = createDeletionOperator(
+    f.runtime.port,
+    f.target,
+    crypto.randomUUID(),
+    {
+      schedule(callback, milliseconds) {
+        expect(milliseconds).toBe(30000);
+        callbacks.add(callback);
+        return () => {
+          callbacks.delete(callback);
+        };
+      },
+    },
+  );
+  const collections = f.runtime.port.collections;
+  let renewed = false;
+  f.runtime.port.collections = async (path) => {
+    const prior = decodeAccountDeletion(
+      (await f.runtime.port.get(`accountDeletion/${f.uid}`)).data,
+    );
+    if (!renewed && prior.state === 'cleaning') {
+      renewed = true;
+      const callback = callbacks.values().next().value!;
+      callbacks.delete(callback);
+      callback();
+      let observed = false;
+      for (let i = 0; i < 100; i++) {
+        const current = decodeAccountDeletion(
+          (await f.runtime.port.get(`accountDeletion/${f.uid}`)).data,
+        );
+        if (current.recordVersion > prior.recordVersion) {
+          expect(current.state).toBe('cleaning');
+          expect(current.leaseGeneration).toBe(prior.leaseGeneration);
+          expect(
+            compareDeletionTime(current.updatedAt, prior.updatedAt),
+          ).toBeGreaterThanOrEqual(0);
+          observed = true;
+          break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 5));
+      }
+      expect(observed).toBe(true);
+    }
+    return collections(path);
+  };
+  try {
+    await engine.cleanup('execute', f.jobId);
+    expect(renewed).toBe(true);
+    expect(callbacks.size).toBe(0);
+    expect((await engine.inspect()).counts).toEqual({});
+    expect((await getAuth(app).getUser(f.uid)).uid).toBe(f.uid);
+  } finally {
+    await f.runtime.close();
+  }
+});

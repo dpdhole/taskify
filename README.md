@@ -31,6 +31,9 @@ the [browser checkpoint](docs/slices/05A-delete-account-browser.md) adds provide
 proof, request recovery and UI in the local0.3.0/revision3 candidate. Dev remains
 0.2.0/revision2. Complete T1–T8 before Slice 6 navigation. See the
 [preparation checkpoint](docs/slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026).
+The [renewal checkpoint](docs/slices/05A-delete-account-lease-renewal.md) adds
+long-discovery lease renewal locally; real provider/cloud and retirement-safety
+acceptance remain pending.
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.
 Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during development.

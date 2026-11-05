@@ -2,6 +2,20 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5A long-discovery lease renewal implemented locally
+
+- Owner instructed proceeding and continuing. [Renewal checkpoint](slices/05A-delete-account-lease-renewal.md)
+  adds serial30-second heartbeats during owned work,120-second server-time lease
+  extension, failure propagation and waiting for in-flight renewal before release.
+- Expired/stale generations cannot renew or mutate. Auth attempt/verification
+  anchors remain immutable; interrupted Auth work still needs explicit reconciliation.
+  Inspection stays read-only and retirement stays disabled.
+- Operator units27 and SDK emulator cases9 pass. Full verify passes521 unit/component
+  cases, static checks, four builds and bundle isolation; standalone types pass.
+  No app/schema/policy version or deployed resource changes.
+- Next remaining live-provider/cloud/T7 and release/rollback evidence. T1–T8 incomplete,
+  Slice4 held. No staging, commit, push or real destructive execution is included.
+
 ## 2026-11-05 — Slice5A browser proof/request/UI implemented locally
 
 - Prior Auth checkpoint committed locally as ddcdede at owner instruction; no push.

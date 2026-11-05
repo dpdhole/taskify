@@ -3,6 +3,7 @@ import { createDeletionOperator } from '../../tools/account-deletion/operator';
 import type {
   OperatorPort,
   Snapshot,
+  OperatorScheduler,
 } from '../../tools/account-deletion/operator';
 import { createWorkspaceSeedPlan } from '../../src/domain/workspace-seeds';
 import type { AccountDeletionControl } from '../../src/domain/account-deletion';
@@ -16,7 +17,7 @@ const run = '22222222-2222-4222-8222-222222222222';
 const otherRun = '33333333-3333-4333-8333-333333333333';
 const controlPath = `accountDeletion/${target.uid}`;
 const stamp = (seconds: number) => ({ seconds, nanoseconds: 0 });
-function fixture(count = 205) {
+function fixture(count = 205, clock?: OperatorScheduler) {
   const records = new Map<string, unknown>();
   records.set(controlPath, {
     schemaVersion: 1,
@@ -146,7 +147,8 @@ function fixture(count = 205) {
     records,
     port,
     batches,
-    operator: (runId = run) => createDeletionOperator(port, target, runId),
+    operator: (runId = run) =>
+      createDeletionOperator(port, target, runId, clock),
     control: () => records.get(controlPath) as AccountDeletionControl,
     setUser: (value: typeof user) => {
       user = value;
@@ -160,6 +162,28 @@ function fixture(count = 205) {
     stats: () => ({ deleted, verifies }),
   };
 }
+function manualClock() {
+  const callbacks = new Set<() => void>();
+  return {
+    schedule(callback: () => void, milliseconds: number) {
+      expect(milliseconds).toBe(30000);
+      callbacks.add(callback);
+      return () => {
+        callbacks.delete(callback);
+      };
+    },
+    fire() {
+      const callback = callbacks.values().next().value;
+      if (!callback) throw Error('No scheduled renewal');
+      callbacks.delete(callback);
+      callback();
+    },
+    pending: () => callbacks.size,
+  };
+}
+const flushRenewal = async () => {
+  for (let i = 0; i < 20; i++) await Promise.resolve();
+};
 it('inspect validates missing-parent descendants without writes or content disclosure', async () => {
   const f = fixture(),
     before = structuredClone([...f.records]);
@@ -482,4 +506,213 @@ it('requires empty inventory again before deleting Auth', async () => {
   );
   expect(calls).toBe(0);
   expect(f.control().state).toBe('data_verified');
+});
+
+it('long owned discovery renews leases using server time without changing generation', async () => {
+  const clock = manualClock(),
+    f = fixture(3, clock);
+  const get = f.port.get;
+  let ticks = 0;
+  f.port.get = async (path) => {
+    if (
+      path.startsWith(`users/${target.uid}`) &&
+      f.control().state === 'cleaning'
+    ) {
+      f.setNow(f.control().lease!.expiresAt.seconds - 60);
+      clock.fire();
+      await flushRenewal();
+      ticks++;
+    }
+    return get(path);
+  };
+  await f.operator().cleanup('execute', target.jobId);
+  expect(ticks).toBeGreaterThan(2);
+  expect(f.control().dataVerifiedAt!.seconds).toBeGreaterThan(1200);
+  expect(f.control().leaseGeneration).toBe(1);
+  expect(f.batches).toEqual([4]);
+  expect(clock.pending()).toBe(0);
+});
+it('inspection and pre-acquisition discovery never start lease-renewal writes', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock);
+  await f.operator().inspect();
+  expect(clock.pending()).toBe(0);
+  expect(f.control().recordVersion).toBe(1);
+});
+it('expired ownership cannot be revived by a late heartbeat', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock),
+    collections = f.port.collections;
+  let checked = false;
+  f.port.collections = async (path) => {
+    if (!checked && f.control().state === 'cleaning') {
+      checked = true;
+      f.setNow(f.control().lease!.expiresAt.seconds);
+      clock.fire();
+      await flushRenewal();
+    }
+    return collections(path);
+  };
+  await expect(f.operator().cleanup('execute', target.jobId)).rejects.toThrow(
+    'lease-lost',
+  );
+  expect(f.stats().deleted).toBe(0);
+  expect(clock.pending()).toBe(0);
+});
+it('takeover during discovery blocks stale heartbeat, cleanup and lease release', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock),
+    collections = f.port.collections;
+  let checked = false;
+  f.port.collections = async (path) => {
+    if (!checked && f.control().state === 'cleaning') {
+      checked = true;
+      const c = f.control();
+      f.records.set(controlPath, {
+        ...c,
+        recordVersion: c.recordVersion + 1,
+        leaseGeneration: 2,
+        lease: { runId: otherRun, generation: 2, expiresAt: stamp(2000) },
+      });
+      clock.fire();
+      await flushRenewal();
+    }
+    return collections(path);
+  };
+  await expect(f.operator().cleanup('execute', target.jobId)).rejects.toThrow(
+    'lease-lost',
+  );
+  expect(f.stats().deleted).toBe(0);
+  expect(f.control().lease?.runId).toBe(otherRun);
+  expect(clock.pending()).toBe(0);
+});
+it('unknown renewal acknowledgement stops mutations and leaves the job resumable', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock),
+    collections = f.port.collections;
+  let checked = false;
+  f.port.collections = async (path) => {
+    if (!checked && f.control().state === 'cleaning') {
+      checked = true;
+      f.hook((_deletes, next) => {
+        if (next?.lease && next.state === 'cleaning') {
+          f.hook(undefined);
+          throw Error('renewal-unconfirmed');
+        }
+      });
+      clock.fire();
+      await flushRenewal();
+    }
+    return collections(path);
+  };
+  await expect(f.operator().cleanup('execute', target.jobId)).rejects.toThrow(
+    'renewal-unconfirmed',
+  );
+  expect(f.stats().deleted).toBe(0);
+  expect(f.control().state).toBe('cleaning');
+  expect(clock.pending()).toBe(0);
+  await f.operator(otherRun).cleanup('resume', target.jobId);
+  expect(f.control().state).toBe('data_verified');
+});
+it('heartbeat during Auth deletion preserves its durable attempt and retirement stays disabled', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock),
+    engine = f.operator();
+  await engine.cleanup('execute', target.jobId);
+  let calls = 0;
+  f.port.deleteAuth = async (_uid, beforeSend) => {
+    calls++;
+    const originalAttempt = structuredClone(f.control().authAttempt);
+    f.setNow(f.control().lease!.expiresAt.seconds - 60);
+    clock.fire();
+    await flushRenewal();
+    await beforeSend();
+    expect(f.control().authAttempt).toEqual(originalAttempt);
+    f.setUser(null);
+  };
+  const result = await engine.finalizeAuth(target.jobId);
+  expect(calls).toBe(1);
+  expect(result.retirementEnabled).toBe(false);
+  expect(f.control().state).toBe('awaiting_retirement');
+  expect(clock.pending()).toBe(0);
+});
+
+it('renewals never overlap and shutdown waits for the in-flight transaction before release', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock),
+    collections = f.port.collections;
+  const transaction = f.port.transaction;
+  let release!: () => void, entered!: () => void;
+  const reached = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const blocked = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let triggered = false;
+  f.port.collections = async (path) => {
+    if (!triggered && f.control().state === 'cleaning') {
+      triggered = true;
+      f.port.transaction = async (work) => {
+        await blocked;
+        return transaction(work);
+      };
+      clock.fire();
+      await flushRenewal();
+      expect(clock.pending()).toBe(0);
+      expect(() => clock.fire()).toThrow('No scheduled renewal');
+      entered();
+      throw Error('discovery-unavailable');
+    }
+    return collections(path);
+  };
+  let settled = false;
+  const work = f
+    .operator()
+    .cleanup('execute', target.jobId)
+    .finally(() => {
+      settled = true;
+    });
+  await reached;
+  await flushRenewal();
+  expect(settled).toBe(false);
+  expect(f.control().lease).toBeDefined();
+  release();
+  await expect(work).rejects.toThrow('discovery-unavailable');
+  expect(f.control().lease).toBeUndefined();
+  expect(clock.pending()).toBe(0);
+});
+it('failed renewal after an Auth call retains the latch and demands explicit reconciliation', async () => {
+  const clock = manualClock(),
+    f = fixture(1, clock),
+    engine = f.operator();
+  await engine.cleanup('execute', target.jobId);
+  let calls = 0;
+  f.port.deleteAuth = async (_uid, beforeSend) => {
+    await beforeSend();
+    calls++;
+    f.setUser(null);
+    f.hook((_deletes, next) => {
+      if (next?.lease && next.state === 'auth_deleting') {
+        f.hook(undefined);
+        throw Error('renewal-unknown');
+      }
+    });
+    clock.fire();
+    await flushRenewal();
+  };
+  await expect(engine.finalizeAuth(target.jobId)).rejects.toThrow(
+    'renewal-unknown',
+  );
+  expect(f.control().state).toBe('auth_deleting');
+  expect(f.control().authAbsentObservedAt).toBeUndefined();
+  expect(clock.pending()).toBe(0);
+  await expect(f.operator(otherRun).finalizeAuth(target.jobId)).rejects.toThrow(
+    'reconciliation-required',
+  );
+  await f
+    .operator(otherRun)
+    .finalizeAuth(target.jobId, { reconcileAuth: true, priorRunStopped: true });
+  expect(calls).toBe(1);
+  expect(f.control().state).toBe('awaiting_retirement');
 });

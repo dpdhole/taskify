@@ -13,6 +13,7 @@ Firebase project; no hosted runtime, scheduler or new cloud resource is selected
 | Recent authentication | 300 seconds inclusive; future auth_time rejected |
 | Job/run identifiers | Lowercase UUID v4; independent jobId and runId |
 | Lease duration | 120 seconds; renew before each destructive transaction |
+| Owned-work heartbeat | 30-second scheduling interval; serialized renewals use server time and current generation |
 | Cleanup transaction | At most 100 application document deletes plus one control update |
 | Transaction retries | At most 5 SDK attempts; callbacks have no external side effects |
 | Discovery | Sequential traversal, one collection listing/query at a time; no global collection-group sweep |
@@ -353,3 +354,7 @@ The [browser checkpoint](05A-delete-account-browser.md) adds local proof/request
 evidence, including real SDK Google/Microsoft emulator popup proof transfer into
 shared Firestore. Source/candidate0.3.0/revision3 is unpublished; deployed dev remains
 0.2.0/revision2. Live OAuth/mobile redirect and T7 remain acceptance gates.
+
+The [lease-renewal checkpoint](05A-delete-account-lease-renewal.md) implements owned-
+work heartbeat and failure/stop handling. It changes no control schema or Auth
+recovery authority and does not enable fence retirement.
