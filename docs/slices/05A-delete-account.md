@@ -1,13 +1,21 @@
 # Slice 5A — Delete Account
 
-Status: **implementation in progress, 5 November 2026; domain/inventory/Rules and
-operator finalization and browser flow implemented locally; slice unaccepted**. The browser design records confirmed deletion
+Status: **ready and awaiting user verification, 5 November 2026; deployed to dev
+as app 0.3.0 with shared DA1 Rules and policy revision 3; slice unaccepted**.
+The owner confirmed the revision 3 dev deployment. The supplied screenshot shows
+a signed-in session, verified compatibility, Workspace ready and Delete Account
+available. It does not establish deletion proof, cleanup or retirement acceptance.
+See the [deployment record](05A-delete-account-dev-deployment.md). Retirement stays
+disabled pending T7; remaining provider/cloud safety checks are tracked there.
+
+The browser design records confirmed deletion
 intent; an explicitly invoked operator script performs and verifies cleanup,
 deletes Auth last, and retires the temporary fence after stale-session safety
 checks. No hosted backend, permanent tombstone, automatic schedule or execution
 of account deletion is approved by this design selection. See the
 [implementation checkpoint](05A-delete-account-domain.md) for actual changes and
-local evidence. No cloud actions, real deletion, commit, push or deployment occur.
+local evidence. The following checkpoints describe earlier implementation states;
+the current deployment and verification status above supersede their release status.
 
 The [operator checkpoint](05A-delete-account-operator.md) adds isolated tooling,
 recursive discovery, transactional leases and bounded cleanup through data_verified.
@@ -20,8 +28,8 @@ anchor. Browser proof/request/UI and T7 safety remain; retirement stays disabled
 
 The [browser checkpoint](05A-delete-account-browser.md) now implements proof/token
 transfer, request recovery, authoritative status and the minimal account UI. Local
-source/candidate is0.3.0/revision3; deployed dev remains0.2.0/revision2. Real-provider,
-redirect/cloud and T7 acceptance still remain; no retirement or release is enabled.
+source/candidate is0.3.0/revision3, now deployed to dev. Real-provider,
+redirect/cloud and T7 acceptance still remain; retirement is disabled.
 
 The [lease-renewal checkpoint](05A-delete-account-lease-renewal.md) implements
 long-discovery renewal and safe failure/shutdown. It changes neither schema nor

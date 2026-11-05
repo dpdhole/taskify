@@ -9,17 +9,18 @@ Foundation and Slice2 deployment evidence remains unchanged.
 
 | Channel | Purpose | Last recorded deployment state |
 |---|---|---|
-| `dev` | Development previews | Slice5 workspace provisioning, app0.2.0, contract2, version40e35b075db747cb from clean commit02458ff |
+| `dev` | Development previews | Slice5A, app0.3.0, policy3/serverRelease3, version16f946a5cd6a587a from clean commit78e59ef |
 | `qc` | Testing and verification | Created; no release |
 | `uat` | External/beta review | Existing version7664413ad02b4666 preserved by the Slice5 dev release; no new UAT publication |
 | `live` | Product release when ready | Unchanged; no live release approved |
 
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
 No qc/uat Hosting publication was performed by the Slice5 dev release. The shared
-contract now requires app0.2.0; older artifacts cannot be used until separately promoted.
+contract now requires app0.3.0; older artifacts are blocked.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
-Latest recorded deployment: [Slice5 provisioning preview](slices/05-workspace-provisioning-preview.md),
-clean pushed commit `02458ff`, version `40e35b075db747cb`, published on4 November.
+Latest recorded deployment: [Slice5A dev publication](slices/05A-delete-account-dev-deployment.md),
+clean local commit `78e59ef`, version `16f946a5cd6a587a`, published on 5 November
+with shared DA1 Rules and policy revision 3. No push occurred.
 [Slice4 verification preview](slices/04-identity-linking-preview.md) remains historical.
 The [23 October Google/Microsoft preview](slices/03-provider-sign-in-preview.md)
 remains historical evidence; Slice4 linking remains held and unaccepted.
@@ -76,7 +77,8 @@ isolation needs a separately agreed environment/project decision.
 
 Use up to30 days for preview channels. The channels created on23 October2026
 initially expire **22 November2026 at13:19 IST**. The4 November dev deployment
-most recently renewed dev to **4 December2026 at20:44 IST**; qc/uat retain their recorded22 November expiry.
+renewed dev to **4 December2026 at20:44 IST**; the 5 November Slice5A deployment
+preserved that expiry. qc/uat retain their recorded22 November expiry.
 Renew only on explicit instruction; no
 scheduled renewal or deployment. Check and report expiry at each hosting action.
 Expiry may remove a channel and invalidate its URL; recreating it can change the

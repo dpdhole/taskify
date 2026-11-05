@@ -2,6 +2,40 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice 5A ready and awaiting user verification
+
+- Owner confirmed revision 3 on dev and requested the verification handoff.
+- Supplied screenshot shows signed-in/compatibility-verified Workspace ready with
+  Delete Account available; it does not verify deletion, cleanup or retirement.
+- [Deployment and handoff](slices/05A-delete-account-dev-deployment.md) records the
+  exact release and remaining checks. Slice acceptance is pending; retirement disabled.
+- Documentation prepared for commit. No new deployment, real deletion or push.
+
+## 2026-11-05 — Slice 5A published to dev at owner instruction
+
+- [Deployment record](slices/05A-delete-account-dev-deployment.md): app 0.3.0 from
+  clean `78e59ef`, build `78e59efd1273-cf161c48e0041603`, Hosting `16f946a5cd6a587a`.
+- Shared DA1 Rules and policy revision 3/serverRelease 3 published and read back.
+  All 27 HTTPS hashes, headers, 390/1280px readiness/refresh and old-client blocking pass.
+- Billing, providers, Auth domains, qc/uat/live Hosting and dev expiry are unchanged.
+- Operator ADC, real-provider/cloud request execution, T6/T7 and rollback rehearsal
+  remain pending. Retirement disabled; Slice 5A unaccepted. No real deletion,
+  staging, commit or push.
+
+## 2026-11-05 — Slice 5A cloud preflight and release candidate verified
+
+- [Release checkpoint](slices/05A-delete-account-release-verification.md) records
+  read-only project/provider/permission checks, zero pending deletion requests,
+  source-only cloud Rules compilation and local Hosting checks at 390/1280px.
+- Clean commit `78e59ef` produced the pinned app 0.3.0 candidate. Dev remains
+  app 0.2.0 with revision 2/serverRelease 2; no cloud resource was changed.
+- Publication needs an explicitly named destination under the channel policy.
+  Operator ADC is absent; CLI permissions do not establish operator credentials.
+- Real-provider execution and the [T7 procedure](slices/05A-delete-account-t7-verification.md)
+  remain pending, including exact destructive-target authorization and guarded
+  retirement implementation. Retirement stays disabled; Slice 5A is unaccepted.
+- Documentation/evidence only. No staging, commit, push, deployment or real deletion.
+
 ## 2026-11-05 — Slice5A long-discovery lease renewal implemented locally
 
 - Owner instructed proceeding and continuing. [Renewal checkpoint](slices/05A-delete-account-lease-renewal.md)

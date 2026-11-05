@@ -1,0 +1,337 @@
+{
+  "cloud": {
+    "recordedAt": "2026-11-05T13:38:44.120Z",
+    "project": {
+      "id": "taskify-dev-dpdhole",
+      "number": "243252492098",
+      "state": "ACTIVE"
+    },
+    "cloudChanged": false,
+    "checks": {
+      "billing": {
+        "ok": true,
+        "billingEnabled": false,
+        "billingAccountAttached": false
+      },
+      "database": {
+        "ok": true,
+        "name": "projects/taskify-dev-dpdhole/databases/(default)",
+        "locationId": "asia-south1",
+        "type": "FIRESTORE_NATIVE",
+        "deleteProtectionState": "DELETE_PROTECTION_ENABLED",
+        "concurrencyMode": "PESSIMISTIC"
+      },
+      "compatibility": {
+        "ok": true,
+        "revision": 2,
+        "serverRelease": 2,
+        "minAppVersion": "0.2.0",
+        "maxAppVersion": "0.2.0",
+        "environmentId": "taskify-dev-dpdhole",
+        "updateTime": "2026-11-04T15:14:11.973377Z",
+        "families": [
+          "accountDeletion",
+          "category",
+          "compatibilityProbe",
+          "initializationStage",
+          "location",
+          "nameReservation",
+          "profile",
+          "settings",
+          "view",
+          "workspaceInitialization"
+        ]
+      },
+      "rules": {
+        "ok": true,
+        "release": "projects/taskify-dev-dpdhole/releases/cloud.firestore",
+        "ruleset": "projects/taskify-dev-dpdhole/rulesets/5592c9e1-4db4-4658-b551-efc181840abc",
+        "fileCount": 1,
+        "activeSha256": "445e474d22abbe1dee1d746436e96dd92411531734332090ae953ed6746b416f",
+        "candidateSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+        "matchesCandidate": false
+      },
+      "providers": {
+        "ok": true,
+        "providers": [
+          {
+            "provider": "apple.com",
+            "enabled": true
+          },
+          {
+            "provider": "google.com",
+            "enabled": true
+          },
+          {
+            "provider": "microsoft.com",
+            "enabled": true
+          }
+        ],
+        "more": false
+      },
+      "authDomains": {
+        "ok": true,
+        "name": "projects/243252492098/config",
+        "authorizedDomains": [
+          "localhost",
+          "taskify-dev-dpdhole.firebaseapp.com",
+          "taskify-dev-dpdhole.web.app",
+          "taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "taskify-dev-dpdhole--qc-xnxat620.web.app",
+          "taskify-dev-dpdhole--uat-hzsuai7v.web.app"
+        ]
+      },
+      "channels": {
+        "ok": true,
+        "channels": [
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev",
+            "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/40e35b075db747cb",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-12-04T15:14:17.787049294Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/uat",
+            "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+            "release": {
+              "version": {
+                "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/7664413ad02b4666",
+                "status": "FINALIZED"
+              }
+            },
+            "expireTime": "2026-11-22T07:49:33.998777426Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc",
+            "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+            "expireTime": "2026-11-22T07:49:33.336597957Z"
+          },
+          {
+            "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+            "url": "https://taskify-dev-dpdhole.web.app"
+          }
+        ],
+        "more": false
+      },
+      "cliPermissions": {
+        "ok": true,
+        "requested": [
+          "datastore.entities.get",
+          "datastore.entities.list",
+          "datastore.entities.create",
+          "datastore.entities.update",
+          "datastore.entities.delete",
+          "firebaseauth.users.get",
+          "firebaseauth.users.delete",
+          "resourcemanager.projects.get"
+        ],
+        "granted": [
+          "datastore.entities.create",
+          "datastore.entities.delete",
+          "datastore.entities.get",
+          "datastore.entities.list",
+          "datastore.entities.update",
+          "firebaseauth.users.delete",
+          "firebaseauth.users.get",
+          "resourcemanager.projects.get"
+        ],
+        "operatorAdcVerified": false
+      },
+      "pendingRequests": {
+        "ok": true,
+        "count": 0,
+        "more": false
+      },
+      "candidateRulesCompile": {
+        "ok": true,
+        "passed": true,
+        "errors": 0,
+        "warnings": 0,
+        "sourceSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+        "deployed": false
+      }
+    },
+    "operatorAdc": {
+      "configured": false,
+      "verified": false
+    }
+  },
+  "artifact": {
+    "release": {
+      "appVersion": "0.3.0",
+      "buildId": "78e59efd1273-cf161c48e0041603",
+      "commit": "78e59efd127325e6b40bac7249d7a0035ef31d1a",
+      "sourceDirty": false,
+      "builtAt": "2026-11-05T13:36:51.755Z"
+    },
+    "files": {
+      "assets/index-Bw4kvdXw.js": "d7dc814e750a4587fe08a311ef70c33f70d89fbd06cf41b3f0d00432f2d26fed",
+      "assets/index-tlxMUBkc.css": "26f94c1b406f266022b4135113699dd5e9ab136cbe357656bfc4ba166d1f5e5f",
+      "icons/material-symbols-rounded/business.svg": "e4385e82c3e0b686407af7b0529c8076a4ade779b126302ab4f687a5e48424e0",
+      "icons/material-symbols-rounded/category.svg": "14a86a24d551efc734e7814d3542dbb329946666aa5a88bedbf894a8d556e7c1",
+      "icons/material-symbols-rounded/celebration.svg": "d0f6d1348cf2c2f9a5d659f2d65fc8c36ce684bb3d99f49ead66943fa7cdb798",
+      "icons/material-symbols-rounded/family_restroom.svg": "b755d39bf1dac9929a3e978b3daeeedeb54306b8594920bcbaeead29f9069e16",
+      "icons/material-symbols-rounded/fitness_center.svg": "948a05e5c14c6d7d48115b1e55980ef3d8b9f675368674efe4b9c7be002d5e0d",
+      "icons/material-symbols-rounded/group.svg": "911624e04d36c60f9b1a8d9266df0eeb92fe764e852142e23d3f1a47489cd325",
+      "icons/material-symbols-rounded/heart_plus.svg": "a1dcdd873fcd9d88c06749bb83cf67f5d712327c2c7177b28d67828171e36b15",
+      "icons/material-symbols-rounded/home.svg": "b29e5deb4467a06ec02ac358516fd8e5955c0d704fba8776f055b638cfbab607",
+      "icons/material-symbols-rounded/home_and_garden.svg": "9fda1b4f9310a97303cff92153d68fa202cb8919080563956462a9279fa9da55",
+      "icons/material-symbols-rounded/language.svg": "7bef4e741ed558c37c166b8f06c7abbc7c964e100057f6c725a7be40809113b0",
+      "icons/material-symbols-rounded/LICENSE": "49bbe9114e49214df2ccc324cb3ac8d1d1aa1c3a0947f94c286765e86647b32e",
+      "icons/material-symbols-rounded/local_grocery_store.svg": "aa70db8571dce433f335b79399c9a53225943b0bf42eac1c42d7982e3255bd91",
+      "icons/material-symbols-rounded/local_mall.svg": "4176752934a7573a64b5a01d7b2894f51009ea697e49dc0707889644e69401e7",
+      "icons/material-symbols-rounded/local_pharmacy.svg": "4cf509a76d19dcb634a6cf19e13920173d47f7420748a4efb2699889f251f7ee",
+      "icons/material-symbols-rounded/palette.svg": "0b847ea803e92b6e1c792103c89e7448659cb001032ffd5699c1f956ca74f656",
+      "icons/material-symbols-rounded/person.svg": "b60e9574bc2566ea0e72710cd40e4f61a00449130bdc258c0a1006af6857d727",
+      "icons/material-symbols-rounded/school.svg": "4b19c6f8ffc399ca3f30fc230ab0e8b32eb7460a78a5ece4354a0f1a503266ee",
+      "icons/material-symbols-rounded/store.svg": "8b5a2445d49eb806ec42e41030fcad30c81a34c2bd6f1445349179886736b6e2",
+      "icons/material-symbols-rounded/storefront.svg": "6f72edf132242c91135b01d7608e2f5d5eaf99eb34b74d62fcf70932020a4935",
+      "icons/material-symbols-rounded/trending_up.svg": "1b7ab42e79308d863a097d3d527fd061618068675bcede86dbbe0bbd0b1540c3",
+      "icons/material-symbols-rounded/wallet.svg": "6e3b7d1cbfa08306678ed02a1d0a46e16cfbc72d35e32d9fc84c7eec5dc60812",
+      "icons/material-symbols-rounded/weekend.svg": "b5ed3916af4580e71e68a512a67d45d2f0df1f98571a89ae3ab3488878acb928",
+      "icons/material-symbols-rounded/work.svg": "5de01618f5799f5224cc28f0f4ac322df0ef7d75d0b68344a257d797a360603b",
+      "index.html": "cb3c2ce2d511a6f45ae05a3864a5e35c115a8f0f00d963b731c1db3ed65161d1",
+      "release.json": "afafc38748f3a3f9fb4f4800999acfa828498645184c8d7c92e533cc18ba6666"
+    },
+    "rulesSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536",
+    "policy": {
+      "environmentId": "taskify-dev-dpdhole",
+      "recordFamilies": {
+        "compatibilityProbe": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "workspaceInitialization": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "profile": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "settings": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "category": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "location": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "view": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "initializationStage": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "nameReservation": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        },
+        "accountDeletion": {
+          "presentSchemaVersions": [
+            1
+          ],
+          "allowedWriteSchemaVersions": [
+            1
+          ]
+        }
+      },
+      "serverRelease": 3,
+      "maxAppVersion": "0.3.0",
+      "revision": 3,
+      "contractFormatVersion": 1,
+      "minAppVersion": "0.3.0"
+    },
+    "published": false
+  },
+  "hosting": {
+    "recordedAt": "2026-11-05T13:44:50.820Z",
+    "artifact": {
+      "appVersion": "0.3.0",
+      "buildId": "78e59efd1273-cf161c48e0041603",
+      "commit": "78e59efd127325e6b40bac7249d7a0035ef31d1a",
+      "sourceDirty": false,
+      "builtAt": "2026-11-05T13:36:51.755Z"
+    },
+    "filesVerified": 27,
+    "securityHeaders": true,
+    "internalFilesExcluded": true,
+    "views": [
+      {
+        "width": 390,
+        "gate": "client-ahead",
+        "signInBlocked": true,
+        "overflow": false,
+        "pageErrors": 0
+      },
+      {
+        "width": 1280,
+        "gate": "client-ahead",
+        "signInBlocked": true,
+        "overflow": false,
+        "pageErrors": 0
+      }
+    ],
+    "currentDev": {
+      "appVersion": "0.2.0",
+      "buildId": "02458ffb68d1-6a446b9f4ba6aaed",
+      "commit": "02458ffb68d1280f86ff4545284fe6d76023ec3a"
+    },
+    "published": false,
+    "cloudChanged": false
+  },
+  "scope": {
+    "published": false,
+    "realProviderTested": false,
+    "realAccountDeleted": false,
+    "t7Executed": false,
+    "retirementEnabled": false
+  }
+}

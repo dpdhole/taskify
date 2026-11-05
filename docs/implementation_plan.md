@@ -9,6 +9,12 @@ on mobile and desktop. **Slice5 is owner-accepted and closed**; see its
 [closure record](slices/05-workspace-provisioning-closure.md). [Deployment evidence](slices/05-workspace-provisioning-preview.md)
 records the actual source, channel and remaining checks.
 
+Current release: [Slice 5A dev deployment](slices/05A-delete-account-dev-deployment.md)
+publishes clean `78e59ef`, app 0.3.0, DA1 Rules and policy 3/serverRelease 3.
+HTTPS artifact and readiness checks pass; real-provider/T6/T7 and rollback evidence
+remain pending. The owner confirmed revision 3 on dev; **Slice 5A is ready and
+awaiting user verification**. Retirement is disabled and final acceptance is pending.
+
 Next: implement/validate Slice5A against [technical contract DA1](slices/05A-delete-account-contract.md),
 then Slice6 navigation. DA1 fixes schemas, admission, inventory, concurrency,
 retirement and candidate rollout; its T1–T8 execution gates remain unproven.
@@ -19,11 +25,14 @@ discovery/leased bounded cleanup through data_verified. The
 [Auth finalization checkpoint](slices/05A-delete-account-auth-finalization.md) now
 adds the durable Auth latch, explicit reconciliation and trusted absence/deadline
 recording. The [browser checkpoint](slices/05A-delete-account-browser.md) now adds
-proof/adapters/controller and UI as local app0.3.0/revision3. Dev remains0.2.0/
-revision2. The subsequent
+proof/adapters/controller and UI as app0.3.0/revision3, now published to dev. The subsequent
 [lease-renewal checkpoint](slices/05A-delete-account-lease-renewal.md) now implements
 long-discovery renewal locally. Next: real provider/cloud/T7 and release/rollback
-evidence. Retirement remains disabled pending T7.
+evidence. The [cloud preflight](slices/05A-delete-account-release-verification.md)
+passes read-only cloud checks, source-only Rules compilation and isolated artifact
+Hosting checks. The owner subsequently approved dev publication, now complete.
+Next: provision operator ADC, then collect real-provider and [T7 evidence](slices/05A-delete-account-t7-verification.md)
+against exact authorized targets. Retirement remains disabled pending T7.
 The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering

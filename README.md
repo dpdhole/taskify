@@ -2,7 +2,14 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status (5 November 2026):** Slice 5 workspace provisioning is implemented and
+**Current deployment (5 November 2026):** [Dev](https://taskify-dev-dpdhole--dev-por3atkf.web.app/)
+serves Slice 5A app **0.3.0**, clean commit `78e59ef`, with shared DA1 Rules and
+policy revision 3/serverRelease 3. Hosted hashes, headers, mobile/desktop readiness
+and old-client blocking pass. [Deployment evidence](docs/slices/05A-delete-account-dev-deployment.md).
+The owner confirmed revision 3 on dev. **Slice 5A is ready and awaiting user
+verification.** Real-provider/T7 acceptance remains pending; retirement is disabled.
+
+**Slice 5 closure baseline:** Slice 5 workspace provisioning is implemented and
 published to [dev](https://taskify-dev-dpdhole--dev-por3atkf.web.app/) as app **0.2.0**,
 from clean pushed commit `02458ff`. Initialization Rules and compatibility contract
 revision 2/server release 2 are published; older clients are intentionally blocked.
@@ -28,12 +35,16 @@ implements strict domain/inventory validation and Rules admission. The
 leases and cleanup. [Auth finalization](docs/slices/05A-delete-account-auth-finalization.md)
 now reaches awaiting_retirement with explicit reconciliation and a retained fence;
 the [browser checkpoint](docs/slices/05A-delete-account-browser.md) adds provider
-proof, request recovery and UI in the local0.3.0/revision3 candidate. Dev remains
-0.2.0/revision2. Complete T1–T8 before Slice 6 navigation. See the
+proof, request recovery and UI in the 0.3.0/revision3 candidate, now published to dev.
+Complete T1–T8 before Slice 6 navigation. See the
 [preparation checkpoint](docs/slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026).
 The [renewal checkpoint](docs/slices/05A-delete-account-lease-renewal.md) adds
 long-discovery lease renewal locally; real provider/cloud and retirement-safety
-acceptance remain pending.
+acceptance remain pending. The [cloud preflight](docs/slices/05A-delete-account-release-verification.md)
+records successful read-only cloud checks, candidate Rules compilation and isolated
+Hosting verification. Publication is complete; operator ADC setup, real-provider execution and
+the [T7 procedure](docs/slices/05A-delete-account-t7-verification.md) remain pending;
+retirement stays disabled.
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.
 Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during development.
