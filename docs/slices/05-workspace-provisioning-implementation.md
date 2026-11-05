@@ -12,6 +12,14 @@ assigns revision2/serverRelease2 and records the coordinated rollout/rollback
 floor. Earlier0.1.0/pending-version statements below describe the prior checkpoint;
 cloud publication and acceptance are recorded separately in deployment evidence.
 
+## Subsequent dev publication
+
+[Deployment report](05-workspace-provisioning-preview.md) records the completed
+4 November dev publication: app0.2.0, contract revision2/serverRelease2, exact
+initialization Rules and clean source02458ff. Release-identifier/publication gates
+below are now historical. Hosted first-use/provider acceptance and Slice5 closure
+remain pending; the release does not accept Slice4 or authorize further promotion.
+
 ## Implemented behavior
 
 - The Auth entry declares the nine workspace schema families. Account deletion is

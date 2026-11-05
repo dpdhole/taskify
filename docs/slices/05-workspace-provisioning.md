@@ -1,12 +1,11 @@
 # Slice 5 — Workspace provisioning
 
-Status: **runtime implementation and local verification, 4 November 2026; Slice5 remains open for coordinated release and hosted acceptance**.
-The owner put Slice4 on hold and directed proceeding with Slice5. Linking is not
-a prerequisite. The accepted single-provider Auth/session and compatibility
-boundaries now admit initialization. See the [runtime checkpoint](05-workspace-provisioning-implementation.md)
-and [Slice4 hold/handoff](04-identity-linking-hold.md). Earlier checkpoints below
-are historical; the runtime checkpoint controls current implementation status.
-No cloud publication, staging, commit or push is included.
+Status: **implemented and deployed to dev; owner acceptance pending, 5 November 2026**.
+App0.2.0, contract revision2/serverRelease2 and initialization Rules were published
+from clean pushed02458ff. See the [deployment report/evidence](05-workspace-provisioning-preview.md)
+and [runtime checkpoint](05-workspace-provisioning-implementation.md). Earlier dated
+checkpoints below are historical. Slice5 remains open; Slice4 remains on hold.
+Linking is not a provisioning prerequisite. No further promotion is authorized.
 
 Authority: [product specification](../product_spec.md),
 [architecture](../architecture.md), [slice plan](../implementation_plan.md),
@@ -101,22 +100,21 @@ Never restart the seed template solely because a ticket expired. Logout/account
 switch invalidates publication of all old-account results, including same-UID
 sign-out/sign-in across different session generations.
 
-The current application composition supplies a no-op account-state cleanup hook.
-Replace it with workspace state clearing, subscription disposal and pending-result
-invalidation before introducing user-scoped workspace state. Cleanup must not
+The integration baseline supplied a no-op account-state cleanup hook; the runtime
+implementation now supplies state clearing, subscription disposal and pending-result
+invalidation before user-scoped state is exposed. Cleanup must not
 cancel or pretend to roll back an already committed stage. Verify disposal during
 runtime teardown and avoid duplicate listeners after remount/reconnect.
 
 ### Profile and runtime boundaries
 
-Current application SessionIdentity contains UID, optional display name and email,
-but no photo. Add an optional initial-profile photo value through the existing
-identity translation or a narrow profile-snapshot port. Do not pass Firebase User
+SessionIdentity now includes optional initial-profile photo data through the
+infrastructure identity translation. Do not pass Firebase User
 objects into application/domain or read provider status merely to obtain a photo.
 Capture profile once, allow absent fields and never overwrite persisted user edits.
 
-Extend the existing shared Auth/Firestore runtime with a provisioning adapter;
-keep SDK types within infrastructure and reuse its database lifecycle. Do not
+The shared Auth/Firestore runtime now owns the provisioning adapter; SDK types
+stay in infrastructure and its database lifecycle is reused. Do not
 create a second persistent Auth session, reconnect workspace data to an isolated
 provider-metadata helper or attach a listener per visual component. A status-reader
 implementation using memory-only Auth is not the workspace's authentication source.
@@ -131,16 +129,17 @@ reach ready without opening or completing Sign-in methods. Reuse existing shared
 Auth/Firestore regression patterns where relevant; mocked adapter evidence alone
 does not establish real-provider safety.
 
-These are Slice5 acceptance requirements, not authorization to reopen held Slice4
-full-slice/regression/browser/emulator testing. Identify any overlap with the
-owner's test hold and obtain applicable authorization before running held checks.
-Keep Slice4 failure reproduction, linking acceptance and multi-provider readiness
-separate from provisioning results. This amendment executes no tests.
+These are Slice5 acceptance requirements. Later owner authorization permitted
+the local and affected-boundary checks recorded in the release evidence; hosted
+owner acceptance remains pending. This does not accept Slice4 linking or authorize
+additional held-feature testing. Keep linking/multi-provider acceptance separate
+from provisioning results; the original amendment itself executed no tests.
 
-Physical paths are now agreed below. Exact bounded seed stages, query codec/default decisions,
-compatibility family changes, Rules and Slice5A deletion-fence contracts still
-require concrete resolution/verification. New Auth code does not supply those
-persistence guarantees or authorize cloud policy publication.
+Physical paths, bounded initialization stages, query codecs, family declarations
+and initialization Rules are now implemented and locally verified; the approved
+0.2.0 Rules/contract/client release is published to dev. Slice5A request/finalizer
+mechanics and hosted owner acceptance remain separate. Further cloud publication
+still requires an explicit destination and authorization.
 
 ## Approved classification templates
 
@@ -440,9 +439,10 @@ families or claim implementation.
 Validate all external records at runtime. Separate record-family schema versions,
 query schema versions, mutable-record concurrency versions and template versions.
 Use cloud-confirmed timestamps where required; no browser timestamp proves success.
-The current compatibilityProbe-only family map is insufficient: extend client and
-authoritative contract deliberately for every introduced family before admission.
-No contract publication is authorized here. Unknown/malformed required records
+The original probe-only family map was insufficient. The deployed revision2
+contract/client now declare the probe and nine workspace families; app0.2.0 is
+required. The design agreement alone did not authorize publication; the later dev
+release was explicitly owner-authorized. Unknown/malformed required records
 block with recovery guidance rather than trigger wholesale overwrite.
 
 ## Agreed document fields and ordering — 4 November 2026
@@ -545,8 +545,9 @@ The reservation agreement increases the seven record families to eight, adding
 `nameReservation` with schema 1. Include guard writes in stage budgets, declare
 the family in client capabilities/authoritative compatibility policy and include
 its nested path in Slice5A deletion inventory. This supersedes the earlier
-seven-family-only scope. Bounded-stage Rules feasibility and fresh tests remain
-pending under the current broader-test hold.
+seven-family-only scope; the later deletion fence adds the ninth family. Bounded
+initialization Rules and the authorized local checks now pass. Hosted acceptance
+and Slice5A implementation remain pending; Slice4 stays held.
 Firebase documents `getAfter()` for validating post-write state in atomic operations:
 [Rules conditions](https://firebase.google.com/docs/firestore/security/rules-conditions).
 
@@ -655,12 +656,13 @@ only by a build implementing the authorized request creation operation.
 
 ## Security and recovery acceptance
 
-Replace the current deny-all application-data policy only with explicit UID-owned
-record operations needed here. Retain public get-only runtime/compatibility and
+The deployed initialization Rules replace the former deny-all application-data
+policy only for the exact UID-owned operations needed here. Retain public get-only runtime/compatibility and
 privileged policy publication. Deny cross-account reads/writes, ownership changes,
 unknown schemas/fields, client-forged receipts and invalid protected-record edits.
 Do not loosen generic writes to make seed batches succeed. Production Rules and
-indexes remain a separately authorized cloud checkpoint.
+indexes remain separately controlled; initialization Rules were explicitly
+authorized and deployed for the0.2.0 dev release. No index change was needed.
 
 Tests must cover first/returning access, same-UID simultaneous clients, interruption
 at every stage, unknown acknowledgement, retry, malformed/unknown schema,
@@ -718,13 +720,13 @@ new test execution is implied by this documentation reconciliation.
 | Runtime/fence/presentation | Shared runtime, UID/generation/admission binding, cleanup, fence watcher, Loading/recovery/ready implemented | Hosted lifecycle verification; Slice5A request/finalizer remains separate |
 | Icons |22 pinned self-hosted Rounded assets, license, semantic aliases and offline integrity check supplied | Future catalogue/navigation presentation uses these assets |
 | Local verification | See runtime report and machine evidence for final counts and limitations | Does not claim real-provider/cloud acceptance or Slice4 completion |
-| Compatibility rollout | Auth source declares nine workspace families; current cloud contract lacks them and fails closed | Assign actual app/revision/release bounds and approve coordinated publication |
+| Compatibility rollout | Published: app0.2.0, contract revision2/serverRelease2, nine workspace families and exact initialization Rules; older clients blocked | Owner hosted provisioning/provider acceptance; retain0.2.0 rollback floor |
 | Due precision/query execution | Initialization stores the agreed query envelope | Task precision and mixed-precision execution remain later-slice work |
 
-Verdict: initialization runtime is implemented for local verification. Slice5 is
-not closed or cloud-released. No agreed product decision needs reopening for
-initialization. Release identity/bounds and publication sequence must be reviewed
-before deploying this Auth build. Slice4 remains held; Slice5A remains separate.
+Verdict: initialization runtime is implemented, locally verified and released to
+dev. Hosted artifact/gate checks pass; owner first-use/provider verification and
+Slice5 closure remain pending. Release identity/bounds and coordinated publication
+are complete. Slice4 remains held; Slice5A remains separate.
 
 Original detailing used baseline ca822f3, integration amendment d013515; readiness
 baseline is8320898 with uncommitted contract documentation and the new unit test.

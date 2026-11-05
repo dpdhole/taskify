@@ -4,11 +4,20 @@
 selected **app0.2.0 and blocking older clients**. This authorizes the coordinated
 development release; it does not accept Slice5 or promote other Hosting channels.
 
+## Published outcome — documented5 November2026
+
+The sequence below completed4 November: exact initialization Rules, contract
+revision2/serverRelease2 and dev Hosting version40e35b075db747cb, from clean pushed
+02458ffb68d1280f86ff4545284fe6d76023ec3a. [Deployment report/evidence](05-workspace-provisioning-preview.md)
+records hosted checks and expiry4 December2026 at20:44 IST. Publication is complete;
+owner first-use/provider acceptance and Slice5 closure remain pending. This record
+preserves the approved sequence and rollback constraints for future operations.
+
 ## Release contract
 
-- App/package/client version0.2.0. The clean release-preparation commit follows
+- App/package/client version0.2.0. Clean release-preparation commit02458ff follows
   implementation/merge commit5d560ea; exact publication identity is recorded in
-  deployment evidence after release.
+  deployment evidence.
 - Shared runtime policy revision2/serverRelease2, minimum/maximum app0.2.0.
   `config/workspace-compatibility.json` declares the probe and nine workspace
   families, schema1. Account deletion remains a read-only client capability;

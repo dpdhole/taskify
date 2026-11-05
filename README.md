@@ -2,14 +2,25 @@
 
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
-**Status:** Foundation implementation, local acceptance checks and the additional Hosting preview checkpoint are complete; closure documentation is committed and pushed. Slice2 compatibility is implemented and locally validated; its approved Firestore checkpoint passed. The clean committed Slice2 Hosting preview is published and verified; owner closure review remains. Slice3 is owner-accepted on 2 November 2026 and closure is prepared: Google and Microsoft personal-account login workflows were owner-verified on desktop/mobile; Microsoft work/school testing is deferred until product/features mature. Technical diagnostics remain during slice development. See the [closure record](docs/slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; Sign-in methods status and popup/redirect current-account verification are implemented locally. The clean checkpoint is published to dev; explicit provider linking is now implemented locally with unit-only validation; full regression and hosted linking acceptance remain on hold. Slice5 provisioning detailing is prepared for review, with approved catalogues and icons; early Delete Account is detailed as Slice5A, and Slice6 navigation detailing is accepted. Live promotion is deferred until development matures and requires explicit owner approval. Task workflows are not implemented or deployed. Overall platform feasibility remains INCONCLUSIVE; earlier Firebase implementation remains in Git history.
+**Status (5 November 2026):** Slice 5 workspace provisioning is implemented and
+published to [dev](https://taskify-dev-dpdhole--dev-por3atkf.web.app/) as app **0.2.0**,
+from clean pushed commit `02458ff`. Initialization Rules and compatibility contract
+revision 2/server release 2 are published; older clients are intentionally blocked.
+Hosted artifact/gate checks pass. Owner verification of first-use provisioning,
+refresh, Logout and account isolation is pending, so Slice 5 remains open. See the
+[deployment report and evidence](docs/slices/05-workspace-provisioning-preview.md).
 
-**Current owner decision (2 November 2026): Slice 4 remains open and on hold.**
-The reported local verification-cancellation defect is deferred, with linking
-unaccepted; proceed to Slice 5 workspace provisioning using a single-provider
-session. Primary-flow regression safety has not been established by the unit-only
-checkpoint. See [hold and handoff](docs/slices/04-identity-linking-hold.md).
-This supersedes earlier progress summaries; full-slice/regression testing stays held.
+Slices 1–2 are implemented; Slice 3 Google/Microsoft personal-account workflows
+were owner-accepted on 2 November. Microsoft work/school testing remains deferred.
+**Slice 4 remains open, on hold and unaccepted** for its verification/linking issue;
+provisioning uses a single-provider session and does not depend on linking.
+Slice 5 local/affected-boundary testing was authorized and passed; it does not
+constitute full Slice 4 acceptance. See the [hold/handoff](docs/slices/04-identity-linking-hold.md).
+
+Next is Slice 5 owner acceptance, then Slice 5A Delete Account and Slice 6 navigation.
+Later accepted slice designs remain implementation work. Task workflows are not
+yet implemented or deployed. Live promotion still requires explicit owner approval.
+Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during development.
 
 ## Documentation
 
@@ -20,7 +31,7 @@ This supersedes earlier progress summaries; full-slice/regression testing stays 
 - [Slice2 compatibility detailing](docs/slices/02-compatibility-gate.md) — accepted database contract, runtime gate, Rules/operator boundaries and acceptance matrix.
 - [Hosting channels](docs/hosting_channels.md) — dev/QC/UAT roles, explicit destination requirements and promotion policy.
 - [Slice2 preview](docs/slices/02-compatibility-preview.md) — historical compatibility preview evidence.
-- [Current dev preview](docs/slices/04-identity-linking-preview.md) — clean Slice4 current-account verification release and hosted checks.
+- [Current dev preview](docs/slices/05-workspace-provisioning-preview.md) — clean Slice 5 provisioning release, compatibility floor and hosted checks.
 - [Slice2 validation](docs/slices/02-compatibility-validation.md) — executed local/cloud checks, evidence and remaining release gates.
 - [Slice3 provider sign-in detailing](docs/slices/03-provider-sign-in.md) — accepted Google/Microsoft session, gate, Logout and isolation baseline; Apple deferred; owner-accepted; closure prepared, work/school testing deferred.
 - [Slice3 Auth/session](docs/slices/03-provider-sign-in-session.md) — restoration, compatibility integration, Logout and local/emulator evidence.
@@ -28,7 +39,7 @@ This supersedes earlier progress summaries; full-slice/regression testing stays 
 - [Slice3 login presentation](docs/slices/03-provider-sign-in-presentation.md) — shared responsive sign-in, keyboard recovery and local browser evidence.
 - [Slice3 real-provider acceptance](docs/slices/03-provider-sign-in-acceptance.md) — observed Google desktop checks, owner-verified Microsoft personal results and remaining gates.
 - [Slice4 identity-linking detailing](docs/slices/04-identity-linking.md) — accepted Google/Microsoft linking; provider status and popup/redirect current-account verification and explicit linking implemented locally; linking validation is unit-only, with full regression held.
-- [Slice5 workspace-provisioning detailing](docs/slices/05-workspace-provisioning.md) — approved catalogues/icons, default Views, safe initialization and recovery; concrete specification prepared for review, implementation pending.
+- [Slice5 workspace-provisioning detailing](docs/slices/05-workspace-provisioning.md) — approved catalogues/icons, default Views, safe initialization and recovery; implemented and deployed to dev as 0.2.0; owner acceptance pending.
 - [Slice5A Delete Account detailing](docs/slices/05A-delete-account.md) — approved deletion scope and Option 3 operator-run trusted finalizer; concrete safety contracts require implementation validation.
 - [Slice6 responsive-navigation detailing](docs/slices/06-responsive-navigation.md) — accepted mobile drawer, desktop rail/sidebar, contextual routing, accessibility and feature-availability boundaries; implementation pending.
 - [Slice7 Quick Create/basic list detailing](docs/slices/07-quick-create-basic-list.md) — accepted Draft capture, Title validation, cloud-confirmed recovery and minimal Category-grouped All Tasks; implementation pending.

@@ -188,60 +188,61 @@ slice design and benchmarking. Separate collection listeners do not establish an
 atomic Task/classification snapshot; do not claim transactional read consistency
 without explicit implementation and evidence.
 
-## Workspace provisioning — Slice 5 detailing
+## Workspace provisioning — Slice 5 implementation and dev release
 
-[Slice5 detailing](slices/05-workspace-provisioning.md) records owner-approved
-catalogues, icon names, seven initial Views, one-time optional profile capture and
-persisted timezone initialization. Categories, Locations and Views carry spaced
-integer `order` ranks, initially in steps of 1000 following the approved catalogues.
-Order ties use stable document IDs; protected Uncategorized and synthetic Unspecified
-remain last. No separate ordering documents are introduced (owner agreement,
-4 November 2026); All Tasks starts last but remains movable.
-Versioned UID-owned templates, bounded transactional stages and validated progress
-receipts must prevent duplicate/partial completion under simultaneous access.
-Blocking Loading/progress and guidance do not replace integrity. Exact physical
-paths/stage grouping/query codec remain review/implementation proposals; no new
-records or Rules are implemented by detailing. Preserve user changes and never
-reseed completed ordinary defaults. No Task provisioning/backfill occurs here.
-Owner also agreed Category/Location name reservations under each UID, separately
-scoped by record kind. Record/reservation creation and rename are atomic; archives
-retain claims. Add `nameReservation` schema 1 to compatibility and deletion
-inventory. Carry forward the accepted PoC/beta client-only NFC/grapheme boundary;
-Rules enforce ownership, literal-key consistency and atomic claims, not canonical
-Unicode compliance against a modified client. Exact staged Rules feasibility is
-still pending; frozen feasibility evidence is not product acceptance.
+As of5 November2026, [Slice5](slices/05-workspace-provisioning.md) is implemented
+and published to dev, with [deployment evidence](slices/05-workspace-provisioning-preview.md).
+Clean source02458ff supplies app0.2.0; the authoritative database contract is
+revision2/serverRelease2, with minimum/maximum app0.2.0. Older clients are blocked.
+Rules cannot attest browser code versions; the client gate enforces app bounds.
+Hosted artifact/gate checks pass; owner first-use/provider acceptance is pending.
 
-Shared deletion fence is `accountDeletion/{uid}` (owner agreement, 4 November
-2026), outside workspace cleanup. Existence blocks all ordinary workspace writes;
-Rules independently check absence for each write. Add accountDeletion schema 1
-as the ninth Slice5-associated family, read-only for provisioning clients. Browser
-request creation belongs to implemented Slice5A admission; progress and retirement
-remain trusted-only. No expiry or automatic teardown of the control is approved.
+Provisioning uses the shared Firebase Auth/Firestore runtime, UID/session generation
+and fresh compatibility admission. It does not depend on provider membership,
+reauthentication or linking. Logout/account changes clear workspace state and
+subscriptions; stale results cannot publish into a different session. Server state
+is reconciled after admission loss or uncertain acknowledgement, without resetting
+confirmed progress. Loading/recovery/ready presentation includes explicit timezone
+selection and optional-profile omission; first committed values are preserved.
 
-[Local readiness evidence](slices/05-workspace-provisioning-readiness.md) covers
-existing compatibility/Rules/browser baseline and candidate family admission, not
-new provisioning integrity. New policy families alone do not retire older clients;
-coordinate app bounds and verified Rules/client/contract sequencing. Final stage
-receipt/content enforcement and fence/runtime integration remain to implement.
+UID-owned initialization uses24 bounded transaction stages: base profile/settings,
+6 Category pairs,10 Locations and7 Views, each with immutable receipt/content checks.
+A final transaction completes initialization only after the final receipt. Exact
+schema1 codecs, confirmed timestamps, template1 seeds and versioned mutable records
+are implemented. Completed ordinary defaults are never automatically reseeded.
+There is no Task creation, query execution or management CRUD in this release.
 
-Early [Delete Account detailing](slices/05A-delete-account.md) selects Option 3:
-browser-confirmed intent followed by a local operator-run trusted finalizer. The
-script verifies data cleanup, deletes Auth last and safely retires a temporary
-fence after stale-session checks. No hosted backend or permanent tombstone is
-selected. Administrative script invariants must be enforced independently of Rules;
-align Slice5 controls and validate concrete safety contracts before acceptance.
+Approved Category/Location names, icons and seven initial Views retain their agreed
+catalogues. Per-record integer `order` starts in steps of1000; midpoint insertion
+and later renumbering remain the ordering contract. Stable IDs break ties;
+Uncategorized and synthetic Unspecified remain protected. No ordering collection
+is introduced.22 pinned self-hosted Material Symbols Rounded assets supply icon
+keys; provenance, hashes and legacy aliases are recorded with the implementation.
 
-### Provisioning integration after the Slice4 hold
+Atomic name reservations are scoped by UID and record kind. Initialization creates
+each record/guard together. Later rename/archive operations remain separate slices;
+archives retain claims under their accepted contract. The PoC/beta client-only
+NFC/grapheme boundary remains explicit: Rules enforce ownership, literal keys and
+atomic claims, not Unicode normalization against a modified client.
 
-The [Slice5 integration amendment](slices/05-workspace-provisioning.md#integration-amendment--main-baseline-d013515-2-november-2026)
-binds initialization to UID/session/compatibility admission, not provider status
-or proof/linking completion. Provisioning is the primary authenticated surface;
-Sign-in methods errors do not establish workspace failure. Wire account-state
-cleanup before storing workspace state, extend the existing shared runtime and
-provide optional initial-profile photo data without leaking SDK objects. Reconcile
-committed seed stages after admission revocation rather than restarting templates.
-Shared Auth changes remain a validation risk; Slice4 stays held/unaccepted and its
-test hold is not lifted by documenting Slice5 acceptance requirements.
+The ninth workspace-associated family is read-only `accountDeletion/{uid}` outside
+workspace cleanup. Any existing control, including unknown schema/state, blocks
+workspace reads/writes; only own control status can be read. All client fence
+mutations are denied. Future [Slice5A](slices/05A-delete-account.md) adds fresh-proof
+intent and Option3 local operator cleanup, Auth deletion last and safe temporary
+fence retirement. Its request/finalizer/token-retirement mechanics remain unimplemented.
+
+[Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
+for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
+and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).
+New families alone do not retire old clients; the owner explicitly selected the
+0.2.0 floor. Rollback must preserve that floor, retained schemas, fences and user
+progress. Dev/qc/uat share the database policy; only dev Hosting was updated.
+
+Slice4 remains held and unaccepted. Slice5 local and affected-boundary checks were
+subsequently authorized; passing them does not close linking or replace hosted
+owner acceptance. Slice9 will later add blocking onboarding stages for newly
+enrolled plans without backfilling previously completed workspaces.
 
 ## Responsive navigation — Slice 6 accepted detailing
 

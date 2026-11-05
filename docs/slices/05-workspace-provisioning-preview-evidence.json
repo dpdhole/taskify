@@ -1,0 +1,309 @@
+{
+  "recordedAt": "2026-11-04T15:28:42.984019+00:00",
+  "projectId": "taskify-dev-dpdhole",
+  "projectNumber": "243252492098",
+  "destination": "dev",
+  "ownerInstruction": "deploy slice5 to dev channel",
+  "versionDecision": "Release0.2.0; block older clients",
+  "artifact": {
+    "release": {
+      "appVersion": "0.2.0",
+      "buildId": "02458ffb68d1-6a446b9f4ba6aaed",
+      "commit": "02458ffb68d1280f86ff4545284fe6d76023ec3a",
+      "sourceDirty": false,
+      "builtAt": "2026-11-04T15:12:23.477Z"
+    },
+    "files": {
+      "index.html": "448f1307def4e7658f49ffe43ccf9f8d8fe8ee3dc06a4a5ca4bb5fa8b41447c6",
+      "release.json": "00d9a2b41dd3a5ce7aed70d569c04f3bab910acc2505a05af82e2baf9925bc38",
+      "assets/index-C7DNGVW2.js": "5074427c7309525b5497a54a92b883bf64a1ac0bf1f5c180ae4ae4e23b2f44b6",
+      "assets/index-Cel9E0B9.css": "475c8b0f9862ad779153a6b351742ecaf8681dd0c3b6a2217664d503763c4f67",
+      "icons/material-symbols-rounded/business.svg": "e4385e82c3e0b686407af7b0529c8076a4ade779b126302ab4f687a5e48424e0",
+      "icons/material-symbols-rounded/category.svg": "14a86a24d551efc734e7814d3542dbb329946666aa5a88bedbf894a8d556e7c1",
+      "icons/material-symbols-rounded/celebration.svg": "d0f6d1348cf2c2f9a5d659f2d65fc8c36ce684bb3d99f49ead66943fa7cdb798",
+      "icons/material-symbols-rounded/family_restroom.svg": "b755d39bf1dac9929a3e978b3daeeedeb54306b8594920bcbaeead29f9069e16",
+      "icons/material-symbols-rounded/fitness_center.svg": "948a05e5c14c6d7d48115b1e55980ef3d8b9f675368674efe4b9c7be002d5e0d",
+      "icons/material-symbols-rounded/group.svg": "911624e04d36c60f9b1a8d9266df0eeb92fe764e852142e23d3f1a47489cd325",
+      "icons/material-symbols-rounded/heart_plus.svg": "a1dcdd873fcd9d88c06749bb83cf67f5d712327c2c7177b28d67828171e36b15",
+      "icons/material-symbols-rounded/home.svg": "b29e5deb4467a06ec02ac358516fd8e5955c0d704fba8776f055b638cfbab607",
+      "icons/material-symbols-rounded/home_and_garden.svg": "9fda1b4f9310a97303cff92153d68fa202cb8919080563956462a9279fa9da55",
+      "icons/material-symbols-rounded/language.svg": "7bef4e741ed558c37c166b8f06c7abbc7c964e100057f6c725a7be40809113b0",
+      "icons/material-symbols-rounded/LICENSE": "49bbe9114e49214df2ccc324cb3ac8d1d1aa1c3a0947f94c286765e86647b32e",
+      "icons/material-symbols-rounded/local_grocery_store.svg": "aa70db8571dce433f335b79399c9a53225943b0bf42eac1c42d7982e3255bd91",
+      "icons/material-symbols-rounded/local_mall.svg": "4176752934a7573a64b5a01d7b2894f51009ea697e49dc0707889644e69401e7",
+      "icons/material-symbols-rounded/local_pharmacy.svg": "4cf509a76d19dcb634a6cf19e13920173d47f7420748a4efb2699889f251f7ee",
+      "icons/material-symbols-rounded/palette.svg": "0b847ea803e92b6e1c792103c89e7448659cb001032ffd5699c1f956ca74f656",
+      "icons/material-symbols-rounded/person.svg": "b60e9574bc2566ea0e72710cd40e4f61a00449130bdc258c0a1006af6857d727",
+      "icons/material-symbols-rounded/school.svg": "4b19c6f8ffc399ca3f30fc230ab0e8b32eb7460a78a5ece4354a0f1a503266ee",
+      "icons/material-symbols-rounded/store.svg": "8b5a2445d49eb806ec42e41030fcad30c81a34c2bd6f1445349179886736b6e2",
+      "icons/material-symbols-rounded/storefront.svg": "6f72edf132242c91135b01d7608e2f5d5eaf99eb34b74d62fcf70932020a4935",
+      "icons/material-symbols-rounded/trending_up.svg": "1b7ab42e79308d863a097d3d527fd061618068675bcede86dbbe0bbd0b1540c3",
+      "icons/material-symbols-rounded/wallet.svg": "6e3b7d1cbfa08306678ed02a1d0a46e16cfbc72d35e32d9fc84c7eec5dc60812",
+      "icons/material-symbols-rounded/weekend.svg": "b5ed3916af4580e71e68a512a67d45d2f0df1f98571a89ae3ab3488878acb928",
+      "icons/material-symbols-rounded/work.svg": "5de01618f5799f5224cc28f0f4ac322df0ef7d75d0b68344a257d797a360603b"
+    }
+  },
+  "deployment": {
+    "site": "taskify-dev-dpdhole",
+    "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+    "version": "40e35b075db747cb",
+    "expireTime": "2026-12-04T15:14:17.787049294Z"
+  },
+  "contractPublication": {
+    "publishedAt": "2026-11-04T15:14:11.865Z",
+    "projectId": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "expectedRevision": 1,
+    "revision": 2,
+    "serverRelease": 2,
+    "contractSha256": "9575db5725b143d290f2ca2e1aba40c2407ab681937fa9aceafff43b11a8c0d3",
+    "rulesProfile": "workspace",
+    "rulesetName": "projects/taskify-dev-dpdhole/rulesets/5592c9e1-4db4-4658-b551-efc181840abc",
+    "rulesSourceSha256": "445e474d22abbe1dee1d746436e96dd92411531734332090ae953ed6746b416f",
+    "verified": true
+  },
+  "finalContract": {
+    "serverRelease": 2,
+    "maxAppVersion": "0.2.0",
+    "environmentId": "taskify-dev-dpdhole",
+    "minAppVersion": "0.2.0",
+    "contractFormatVersion": 1,
+    "revision": 2,
+    "recordFamilies": {
+      "location": {
+        "presentSchemaVersions": [
+          1
+        ],
+        "allowedWriteSchemaVersions": [
+          1
+        ]
+      },
+      "workspaceInitialization": {
+        "presentSchemaVersions": [
+          1
+        ],
+        "allowedWriteSchemaVersions": [
+          1
+        ]
+      },
+      "profile": {
+        "allowedWriteSchemaVersions": [
+          1
+        ],
+        "presentSchemaVersions": [
+          1
+        ]
+      },
+      "initializationStage": {
+        "allowedWriteSchemaVersions": [
+          1
+        ],
+        "presentSchemaVersions": [
+          1
+        ]
+      },
+      "category": {
+        "presentSchemaVersions": [
+          1
+        ],
+        "allowedWriteSchemaVersions": [
+          1
+        ]
+      },
+      "settings": {
+        "presentSchemaVersions": [
+          1
+        ],
+        "allowedWriteSchemaVersions": [
+          1
+        ]
+      },
+      "accountDeletion": {
+        "presentSchemaVersions": [
+          1
+        ],
+        "allowedWriteSchemaVersions": [
+          1
+        ]
+      },
+      "nameReservation": {
+        "allowedWriteSchemaVersions": [
+          1
+        ],
+        "presentSchemaVersions": [
+          1
+        ]
+      },
+      "view": {
+        "allowedWriteSchemaVersions": [
+          1
+        ],
+        "presentSchemaVersions": [
+          1
+        ]
+      },
+      "compatibilityProbe": {
+        "presentSchemaVersions": [
+          1
+        ],
+        "allowedWriteSchemaVersions": [
+          1
+        ]
+      }
+    }
+  },
+  "finalRulesSourceSha256": "445e474d22abbe1dee1d746436e96dd92411531734332090ae953ed6746b416f",
+  "hostedChecks": {
+    "checkedAt": "2026-11-04T15:15:26.760Z",
+    "origin": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+    "release": {
+      "appVersion": "0.2.0",
+      "buildId": "02458ffb68d1-6a446b9f4ba6aaed",
+      "commit": "02458ffb68d1280f86ff4545284fe6d76023ec3a",
+      "sourceDirty": false,
+      "builtAt": "2026-11-04T15:12:23.477Z"
+    },
+    "staticHashes": true,
+    "headers": true,
+    "exclusions": true,
+    "browser": [
+      {
+        "width": 390,
+        "googleControl": true,
+        "microsoftControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      },
+      {
+        "width": 1280,
+        "googleControl": true,
+        "microsoftControl": true,
+        "buildIdentity": true,
+        "compatibilityReady": true,
+        "reload": true,
+        "offlineRevocation": true,
+        "reconnect": true,
+        "noOverflow": true,
+        "initialErrors": [],
+        "origins": [
+          "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+          "https://firestore.googleapis.com"
+        ]
+      }
+    ],
+    "interactiveOAuth": false
+  },
+  "channels": {
+    "before": {
+      "dev": {
+        "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+        "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/eaf55fb912229e6e",
+        "expiry": "2026-12-02T10:21:39.601069110Z"
+      },
+      "uat": {
+        "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+        "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/7664413ad02b4666",
+        "expiry": "2026-11-22T07:49:33.998777426Z"
+      },
+      "qc": {
+        "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+        "version": null,
+        "expiry": "2026-11-22T07:49:33.336597957Z"
+      },
+      "live": {
+        "url": "https://taskify-dev-dpdhole.web.app",
+        "version": null,
+        "expiry": null
+      }
+    },
+    "after": {
+      "dev": {
+        "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+        "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/40e35b075db747cb",
+        "expiry": "2026-12-04T15:14:17.787049294Z"
+      },
+      "uat": {
+        "url": "https://taskify-dev-dpdhole--uat-hzsuai7v.web.app",
+        "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/7664413ad02b4666",
+        "expiry": "2026-11-22T07:49:33.998777426Z"
+      },
+      "qc": {
+        "url": "https://taskify-dev-dpdhole--qc-xnxat620.web.app",
+        "version": null,
+        "expiry": "2026-11-22T07:49:33.336597957Z"
+      },
+      "live": {
+        "url": "https://taskify-dev-dpdhole.web.app",
+        "version": null,
+        "expiry": null
+      }
+    },
+    "qcUatLiveUnchanged": true,
+    "previewChannels": [
+      "dev",
+      "qc",
+      "uat"
+    ]
+  },
+  "stableResources": {
+    "billing": {
+      "unchanged": true,
+      "sha256": "470da2cb6394704b58cc0ec82101f2dad9078d5cff9687210c7a8e25b684f70c"
+    },
+    "database": {
+      "unchanged": true,
+      "sha256": "4cbc59c60d760e018952f61bdb2b87cacccd9d842644e72168bd749b0e5437dd"
+    },
+    "providers": {
+      "unchanged": true,
+      "sha256": "feebe5a92de58d38564731e48ed3ec266ad1b1ded4be94f32204616bca1d1c85"
+    },
+    "authConfig": {
+      "unchanged": true,
+      "sha256": "759ad1a59ae217b4d323da65332b73d75ca128bacf0548b604d08f5766611072"
+    },
+    "webApps": {
+      "unchanged": true,
+      "sha256": "a4f8b869595ead08a22f6738d2f3019d905e97def6d2e09878f3e804504c52f4"
+    },
+    "keys": {
+      "unchanged": true,
+      "sha256": "fbf8676b73ce024cb7b5b710ed00a5028e3b97faaf3f55b2e8077ba913225ea6"
+    }
+  },
+  "localVerification": {
+    "unitComponentPassed": 367,
+    "preflightExcluded": 2,
+    "integrationDistinctPassed": 70,
+    "browserDistinctPassed": 53,
+    "initialCombinedBrowserPassed": 47,
+    "initialCombinedBrowserFailed": 2,
+    "redirectRecheckPassed": 8,
+    "sharedFinalPassed": 1,
+    "compatibilityPassed": 4,
+    "temporaryEmulatorsStopped": true,
+    "localPreview5173Unchanged": true
+  },
+  "limits": [
+    "Real-provider and hosted first-use/recovery acceptance pending",
+    "Slice5 open; Slice4 held",
+    "App0.1.0 intentionally blocked by shared contract",
+    "No qc/uat/live Hosting publication or account deletion",
+    "Source build clean; deployment documentation recorded afterward"
+  ],
+  "continuationIdentityCheck": {
+    "clientDate": "2026-11-05",
+    "timezone": "Asia/Calcutta",
+    "httpStatus": 200,
+    "exactReleaseFileHash": true
+  }
+}

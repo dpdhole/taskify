@@ -1,27 +1,34 @@
 # Taskify implementation slices
 
-4 November 2026. **Owner-agreed order.** Slice1 implementation/validation and
-closure documentation are committed and pushed. Slice2 implementation and preview are committed. Slice3 configuration, Auth/session
-and Google/Microsoft flows are owner-accepted on 2 November 2026; closure is prepared. Google and Microsoft personal-account workflows were owner-verified on desktop/mobile; work/school testing is deferred until features mature. See the [closure record](slices/03-provider-sign-in-closure.md). Slice4 implementation is authorized; provider status and popup/redirect current-account verification are implemented locally, with explicit linking now implemented under a unit-only testing instruction; full regression and hosted acceptance remain held. Slice5 provisioning detailing is prepared for review; implementation remains pending. Early Delete Account is inserted as Slice5A before Slice6; Slice6 responsive-navigation detailing is accepted; implementation remains pending. Slice7 detailing/gap resolutions are accepted and Slice8A Advanced Create is inserted after Slice8/before Slice9. Existing slice identifiers remain stable. This plan is not blanket execution, commit or cloud deployment authority.
+5 November 2026. **Owner-agreed order.** Slices 1–2 are implemented; Slice 3
+Google/Microsoft personal-account workflows are owner-accepted. Slice 4 remains
+open/on hold and unaccepted. Slice 5 provisioning is implemented and deployed to
+dev as app0.2.0, contract revision2/serverRelease2, from clean pushed02458ff.
+Hosted artifact/gate checks pass; owner first-use/provider acceptance and closure
+remain pending. [Deployment evidence](slices/05-workspace-provisioning-preview.md)
+records the actual source, channel and remaining checks.
+
+Proceed to Slice5A Delete Account after Slice5 acceptance, then Slice6 navigation.
+Slice7/8/8A/9 designs are accepted; implementation remains separate. Existing slice
+identifiers remain stable. Microsoft work/school testing and Slice4 acceptance
+stay deferred; live promotion requires explicit owner approval. This plan is not
+blanket execution, commit or publication authority. Older dated entries below
+record historical checkpoints and do not override the current status.
 
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
 
-## Current sequencing decision — 2 November 2026
+## Current sequencing decision — 5 November 2026
 
-**Slice 4 is open and on hold, not accepted or closed.** The owner deferred the
-unresolved local verification-cancellation defect and directed development to
-**Slice 5 — Workspace provisioning**. This supersedes the intervening close/commit
-request and the earlier sequential dependency on completing linking. Single-provider
-Auth suffices for provisioning; no identity/integrity safeguards are relaxed.
-See [hold and handoff](slices/04-identity-linking-hold.md). Full-slice/regression
-checks remain held; primary-flow isolation is not claimed as tested. Older progress
-paragraphs above/below describe historical implementation checkpoints.
+**Slice 4 is open/on hold; Slice 5 is deployed to dev and awaiting acceptance.**
+The owner deferred the local verification-cancellation issue and authorized
+single-provider provisioning. Later owner authorization permitted Slice5 local
+and affected-boundary regression checks; those checks pass without accepting the
+held linking feature. See [hold/handoff](slices/04-identity-linking-hold.md).
 
-Next checkpoints: resolve provisioning record/version contracts and bounded stages;
-implement the approved seed catalogues and pure codecs; add persistence/Rules and
-initialization orchestration; then the Loading/recovery/ready presentation. Deferred
-validation must be explicitly resumed before acceptance or publication claims.
+Next: verify hosted Loading → Workspace ready, persisted profile/timezone, refresh,
+Logout and account isolation. Review Slice5 closure after those results, then
+begin Slice5A. No automatic qc/uat/live promotion or data reset is authorized.
 
 ## Slice5 contract progress — 4 November 2026
 
@@ -91,6 +98,15 @@ Next: review actual release identifiers/app bounds and coordinated client/Rules/
 contract rollout before explicitly authorized publication and hosted acceptance.
 The current cloud contract intentionally blocks the expanded Auth build. After
 Slice5 acceptance, proceed to Slice5A, then Slice6. No commit/push/deploy included.
+
+## Slice5 dev publication — recorded5 November2026
+
+[Dev release](slices/05-workspace-provisioning-preview.md) published4 November from
+clean02458ff: app0.2.0, contract revision2/serverRelease2 and initialization Rules.
+The owner explicitly selected blocking older clients. Hosted artifact/gate checks
+pass; hosted first-use/provider acceptance remains pending. Keep Slice5 open and
+Slice4 held. Next: owner verifies provisioning/reload/Logout/account isolation,
+then review closure before proceeding to Slice5A. No automatic promotion is authorized.
 
 ## Delivery approach
 
