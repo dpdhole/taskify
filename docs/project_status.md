@@ -2,6 +2,23 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5A browser proof/request/UI implemented locally
+
+- Prior Auth checkpoint committed locally as ddcdede at owner instruction; no push.
+  [Browser checkpoint](slices/05A-delete-account-browser.md) adds separate provider
+  proof/token transfer, immutable request/reconciliation, pending-intent recovery,
+  status and responsive account UI. No linking dependency or Slice4 acceptance.
+- Local candidate app0.3.0/revision3/serverRelease3; deployed dev remains0.2.0/
+  revision2/serverRelease2. No Rules/contract/Hosting publication occurred.
+- Local evidence:29 new unit/component/proof cases,102 production Rules/adapter
+  integration passes,13 browser passes including actual SDK emulator Google/Microsoft
+  proof transfer and mobile/desktop recovery. Full verify passes513 unit/component
+  cases, static checks, four builds and bundle isolation; operator types pass.
+  Earlier failed runs and fixes are retained in the checkpoint.
+- Next remaining provider/redirect/cloud/release evidence and long-discovery renewal.
+  Retirement disabled pending T7; T1–T8 incomplete, Slice4 held. No further commit,
+  staging, push, cloud account deletion or deployment is included.
+
 ## 2026-11-05 — Slice5A Auth finalization/reconciliation checkpoint
 
 - Previous operator checkpoint committed locally as d184f36; no push. Owner then

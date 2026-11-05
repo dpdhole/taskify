@@ -27,7 +27,9 @@ implements strict domain/inventory validation and Rules admission. The
 [operator checkpoint](docs/slices/05A-delete-account-operator.md) adds discovery,
 leases and cleanup. [Auth finalization](docs/slices/05A-delete-account-auth-finalization.md)
 now reaches awaiting_retirement with explicit reconciliation and a retained fence;
-proof/adapters and UI remain. Complete T1–T8 before Slice 6 navigation. See the
+the [browser checkpoint](docs/slices/05A-delete-account-browser.md) adds provider
+proof, request recovery and UI in the local0.3.0/revision3 candidate. Dev remains
+0.2.0/revision2. Complete T1–T8 before Slice 6 navigation. See the
 [preparation checkpoint](docs/slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026).
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.

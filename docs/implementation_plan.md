@@ -18,7 +18,10 @@ The [operator checkpoint](slices/05A-delete-account-operator.md) implements isol
 discovery/leased bounded cleanup through data_verified. The
 [Auth finalization checkpoint](slices/05A-delete-account-auth-finalization.md) now
 adds the durable Auth latch, explicit reconciliation and trusted absence/deadline
-recording. Next: proof/adapters/controller and UI. Retirement stays disabled.
+recording. The [browser checkpoint](slices/05A-delete-account-browser.md) now adds
+proof/adapters/controller and UI as local app0.3.0/revision3. Dev remains0.2.0/
+revision2. Next: remaining real-provider/cloud/release acceptance and long-discovery
+renewal; retirement stays disabled pending T7.
 The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering

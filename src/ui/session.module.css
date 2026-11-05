@@ -224,3 +224,23 @@
   max-width: 100%;
   white-space: normal;
 }
+.deletion {
+  border-top: 1px solid #c8d2df;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  line-height: 1.6;
+}
+.deletion label {
+  display: block;
+}
+.deletion input {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.7rem;
+  font: inherit;
+}
+.deletion button {
+  white-space: normal;
+  max-width: 100%;
+}

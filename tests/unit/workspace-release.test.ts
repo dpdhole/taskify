@@ -31,7 +31,7 @@ it('admits the actual workspace release and retires the previous published clien
     true,
   );
   expect(evaluateCompatibility(candidate, client)).toBeNull();
-  expect(client.families.accountDeletion?.writeSchema).toBeUndefined();
+  expect(client.families.accountDeletion?.writeSchema).toBe(1);
   expect(
     evaluateCompatibility(candidate, {
       ...capabilities,
@@ -56,7 +56,7 @@ it('validates the actual workspace candidate through the standalone operator CLI
   expect(valid.status, valid.stderr).toBe(0);
   expect(JSON.parse(valid.stdout)).toMatchObject({
     validated: true,
-    revision: 2,
+    revision: 3,
     cloudChanged: false,
   });
   const invalid = run('unreviewed');

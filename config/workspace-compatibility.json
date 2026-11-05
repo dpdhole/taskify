@@ -42,9 +42,9 @@
       "allowedWriteSchemaVersions": [1]
     }
   },
-  "serverRelease": 2,
-  "maxAppVersion": "0.2.0",
-  "revision": 2,
+  "serverRelease": 3,
+  "maxAppVersion": "0.3.0",
+  "revision": 3,
   "contractFormatVersion": 1,
-  "minAppVersion": "0.2.0"
+  "minAppVersion": "0.3.0"
 }

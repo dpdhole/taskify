@@ -1,6 +1,6 @@
 import { WORKSPACE_SCHEMA_FAMILIES } from '../domain/workspace-families.ts';
 import type { ClientCapabilities } from '../domain/compatibility';
-export const APP_VERSION = '0.2.0';
+export const APP_VERSION = '0.3.0';
 export function clientCapabilities(
   environmentId: string,
   buildId: string,
@@ -19,7 +19,7 @@ export function clientCapabilities(
               family,
               {
                 readableSchemas: [1],
-                ...(family === 'accountDeletion' ? {} : { writeSchema: 1 }),
+                writeSchema: 1,
               },
             ]),
           )

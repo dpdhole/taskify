@@ -348,3 +348,8 @@ a contract revision or retained fence, not an unverified completion claim.
 These are source constraints. The [first implementation checkpoint](05A-delete-account-domain.md)
 records partial local T1/T3/T4 evidence. T1–T8 remain incomplete for DA1; no
 provider/cloud/retirement acceptance is claimed.
+
+The [browser checkpoint](05A-delete-account-browser.md) adds local proof/request/UI
+evidence, including real SDK Google/Microsoft emulator popup proof transfer into
+shared Firestore. Source/candidate0.3.0/revision3 is unpublished; deployed dev remains
+0.2.0/revision2. Live OAuth/mobile redirect and T7 remain acceptance gates.

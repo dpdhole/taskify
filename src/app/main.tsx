@@ -1,4 +1,6 @@
 import { createWorkspaceController } from '../application/workspace-controller';
+import { createAccountDeletionController } from '../application/account-deletion-controller';
+import { createAccountDeletionStore } from '../state/account-deletion-store';
 import type { WorkspaceController } from '../application/workspace-controller';
 import { createWorkspaceStore } from '../state/workspace-store';
 import { attachCompatibilityLifecycle } from '../infrastructure/browser/compatibility-lifecycle';
@@ -108,6 +110,25 @@ if (session && runtime)
 const workspaceProjection = workspaceController
   ? createWorkspaceStore(workspaceController)
   : undefined;
+const deletionController =
+  session && runtime
+    ? createAccountDeletionController(
+        runtime.deletionRequests,
+        runtime.deletionProof,
+        session,
+        {
+          schedule(fn, ms) {
+            const timer = window.setTimeout(fn, ms);
+            return () => window.clearTimeout(timer);
+          },
+        },
+        () => crypto.randomUUID(),
+        () => navigator.onLine,
+      )
+    : undefined;
+const deletionProjection = deletionController
+  ? createAccountDeletionStore(deletionController)
+  : undefined;
 
 const methodsController =
   session && runtime
@@ -127,6 +148,8 @@ const stopLifecycle = attachCompatibilityLifecycle(gate);
 if (import.meta.hot)
   import.meta.hot.dispose(() => {
     stopLifecycle();
+    deletionController?.dispose();
+    deletionProjection?.dispose();
     workspaceController?.dispose();
     workspaceProjection?.dispose();
     methodsController?.dispose();
@@ -144,6 +167,26 @@ createRoot(root).render(
   <StrictMode>
     {session && sessionProjection ? (
       <SessionView
+        deletion={
+          deletionController && deletionProjection
+            ? {
+                projection: deletionProjection,
+                open: () => {
+                  void deletionController.open();
+                },
+                prove: (typed, provider, transport) => {
+                  void deletionController.prove(typed, provider, transport);
+                },
+                submit: () => {
+                  void deletionController.submit();
+                },
+                cancel: () => deletionController.cancel(),
+                refresh: () => {
+                  void deletionController.refresh();
+                },
+              }
+            : undefined
+        }
         workspace={
           workspaceController && workspaceProjection
             ? {

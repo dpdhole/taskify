@@ -1,4 +1,6 @@
 import { WorkspaceView } from './WorkspaceView';
+import { AccountDeletionView } from './AccountDeletionView';
+import type { AccountDeletionPresentation } from './AccountDeletionView';
 import type { WorkspacePresentation } from './WorkspaceView';
 import type { SignInProvider } from '../application/session-controller';
 import { useEffect, useRef } from 'react';
@@ -21,6 +23,7 @@ export function SessionView({
   buildId,
   methods,
   workspace,
+  deletion,
 }: {
   projection: ReturnType<typeof createSessionStore>;
   compatibility: ReturnType<typeof createCompatibilityStore>;
@@ -33,6 +36,7 @@ export function SessionView({
   buildId: string;
   methods?: SignInMethodsPresentation | undefined;
   workspace?: WorkspacePresentation | undefined;
+  deletion?: AccountDeletionPresentation | undefined;
 }) {
   const state = useStore(projection.store, (s) => s.state);
   const gate = useStore(compatibility.store, (s) => s.state);
@@ -121,7 +125,17 @@ export function SessionView({
         <p role="status" aria-live="polite" className={styles.status}>
           {message}
         </p>
-        {state.status === 'signed-in' && workspace && (
+        {state.status === 'signed-in' && deletion && (
+          <DeletionAccountContent
+            key={(state.identity?.uid ?? '') + ':' + state.generation}
+            deletion={deletion}
+            workspace={workspace}
+            methods={methods}
+            identity={state.identity}
+            ready={state.protectedReady}
+          />
+        )}
+        {state.status === 'signed-in' && workspace && !deletion && (
           <>
             <WorkspaceView
               key={(state.identity?.uid ?? '') + ':' + state.generation}
@@ -138,7 +152,7 @@ export function SessionView({
             )}
           </>
         )}
-        {state.status === 'signed-in' && methods && !workspace && (
+        {state.status === 'signed-in' && methods && !workspace && !deletion && (
           <SignInMethodsView
             methods={methods}
             identity={state.identity}
@@ -253,6 +267,52 @@ export function SessionView({
         </details>
       </footer>
     </main>
+  );
+}
+
+function DeletionAccountContent({
+  deletion,
+  workspace,
+  methods,
+  identity,
+  ready,
+}: {
+  deletion: AccountDeletionPresentation;
+  workspace: WorkspacePresentation | undefined;
+  methods: SignInMethodsPresentation | undefined;
+  identity: import('../application/session-controller').SessionIdentity | null;
+  ready: boolean;
+}) {
+  const state = useStore(deletion.projection.store, (s) => s.state);
+  const showWorkspace = state.status === 'idle';
+  return (
+    <>
+      {showWorkspace && workspace && (
+        <WorkspaceView workspace={workspace} ready={ready} />
+      )}
+      {showWorkspace && workspace && methods && (
+        <WorkspaceMethods
+          workspace={workspace}
+          methods={methods}
+          identity={identity}
+          ready={ready}
+        />
+      )}
+      {showWorkspace && !workspace && methods && (
+        <SignInMethodsView
+          methods={methods}
+          identity={identity}
+          ready={ready}
+        />
+      )}
+      <AccountDeletionView
+        deletion={deletion}
+        ready={ready}
+        account={
+          identity?.displayName || identity?.email || 'Signed-in account'
+        }
+      />
+    </>
   );
 }
 

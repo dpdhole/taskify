@@ -165,7 +165,7 @@ test('compatibility revocation stops writes, then fresh admission resumes commit
     )
     .toBe(true);
   await env.withSecurityRulesDisabled((c) =>
-    setDoc(doc(c.firestore(), 'runtime/compatibility'), policy(2, '0.3.0')),
+    setDoc(doc(c.firestore(), 'runtime/compatibility'), policy(2, '99.0.0')),
   );
   await expect(
     page.getByText(

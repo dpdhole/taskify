@@ -269,6 +269,12 @@ deletion outside transactions, explicit prior-run reconciliation, authoritative
 absence and server-anchored deadline. Retirement remains disabled; browser flow
 and actual cloud/provider safety evidence remain pending.
 
+The [browser checkpoint](slices/05A-delete-account-browser.md) adds a dedicated proof
+context with same-UID token transfer to shared Auth, immutable request adapter,
+UID-scoped uncertain-submission recovery and blocking account UI. Local app0.3.0/
+revision3 is a candidate only; dev remains0.2.0/revision2. SDK popup emulator checks
+are distinct from live provider/mobile redirect and T7 cloud safety acceptance.
+
 [Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
 for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
 and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).

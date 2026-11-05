@@ -5,11 +5,12 @@ export default defineConfig({
   testMatch: regression
     ? [
         'workspace.spec.ts',
+        'account-deletion.spec.ts',
         'session.spec.ts',
         'shared-auth-firestore.spec.ts',
         'redirect-startup.spec.ts',
       ]
-    : 'workspace.spec.ts',
+    : ['workspace.spec.ts', 'account-deletion.spec.ts'],
   workers: 1,
   retries: 0,
   timeout: 60000,

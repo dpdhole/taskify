@@ -35,6 +35,7 @@ if (process.argv[2] === '--preview-server') {
             'tests/integration/provisioning-stage-probe.test.ts',
             'tests/integration/workspace-rules.test.ts',
             'tests/integration/account-deletion-rules.test.ts',
+            'tests/integration/deletion-request-adapter.test.ts',
             'tests/integration/workspace-adapter.test.ts',
             'tests/integration/compatibility.test.ts',
             'tests/integration/emulator.test.ts',
@@ -49,6 +50,7 @@ if (process.argv[2] === '--preview-server') {
                   ? [
                       'tests/integration/workspace-rules.test.ts',
                       'tests/integration/account-deletion-rules.test.ts',
+                      'tests/integration/deletion-request-adapter.test.ts',
                     ]
                   : []),
               ];

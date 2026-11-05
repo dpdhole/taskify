@@ -1,4 +1,8 @@
 import { getAuth } from 'firebase/auth';
+import { createAccountDeletionController } from '../../src/application/account-deletion-controller';
+import { createAccountDeletionStore } from '../../src/state/account-deletion-store';
+import { createDeletionRequestAdapter } from '../../src/infrastructure/firebase/deletion-request-adapter';
+import { createDeletionProofAdapter } from '../../src/infrastructure/firebase/deletion-proof-adapter';
 import { createAuthAdapter } from '../../src/infrastructure/firebase/auth-adapter';
 import { createRoot } from 'react-dom/client';
 import { initializeApp, deleteApp } from 'firebase/app';
@@ -27,6 +31,7 @@ import { attachCompatibilityLifecycle } from '../../src/infrastructure/browser/c
 const projectId = 'demo-taskify-provisioning-stage';
 const query = new URLSearchParams(location.search);
 const uid = query.get('uid') ?? 'browser-owner';
+const deletionAuthTime = Math.floor(Date.now() / 1000);
 const app = initializeApp(
   {
     projectId,
@@ -41,7 +46,20 @@ connectFirestoreEmulator(
   db,
   '127.0.0.1',
   8080,
-  query.has('sdkAuth') ? undefined : { mockUserToken: { sub: uid } },
+  query.has('sdkAuth')
+    ? undefined
+    : {
+        mockUserToken: query.has('deletion')
+          ? {
+              sub: uid,
+              auth_time: deletionAuthTime,
+              firebase: {
+                sign_in_provider: 'google.com',
+                identities: { 'google.com': ['synthetic'] },
+              },
+            }
+          : { sub: uid },
+      },
 );
 const reader = createContractReaderForDatabase(db);
 const clock = {
@@ -112,12 +130,58 @@ const workspace = createWorkspaceController(
   () => query.get('timezone') ?? 'UTC',
 );
 const workspaceProjection = createWorkspaceStore(workspace);
+const deletion = query.has('deletion')
+  ? createAccountDeletionController(
+      createDeletionRequestAdapter(db),
+      query.has('sdkAuth')
+        ? createDeletionProofAdapter(app, { host: '127.0.0.1', port: 9099 })
+        : {
+            providers: async () => ['google.com'],
+            prove: async (subject, jobId, provider) => ({
+              uid: subject,
+              jobId,
+              provider,
+              authTime: deletionAuthTime,
+            }),
+            resume: async () => undefined,
+            cancel() {},
+            dispose() {},
+          },
+      session,
+      clock,
+      () => crypto.randomUUID(),
+      () => navigator.onLine,
+    )
+  : undefined;
+const deletionProjection = deletion
+  ? createAccountDeletionStore(deletion)
+  : undefined;
 const stopLifecycle = attachCompatibilityLifecycle(gate);
 gate.start();
 session.start();
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <SessionView
+    deletion={
+      deletion && deletionProjection
+        ? {
+            projection: deletionProjection,
+            open: () => {
+              void deletion.open();
+            },
+            prove: (typed, provider, transport) => {
+              void deletion.prove(typed, provider, transport);
+            },
+            submit: () => {
+              void deletion.submit();
+            },
+            cancel: () => deletion.cancel(),
+            refresh: () => {
+              void deletion.refresh();
+            },
+          }
+        : undefined
+    }
     projection={sessionProjection}
     compatibility={gateProjection}
     signIn={(provider, transport) => {
@@ -155,6 +219,8 @@ const fixture = {
   },
   async dispose() {
     stopLifecycle();
+    deletion?.dispose();
+    deletionProjection?.dispose();
     workspace!.dispose();
     workspaceProjection.dispose();
     session.dispose();
