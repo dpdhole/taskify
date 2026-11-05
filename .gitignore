@@ -1,4 +1,5 @@
 /node_modules/
+/tools/account-deletion/node_modules/
 /dist/
 /dist-proof/
 /.local/

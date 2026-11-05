@@ -258,6 +258,11 @@ inventory validation and candidate recent-auth request Rules locally. Current cl
 Rules/compatibility remain the Slice5 release. Operator, proof-token transfer,
 browser request/recovery and retirement verification remain pending.
 
+The [next operator checkpoint](slices/05A-delete-account-operator.md) now implements
+discovery and transaction-fenced cleanup through data_verified in separate pinned
+Node tooling. It retains Auth and control; administrative Auth finalization,
+browser proof/request flow and validated retirement remain subsequent work.
+
 [Historical readiness](slices/05-workspace-provisioning-readiness.md) is superseded
 for implemented scope by [runtime verification](slices/05-workspace-provisioning-implementation.md)
 and the approved [0.2.0 release plan](slices/05-workspace-provisioning-release.md).

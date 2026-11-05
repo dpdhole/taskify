@@ -2,6 +2,20 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5A operator discovery/cleanup checkpoint
+
+- Owner instructed proceeding. [Operator checkpoint](slices/05A-delete-account-operator.md)
+  adds isolated pinned tooling, exact-target checks, recursive missing-parent
+  discovery, server-time leases/generations and100-document transactional batches.
+- Explicit execute/resume stop at data_verified. Auth identity and fence remain;
+  Auth deletion and retirement are not implemented/enabled. Read-only inspect and
+  sanitized CLI outcomes/runbook are available. Cloud credential setup is unexecuted.
+- Eleven new fault-injection tests and five SDK emulator cases pass; full verify
+  passes476 unit/component tests/static/build/bundle checks. Final local reruns and
+  limitations are recorded in the checkpoint; no real accounts or cloud policy changed.
+- Next Auth deletion/latch reconciliation, proof/token transfer, request/controller
+  and UI. T1–T8 incomplete; Slice4 held. No staging, commit, push or deployment.
+
 ## 2026-11-05 — Slice5A implementation started: domain/inventory/Rules
 
 - Owner instructed beginning implementation. [First checkpoint](slices/05A-delete-account-domain.md)

@@ -14,7 +14,9 @@ then Slice6 navigation. DA1 fixes schemas, admission, inventory, concurrency,
 retirement and candidate rollout; its T1–T8 execution gates remain unproven.
 The [first implementation checkpoint](slices/05A-delete-account-domain.md) adds
 domain/control/inventory validation and candidate Rules with local evidence.
-Next: isolated operator discovery/cleanup, then proof/adapters/controller and UI.
+The [operator checkpoint](slices/05A-delete-account-operator.md) implements isolated
+discovery/leased bounded cleanup through data_verified. Next: Auth deletion/latch
+reconciliation, then proof/adapters/controller and UI. Retirement stays disabled.
 The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering

@@ -1,13 +1,17 @@
 # Slice 5A — Delete Account
 
-Status: **implementation started, 5 November 2026; first domain/inventory/Rules
-checkpoint implemented locally; slice unaccepted**. The browser design records confirmed deletion
+Status: **implementation in progress, 5 November 2026; domain/inventory/Rules and
+operator discovery/cleanup checkpoints implemented locally; slice unaccepted**. The browser design records confirmed deletion
 intent; an explicitly invoked operator script performs and verifies cleanup,
 deletes Auth last, and retires the temporary fence after stale-session safety
 checks. No hosted backend, permanent tombstone, automatic schedule or execution
 of account deletion is approved by this design selection. See the
 [implementation checkpoint](05A-delete-account-domain.md) for actual changes and
 local evidence. No cloud actions, real deletion, commit, push or deployment occur.
+
+The [operator checkpoint](05A-delete-account-operator.md) adds isolated tooling,
+recursive discovery, transactional leases and bounded cleanup through data_verified.
+Auth finalization/reconciliation and browser flow remain; retirement is disabled.
 
 Authority: [Slice5 provisioning](05-workspace-provisioning.md),
 [identity policy](../architecture.md#identity-and-account-linking--owner-agreed-policy),

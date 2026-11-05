@@ -39,17 +39,19 @@ if (process.argv[2] === '--preview-server') {
             'tests/integration/compatibility.test.ts',
             'tests/integration/emulator.test.ts',
           ]
-        : mode === 'adapter'
-          ? ['tests/integration/workspace-adapter.test.ts']
-          : [
-              'tests/integration/provisioning-stage-probe.test.ts',
-              ...(mode === 'production'
-                ? [
-                    'tests/integration/workspace-rules.test.ts',
-                    'tests/integration/account-deletion-rules.test.ts',
-                  ]
-                : []),
-            ];
+        : mode === 'operator'
+          ? ['tests/integration/account-deletion-operator.test.ts']
+          : mode === 'adapter'
+            ? ['tests/integration/workspace-adapter.test.ts']
+            : [
+                'tests/integration/provisioning-stage-probe.test.ts',
+                ...(mode === 'production'
+                  ? [
+                      'tests/integration/workspace-rules.test.ts',
+                      'tests/integration/account-deletion-rules.test.ts',
+                    ]
+                  : []),
+              ];
     await execute(
       process.execPath,
       [
@@ -79,20 +81,22 @@ if (process.argv[2] === '--preview-server') {
   const browser = process.argv[2] === '--browser';
   const adapter = process.argv[2] === '--adapter';
   const production = process.argv[2] === '--production';
+  const operator = process.argv[2] === '--operator';
   if (
     (!preview &&
       !production &&
       !adapter &&
       !browser &&
       !workspace &&
+      !operator &&
       process.argv.length !== 2) ||
-    ((preview || production || adapter || browser || workspace) &&
+    ((preview || production || adapter || browser || workspace || operator) &&
       process.argv.length !== 3)
   )
     throw Error('Unexpected probe arguments');
   const config = JSON.parse(fs.readFileSync('firebase.local.json', 'utf8'));
   for (const [service, port] of Object.entries({
-    ...(workspace || browser || preview ? { auth: 9099 } : {}),
+    ...(workspace || browser || preview || operator ? { auth: 9099 } : {}),
     ...(workspace ? { hosting: 5000 } : {}),
     firestore: 8080,
     hub: 4400,
@@ -110,7 +114,7 @@ if (process.argv[2] === '--preview-server') {
     4500,
     9150,
     ...(browser || workspace || preview ? [5177] : []),
-    ...(workspace || browser || preview ? [9099] : []),
+    ...(workspace || browser || preview || operator ? [9099] : []),
     ...(workspace ? [5176, 5000] : []),
   ]) {
     await new Promise((resolve, reject) => {
@@ -148,17 +152,20 @@ if (process.argv[2] === '--preview-server') {
   const env = {
     ...process.env,
     CI: 'true',
+    ...(operator ? { METADATA_SERVER_DETECTION: 'none' } : {}),
     PLAYWRIGHT_BROWSERS_PATH: path.resolve('.local/browsers'),
     TASKIFY_WORKSPACE_REGRESSION: workspace ? '1' : '0',
-    TASKIFY_PROVISIONING_POLICY: workspace
-      ? 'workspace'
-      : browser
-        ? 'browser'
-        : adapter
-          ? 'adapter'
-          : production
-            ? 'production'
-            : 'probe',
+    TASKIFY_PROVISIONING_POLICY: operator
+      ? 'operator'
+      : workspace
+        ? 'workspace'
+        : browser
+          ? 'browser'
+          : adapter
+            ? 'adapter'
+            : production
+              ? 'production'
+              : 'probe',
     FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true',
     FIREBASE_EMULATORS_PATH: path.resolve('.local/emulators'),
   };
@@ -193,7 +200,7 @@ if (process.argv[2] === '--preview-server') {
       '--only',
       workspace
         ? 'firestore,auth,hosting'
-        : browser || preview
+        : browser || preview || operator
           ? 'firestore,auth'
           : 'firestore',
       command,

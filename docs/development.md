@@ -269,3 +269,10 @@ deploys. See the [Rules checkpoint](slices/05-workspace-provisioning-rules.md)
 for test evidence, shared timezone/profile limits and outstanding adapter/UI work.
 New `firebase.workspace.json` is an explicit future deploy target; using the test
 command does not publish that policy or change current cloud compatibility Rules.
+# Slice5A operator dependencies
+
+The isolated account-deletion package requires its own install in addition to the
+root npm ci: `npm --prefix tools/account-deletion ci --ignore-scripts`.
+Root typechecking/integration checks consume its SDK types. See the
+[operator runbook](../tools/account-deletion/README.md) for local tests and command
+boundaries. No credential setup or account mutation is part of installation.
