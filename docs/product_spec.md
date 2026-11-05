@@ -1174,3 +1174,17 @@ inert. Absolute links under the accepted http/https/mailto/tel safe-protocol pol
 remain allowed. Every permitted link requests a new target tab/window with safe
 opener handling; browser/OS handler behavior still applies. Revised G1–G8 are
 owner-accepted; this is design closure, not implementation acceptance. Publication authority remains separate.
+
+
+## Slice10 query engine acceptance — 5 November 2026
+
+Owner accepted [Q1–Q10](slices/10-complete-query-engine.md) including complete
+retained metadata loading, explicit completeness/staleness, unavailable-reference
+groups, deterministic sorting and mixed-precision Due ordering, timezone edges,
+reactivity and read-only provisioned View integration. [Engineering contracts](slices/10-query-engineering.md)
+resolve normalized projection, admission/stream reconciliation, calendar dependency,
+new-definition resource bounds with retained-reader compatibility, identities/errors
+and evidence targets. Query meaning remains schema1; no lifecycle writer, generic
+View writer, persisted family or Activity Event is introduced by evaluation.
+Design closure does not claim implementation, test success, measured performance,
+cloud publication or Slice4 acceptance.

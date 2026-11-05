@@ -1,5 +1,12 @@
 # Taskify
 
+**Slice10 detailing — 5 November 2026:** [Q1–Q10](docs/slices/10-complete-query-engine.md)
+are owner-accepted; [engineering contracts](docs/slices/10-query-engineering.md)
+and [typed interfaces](docs/slices/10-query-contract.ts) are documented.
+Implementation and its runtime/security/performance evidence remain pending.
+Slice5 is owner-accepted and closed; Slice4 remains held. Slice 5A deployment and
+verification status are recorded below.
+
 Taskify is being redesigned as a lightweight, personal, single-user task manager with a query-first Inbox-style interface.
 
 **Current deployment (5 November 2026):** [Dev](https://taskify-dev-dpdhole--dev-por3atkf.web.app/)

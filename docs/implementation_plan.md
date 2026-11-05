@@ -46,6 +46,14 @@ record historical checkpoints and do not override the current status.
 Authority: [product specification §§17–23](product_spec.md),
 [architecture](architecture.md) and [project status](project_status.md).
 
+## Slice10 detailing closure — 5 November 2026
+
+[Slice10](slices/10-complete-query-engine.md) Q1–Q10 are owner-accepted, with
+[engineering contracts](slices/10-query-engineering.md) and typed interfaces
+complete for commit review. Implementation and runtime/Rules/benchmark verification
+remain pending. Main through8dbe29b records Slice5 acceptance and closure;
+Slice4 stays held. Detailing does not change implementation order.
+
 ## Current sequencing decision — 5 November 2026
 
 **Slice 4 is open/on hold; Slice 5 is owner-accepted and closed.**
@@ -180,7 +188,7 @@ broad rows further during detailing.
 | 8 | [Task Detail and metadata editing](slices/08-task-detail-metadata.md) | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
 | 8A | [Advanced Create](slices/08A-advanced-create.md) | One-way More Details expansion with retained draft; optional Reference/preferences/GFM, atomic root/detail creation |
 | 9 | [Three onboarding Tasks](slices/09-onboarding-tasks-manual.md) | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
-| 10 | Complete query engine | All supported predicates, grouping, sorting and date semantics over complete metadata |
+| 10 | [Complete query engine](slices/10-complete-query-engine.md) | All supported predicates, grouping, sorting and date semantics over complete metadata |
 | 11 | Query workspace controls | Filter/group/sort editing, counts, collapsed groups and responsive rows |
 | 12 | Full-query persistence | Save, Save As, Reset, protected All Tasks and safe schema handling |
 | 13 | Search | Explicit-submit metadata phrase search and navigation-state restoration |

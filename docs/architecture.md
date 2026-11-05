@@ -737,3 +737,17 @@ Mutation acknowledgement/recovery, reusable TypeScript business boundaries, quot
 and validation/diagnostics policies are also agreed. Detailed migration mechanisms, integration
 and release implementation require slice validation. No commit, push,
 provisioning, deployment or live recovery is implied.
+
+
+## Slice10 accepted query execution contract — 5 November 2026
+
+[Accepted detailing](slices/10-complete-query-engine.md) and its
+[engineering resolution](slices/10-query-engineering.md) define complete UID-scoped
+Task-root/catalogue subscriptions, a pure evaluator and one derived store revision.
+Typed contracts live in docs until implementation. Calendar conversion belongs to
+an injected infrastructure adapter; selected @js-temporal/polyfill0.5.1 requires
+exact installation and a narrowly scoped boundary-allowlist update during coding.
+Domain/application remain free of vendor/runtime imports. Existing provisioning
+store is not a Task metadata store. No package, current boundary policy, Rules or
+application source is changed by design closure. Benchmarks and actual Task/Rules/
+calendar/browser integration remain required execution gates; Slice4 stays held.
