@@ -227,6 +227,7 @@
 .deletion {
   border-top: 1px solid #c8d2df;
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   padding-top: 1rem;
   line-height: 1.6;
 }
