@@ -1,11 +1,12 @@
 # Slice 5 — Workspace provisioning
 
-Status: **implemented and deployed to dev; primary workflow owner-verified on mobile/desktop; closure review pending, 5 November 2026**.
+Status: **owner-accepted and closed, 5 November 2026**.
+See the [closure record](05-workspace-provisioning-closure.md).
 App0.2.0, contract revision2/serverRelease2 and initialization Rules were published
 from clean pushed02458ff. See the [deployment report/evidence](05-workspace-provisioning-preview.md)
 [owner verification](05-workspace-provisioning-acceptance.md) and
 [runtime checkpoint](05-workspace-provisioning-implementation.md). Earlier dated
-checkpoints below are historical. Slice5 remains open; Slice4 remains on hold.
+checkpoints below are historical. Slice5 is closed; Slice4 remains on hold.
 Linking is not a provisioning prerequisite. No further promotion is authorized.
 
 Authority: [product specification](../product_spec.md),
@@ -717,16 +718,17 @@ new test execution is implied by this documentation reconciliation.
 | Item | Current position | Remaining gate |
 |---|---|---|
 | Schema/codec contract | Exact persisted decoders, seed/query bounds and snapshot translation implemented | Later CRUD/Task physical schemas stay in their slices |
-| Initialization integrity | Finalized Rules plus guarded transaction adapter, immutable receipts and reconciliation implemented | Hosted acceptance after coordinated release |
-| Runtime/fence/presentation | Shared runtime, UID/generation/admission binding, cleanup, fence watcher, Loading/recovery/ready implemented | Hosted lifecycle verification; Slice5A request/finalizer remains separate |
+| Initialization integrity | Deployed Rules, guarded adapter, receipts and reconciliation verified; owner primary workflow passed | Closed Slice5 scope; retain evidence for future changes |
+| Runtime/fence/presentation | Shared runtime, UID/generation/admission binding, cleanup, fences and Loading/recovery/ready implemented and verified | Slice5A request/finalizer remains separate |
 | Icons |22 pinned self-hosted Rounded assets, license, semantic aliases and offline integrity check supplied | Future catalogue/navigation presentation uses these assets |
 | Local verification | See runtime report and machine evidence for final counts and limitations | Does not claim real-provider/cloud acceptance or Slice4 completion |
-| Compatibility rollout | Published: app0.2.0, contract revision2/serverRelease2, nine workspace families and exact initialization Rules; older clients blocked | Owner hosted provisioning/provider acceptance; retain0.2.0 rollback floor |
+| Compatibility rollout | Published: app0.2.0, contract revision2/serverRelease2, nine workspace families and exact initialization Rules; older clients blocked | Retain0.2.0 rollback floor; further promotions require instruction |
 | Due precision/query execution | Initialization stores the agreed query envelope | Task precision and mixed-precision execution remain later-slice work |
 
 Verdict: initialization runtime is implemented, locally verified and released to
 dev. Hosted artifact/gate checks pass; the owner reports the primary workflow
-passed on mobile and desktop. Slice5 closure review remains pending. Release identity/bounds and coordinated publication
+passed on mobile and desktop. The owner subsequently closed Slice5; see the
+[closure record](05-workspace-provisioning-closure.md). Release identity/bounds and coordinated publication
 are complete. Slice4 remains held; Slice5A remains separate.
 
 Original detailing used baseline ca822f3, integration amendment d013515; readiness

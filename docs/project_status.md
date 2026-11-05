@@ -2,6 +2,18 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-05 — Slice5 owner-accepted and closed; closure staged
+
+- Owner verified the primary workflow on mobile/desktop, reviewed the closure
+  summary and requested closing this slice. [Closure record](slices/05-workspace-provisioning-closure.md)
+  closes Slice5; the corrected request does not close Slice6.
+- App0.2.0, revision2/serverRelease2 and clean02458ff remain the dev deployment;
+  no new tests, release, accounts or data changes occur in this documentation step.
+- Next is Slice5A readiness review. Slice4 remains held; Slice6 remains accepted
+  detailing only. Live promotion and later implementation need explicit instruction.
+- Closure changes are staged for review. Existingad576c1/20c1d96 documentation
+  commits are already local and await push; no new commit/push is created here.
+
 ## 2026-11-05 — Slice5 primary workflow owner-verified
 
 - Owner reports sign-in → Workspace ready → refresh → Logout passed on mobile

@@ -43,8 +43,9 @@ mobile and desktop after deleting the previous Firebase Auth identities.
 provider/account types and the exact browser build were not independently captured.
 Auth-only test preparation does not verify Firestore cleanup or Slice5A deletion.
 
-The primary hosted workflow is now owner-verified. Slice5 remains open for closure
-review; Slice4 stays held, and Slice5A deletion/Slice9 onboarding remain separate.
+The primary hosted workflow is owner-verified. The owner subsequently
+[closed Slice5](05-workspace-provisioning-closure.md) on5 November. Slice4 stays
+held; Slice5A deletion/Slice9 onboarding remain separate.
 The rollback floor remains0.2.0 with retained schemas/fences and confirmed progress.
 Deployment documentation was written after building/publishing; it does not cause
 another build, release, commit or push.

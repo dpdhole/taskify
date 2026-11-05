@@ -27,6 +27,7 @@ recorded source snapshots; account-switch isolation, fault injection and exact
 seed inventory are not additional owner-reported manual checks. No data or users
 were deleted by the assistant to record this result.
 
-**Slice5 remains open pending closure review.** This result does not close Slice4,
-implement Slice5A, or authorize qc/uat/live promotion. Next: review Slice5 closure,
-then proceed to Slice5A under the agreed sequence.
+**Slice5 is owner-accepted and closed by the subsequent5 November instruction.**
+See the [closure record](05-workspace-provisioning-closure.md). Slice4 remains held;
+Slice6 is not closed. Next is Slice5A readiness review under the agreed sequence.
+This acceptance does not authorize further Hosting promotion or data deletion.

@@ -196,7 +196,8 @@ Clean source02458ff supplies app0.2.0; the authoritative database contract is
 revision2/serverRelease2, with minimum/maximum app0.2.0. Older clients are blocked.
 Rules cannot attest browser code versions; the client gate enforces app bounds.
 Hosted artifact/gate checks pass. The owner reports the primary sign-in → ready →
-refresh → Logout workflow passed on mobile/desktop; [closure review](slices/05-workspace-provisioning-acceptance.md) remains pending.
+refresh → Logout workflow passed on mobile/desktop; Slice5 is subsequently
+[owner-accepted and closed](slices/05-workspace-provisioning-closure.md).
 
 Provisioning uses the shared Firebase Auth/Firestore runtime, UID/session generation
 and fresh compatibility admission. It does not depend on provider membership,

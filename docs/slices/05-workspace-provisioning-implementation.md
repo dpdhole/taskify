@@ -28,6 +28,14 @@ and desktop after removing previous Firebase Auth identities. See the scoped
 pending-primary-workflow statements; closure review remains pending. No additional
 manual checks, deletion mechanics or provider coverage are inferred.
 
+## Owner closure — 5 November 2026
+
+The owner requested closing this slice after reviewing the reported primary
+workflow and closure summary. [Slice5 is owner-accepted and closed](05-workspace-provisioning-closure.md).
+This supersedes earlier pending-closure statements. Next is Slice5A readiness
+review; Slice4 remains held and Slice6 is not closed. Closure changes are staged
+for review without new tests, commit, push or deployment.
+
 ## Implemented behavior
 
 - The Auth entry declares the nine workspace schema families. Account deletion is

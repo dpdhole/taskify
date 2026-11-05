@@ -32,6 +32,10 @@ See the [closure record](slices/03-provider-sign-in-closure.md).
 The earlier Google-only release used an owner-approved uncommitted snapshot;
 that exception is historical. The clean-commit policy below remains in effect.
 
+Slice5 was [owner-accepted and closed](slices/05-workspace-provisioning-closure.md)
+on5 November after reported desktop/mobile workflow verification. Closure does
+not change the deployed artifact, preview expiry or promotion authorization.
+
 ## Explicit instructions
 
 Do not host, promote, renew, delete or deploy automatically as a consequence of

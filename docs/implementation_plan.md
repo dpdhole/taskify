@@ -5,10 +5,11 @@ Google/Microsoft personal-account workflows are owner-accepted. Slice 4 remains
 open/on hold and unaccepted. Slice 5 provisioning is implemented and deployed to
 dev as app0.2.0, contract revision2/serverRelease2, from clean pushed02458ff.
 Hosted artifact/gate checks pass; the owner reports the primary workflow passed
-on mobile and desktop. Slice5 closure review remains pending. [Deployment evidence](slices/05-workspace-provisioning-preview.md)
+on mobile and desktop. **Slice5 is owner-accepted and closed**; see its
+[closure record](slices/05-workspace-provisioning-closure.md). [Deployment evidence](slices/05-workspace-provisioning-preview.md)
 records the actual source, channel and remaining checks.
 
-Proceed to Slice5A Delete Account after Slice5 acceptance, then Slice6 navigation.
+Next: Slice5A Delete Account readiness review, then Slice6 navigation.
 Slice7/8/8A/9 designs are accepted; implementation remains separate. Existing slice
 identifiers remain stable. Microsoft work/school testing and Slice4 acceptance
 stay deferred; live promotion requires explicit owner approval. This plan is not
@@ -20,16 +21,17 @@ Authority: [product specification §§17–23](product_spec.md),
 
 ## Current sequencing decision — 5 November 2026
 
-**Slice 4 is open/on hold; Slice 5 is deployed and its primary workflow is owner-verified.**
+**Slice 4 is open/on hold; Slice 5 is owner-accepted and closed.**
 The owner deferred the local verification-cancellation issue and authorized
 single-provider provisioning. Later owner authorization permitted Slice5 local
 and affected-boundary regression checks; those checks pass without accepting the
 held linking feature. See [hold/handoff](slices/04-identity-linking-hold.md).
 
-Next: review Slice5 closure using the [owner report](slices/05-workspace-provisioning-acceptance.md)
-and recorded automated evidence, then begin Slice5A. The owner verified sign-in →
-Workspace ready → refresh → Logout on mobile and desktop; no extra manual checks
-are inferred. No automatic qc/uat/live promotion or data reset is authorized.
+Next: review Slice5A implementation readiness. Slice5 closure follows the
+[owner report](slices/05-workspace-provisioning-acceptance.md), recorded automated
+evidence and explicit [closure instruction](slices/05-workspace-provisioning-closure.md).
+Slice6 remains accepted detailing only. No automatic later implementation,
+qc/uat/live promotion or data reset is authorized.
 
 ## Slice5 contract progress — 4 November 2026
 

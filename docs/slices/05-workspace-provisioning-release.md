@@ -11,7 +11,7 @@ revision2/serverRelease2 and dev Hosting version40e35b075db747cb, from clean pus
 02458ffb68d1280f86ff4545284fe6d76023ec3a. [Deployment report/evidence](05-workspace-provisioning-preview.md)
 records hosted checks and expiry4 December2026 at20:44 IST. Publication is complete;
 the owner has since [verified the primary workflow](05-workspace-provisioning-acceptance.md)
-on mobile/desktop; Slice5 closure review remains pending. This record
+on mobile/desktop and [closed Slice5](05-workspace-provisioning-closure.md). This record
 preserves the approved sequence and rollback constraints for future operations.
 
 ## Release contract
