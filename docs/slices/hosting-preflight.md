@@ -36,7 +36,7 @@ Inventory observed at `2026-10-22T11:20:49.267Z`; it is a point-in-time check.
 ## Deployment tooling reassessment
 
 Fresh npm audit: 12 affected packages, 8 high/4 moderate/0 critical; unchanged
-from the [Foundation assessment](01-foundation-dependencies.md).
+from the [Foundation assessment](01-foundation/dependencies.md).
 No dependency pins or overrides changed. Findings remain unresolved.
 
 | Finding | Hosting-only assessment and conditions |

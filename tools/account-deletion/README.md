@@ -2,7 +2,7 @@
 
 Implements DA1 through **awaiting_retirement**. Trusted Auth deletion and explicit
 reconciliation are implemented; fence retirement remains disabled. Source:
-[DA1](../../docs/slices/05A-delete-account-contract.md).
+[DA1](../../docs/slices/05A-delete-account/contract.md).
 No command schedules itself. Creating this tool does not authorize a destructive run.
 
 ## Setup and targeting
@@ -103,7 +103,7 @@ demo emulator, not production access. Do not use emulator flags to target cloud.
 
 These emulator tests do not validate cloud credentials or real accounts. Dev and qc
 now serve app 0.3.0 with policy 3. Owner-reported provider, deletion and re-registration
-evidence is recorded in the [QC UAT report](../../docs/slices/05A-delete-account-qc-promotion.md).
+evidence is recorded in the [QC UAT report](../../docs/slices/05A-delete-account/qc-promotion.md).
 Cross-UID isolation, T7 and final acceptance remain pending.
 
 ## 6 November 2026 — Auth failure diagnostics
@@ -187,7 +187,7 @@ get/list/create/update/delete; Firebase Auth users get/delete. CLI-principal che
 alone do not prove ADC permissions. Successful inspect proves read access, not Auth
 delete permission. After ADC correction, inspect the same job before reconciliation.
 The owner subsequently reported both UAT jobs complete with fences retained; see
-[exact UAT attribution](../../docs/slices/05A-delete-account-qc-promotion.md).
+[exact UAT attribution](../../docs/slices/05A-delete-account/qc-promotion.md).
 
 ## Command and option reference
 

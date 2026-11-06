@@ -553,7 +553,7 @@ A subsequent, **separate architecture issue** should cover the agreed direction 
 
 ### 17.5 All Tasks and Saved Views
 
-**Owner provisioning amendment, 2 November 2026:** [Slice5 detailing](slices/05-workspace-provisioning.md)
+**Owner provisioning amendment, 2 November 2026:** [Slice5 detailing](slices/05-workspace-provisioning/index.md)
 fixes the starter catalogue: Family, Finance, Friends, Growth, Hobbies, Household,
 Leisure, Self, Social, Wellness, Work, then protected Uncategorized. Ordinary
 Categories are alphabetical; Partner and Spirituality are excluded. Provision
@@ -766,7 +766,7 @@ Paths and data boundaries are **candidates**. Consider Task document size, effic
 **Scope:** This section refines §19 for larger screens, desktop and touch tablets. These are approved discussion-level UX directions, not implemented or usability-verified behavior. Responsive breakpoint values, animation thresholds and exact per-screen actions remain deferred.
 
 **Slice6 owner agreement, 2 November 2026:** the concrete
-[responsive-navigation baseline](slices/06-responsive-navigation.md) uses a mobile
+[responsive-navigation baseline](slices/06-responsive-navigation/index.md) uses a mobile
 drawer below 960 CSS px and desktop/tablet rail/sidebar at or above it. Desktop
 expansion is per-tab/account session state across routes/reloads, reset on Logout/
 account change; browser-restored session storage may retain it. Hover previews
@@ -840,7 +840,7 @@ change. No copied description, creation Activity Event or user-visible history i
 added. Include receipts in permanent cleanup; exact Rules/contracts require proof.
 
 
-**Slice8A owner agreement, 4 November 2026:** [Advanced Create](slices/08A-advanced-create.md)
+**Slice8A owner agreement, 4 November 2026:** [Advanced Create](slices/08A-advanced-create/index.md)
 uses **More Details**, never More/Less. Expansion preserves the same unsaved draft
 and cannot collapse back; resizing retains expanded state. Title is the only field
 requiring user input. Category defaults Uncategorized, Location Unspecified,
@@ -865,7 +865,7 @@ Slice8A after metadata editing and before onboarding, preserving existing slice
 numbers. Exact runtime/Rules/query/receipt safety requires implementation evidence.
 
 
-**Slice7 owner agreement, 4 November 2026:** [Quick Create/basic list detailing](slices/07-quick-create-basic-list.md)
+**Slice7 owner agreement, 4 November 2026:** [Quick Create/basic list detailing](slices/07-quick-create-basic-list/index.md)
 introduces Title, Category and optional Location only. Title is outer-trimmed,
 nonblank and single-line, maximum 255 Unicode code points, preserving internal
 spaces and permitting duplicates. Category defaults to Uncategorized; Location to
@@ -911,7 +911,7 @@ sign-in providers. Apple authentication is deferred, including feasibility,
 configuration, implementation and validation; it is not a Slice 3 acceptance
 blocker. This supersedes the Google/Apple delivery scope below. Persistent device
 authentication and proof-based linking policy remain unchanged. See
-[Slice 3 detailing](slices/03-provider-sign-in.md).
+[Slice 3 detailing](slices/03-provider-sign-in/index.md).
 
 **Owner acceptance, 2 November 2026:** Slice3 and its current responsive login
 presentation are accepted following owner-reported Google and Microsoft
@@ -919,7 +919,7 @@ personal-account workflow verification on desktop/mobile at the dev preview.
 Microsoft work/school-account testing is deferred until product/features mature
 and does not block this acceptance. Retain technical diagnostics while developing
 slices. Apple remains deferred; linking and provisioning remain later slices.
-See the [closure record](slices/03-provider-sign-in-closure.md).
+See the [closure record](slices/03-provider-sign-in/closure.md).
 
 - Shared branded hero and centered Google/Apple sign-in controls across all screen widths. Authentication persists on device until Logout or invalidation.
 - First access displays workspace-provisioning status/progress; returning access displays loading while fetching initial Task population. Provisioning must be idempotent and safely retryable; detailed recovery remains slice-level.
@@ -932,7 +932,7 @@ separate permanent Delete Account action, typed DELETE confirmation and fresh
 same-UID provider proof. Persist intent before bounded recoverable owned-data
 cleanup, delete Auth identity last, and never reprovision an account in deletion.
 Protected defaults may be removed only through this workflow; external provider
-accounts are unaffected. [Slice5A detailing](slices/05A-delete-account.md) records
+accounts are unaffected. [Slice5A detailing](slices/05A-delete-account/index.md) records
 approved scope with owner-selected Option 3: the browser submits confirmed intent,
 and a local operator-run script verifies/cleans application data, deletes Auth last
 and retires a minimal temporary fence after validated stale-session checks. No
@@ -947,9 +947,9 @@ workspace while the original UID's temporary fence remains. No old data, markers
 or provider-link restoration is promised. Email matching does not transfer deletion
 authority; the operator targets only the original UID/job. Account removal and
 final control-metadata retirement are separate milestones. Authentication errors
-alone prove neither. The [accepted preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026)
+alone prove neither. The [accepted preparation contracts](slices/05A-delete-account/index.md#accepted-implementation-preparation--5-november-2026)
 define races, isolation, proof, inventory and remaining engineering gates.
-The [DA1 technical contract](slices/05A-delete-account-contract.md) fixes the
+The [DA1 technical contract](slices/05A-delete-account/contract.md) fixes the
 implementation target and acceptance gates. Its selected retirement interval is
 conditional on real platform safety evidence; pending jobs remain fenced if that
 evidence is unavailable. This technical detailing does not execute account deletion.
@@ -957,7 +957,7 @@ evidence is unavailable. This technical detailing does not execute account delet
 ### 21.6 Task Detail responsive sections
 
 **Slice8 D12/design closure, 4 November 2026:** all twelve design gaps are resolved
-in the [controlling Slice8 document](slices/08-task-detail-metadata.md). Acceptance
+in the [controlling Slice8 document](slices/08-task-detail-metadata/index.md). Acceptance
 still requires actual dependency integration and focused domain/component,
 adversarial Rules/integration and browser evidence, including schema/rollback and
 trusted deletion coverage. Existing held Slice4 tests and separate cloud/deployment
@@ -1055,7 +1055,7 @@ safe-link/image policy and renderer selection require technical closure. Other
 save/conflict/read-only/navigation guarantees remain unchanged.
 
 
-**Slice8 owner agreement, 4 November 2026:** [Task Detail/metadata detailing](slices/08-task-detail-metadata.md)
+**Slice8 owner agreement, 4 November 2026:** [Task Detail/metadata detailing](slices/08-task-detail-metadata/index.md)
 introduces explicit Save/Cancel contextual editors for Title, Reference, Category
 and Location, one dirty editor at a time. Reference is optional single-line text,
 255 Unicode code points maximum, outer-trimmed, duplicates permitted; empty means
@@ -1165,7 +1165,7 @@ dependencies, not a blanket authorization to implement, commit or deploy.
 
 ### 23.1 Slice9 accepted detailing amendments — 4 November 2026
 
-Owner accepted N1–N8 in [Slice9](slices/09-onboarding-tasks-manual.md), amending
+Owner accepted N1–N8 in [Slice9](slices/09-onboarding-tasks-manual/index.md), amending
 onboarding to be a blocking provisioning stage with visible progress before an
 eligible workspace becomes ready. Existing completed workspaces receive no backfill.
 The public manual is delivered under the app Hosting origin. Registered manual-route
@@ -1178,10 +1178,10 @@ owner-accepted; this is design closure, not implementation acceptance. Publicati
 
 ## Slice10 query engine acceptance — 5 November 2026
 
-Owner accepted [Q1–Q10](slices/10-complete-query-engine.md) including complete
+Owner accepted [Q1–Q10](slices/10-complete-query-engine/index.md) including complete
 retained metadata loading, explicit completeness/staleness, unavailable-reference
 groups, deterministic sorting and mixed-precision Due ordering, timezone edges,
-reactivity and read-only provisioned View integration. [Engineering contracts](slices/10-query-engineering.md)
+reactivity and read-only provisioned View integration. [Engineering contracts](slices/10-complete-query-engine/query-engineering.md)
 resolve normalized projection, admission/stream reconciliation, calendar dependency,
 new-definition resource bounds with retained-reader compatibility, identities/errors
 and evidence targets. Query meaning remains schema1; no lifecycle writer, generic

@@ -6,34 +6,34 @@ open/on hold and unaccepted. Slice 5 provisioning is implemented and deployed to
 dev as app0.2.0, contract revision2/serverRelease2, from clean pushed02458ff.
 Hosted artifact/gate checks pass; the owner reports the primary workflow passed
 on mobile and desktop. **Slice5 is owner-accepted and closed**; see its
-[closure record](slices/05-workspace-provisioning-closure.md). [Deployment evidence](slices/05-workspace-provisioning-preview.md)
+[closure record](slices/05-workspace-provisioning/closure.md). [Deployment evidence](slices/05-workspace-provisioning/preview.md)
 records the actual source, channel and remaining checks.
 
-Current release: [Slice 5A dev deployment](slices/05A-delete-account-dev-deployment.md)
+Current release: [Slice 5A dev deployment](slices/05A-delete-account/dev-deployment.md)
 publishes clean `78e59ef`, app 0.3.0, DA1 Rules and policy 3/serverRelease 3.
 HTTPS artifact and readiness checks pass; real-provider/T6/T7 and rollback evidence
 remain pending. The owner confirmed revision 3 on dev; **Slice 5A is ready and
 awaiting user verification**. Retirement is disabled and final acceptance is pending.
 
-Next: implement/validate Slice5A against [technical contract DA1](slices/05A-delete-account-contract.md),
+Next: implement/validate Slice5A against [technical contract DA1](slices/05A-delete-account/contract.md),
 then Slice6 navigation. DA1 fixes schemas, admission, inventory, concurrency,
 retirement and candidate rollout; its T1–T8 execution gates remain unproven.
-The [first implementation checkpoint](slices/05A-delete-account-domain.md) adds
+The [first implementation checkpoint](slices/05A-delete-account/domain.md) adds
 domain/control/inventory validation and candidate Rules with local evidence.
-The [operator checkpoint](slices/05A-delete-account-operator.md) implements isolated
+The [operator checkpoint](slices/05A-delete-account/operator.md) implements isolated
 discovery/leased bounded cleanup through data_verified. The
-[Auth finalization checkpoint](slices/05A-delete-account-auth-finalization.md) now
+[Auth finalization checkpoint](slices/05A-delete-account/auth-finalization.md) now
 adds the durable Auth latch, explicit reconciliation and trusted absence/deadline
-recording. The [browser checkpoint](slices/05A-delete-account-browser.md) now adds
+recording. The [browser checkpoint](slices/05A-delete-account/browser.md) now adds
 proof/adapters/controller and UI as app0.3.0/revision3, now published to dev. The subsequent
-[lease-renewal checkpoint](slices/05A-delete-account-lease-renewal.md) now implements
+[lease-renewal checkpoint](slices/05A-delete-account/lease-renewal.md) now implements
 long-discovery renewal locally. Next: real provider/cloud/T7 and release/rollback
-evidence. The [cloud preflight](slices/05A-delete-account-release-verification.md)
+evidence. The [cloud preflight](slices/05A-delete-account/release-verification.md)
 passes read-only cloud checks, source-only Rules compilation and isolated artifact
 Hosting checks. The owner subsequently approved dev publication, now complete.
-Next: provision operator ADC, then collect real-provider and [T7 evidence](slices/05A-delete-account-t7-verification.md)
+Next: provision operator ADC, then collect real-provider and [T7 evidence](slices/05A-delete-account/t7-verification.md)
 against exact authorized targets. Retirement remains disabled pending T7.
-The owner accepted the [5 November preparation contracts](slices/05A-delete-account.md#accepted-implementation-preparation--5-november-2026),
+The owner accepted the [5 November preparation contracts](slices/05A-delete-account/index.md#accepted-implementation-preparation--5-november-2026),
 including distinct-UID registration during old-fence retention. Exact proof/Rules,
 inventory, lease, retirement interval and release contracts require engineering
 validation before acceptance; no deletion or publication is authorized here.
@@ -48,8 +48,8 @@ Authority: [product specification §§17–23](product_spec.md),
 
 ## Slice10 detailing closure — 5 November 2026
 
-[Slice10](slices/10-complete-query-engine.md) Q1–Q10 are owner-accepted, with
-[engineering contracts](slices/10-query-engineering.md) and typed interfaces
+[Slice10](slices/10-complete-query-engine/index.md) Q1–Q10 are owner-accepted, with
+[engineering contracts](slices/10-complete-query-engine/query-engineering.md) and typed interfaces
 complete for commit review. Implementation and runtime/Rules/benchmark verification
 remain pending. Main through8dbe29b records Slice5 acceptance and closure;
 Slice4 stays held. Detailing does not change implementation order.
@@ -60,14 +60,14 @@ Slice4 stays held. Detailing does not change implementation order.
 The owner deferred the local verification-cancellation issue and authorized
 single-provider provisioning. Later owner authorization permitted Slice5 local
 and affected-boundary regression checks; those checks pass without accepting the
-held linking feature. See [hold/handoff](slices/04-identity-linking-hold.md).
+held linking feature. See [hold/handoff](slices/04-identity-linking/hold.md).
 
 Slice5A readiness review and DA1 technical detailing are complete; implement/test
 the domain, operator, Rules/adapters and UI in the documented order. Retirement
 stays disabled until gate T7 proves the selected4,200-second safety assumptions.
 Slice5 closure follows the
-[owner report](slices/05-workspace-provisioning-acceptance.md), recorded automated
-evidence and explicit [closure instruction](slices/05-workspace-provisioning-closure.md).
+[owner report](slices/05-workspace-provisioning/acceptance.md), recorded automated
+evidence and explicit [closure instruction](slices/05-workspace-provisioning/closure.md).
 Slice6 remains accepted detailing only. No automatic later implementation,
 qc/uat/live promotion or data reset is authorized.
 
@@ -76,7 +76,7 @@ qc/uat/live promotion or data reset is authorized.
 Ownership/version axes, core fields, per-record numeric ordering, initial query
 structure, grouped-field filtering and date buckets are agreed. Separate ordering
 documents/family are superseded. See the
-[remaining decision register](slices/05-workspace-provisioning.md#remaining-gaps-and-decision-register--4-november-2026)
+[remaining decision register](slices/05-workspace-provisioning/index.md#remaining-gaps-and-decision-register--4-november-2026)
 for open query operators/date edges, exact serialized schemas, name uniqueness,
 bounded stages, deletion fence and compatibility rollout. These are contract and
 verification gates, not all new product decisions. Production implementation has not begun; Slice4 remains on hold. Subsequent
@@ -84,9 +84,9 @@ owner authorization permitted the readiness checks recorded below.
 
 ## Slice5 local readiness evidence — 4 November 2026
 
-[Readiness report](slices/05-workspace-provisioning-readiness.md),
-[machine evidence](slices/05-workspace-provisioning-readiness-evidence.json) and
-[execution log](slices/05-workspace-provisioning-readiness.log) record81 focused unit,
+[Readiness report](slices/05-workspace-provisioning/readiness.md),
+[machine evidence](slices/05-workspace-provisioning/readiness-evidence.json) and
+[execution log](slices/05-workspace-provisioning/readiness.log) record81 focused unit,
 7 existing emulator integration and4 compatibility browser passes, plus type/static
 checks and ordinary/compatibility builds. Owner authorized relevant local checks;
 older held-test statements describe earlier checkpoints. Slice4 remains held.
@@ -96,11 +96,11 @@ not Slice5 provisioning acceptance. Candidate family checks demonstrate that an
 expanded contract alone does not retire an old client; set deliberate app bounds
 and verify rollout/rollback before publication. Schema limits, stage/finalization
 proof, fence/runtime integration and new feature verification remain pending in the
-[current register](slices/05-workspace-provisioning.md#remaining-gaps-and-decision-register--4-november-2026).
+[current register](slices/05-workspace-provisioning/index.md#remaining-gaps-and-decision-register--4-november-2026).
 
 ## Slice5 implementation begun — 4 November 2026
 
-[Pure domain checkpoint](slices/05-workspace-provisioning-domain.md) implements
+[Pure domain checkpoint](slices/05-workspace-provisioning/domain.md) implements
 query decoding and exact fresh seed plans, plus name/timezone validation;41 focused
 unit tests and static checks pass. Persisted-record codecs, bounded-stage Rules
 feasibility and shared runtime/presentation remain next. No workspace writes,
@@ -108,7 +108,7 @@ cloud rollout or Slice5 completion is claimed. Earlier not-started text is histo
 
 ## Slice5 second checkpoint — 4 November 2026
 
-[Record codecs and stage probe](slices/05-workspace-provisioning-stages.md) adds
+[Record codecs and stage probe](slices/05-workspace-provisioning/stages.md) adds
 lossless confirmed SDK snapshot translation and a24-stage test-only Rules chain.
 66 focused unit and18 local integration cases pass; Types/boundaries/style pass.
 Locations use one per stage after expression-limit failures; Categories retain
@@ -118,7 +118,7 @@ cloud deployment, and no Slice5 completion claim.
 
 ## Slice5 initialization Rules finalized — 4 November 2026
 
-[Finalized source policy](slices/05-workspace-provisioning-rules.md) replaces the
+[Finalized source policy](slices/05-workspace-provisioning/rules.md) replaces the
 UTC/empty-profile fixture assumptions with shared pinned timezone/profile validation,
 keeps the verified24-stage receipt chain and enforces fence read/write blocking.
 72 focused unit/51 integration tests and static checks pass. Owner requested
@@ -128,7 +128,7 @@ policy, runtime contract or application capability has been activated by this wo
 
 ## Slice5 runtime checkpoint — 4 November 2026
 
-[Runtime implementation](slices/05-workspace-provisioning-implementation.md) wires
+[Runtime implementation](slices/05-workspace-provisioning/implementation.md) wires
 shared Auth/Firestore provisioning, admitted transactions and receipts, concurrent
 reconciliation, account cleanup/deletion fences and Loading/recovery/ready UI.
 The approved icon catalogue is pinned and self-hosted. See linked local evidence;
@@ -142,7 +142,7 @@ Slice5 acceptance, proceed to Slice5A, then Slice6. No commit/push/deploy includ
 
 ## Slice5 dev publication — recorded5 November2026
 
-[Dev release](slices/05-workspace-provisioning-preview.md) published4 November from
+[Dev release](slices/05-workspace-provisioning/preview.md) published4 November from
 clean02458ff: app0.2.0, contract revision2/serverRelease2 and initialization Rules.
 The owner explicitly selected blocking older clients. Hosted artifact/gate checks
 pass; hosted first-use/provider acceptance remains pending. Keep Slice5 open and
@@ -169,26 +169,26 @@ material domain/security changes return to owner discussion.
 ## Agreed sequence
 
 Slice1 implementation and validation are **complete**; closure documentation was
-committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation.md#closure-review)
-and [validation report](slices/01-foundation-validation.md).
-[Slice2 detailing](slices/02-compatibility-gate.md) is accepted, with
-implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in-configuration.md) and [Auth/session](slices/03-provider-sign-in-session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in-google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in-microsoft.md) is implemented locally; the [current login presentation](slices/03-provider-sign-in-presentation.md) and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. [Slice4 detailing](slices/04-identity-linking.md) is accepted; implementation is authorized and [read-only provider status](slices/04-identity-linking-status.md) is implemented locally; popup current-account verification is implemented locally; [isolated redirect proof](slices/04-identity-linking-redirect.md) is implemented locally, and [explicit linking](slices/04-identity-linking-implementation.md) is implemented locally with unit-only validation; full-slice/regression testing remains held by owner. Other rows remain planned. Split
+committed/pushed as `f2eaf82`. See its [closure review](slices/01-foundation/index.md#closure-review)
+and [validation report](slices/01-foundation/validation.md).
+[Slice2 detailing](slices/02-compatibility/gate.md) is accepted, with
+implementation/local validation and the approved Firestore checkpoint complete; implementation committed as `67e170e` and clean-source Hosting preview verified; owner closure review pending. [Slice3 detailing](slices/03-provider-sign-in/index.md) is accepted; implementation is authorized; [configuration](slices/03-provider-sign-in/configuration.md) and [Auth/session](slices/03-provider-sign-in/session.md) steps are implemented. Provider callbacks/account types are visually verified; [Google flow](slices/03-provider-sign-in/google.md) is implemented locally; [Microsoft flow](slices/03-provider-sign-in/microsoft.md) is implemented locally; the [current login presentation](slices/03-provider-sign-in/presentation.md) and Slice3 are owner-accepted. Google and Microsoft personal-account workflows are owner-verified on desktop/mobile; work/school testing is deferred until features mature, with technical diagnostics retained. [Slice4 detailing](slices/04-identity-linking/index.md) is accepted; implementation is authorized and [read-only provider status](slices/04-identity-linking/status.md) is implemented locally; popup current-account verification is implemented locally; [isolated redirect proof](slices/04-identity-linking/redirect.md) is implemented locally, and [explicit linking](slices/04-identity-linking/implementation.md) is implemented locally with unit-only validation; full-slice/regression testing remains held by owner. Other rows remain planned. Split
 broad rows further during detailing.
 
 | Order | Slice | Deliverable |
 |---:|---|---|
 | 1 | Foundation | Select framework/build/store; establish TypeScript boundaries, emulator setup and reproducible local checks |
 | 2 | Compatibility gate | Boot checks, blocking/retry states, resume/reconnect and contract-change handling |
-| 3 | [Provider sign-in](slices/03-provider-sign-in.md) | Google/Microsoft feasibility and sign-in, persistent authentication and Logout |
-| 4 | [Identity linking](slices/04-identity-linking.md) | Proof-based linking, account-resolution conflicts and cancellation |
-| 5 | [Workspace provisioning](slices/05-workspace-provisioning.md) | Retryable initialization of profile/settings, approved Categories/Locations, protected All Tasks and initial Saved Views |
-| 5A | [Delete Account](slices/05A-delete-account.md) | Approved deletion scope; Option 3 operator-run trusted finalizer with temporary fencing |
-| 6 | [Responsive navigation](slices/06-responsive-navigation.md) | Mobile drawer, desktop rail/sidebar and contextual navigation |
-| 7 | [Quick Create and basic list](slices/07-quick-create-basic-list.md) | Create a Draft Task and show it in a minimal All Tasks workspace |
-| 8 | [Task Detail and metadata editing](slices/08-task-detail-metadata.md) | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
-| 8A | [Advanced Create](slices/08A-advanced-create.md) | One-way More Details expansion with retained draft; optional Reference/preferences/GFM, atomic root/detail creation |
-| 9 | [Three onboarding Tasks](slices/09-onboarding-tasks-manual.md) | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
-| 10 | [Complete query engine](slices/10-complete-query-engine.md) | All supported predicates, grouping, sorting and date semantics over complete metadata |
+| 3 | [Provider sign-in](slices/03-provider-sign-in/index.md) | Google/Microsoft feasibility and sign-in, persistent authentication and Logout |
+| 4 | [Identity linking](slices/04-identity-linking/index.md) | Proof-based linking, account-resolution conflicts and cancellation |
+| 5 | [Workspace provisioning](slices/05-workspace-provisioning/index.md) | Retryable initialization of profile/settings, approved Categories/Locations, protected All Tasks and initial Saved Views |
+| 5A | [Delete Account](slices/05A-delete-account/index.md) | Approved deletion scope; Option 3 operator-run trusted finalizer with temporary fencing |
+| 6 | [Responsive navigation](slices/06-responsive-navigation/index.md) | Mobile drawer, desktop rail/sidebar and contextual navigation |
+| 7 | [Quick Create and basic list](slices/07-quick-create-basic-list/index.md) | Create a Draft Task and show it in a minimal All Tasks workspace |
+| 8 | [Task Detail and metadata editing](slices/08-task-detail-metadata/index.md) | Title, Reference, classification/preferences, description, Back restoration and conflict choices |
+| 8A | [Advanced Create](slices/08A-advanced-create/index.md) | One-way More Details expansion with retained draft; optional Reference/preferences/GFM, atomic root/detail creation |
+| 9 | [Three onboarding Tasks](slices/09-onboarding-tasks-manual/index.md) | Initialize Learn usage, Explore settings and Find Documentation; establish evolving templates and initial manual pages |
+| 10 | [Complete query engine](slices/10-complete-query-engine/index.md) | All supported predicates, grouping, sorting and date semantics over complete metadata |
 | 11 | Query workspace controls | Filter/group/sort editing, counts, collapsed groups and responsive rows |
 | 12 | Full-query persistence | Save, Save As, Reset, protected All Tasks and safe schema handling |
 | 13 | Search | Explicit-submit metadata phrase search and navigation-state restoration |
@@ -298,7 +298,7 @@ This plan does not add it to slice 26 or 30 by implication.
 
 The dated checkpoint and Slice3 amendment below retain their original scope.
 Slice4 identity-linking detailing is now accepted; implementation awaits authorization, following
-[Slice3 acceptance](slices/03-provider-sign-in-closure.md). Work/school testing is
+[Slice3 acceptance](slices/03-provider-sign-in/closure.md). Work/school testing is
 deferred until product/features mature; no next-slice implementation is authorized
 by closure preparation.
 
@@ -313,8 +313,8 @@ Auth/Firestore behavior.
 
 Readiness, scope/stack, implementation and local validation are complete; the
 additional Hosting preview/update/restoration checkpoint passed. Foundation
-[closure documentation](slices/01-foundation.md#closure-review) was committed and
-pushed as `f2eaf82`. [Slice2 detailing](slices/02-compatibility-gate.md) was accepted
+[closure documentation](slices/01-foundation/index.md#closure-review) was committed and
+pushed as `f2eaf82`. [Slice2 detailing](slices/02-compatibility/gate.md) was accepted
 on 23 October 2026, with database policy authority and optional secondary Hosting
 use. The owner authorized staging for commit preparation; commit, implementation
 and cloud provisioning await their applicable instructions.
@@ -330,7 +330,7 @@ validates static delivery/deployment only.
 
 ## Slice 3 detailing checkpoint — 23 October 2026
 
-The owner accepted [provider sign-in detailing](slices/03-provider-sign-in.md) and
+The owner accepted [provider sign-in detailing](slices/03-provider-sign-in/index.md) and
 authorized documentation in the separate `taskify-slice3` checkout, based on
 `f264868`. It covers Google/Microsoft feasibility, persistent sessions, gate integration,
 Logout and account isolation. Linking remains Slice 4; provisioning remains Slice 5.
@@ -344,14 +344,14 @@ staging, commit, push and deployment await their applicable authorization.
 
 Owner added Microsoft and deferred Apple authentication. Google and Microsoft
 are the active Slice 3 providers; Apple feasibility/implementation/validation are
-deferred and do not block Slice 3 acceptance. See the [updated detailing](slices/03-provider-sign-in.md).
+deferred and do not block Slice 3 acceptance. See the [updated detailing](slices/03-provider-sign-in/index.md).
 Implementation remains authorized; actual provider feasibility and validation
 remain outstanding. Current session checkout: `taskify-slice-detailing`.
 
 
 ## Slice 4 detailing checkpoint — 2 November 2026
 
-Owner accepted [identity-linking detailing](slices/04-identity-linking.md): Google/
+Owner accepted [identity-linking detailing](slices/04-identity-linking/index.md): Google/
 Microsoft linking preserves UID and requires fresh current-account reauthentication
 and additional-provider proof. Collision recovery restarts provider proof; uncertain
 submissions are verified before retry. No unlinking, duplicate-account merging or
@@ -369,7 +369,7 @@ Category catalogue and supplied ten Locations. Categories are alphabetical with
 Uncategorized last; Locations alphabetical with synthetic default Unspecified last.
 Material Symbols Rounded mappings include wallet for Finance, home_and_garden for
 Household and heart_plus for Wellness. Other proposed mappings are approved.
-[Slice5 detailing](slices/05-workspace-provisioning.md) records the catalogues,
+[Slice5 detailing](slices/05-workspace-provisioning/index.md) records the catalogues,
 Views, profile/settings, initialization safety and acceptance matrix for review.
 Blocking Loading/progress and first-access guidance accompany safe concurrent
 initialization. No starter Tasks or automatic onboarding backfill are added.
@@ -381,7 +381,7 @@ commit, push, cloud operation or deployment is performed by this documentation.
 ## Slice 5A detailing checkpoint — 2 November 2026
 
 Owner approved user-facing Delete Account scope and requested documentation/conflict
-evaluation. [Detailing](slices/05A-delete-account.md) records confirmation, fresh
+evaluation. [Detailing](slices/05A-delete-account/index.md) records confirmation, fresh
 proof, fenced staged cleanup, Auth deletion last and recoverable interruption.
 Browser-only finalization, stale-session protection, marker retention and trusted
 enforcement remain unresolved. No backend, retained-marker policy or account
@@ -408,7 +408,7 @@ execution, account deletion, commit or push is performed.
 
 ## Slice 6 detailing checkpoint — 2 November 2026
 
-Owner accepted [responsive-navigation detailing](slices/06-responsive-navigation.md)
+Owner accepted [responsive-navigation detailing](slices/06-responsive-navigation/index.md)
 and all twelve recommendations. Mobile drawer below 960 CSS px; desktop/tablet
 rail/sidebar at or above it. Per-tab/account sidebar retention, explicit keyboard/
 touch access, overlay focus/scroll handling and truthful feature availability are
@@ -423,7 +423,7 @@ commit, push, cloud operation or deployment.
 ## Slice5 integration amendment — 2 November 2026
 
 After updating this checkout to origin/main at d013515, owner authorized the
-[Slice5 integration amendment](slices/05-workspace-provisioning.md#integration-amendment--main-baseline-d013515-2-november-2026).
+[Slice5 integration amendment](slices/05-workspace-provisioning/index.md#integration-amendment--main-baseline-d013515-2-november-2026).
 Use single-provider session admission independently of held linking/provider-status
 work. Wire account-state cleanup, optional profile-photo capture and the shared
 workspace runtime; reconcile stages across gate/session changes. Catalogue/default
@@ -434,7 +434,7 @@ commit, push, cloud action or deployment is performed by this documentation upda
 
 ## Slice7 detailing accepted — 4 November 2026
 
-Owner approved [Quick Create/basic list detailing](slices/07-quick-create-basic-list.md)
+Owner approved [Quick Create/basic list detailing](slices/07-quick-create-basic-list/index.md)
 and all twelve recommendations. Title is trimmed, nonblank, single-line, maximum
 255 Unicode code points; duplicate titles allowed. Create a Draft/unpaused Task
 with Uncategorized/absent Location defaults, both Important/Urgent Unset and no
@@ -449,7 +449,7 @@ staging, commit, push or cloud actions are performed by documentation.
 
 ### Slice7 gap review — 4 November 2026
 
-[Gap register](slices/07-quick-create-basic-list.md#gap-review--4-november-2026)
+[Gap register](slices/07-quick-create-basic-list/index.md#gap-review--4-november-2026)
 clarifies confirmed-only list state, creation/listener races, recovery across new
 session admission, archived classifications and route preservation. Remaining
 contracts include Unicode/collation, absent-field query completeness, operation
@@ -461,7 +461,7 @@ unchanged. No implementation or new validation evidence is added by this review.
 
 ### Slice7 concrete proposals for review — 4 November 2026
 
-[Proposed gap resolutions](slices/07-quick-create-basic-list.md#accepted-gap-resolutions--4-november-2026)
+[Proposed gap resolutions](slices/07-quick-create-basic-list/index.md#accepted-gap-resolutions--4-november-2026)
 specify candidate Unicode comparison, physical absence representation, record
 versions and minimal persistent operation references. These are not new approvals.
 Advanced Create is proposed for separately detailed Slice8A after metadata editing,
@@ -490,7 +490,7 @@ implementation, application tests, commit, push or cloud operation is performed.
 
 ## Slice8 detailing accepted — 4 November 2026
 
-Owner accepted [Task Detail/metadata detailing](slices/08-task-detail-metadata.md)
+Owner accepted [Task Detail/metadata detailing](slices/08-task-detail-metadata/index.md)
 and all eighteen recommendations. Explicit contextual Save/Cancel editors cover
 Title, Reference and classification; tri-state preferences commit individually.
 Reference uses 255 Unicode code points and empty means absence. Description uses
@@ -507,7 +507,7 @@ no code, tests, staging, commit, push or cloud actions.
 ### Slice8 gap evaluation and staged review — 4 November 2026
 
 Owner requested evaluation of pending gaps and staging preparation.
-[Gap register](slices/08-task-detail-metadata.md#gap-evaluation--4-november-2026)
+[Gap register](slices/08-task-detail-metadata/index.md#gap-evaluation--4-november-2026)
 records editor/node/link policy, size/security enforcement, storage/version/rollout,
 conflict/receipt recovery, per-Task mutation serialization, account isolation and
 navigation/dependency gates. Scope is accepted; no technical feasibility proof or
@@ -517,7 +517,7 @@ no application tests/builds, implementation, commit, push or cloud operation.
 
 ### Slice8 Markdown scope reduction — 4 November 2026
 
-Owner removed WYSIWYG. [Slice8](slices/08-task-detail-metadata.md) uses a plain-text
+Owner removed WYSIWYG. [Slice8](slices/08-task-detail-metadata/index.md) uses a plain-text
 GFM source editor and Task Detail Markdown rendering, with 64 KiB UTF-8 source
 limit. D1 editor/schema gap closes through scope reduction; no Tiptap selection.
 D2 byte enforcement and D3 safe URI/image policy remain open. No live preview,
@@ -627,7 +627,7 @@ commit, push or deployment. Design closure is not implementation acceptance.
 
 ## Slice8A detailing accepted — 4 November 2026
 
-Owner proceeded with [Advanced Create detailing](slices/08A-advanced-create.md),
+Owner proceeded with [Advanced Create detailing](slices/08A-advanced-create/index.md),
 amending More to **More Details** and rejecting Less/back-to-compact for the draft.
 Retain one draft on mobile full-screen/desktop large-modal expansion. Title remains
 the only input the user must supply; Reference/description default empty and
@@ -661,7 +661,7 @@ commit, push, code/tests or cloud actions are performed by this documentation.
 
 ## Slice9 N1–N8 accepted with amendments — 4 November 2026
 
-Owner accepted [Slice9 recommendations](slices/09-onboarding-tasks-manual.md).
+Owner accepted [Slice9 recommendations](slices/09-onboarding-tasks-manual/index.md).
 Starter provisioning blocks eligible workspace readiness with progress/recovery.
 The manual-route restriction applies to relative links only; permitted absolute
 links remain allowed, and all permitted links request a new tab/window. Revised
