@@ -1,0 +1,59 @@
+{
+  "observedAt": "2026-11-06T14:26:26.400Z",
+  "readOnly": true,
+  "jobs": [
+    {
+      "uid": "Td9Kpq9i67MiLUpOjy6nwUuVgWZ2",
+      "jobId": "62abaeaf-af43-461e-9365-17e6fab81e66",
+      "state": "awaiting_retirement",
+      "counts": {},
+      "authPresent": false,
+      "authMatches": false,
+      "authAbsentObservedAt": {
+        "seconds": 1793972231,
+        "nanoseconds": 598000000
+      },
+      "retireNotBefore": {
+        "seconds": 1793976431,
+        "nanoseconds": 598000000
+      },
+      "serverReadTime": {
+        "seconds": 1793975198,
+        "nanoseconds": 570846000
+      },
+      "safetyWindowElapsed": false
+    },
+    {
+      "uid": "jBVZ41DdPGhJRLvqK2jZBFZx9QB2",
+      "jobId": "8525c7ab-0fa2-4baf-93d2-148b6abde779",
+      "state": "awaiting_retirement",
+      "counts": {},
+      "authPresent": false,
+      "authMatches": false,
+      "authAbsentObservedAt": {
+        "seconds": 1793971538,
+        "nanoseconds": 654000000
+      },
+      "retireNotBefore": {
+        "seconds": 1793975738,
+        "nanoseconds": 654000000
+      },
+      "serverReadTime": {
+        "seconds": 1793975203,
+        "nanoseconds": 492676000
+      },
+      "safetyWindowElapsed": false
+    }
+  ],
+  "freshUid": "jq2VPHjG43hZ0KJtdHzyT7icZB12",
+  "limitations": [
+    "Admin reads do not exercise browser Security Rules",
+    "No pre-deletion stale-token or open-stream evidence captured",
+    "No fence retirement performed"
+  ],
+  "fresh": {
+    "authPresent": true,
+    "fencePresent": false,
+    "workspaceInitializationPresent": true
+  }
+}

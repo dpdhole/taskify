@@ -2,6 +2,48 @@
 
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
 
+## 2026-11-06 — Slice 5A untouched desktop tab updates live
+
+- Owner repeated redirect proof/request and completed job
+  `d5ce4f10-6487-4f92-af50-5f5a2d41def3` for UID `jq2VPHjG43hZ0KJtdHzyT7icZB12`.
+- Untouched Tab 2 displayed account removal verified and workspace blocked without
+  refresh; workspace content was hidden. Live status propagation is owner-confirmed.
+- Before refresh the signed-in header persisted. Owner then refreshed Tab 2 and
+  confirmed it returned to signed-out/provider sign-in with workspace hidden.
+  Reload recovery passes; spontaneous sign-out/token expiry is not established.
+  Offline/queued-write, stream, cross-UID isolation and retirement/T7 evidence remain pending.
+
+## 2026-11-06 — Slice 5A independent post-removal state verified
+
+- Read-only operator inspection confirms both jobs awaiting_retirement, empty
+  inventories and absent old Auth identities. Both fences are retained.
+- Fresh UID Auth and workspace initialization exist; its deletion fence is absent.
+- Both trusted safety windows were still pending at read-back. Admin observations
+  do not prove browser access isolation, stale-token expiry or queued/stream behavior.
+- [T7 checkpoint](slices/05A-delete-account-t7-verification.md) records limits and
+  the need to preserve original clients or arrange a separately authorized canary.
+
+## 2026-11-06 — Slice 5A fresh registration with retained fence owner-confirmed
+
+- Owner supplied a successful accountRemoved/awaiting_retirement operator result,
+  then confirmed fresh workspace setup with the same identity/provider.
+- Completed job `8525c7ab-0fa2-4baf-93d2-148b6abde779`, old UID
+  `jBVZ41DdPGhJRLvqK2jZBFZx9QB2`, is owner-confirmed awaiting_retirement.
+  Fresh UID `jq2VPHjG43hZ0KJtdHzyT7icZB12` is distinct; the old fence remains.
+  Attribution and distinct-UID re-registration are now owner-confirmed.
+- Owner also confirmed first-job completion: old UID `Td9Kpq9i67MiLUpOjy6nwUuVgWZ2`,
+  job `62abaeaf-af43-461e-9365-17e6fab81e66`. Both jobs are owner-reported complete.
+- Isolation checks and T7 remain pending; retirement disabled and no final slice closure.
+
+## 2026-11-05 — Slice 5A UAT steps 1–12 owner-confirmed
+
+- Owner confirmed steps 1–12 and reported two accountDeletion jobs, originating
+  from desktop and mobile. [UAT checkpoint](slices/05A-delete-account-qc-promotion.md).
+- Exact UID/job targets have not been supplied or independently inspected here.
+  Target-specific authorization precedes each destructive operator run.
+- Next operator cleanup/Auth removal, re-registration and T7 verification.
+  Retirement disabled; final acceptance pending. QC bare-root access issue remains open.
+
 ## 2026-11-05 — Slice 5A on qc; awaiting user UAT verification
 
 - Owner-approved [qc promotion](slices/05A-delete-account-qc-promotion.md) reuses

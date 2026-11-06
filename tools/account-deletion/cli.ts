@@ -93,7 +93,15 @@ try {
               error.code.startsWith('ERR_PARSE_ARGS')
             ? 'invalid-target'
             : 'validation-or-infrastructure-failure';
-  process.stderr.write(JSON.stringify({ status: 'blocked', code }) + '\n');
+  process.stderr.write(
+    JSON.stringify({
+      status: 'blocked',
+      code,
+      ...(error instanceof OperatorError && error.diagnostic
+        ? { diagnostic: error.diagnostic }
+        : {}),
+    }) + '\n',
+  );
   process.exitCode =
     code === 'busy' ||
     code === 'stage-pending' ||

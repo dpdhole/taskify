@@ -1,5 +1,8 @@
 import { expect, it } from 'vitest';
-import { createDeletionOperator } from '../../tools/account-deletion/operator';
+import {
+  createDeletionOperator,
+  OperatorError,
+} from '../../tools/account-deletion/operator';
 import type {
   OperatorPort,
   Snapshot,
@@ -715,4 +718,22 @@ it('failed renewal after an Auth call retains the latch and demands explicit rec
     .finalizeAuth(target.jobId, { reconcileAuth: true, priorRunStopped: true });
   expect(calls).toBe(1);
   expect(f.control().state).toBe('awaiting_retirement');
+});
+
+it('retains bounded Auth diagnostics without clearing the latch', async () => {
+  const f = fixture(0);
+  await f.operator().cleanup('execute', target.jobId);
+  f.port.deleteAuth = async () => {
+    throw new OperatorError('auth-uncertain', {
+      httpStatus: 403,
+      reason: 'PERMISSION_DENIED',
+    });
+  };
+  await expect(
+    f.operator(otherRun).finalizeAuth(target.jobId),
+  ).rejects.toMatchObject({
+    code: 'auth-uncertain',
+    diagnostic: { httpStatus: 403, reason: 'PERMISSION_DENIED' },
+  });
+  expect(f.control().state).toBe('auth_deleting');
 });

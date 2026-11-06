@@ -72,6 +72,7 @@ export class OperatorError extends Error {
       | 'reconciliation-required'
       | 'stage-pending'
       | 'retirement-disabled',
+    readonly diagnostic?: { httpStatus: number; reason: string },
   ) {
     super(code);
   }
@@ -321,6 +322,7 @@ export function createDeletionOperator(
         owned(latched, now);
         if (latched.state === 'auth_deleting') {
           const user = await port.auth(target.uid);
+          let authFailure: OperatorError | undefined;
           if (user) {
             if (
               !latched.authCreatedAt ||
@@ -340,12 +342,13 @@ export function createDeletionOperator(
                 if (current.c.state !== 'auth_deleting')
                   throw new OperatorError('stage-pending');
               });
-            } catch {
+            } catch (error) {
+              if (error instanceof OperatorError) authFailure = error;
               /* Query authoritative outcome, never blind-retry. */
             }
           }
           if (await port.auth(target.uid))
-            throw new OperatorError('auth-uncertain');
+            throw new OperatorError('auth-uncertain', authFailure?.diagnostic);
           if ((await discover(true)).paths.length)
             throw new OperatorError('reconciliation-required');
           await port.transaction(async (tx) => {

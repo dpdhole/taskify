@@ -1,3 +1,4 @@
+import { authDeleteDiagnostic } from './auth-diagnostic';
 import {
   applicationDefault,
   deleteApp,
@@ -177,7 +178,18 @@ export function createFirebaseOperatorPort(target: Target, emulator = false) {
           body: JSON.stringify({ localId: uid }),
         },
       );
-      if (!response.ok) throw new OperatorError('auth-uncertain');
+      if (!response.ok) {
+        let body: unknown;
+        try {
+          body = await response.json();
+        } catch {
+          body = null;
+        }
+        throw new OperatorError(
+          'auth-uncertain',
+          authDeleteDiagnostic(response.status, body),
+        );
+      }
       await response.body?.cancel();
     },
     transaction: (work) =>
