@@ -91,6 +91,7 @@ export function createFirebaseOperatorPort(target: Target, emulator = false) {
     : getFirestore(app);
   const authClient = getAuth(app);
   const port: OperatorPort = {
+    ...(emulator ? { retirementMode: 'emulator' as const } : {}),
     async verifyProject(t) {
       validateTarget(t);
       if (

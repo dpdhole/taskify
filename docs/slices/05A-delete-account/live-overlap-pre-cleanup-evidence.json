@@ -1,0 +1,52 @@
+{
+  "uid": "bkdP7syrtWb1wcffev2DPTFdTaD2",
+  "jobId": "5d2cfa9b-dab1-47c4-8f94-54551eb0a137",
+  "writerCommitTime": "2026-11-07T10:05:24.745449Z",
+  "ownerClientOverlap": true,
+  "fenceState": "requested",
+  "fenceRecordVersion": 1,
+  "fenceCreateTime": {
+    "seconds": 1794045924,
+    "nanoseconds": 843711000
+  },
+  "fenceUpdateTime": {
+    "seconds": 1794045924,
+    "nanoseconds": 843711000
+  },
+  "writerCommittedBeforeFence": true,
+  "baseRecords": [
+    {
+      "suffix": "initialization/workspace",
+      "exists": true,
+      "createTime": {
+        "seconds": 1794045924,
+        "nanoseconds": 745449000
+      }
+    },
+    {
+      "suffix": "profile/main",
+      "exists": true,
+      "createTime": {
+        "seconds": 1794045924,
+        "nanoseconds": 745449000
+      }
+    },
+    {
+      "suffix": "settings/main",
+      "exists": true,
+      "createTime": {
+        "seconds": 1794045924,
+        "nanoseconds": 745449000
+      }
+    },
+    {
+      "suffix": "initializationStages/base",
+      "exists": true,
+      "createTime": {
+        "seconds": 1794045924,
+        "nanoseconds": 745449000
+      }
+    }
+  ],
+  "source": "Independent administrative metadata read and owner-supplied client events"
+}

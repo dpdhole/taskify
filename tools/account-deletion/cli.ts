@@ -1,3 +1,13 @@
+import {
+  verifyCanaryCloud,
+  snapshotCanaryComparison,
+} from './retirement-canary-checks';
+import {
+  canaryWindowMatches,
+  isRetirementCanary,
+  retirementCanary,
+} from './retirement-canary-plan';
+import { decodeAccountDeletion } from '../../src/domain/account-deletion';
 import { parseArgs } from 'node:util';
 import {
   createDeletionOperator,
@@ -27,7 +37,14 @@ async function main() {
   const command = args.positionals[0];
   if (
     args.positionals.length !== 1 ||
-    !['inspect', 'execute', 'resume', 'retire'].includes(command ?? '')
+    ![
+      'inspect',
+      'execute',
+      'resume',
+      'retire',
+      'inspect-canary',
+      'retire-canary',
+    ].includes(command ?? '')
   )
     throw new OperatorError('invalid-target');
   const values = args.values;
@@ -45,9 +62,16 @@ async function main() {
       !values['prior-run-stopped'])
   )
     throw new OperatorError('invalid-target');
-  if (command !== 'inspect' && values['confirm-job'] !== target.jobId)
+  if (
+    !['inspect', 'inspect-canary'].includes(command!) &&
+    values['confirm-job'] !== target.jobId
+  )
     throw new OperatorError('job-mismatch');
-  if (command === 'retire') throw new OperatorError('retirement-disabled');
+  if (command === 'retire' && !values.emulator)
+    throw new OperatorError('retirement-disabled');
+  const canary = command === 'inspect-canary' || command === 'retire-canary';
+  if (canary && (values.emulator || !isRetirementCanary(target)))
+    throw new OperatorError('retirement-disabled');
   const runtime = createFirebaseOperatorPort(target, values.emulator);
   try {
     const operator = createDeletionOperator(
@@ -55,6 +79,58 @@ async function main() {
       target,
       crypto.randomUUID(),
     );
+    if (canary) {
+      const cloud = await verifyCanaryCloud(runtime.port);
+      const inspection = await operator.inspect();
+      const snapshot = await runtime.port.get(`accountDeletion/${target.uid}`);
+      const control = decodeAccountDeletion(snapshot.data);
+      if (
+        !canaryWindowMatches(control, snapshot.readTime) ||
+        inspection.authPresent ||
+        Object.keys(inspection.counts).length
+      )
+        throw new OperatorError('reconciliation-required');
+      const comparisonBefore = await snapshotCanaryComparison(runtime.port);
+      const preflight = {
+        target,
+        cloud,
+        inspection,
+        serverReadTime: snapshot.readTime,
+        authAbsentObservedAt: control.authAbsentObservedAt,
+        retireNotBefore: control.retireNotBefore,
+        captureEndsAt: retirementCanary.captureEndsAt,
+        preRetirementProbe: retirementCanary.preRetirementProbe,
+        comparisonBefore,
+      };
+      if (command === 'inspect-canary') {
+        process.stdout.write(
+          JSON.stringify({ ...preflight, readOnly: true }) + '\n',
+        );
+        return;
+      }
+      const result = await operator.retire(values['confirm-job']!, 'canary');
+      // Report the mutation even if the independent comparison cannot be read back.
+      const comparisonAfter = await snapshotCanaryComparison(
+        runtime.port,
+      ).catch(() => null);
+      process.stdout.write(
+        JSON.stringify({
+          ...preflight,
+          ...result,
+          comparisonAfter,
+          comparisonUnchanged: comparisonAfter
+            ? JSON.stringify(comparisonBefore) ===
+              JSON.stringify(comparisonAfter)
+            : null,
+        }) + '\n',
+      );
+      return;
+    }
+    if (command === 'retire') {
+      const result = await operator.retire(values['confirm-job']!);
+      process.stdout.write(JSON.stringify(result) + '\n');
+      return;
+    }
     const inspected = await operator.inspect();
     let result: unknown = inspected;
     if (command !== 'inspect') {
@@ -108,6 +184,7 @@ try {
     code === 'retirement-disabled'
       ? 3
       : code === 'reconciliation-required' ||
+          code === 'control-absent' ||
           code === 'auth-uncertain' ||
           code === 'auth-changed' ||
           code === 'data-invalid'

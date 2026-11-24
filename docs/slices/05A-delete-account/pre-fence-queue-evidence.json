@@ -1,0 +1,128 @@
+{
+  "uid": "0sGUioXWWwYy7Yc1n5FRavlO2kw1",
+  "queueTiming": "before-fence",
+  "tokenExpiry": "Sat, 07 Nov 2026 10:12:23 GMT",
+  "authAbsentObservedAt": {
+    "seconds": 1794043110,
+    "nanoseconds": 616000000
+  },
+  "retireNotBefore": {
+    "seconds": 1794047310,
+    "nanoseconds": 616000000
+  },
+  "project": "taskify-dev-dpdhole",
+  "jobId": "147eb917-a539-48bf-bdc7-ad5c64312eeb",
+  "evidenceSource": "Owner-supplied live client events and agent operator read-back",
+  "events": [
+    {
+      "at": "2026-11-07T09:13:54.077Z",
+      "kind": "pre-fence-queue-confirmed",
+      "data": {
+        "records": 4,
+        "localPendingWrites": true,
+        "serverBaseAbsent": true,
+        "serverFenceAbsent": true
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:16.766Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "requested"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:20.728Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "requested"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:20.778Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "cleaning"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:25.897Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "cleaning"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:26.758Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "data_verified"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:26.809Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "data_verified"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:28.681Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "data_verified"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:29.071Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "auth_deleting"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:30.428Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "awaiting_retirement"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:30.488Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "awaiting_retirement"
+      }
+    },
+    {
+      "at": "2026-11-07T09:18:30.549Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "awaiting_retirement"
+      }
+    },
+    {
+      "at": "2026-11-07T09:19:04.263Z",
+      "kind": "offline-client-reconnected",
+      "data": {}
+    },
+    {
+      "at": "2026-11-07T09:19:04.349Z",
+      "kind": "queued-write-rejected",
+      "data": {
+        "code": "permission-denied",
+        "timing": "before-fence"
+      }
+    },
+    {
+      "at": "2026-11-07T09:19:22.945Z",
+      "kind": "offline-client-reconnected",
+      "data": {}
+    }
+  ],
+  "postReplayInspection": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false
+  }
+}

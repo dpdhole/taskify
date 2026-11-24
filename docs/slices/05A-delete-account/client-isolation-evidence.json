@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-11-06T15:46:18.640Z",
+  "project": "taskify-dev-dpdhole",
+  "expectedUid": "3C5SInr1sYYtjyHNy5Qvh9r8UrZ2",
+  "readOnly": true,
+  "passed": true,
+  "results": [
+    {
+      "probe": "own-profile",
+      "outcome": "read-allowed-existing"
+    },
+    {
+      "probe": "own-initialization",
+      "outcome": "read-allowed-existing"
+    },
+    {
+      "probe": "old-1-job",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-1-profile",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-1-initialization",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-2-job",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-2-profile",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-2-initialization",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-3-job",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-3-profile",
+      "outcome": "permission-denied"
+    },
+    {
+      "probe": "old-3-initialization",
+      "outcome": "permission-denied"
+    }
+  ],
+  "evidenceSource": "Owner-supplied live authenticated client probe output",
+  "uidMatchOwnerConfirmed": true,
+  "oldUidMapping": {
+    "old-1": "Td9Kpq9i67MiLUpOjy6nwUuVgWZ2",
+    "old-2": "jBVZ41DdPGhJRLvqK2jZBFZx9QB2",
+    "old-3": "jq2VPHjG43hZ0KJtdHzyT7icZB12"
+  },
+  "limits": [
+    "Read denial only; no cross-UID writes attempted",
+    "Does not establish stale-token, offline replay, stream or retirement safety"
+  ]
+}

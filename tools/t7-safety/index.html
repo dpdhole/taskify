@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Taskify T7 safety observations</title>
+  <body>
+    <h1>T7 safety observations — fences retained</h1>
+    <p>
+      Use a disposable identity. The local process holds the captured token in
+      memory. Keep browser network capture off.
+    </p>
+    <label
+      >Expected disposable UID (leave empty once to identify a new account)
+      <input id="uid" autocomplete="off"
+    /></label>
+    <label
+      >Provider
+      <select id="provider">
+        <option value="google">Google</option>
+        <option value="microsoft">Microsoft</option>
+      </select></label
+    >
+    <p>
+      <button id="online">Connect online client</button>
+      <button id="offline">Connect offline client</button>
+    </p>
+    <p>
+      <button id="baseline">
+        Create valid base initialization (four records, empty workspace only)
+      </button>
+    </p>
+    <p>
+      <button id="arm">
+        Arm listener, capture token and disconnect offline client
+      </button>
+    </p>
+    <p>
+      <button id="queue-before-fence">
+        Arm and queue base before fencing (empty workspace)
+      </button>
+    </p>
+    <details>
+      <summary>Live overlapping write and deletion request</summary>
+      <p id="overlap-mode">Concurrent write and admission mode.</p>
+      <p>
+        Use a fresh empty workspace. Connect both clients and leave QC closed
+        for this identity. This test sends one base initialization commit and
+        creates a real deletion request. The operator processes cleanup
+        separately.
+      </p>
+      <label
+        >Type DELETE for the disposable account
+        <input id="confirm-overlap" autocomplete="off"
+      /></label>
+      <button id="prove-overlap">Verify provider for deletion</button>
+      <button id="run-overlap">
+        Send base write and request permanent deletion
+      </button>
+    </details>
+    <p>
+      <button id="canary-capture">
+        Capture token for retirement canary (ready workspace)
+      </button>
+    </p>
+    <p>
+      <button id="capture-write-baseline">
+        Capture token and create write baseline (empty workspace)
+      </button>
+    </p>
+    <label>Accepted job UUID <input id="job" autocomplete="off" /></label
+    ><button id="watch">Watch accepted deletion job</button>
+    <p>
+      Complete normal workspace setup, then deletion UI in another tab. Operator
+      execution requires separate exact UID/job authorization.
+    </p>
+    <p>
+      <button id="online-write">
+        Attempt online base reinitialization after removal
+      </button>
+    </p>
+    <p>
+      <button id="queue">
+        Queue valid base reinitialization after verified data/Auth removal
+      </button>
+      <button id="reconnect">Reconnect queued client</button>
+    </p>
+    <p>
+      <button id="raw">Probe captured original ID token (server read)</button>
+      <button id="raw-write">
+        Probe captured original ID token (write after approved retirement)
+      </button>
+      <button id="refresh">Attempt forced Auth refresh</button>
+    </p>
+    <p>
+      <button id="export">Download sanitized observations</button>
+      <button id="release">Release captured token and reset page</button>
+    </p>
+    <pre id="status" role="status">
+Connect both clients to the same expected UID. No automatic pass is assigned.</pre>
+    <script type="module" src="/tools/t7-safety/browser.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+{
+  "target": {
+    "project": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "uid": "ZXx9lu9yVEaBi8RhRmp8TBLbJpL2",
+    "jobId": "cef77432-72ec-443b-bfd8-943abbd2a701"
+  },
+  "cloud": {
+    "revision": 3,
+    "serverRelease": 3,
+    "ruleset": "projects/taskify-dev-dpdhole/rulesets/564f5136-8a2f-4016-b851-36c1df0707ef",
+    "rulesSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536"
+  },
+  "inspection": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false,
+    "authMatches": false
+  },
+  "serverReadTime": {
+    "seconds": 1794121912,
+    "nanoseconds": 505553000
+  },
+  "authAbsentObservedAt": {
+    "seconds": 1794116100,
+    "nanoseconds": 596000000
+  },
+  "retireNotBefore": {
+    "seconds": 1794120300,
+    "nanoseconds": 596000000
+  },
+  "captureEndsAt": "2026-11-08T08:31:52.000Z",
+  "preRetirementProbe": {
+    "at": "2026-11-08T07:08:33.803Z",
+    "tokenExpiry": "2026-11-08T06:31:52.000Z",
+    "httpStatus": 401,
+    "status": "UNAUTHENTICATED"
+  },
+  "comparisonBefore": {
+    "uid": "3C5SInr1sYYtjyHNy5Qvh9r8UrZ2",
+    "documents": 78,
+    "workspaceSha256": "8397412f693a2fdb274ec92d2d581ab564800bd880d4c2a2b8ab5cbf38ef2dd2",
+    "authSha256": "f8283a6dfc121db19b827abc326155f07ac816115f2bc3f5abf4a15a51df14e3",
+    "fencePresent": false
+  },
+  "state": "control_retired",
+  "accountRemoved": true,
+  "controlRetired": true,
+  "emulator": false,
+  "comparisonAfter": {
+    "uid": "3C5SInr1sYYtjyHNy5Qvh9r8UrZ2",
+    "documents": 78,
+    "workspaceSha256": "8397412f693a2fdb274ec92d2d581ab564800bd880d4c2a2b8ab5cbf38ef2dd2",
+    "authSha256": "f8283a6dfc121db19b827abc326155f07ac816115f2bc3f5abf4a15a51df14e3",
+    "fencePresent": false
+  },
+  "comparisonUnchanged": true,
+  "captureRecheck": {
+    "at": "2026-11-08T07:11:48.524Z",
+    "tokenExpiry": "2026-11-08T06:31:52.000Z",
+    "httpStatus": 401,
+    "status": "UNAUTHENTICATED"
+  },
+  "postRetirementProbe": {
+    "at": "2026-11-08T07:12:33.836Z",
+    "tokenExpiry": "2026-11-08T06:31:52.000Z",
+    "httpStatus": 401,
+    "status": "UNAUTHENTICATED"
+  }
+}

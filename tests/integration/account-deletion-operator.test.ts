@@ -6,6 +6,7 @@ import {
 import {
   Firestore,
   FieldValue,
+  Timestamp,
 } from '../../tools/account-deletion/node_modules/firebase-admin/lib/firestore/index.js';
 import { getAuth } from '../../tools/account-deletion/node_modules/firebase-admin/lib/auth/index.js';
 import { createFirebaseOperatorPort } from '../../tools/account-deletion/firebase-port';
@@ -338,6 +339,113 @@ it('renews an owned discovery through an actual server transaction without chang
     expect(callbacks.size).toBe(0);
     expect((await engine.inspect()).counts).toEqual({});
     expect((await getAuth(app).getUser(f.uid)).uid).toBe(f.uid);
+  } finally {
+    await f.runtime.close();
+  }
+});
+
+async function setSyntheticDueTimeline(uid: string) {
+  // Synthetic timeline only. Live deadlines always come from trusted observations.
+  const epoch = Math.floor(Date.now() / 1000) - 4300;
+  await db.doc(`accountDeletion/${uid}`).update({
+    requestedAt: new Timestamp(epoch, 0),
+    authTime: epoch,
+    authCreatedAt: new Timestamp(epoch - 1, 0),
+    dataVerifiedAt: new Timestamp(epoch + 1, 0),
+    authAbsentObservedAt: new Timestamp(epoch + 2, 0),
+    retireNotBefore: new Timestamp(epoch + 4202, 0),
+  });
+}
+
+it('retires a due synthetic fence while keeping a fresh UID independent', async () => {
+  const f = await fixture();
+  const control = db.doc(`accountDeletion/${f.uid}`);
+  try {
+    await f.engine.cleanup('execute', f.jobId);
+    await f.engine.finalizeAuth(f.jobId);
+    const retained = (await control.get()).data()!;
+    await expect(f.engine.retire(f.jobId)).rejects.toThrow('stage-pending');
+    expect((await control.get()).data()).toEqual(retained);
+
+    await setSyntheticDueTimeline(f.uid);
+    const freshUid = 'retirement-fresh-' + crypto.randomUUID();
+    await getAuth(app).createUser({ uid: freshUid });
+    const profile = db.doc(`users/${freshUid}/profile/main`);
+    await profile.set({
+      schemaVersion: 1,
+      recordVersion: 1,
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    });
+    const freshBefore = (await profile.get()).data();
+
+    await getAuth(app).createUser({ uid: f.uid });
+    await expect(f.engine.retire(f.jobId)).rejects.toThrow('auth-changed');
+    expect((await control.get()).exists).toBe(true);
+    await getAuth(app).deleteUser(f.uid);
+    const unexpected = db.doc(`users/${f.uid}/profile/main`);
+    await unexpected.set(freshBefore!);
+    await expect(f.engine.retire(f.jobId)).rejects.toThrow(
+      'reconciliation-required',
+    );
+    expect((await control.get()).exists).toBe(true);
+    await unexpected.delete();
+
+    await expect(f.engine.retire(f.jobId)).resolves.toMatchObject({
+      controlRetired: true,
+      emulator: true,
+    });
+    expect((await control.get()).exists).toBe(false);
+    expect((await unexpected.get()).exists).toBe(false);
+    await expect(getAuth(app).getUser(f.uid)).rejects.toMatchObject({
+      code: 'auth/user-not-found',
+    });
+    expect((await profile.get()).data()).toEqual(freshBefore);
+    expect((await getAuth(app).getUser(freshUid)).uid).toBe(freshUid);
+    await expect(f.engine.retire(f.jobId)).rejects.toThrow('control-absent');
+  } finally {
+    await f.runtime.close();
+  }
+});
+
+it('keeps the fence when a retirement worker loses its lease before the final transaction', async () => {
+  const f = await fixture();
+  try {
+    await f.engine.cleanup('execute', f.jobId);
+    await f.engine.finalizeAuth(f.jobId);
+    await setSyntheticDueTimeline(f.uid);
+    const control = db.doc(`accountDeletion/${f.uid}`);
+    const competingRun = crypto.randomUUID();
+    let authChecks = 0;
+    const port = f.runtime.port;
+    const staleWorker = createDeletionOperator(
+      {
+        ...port,
+        async auth(uid) {
+          const user = await port.auth(uid);
+          if (++authChecks === 2) {
+            // Inject a replacement lease after the final Auth check in the emulator.
+            const { leaseGeneration } = (await control.get()).data()!;
+            await control.update({
+              leaseGeneration: leaseGeneration + 1,
+              lease: {
+                runId: competingRun,
+                generation: leaseGeneration + 1,
+                expiresAt: Timestamp.fromMillis(Date.now() + 120000),
+              },
+            });
+          }
+          return user;
+        },
+      },
+      f.target,
+      crypto.randomUUID(),
+    );
+    await expect(staleWorker.retire(f.jobId)).rejects.toThrow('lease-lost');
+    const retained = decodeAccountDeletion((await port.get(control.path)).data);
+    expect(retained.state).toBe('awaiting_retirement');
+    expect(retained.lease?.runId).toBe(competingRun);
+    expect(await port.auth(f.uid)).toBeNull();
   } finally {
     await f.runtime.close();
   }

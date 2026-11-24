@@ -1,4 +1,8 @@
 import {
+  canaryWindowMatches,
+  isRetirementCanary,
+} from './retirement-canary-plan';
+import {
   addDeletionSeconds,
   assertDeletionTransition,
   compareDeletionTime,
@@ -38,6 +42,7 @@ export interface OperatorTransaction {
   ): void;
 }
 export interface OperatorPort {
+  retirementMode?: 'emulator';
   verifyProject(target: Target): Promise<void>;
   get(path: string): Promise<Snapshot>;
   collections(documentPath: string): Promise<string[]>;
@@ -71,6 +76,7 @@ export class OperatorError extends Error {
       | 'auth-uncertain'
       | 'reconciliation-required'
       | 'stage-pending'
+      | 'control-absent'
       | 'retirement-disabled',
     readonly diagnostic?: { httpStatus: number; reason: string },
   ) {
@@ -101,9 +107,13 @@ export function createDeletionOperator(
   function healthy() {
     if (heartbeatFailure !== undefined) throw heartbeatFailure;
   }
-  async function control(tx?: OperatorTransaction) {
+  async function control(
+    tx?: OperatorTransaction,
+    missing:
+      'reconciliation-required' | 'control-absent' = 'reconciliation-required',
+  ) {
     const snap = await (tx ?? port).get(path);
-    if (!snap.exists) throw new OperatorError('reconciliation-required');
+    if (!snap.exists) throw new OperatorError(missing);
     const c = decodeAccountDeletion(snap.data);
     if (c.jobId !== target.jobId) throw new OperatorError('job-mismatch');
     return { c, now: snap.readTime };
@@ -274,6 +284,89 @@ export function createDeletionOperator(
     };
   }
   return {
+    async retire(
+      confirmedJob: string,
+      mode: 'emulator' | 'canary' = 'emulator',
+    ) {
+      if (confirmedJob !== target.jobId)
+        throw new OperatorError('job-mismatch');
+      const canary = mode === 'canary';
+      if (
+        canary
+          ? port.retirementMode === 'emulator' || !isRetirementCanary(target)
+          : port.retirementMode !== 'emulator'
+      )
+        throw new OperatorError('retirement-disabled');
+      await port.verifyProject(target);
+      const { c: initial, now } = await control(undefined, 'control-absent');
+      function checkDeadline(
+        c: AccountDeletionControl,
+        observed: WorkspaceTimestamp,
+      ) {
+        if (
+          c.state !== 'awaiting_retirement' ||
+          !c.authAbsentObservedAt ||
+          !c.retireNotBefore
+        )
+          throw new OperatorError('stage-pending');
+        const due = addDeletionSeconds(
+          c.authAbsentObservedAt,
+          DELETION_RETIREMENT_SECONDS,
+        );
+        if (compareDeletionTime(c.retireNotBefore, due) !== 0 || c.pauseCode)
+          throw new OperatorError('reconciliation-required');
+        if (compareDeletionTime(observed, due) < 0)
+          throw new OperatorError('stage-pending');
+        if (canary && !canaryWindowMatches(c, observed))
+          throw new OperatorError('reconciliation-required');
+      }
+      async function checkEmpty(leased = false) {
+        if ((await discover(leased)).paths.length)
+          throw new OperatorError('reconciliation-required');
+        if (await port.auth(target.uid))
+          throw new OperatorError('auth-changed');
+      }
+      checkDeadline(initial, now);
+      await checkEmpty();
+      generation = await acquire(false, true);
+      const stopRenewal = startRenewal();
+      let deleted = false;
+      try {
+        if ((await discover(true)).paths.length)
+          throw new OperatorError('reconciliation-required');
+        await stopRenewal();
+        if (await port.auth(target.uid))
+          throw new OperatorError('auth-changed');
+        await port.transaction(async (tx) => {
+          const { c, now: observed } = await control(tx, 'control-absent');
+          owned(c, observed);
+          checkDeadline(c, observed);
+          if (
+            compareDeletionTime(
+              c.authAbsentObservedAt!,
+              initial.authAbsentObservedAt!,
+            ) !== 0 ||
+            c.authAttempt?.runId !== initial.authAttempt?.runId ||
+            c.authAttempt?.generation !== initial.authAttempt?.generation
+          )
+            throw new OperatorError('reconciliation-required');
+          tx.delete(path);
+        });
+        deleted = true;
+        if ((await port.get(path)).exists)
+          throw new OperatorError('reconciliation-required');
+        await checkEmpty();
+        return {
+          state: 'control_retired',
+          accountRemoved: true,
+          controlRetired: true,
+          emulator: !canary,
+        };
+      } finally {
+        await stopRenewal();
+        if (!deleted) await release().catch(() => {});
+      }
+    },
     async finalizeAuth(
       confirmedJob: string,
       recovery: { reconcileAuth?: boolean; priorRunStopped?: boolean } = {},

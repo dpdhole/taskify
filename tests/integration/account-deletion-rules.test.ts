@@ -1,5 +1,11 @@
+import {
+  baseCommitRequest,
+  baseReinitializationBatch,
+} from '../../tools/t7-safety/probes';
 import { afterAll, beforeAll, beforeEach, expect, it } from 'vitest';
 import fs from 'node:fs';
+import { createMockUserToken } from '@firebase/util';
+import type { Firestore } from 'firebase/firestore';
 import {
   assertFails,
   assertSucceeds,
@@ -8,10 +14,14 @@ import {
 import type { RulesTestEnvironment } from '@firebase/rules-unit-testing';
 import {
   collection,
+  disableNetwork,
+  enableNetwork,
   deleteDoc,
   doc,
   getDoc,
+  getDocFromCache,
   getDocs,
+  runTransaction,
   serverTimestamp,
   setDoc,
   Timestamp,
@@ -273,3 +283,190 @@ it('fences old UID A while distinct UID B can initialize', async () => {
   await assertSucceeds(fresh.commit());
   await assertFails(getDoc(doc(dbB, controlPath)));
 });
+
+it('T7 base probe is admissible before fencing and offline recreation is denied after cleanup', async () => {
+  const at = now();
+  const db = client(at);
+  await assertSucceeds(
+    baseReinitializationBatch(db as unknown as Firestore, uid).commit(),
+  );
+  await assertSucceeds(setDoc(doc(db, controlPath), request(at)));
+  await env.withSecurityRulesDisabled(async (c) => {
+    for (const suffix of [
+      'initialization/workspace',
+      'profile/main',
+      'settings/main',
+      'initializationStages/base',
+    ])
+      await deleteDoc(doc(c.firestore(), `users/${uid}/${suffix}`));
+  });
+  await disableNetwork(db);
+  const rejected = assertFails(
+    baseReinitializationBatch(db as unknown as Firestore, uid).commit(),
+  );
+  await enableNetwork(db);
+  await rejected;
+  await env.withSecurityRulesDisabled(async (c) => {
+    expect(
+      (await getDoc(doc(c.firestore(), `users/${uid}/profile/main`))).exists(),
+    ).toBe(false);
+    expect((await getDoc(doc(c.firestore(), controlPath))).exists()).toBe(true);
+  });
+});
+
+it('denies an admissible base write queued before the fence when it reconnects after admission', async () => {
+  const at = now();
+  const offline = client(at) as unknown as Firestore;
+  const online = client(at);
+  const baselineUid = 'unfenced-base-control';
+  await assertSucceeds(
+    baseReinitializationBatch(
+      client(at, 'google.com', baselineUid) as unknown as Firestore,
+      baselineUid,
+    ).commit(),
+  );
+  await disableNetwork(offline);
+  const outcome = expect(
+    baseReinitializationBatch(offline, uid).commit(),
+  ).rejects.toMatchObject({ code: 'permission-denied' });
+  const initialization = `users/${uid}/initialization/workspace`;
+  const pending = await getDocFromCache(doc(offline, initialization));
+  expect(pending.exists()).toBe(true);
+  expect(pending.metadata.hasPendingWrites).toBe(true);
+  expect((await getDoc(doc(online, initialization))).exists()).toBe(false);
+  expect((await getDoc(doc(online, controlPath))).exists()).toBe(false);
+  await assertSucceeds(setDoc(doc(online, controlPath), request(at)));
+  await enableNetwork(offline);
+  await outcome;
+  await env.withSecurityRulesDisabled(async (c) => {
+    expect((await getDoc(doc(c.firestore(), initialization))).exists()).toBe(
+      false,
+    );
+    expect((await getDoc(doc(c.firestore(), controlPath))).exists()).toBe(true);
+  });
+});
+
+it('denies an initialization transaction that began before admission and commits after the fence', async () => {
+  const at = now();
+  const writer = client(at);
+  const admission = client(at);
+  const initialization = `users/${uid}/initialization/workspace`;
+  let markRead!: () => void;
+  let releaseCommit!: () => void;
+  const readCompleted = new Promise<void>((resolve) => {
+    markRead = resolve;
+  });
+  const fenceCommitted = new Promise<void>((resolve) => {
+    releaseCommit = resolve;
+  });
+  const write = runTransaction(
+    writer,
+    async (tx) => {
+      expect((await tx.get(doc(writer, initialization))).exists()).toBe(false);
+      markRead();
+      await fenceCommitted;
+      for (const item of stageWrites(uid, 0))
+        tx.set(doc(writer, item.path), item.data);
+    },
+    { maxAttempts: 1 },
+  );
+  const settled = write.then(
+    () => null,
+    (error: unknown) => error,
+  );
+  try {
+    await Promise.race([
+      readCompleted,
+      settled.then(() => {
+        throw Error('Transaction ended before its server read');
+      }),
+    ]);
+    await assertSucceeds(setDoc(doc(admission, controlPath), request(at)));
+  } finally {
+    releaseCommit();
+  }
+  expect(await settled).toMatchObject({ code: 'permission-denied' });
+  await env.withSecurityRulesDisabled(async (c) => {
+    for (const item of stageWrites(uid, 0))
+      expect((await getDoc(doc(c.firestore(), item.path))).exists()).toBe(
+        false,
+      );
+    expect((await getDoc(doc(c.firestore(), controlPath))).exists()).toBe(true);
+  });
+});
+
+it('retains a base batch committed before admission for operator discovery', async () => {
+  const at = now();
+  const writer = client(at) as unknown as Firestore;
+  await assertSucceeds(baseReinitializationBatch(writer, uid).commit());
+  const admission = client(at);
+  await assertSucceeds(setDoc(doc(admission, controlPath), request(at)));
+  await assertFails(getDoc(doc(writer, `users/${uid}/profile/main`)));
+  await env.withSecurityRulesDisabled(async (c) => {
+    for (const item of stageWrites(uid, 0))
+      expect((await getDoc(doc(c.firestore(), item.path))).exists()).toBe(true);
+    expect((await getDoc(doc(c.firestore(), controlPath))).exists()).toBe(true);
+  });
+});
+
+it('models an absent fence: the old namespace needs authentication and the fresh UID remains independent', async () => {
+  const at = now();
+  const freshUid = 'fresh-after-retirement';
+  const fresh = client(at, 'google.com', freshUid) as unknown as Firestore;
+  const anonymous = env
+    .unauthenticatedContext()
+    .firestore() as unknown as Firestore;
+  await assertSucceeds(baseReinitializationBatch(fresh, freshUid).commit());
+  const profile = doc(fresh, `users/${freshUid}/profile/main`);
+  const before = (await getDoc(profile)).data();
+  await assertFails(baseReinitializationBatch(anonymous, uid).commit());
+  await assertFails(baseReinitializationBatch(fresh, uid).commit());
+  await env.withSecurityRulesDisabled(async (c) => {
+    expect((await getDoc(doc(c.firestore(), controlPath))).exists()).toBe(
+      false,
+    );
+    expect(
+      (await getDoc(doc(c.firestore(), `users/${uid}/profile/main`))).exists(),
+    ).toBe(false);
+  });
+  // Counterexample: a still-authenticated old UID could recreate records without a fence.
+  const old = client(at) as unknown as Firestore;
+  await assertSucceeds(baseReinitializationBatch(old, uid).commit());
+  expect((await getDoc(profile)).data()).toEqual(before);
+});
+
+it.each([false, true])(
+  'validates the live REST create batch with fence=%s',
+  async (fenced) => {
+    const at = now();
+    if (fenced)
+      await assertSucceeds(setDoc(doc(client(at), controlPath), request(at)));
+    const token = createMockUserToken(
+      {
+        sub: uid,
+        auth_time: at,
+        firebase: {
+          sign_in_provider: 'google.com',
+          identities: { 'google.com': ['synthetic-subject'] },
+        },
+      },
+      projectId,
+    );
+    const response = await fetch(
+      `http://127.0.0.1:8080/v1/projects/${projectId}/databases/(default)/documents:commit`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(baseCommitRequest(projectId, uid)),
+        signal: AbortSignal.timeout(10000),
+      },
+    );
+    const result = await response.json();
+    expect(response.status).toBe(fenced ? 403 : 200);
+    if (fenced) expect(result.error.status).toBe('PERMISSION_DENIED');
+    else expect(result.writeResults).toHaveLength(4);
+  },
+);

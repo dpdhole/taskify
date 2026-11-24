@@ -1,5 +1,11 @@
 # Account deletion operator — Auth finalization checkpoint
 
+Slice 5A is accepted and closed for supervised test-account reuse. The supported
+ordinary endpoint is awaiting_retirement after verified data/Auth removal.
+A distinct UID can register while the old fence is retained. General cloud
+retirement remains disabled. Review retained controls through the separately
+gated retirement work. [Closure and follow-ups](../../docs/slices/05A-delete-account/closure.md).
+
 Implements DA1 through **awaiting_retirement**. Trusted Auth deletion and explicit
 reconciliation are implemented; fence retirement remains disabled. Source:
 [DA1](../../docs/slices/05A-delete-account/contract.md).
@@ -48,7 +54,7 @@ alone does not establish remote cancellation. Wait for any live lease to expire;
 there is no force takeover. Inspect before and after recovery. A repeated resume in
 awaiting_retirement verifies Auth/data and repairs a missing deadline without
 resetting its existing anchor. Unexpected old-UID recreation blocks processing.
-retire always reports retirement-disabled before connecting. No force/ignore-unknown,
+Cloud retire reports retirement-disabled before connecting. No force/ignore-unknown,
 bulk target, email resolution or automatic expiry-based takeover of Auth work.
 
 Output contains state, aggregate known-family counts or bounded error codes, never
@@ -196,7 +202,7 @@ The owner subsequently reported both UAT jobs complete with fences retained; see
 | inspect | Read-only target, inventory and Auth identity inspection |
 | execute | Starts only from requested; cleans data, removes Auth last, retains fence |
 | resume | Reconciles unfinished work; auth_deleting needs both recovery flags |
-| retire | Always blocked before connecting; no retirement implementation enabled |
+| retire | Cloud disabled before connecting. Synthetic retirement is available only with --emulator and both checked loopback endpoints |
 
 | Option | Requirement |
 |---|---|
@@ -257,3 +263,24 @@ never enables retirement. Inspect should then show empty counts and authPresent=
 Do not assume a failed command rolled back prior cleanup. Lost Auth acknowledgements
 are reconciled by lookup. Sanitized diagnostics never establish successful deletion
 without authoritative absence. Keep both the control and immutable Auth anchor intact.
+
+### Synthetic retirement verification
+
+The retirement path is available only to the loopback emulator adapter. Run the
+existing operator emulator suite to exercise it on synthetic fixtures:
+
+```powershell
+npm.cmd run test:deletion-operator:local
+```
+
+The operator validates the exact job, supported policy, resolved deadline against
+server read time, absence of Auth and empty inventory. It then acquires a lease,
+rechecks inventory/Auth and transactionally deletes the control only when the lease,
+state, absence anchor and Auth attempt still match. Read-back verifies control,
+Auth and inventory absence. The fixture checks early refusal, recreated Auth and
+unexpected data, then successful synthetic retirement and fresh-UID preservation.
+A repeated retirement of an absent control reports `control-absent`.
+
+The emulator fixture uses a synthetic past timeline. Cloud `retire` stops before
+connecting, and the operator does not treat an elapsed deadline as authorization.
+A live canary still requires review of the gate and separate exact-target approval.

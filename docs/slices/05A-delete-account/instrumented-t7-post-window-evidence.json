@@ -1,0 +1,28 @@
+{
+  "target": {
+    "project": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "uid": "s4A0u7QRNYXwau4HGNXOmEMmU6F2",
+    "jobId": "6d09f862-74b1-492f-a607-91b201120724"
+  },
+  "inspection": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false,
+    "authMatches": false
+  },
+  "serverReadTime": {
+    "seconds": 1794032638,
+    "nanoseconds": 517295000
+  },
+  "authAbsentObservedAt": {
+    "seconds": 1794022061,
+    "nanoseconds": 180000000
+  },
+  "retireNotBefore": {
+    "seconds": 1794026261,
+    "nanoseconds": 180000000
+  },
+  "afterSafetyWindow": true,
+  "capturedTokenAfterExpiry": "not-observed-harness-state-reset"
+}

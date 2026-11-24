@@ -10,17 +10,19 @@ Foundation and Slice2 deployment evidence remains unchanged.
 | Channel | Purpose | Last recorded deployment state |
 |---|---|---|
 | `dev` | Development previews | Slice5A, app0.3.0, policy3/serverRelease3, version16f946a5cd6a587a from clean commit78e59ef |
-| `qc` | Testing and verification | Slice5A app0.3.0, shared policy3, exact dev version16f946a5cd6a587a; awaiting user UAT verification |
-| `uat` | External/beta review | Existing version7664413ad02b4666 preserved by the Slice5 dev release; no new UAT publication |
+| `qc` | Testing and verification | Slice5A app0.3.0, policy3, version c11eb2d24b38e44e from clean commit3acadd2; supervised testing slice closed |
+| `uat` | External/beta review | Expired channel absent in 24 November inventory; prior version7664413ad02b4666 is historical |
 | `live` | Product release when ready | Unchanged; no live release approved |
 
 Current [dev preview](https://taskify-dev-dpdhole--dev-por3atkf.web.app).
-Current [qc preview](https://taskify-dev-dpdhole--qc-xnxat620.web.app) serves the same
-Slice5A version after [5 November promotion](slices/05A-delete-account/qc-promotion.md).
+Current [qc preview](https://taskify-dev-dpdhole--qc-6130iy0v.web.app) serves the
+hostname-corrected Slice5A artifact after [24 November recreation and repair](slices/05A-delete-account/qc-promotion.md).
 No qc/uat Hosting publication was performed by the Slice5 dev release. The shared
 contract now requires app0.3.0; older artifacts are blocked.
 Migration evidence is in [channel migration](slices/hosting_channels-evidence.json).
-Latest recorded deployment: [Slice5A dev publication](slices/05A-delete-account/dev-deployment.md),
+Latest QC publication is version c11eb2d24b38e44e from clean local commit3acadd2,
+build3acadd26609f-41b33b3697e4eddb. [Recovery identity and hashes](slices/05A-delete-account/recovery-review-evidence.json).
+The latest dev publication is [Slice5A dev publication](slices/05A-delete-account/dev-deployment.md),
 clean local commit `78e59ef`, version `16f946a5cd6a587a`, published on 5 November
 with shared DA1 Rules and policy revision 3. No push occurred.
 [Slice4 verification preview](slices/04-identity-linking/preview.md) remains historical.
@@ -80,7 +82,9 @@ isolation needs a separately agreed environment/project decision.
 Use up to30 days for preview channels. The channels created on23 October2026
 initially expire **22 November2026 at13:19 IST**. The4 November dev deployment
 renewed dev to **4 December2026 at20:44 IST**; the 5 November Slice5A deployment
-preserved that expiry. qc/uat retain their recorded22 November expiry.
+preserved that expiry. The expired qc channel was recreated on24 November at a
+new URL and expires **24 December2026 at08:41:40 IST**. The expired uat channel
+was absent in the24 November inventory.
 Renew only on explicit instruction; no
 scheduled renewal or deployment. Check and report expiry at each hosting action.
 Expiry may remove a channel and invalidate its URL; recreating it can change the

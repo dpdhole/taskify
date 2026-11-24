@@ -1,5 +1,16 @@
 # Slice 5A — Technical implementation contract
 
+## Acceptance scope amendment, 24 November 2026
+
+The owner accepted closure as a supervised testing utility supporting reuse of
+limited provider identities. Ordinary deletion processing finishes at
+awaiting_retirement with verified workspace/Auth removal and fresh-UID
+registration. Routine cloud retirement remains disabled. The earlier full T7/T8
+requirements apply before general retirement enablement and broader release
+acceptance. They are carried into the [closure follow-up record](closure.md#explicit-follow-up-work)
+and no longer block this bounded slice closure. Existing destructive targeting,
+fence semantics, state transitions and operator safeguards continue to apply.
+
 5 November 2026. Contract **DA1**, request/control schema **1**, inventory **1**,
 operator policy **1**. Implements the [accepted preparation](index.md#accepted-implementation-preparation--5-november-2026).
 This is the implementation target, not executed Rules, provider, cleanup or

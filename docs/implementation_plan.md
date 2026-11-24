@@ -1,5 +1,15 @@
 # Taskify implementation slices
 
+## Current delivery status, 24 November 2026
+
+**Slice 5A is accepted and closed for supervised test-account reuse.**
+The owner accepted this scope after verified deletion, fresh-UID reuse and the
+final safety/recovery review. The [closure record](slices/05A-delete-account/closure.md)
+carries general retirement enablement, broader recovery rehearsal and rollout
+checks as explicit follow-up work. Ordinary cloud retirement remains gated.
+**Next implementation slice is Slice 6 navigation.** Slice 4 linking remains held.
+The dated checkpoints below are historical and do not reopen the accepted slice.
+
 5 November 2026. **Owner-agreed order.** Slices 1–2 are implemented; Slice 3
 Google/Microsoft personal-account workflows are owner-accepted. Slice 4 remains
 open/on hold and unaccepted. Slice 5 provisioning is implemented and deployed to

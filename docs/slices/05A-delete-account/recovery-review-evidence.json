@@ -1,0 +1,38 @@
+{
+  "observedAt": "2026-11-24T05:18:09.704Z",
+  "readOnly": true,
+  "channels": [
+    {
+      "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc",
+      "url": "https://taskify-dev-dpdhole--qc-6130iy0v.web.app",
+      "expireTime": "2026-12-24T03:11:40.000231719Z",
+      "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/c11eb2d24b38e44e",
+      "release": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/qc/releases/1795490723572000"
+    },
+    {
+      "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev",
+      "url": "https://taskify-dev-dpdhole--dev-por3atkf.web.app",
+      "expireTime": "2026-12-04T15:14:17.787049294Z",
+      "version": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/versions/16f946a5cd6a587a",
+      "release": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/dev/releases/1793888119718000"
+    },
+    {
+      "name": "projects/taskify-dev-dpdhole/sites/taskify-dev-dpdhole/channels/live",
+      "url": "https://taskify-dev-dpdhole.web.app"
+    }
+  ],
+  "qcRelease": {
+    "appVersion": "0.3.0",
+    "buildId": "3acadd26609f-41b33b3697e4eddb",
+    "commit": "3acadd26609ff03988db99689e0c0fac4b17b296",
+    "sourceDirty": false,
+    "builtAt": "2026-11-24T03:24:04.129Z"
+  },
+  "artifactHashes": {
+    "index.html": "e15be7f542fc7cdacb2517271661c560f8f6d8add1684c7d7d7abe1bd94a25c5",
+    "release.json": "b7ef433bcff4bb2cef3a4aaf362bd7328879b631187644b52fa2794224673972",
+    "assets/index-CTvmDJxE.js": "51bab477614645a0dbc1e2f4b80543c0cf8a3e0d6df94c5eadded2e88b3fb09d",
+    "assets/index-tlxMUBkc.css": "26f94c1b406f266022b4135113699dd5e9ab136cbe357656bfc4ba166d1f5e5f"
+  },
+  "qcAuthDomainAuthorized": true
+}

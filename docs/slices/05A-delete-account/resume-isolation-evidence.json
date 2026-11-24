@@ -1,0 +1,52 @@
+{
+  "observedAt": "2026-11-06T15:07:16.798Z",
+  "freshUid": "3C5SInr1sYYtjyHNy5Qvh9r8UrZ2",
+  "oldTarget": {
+    "project": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "uid": "Td9Kpq9i67MiLUpOjy6nwUuVgWZ2",
+    "jobId": "62abaeaf-af43-461e-9365-17e6fab81e66"
+  },
+  "oldBefore": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false,
+    "authMatches": false
+  },
+  "outcome": {
+    "state": "awaiting_retirement",
+    "accountRemoved": true,
+    "controlRetired": false,
+    "retirementEnabled": false,
+    "retireNotBefore": {
+      "seconds": 1793976431,
+      "nanoseconds": 598000000
+    }
+  },
+  "oldAfter": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false,
+    "authMatches": false
+  },
+  "before": {
+    "documents": 78,
+    "workspaceSha256": "c4e7906d9e5e587dea93d18380587329c7c0604411a1875ddb967d87d61fe8e0",
+    "authSha256": "f8283a6dfc121db19b827abc326155f07ac816115f2bc3f5abf4a15a51df14e3",
+    "authPresent": true,
+    "fencePresent": false
+  },
+  "after": {
+    "documents": 78,
+    "workspaceSha256": "c4e7906d9e5e587dea93d18380587329c7c0604411a1875ddb967d87d61fe8e0",
+    "authSha256": "f8283a6dfc121db19b827abc326155f07ac816115f2bc3f5abf4a15a51df14e3",
+    "authPresent": true,
+    "fencePresent": false
+  },
+  "freshUnchanged": true,
+  "limitations": [
+    "Privileged inspection bypasses client Security Rules",
+    "Hashes exclude raw user contents from persisted evidence",
+    "No fence retirement or fresh-account mutation requested"
+  ]
+}

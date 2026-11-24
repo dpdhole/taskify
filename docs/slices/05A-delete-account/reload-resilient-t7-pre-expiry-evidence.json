@@ -1,0 +1,199 @@
+{
+  "uid": "s0SIcYWa7CaO9vUqT38SoxyzM7P2",
+  "baseline": true,
+  "armed": true,
+  "removed": true,
+  "queued": true,
+  "tokenExpiry": "Sat, 07 Nov 2026 07:50:30 GMT",
+  "authAbsentObservedAt": {
+    "seconds": 1794034469,
+    "nanoseconds": 778000000
+  },
+  "retireNotBefore": {
+    "seconds": 1794038669,
+    "nanoseconds": 778000000
+  },
+  "recoveredProbeOnly": false,
+  "t7Passed": false,
+  "project": "taskify-dev-dpdhole",
+  "jobId": "77815785-032e-4cd8-a06b-780b6b590f5e",
+  "operatorReadBack": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false
+  },
+  "events": [
+    {
+      "at": "2026-11-07T06:50:49.659Z",
+      "kind": "baseline-valid-base-batch-accepted",
+      "data": {
+        "records": 4
+      }
+    },
+    {
+      "at": "2026-11-07T06:50:52.471Z",
+      "kind": "original-token-captured",
+      "data": {
+        "issuedAt": "Sat, 07 Nov 2026 06:50:30 GMT",
+        "expiresAt": "Sat, 07 Nov 2026 07:50:30 GMT",
+        "authTime": "Sat, 07 Nov 2026 06:50:30 GMT"
+      }
+    },
+    {
+      "at": "2026-11-07T06:50:52.476Z",
+      "kind": "preexisting-profile-stream",
+      "data": {
+        "exists": true,
+        "fromCache": true,
+        "pendingWrites": false
+      }
+    },
+    {
+      "at": "2026-11-07T06:50:52.506Z",
+      "kind": "preexisting-profile-stream",
+      "data": {
+        "exists": true,
+        "fromCache": false,
+        "pendingWrites": false
+      }
+    },
+    {
+      "at": "2026-11-07T06:50:52.521Z",
+      "kind": "offline-client-disconnected",
+      "data": {}
+    },
+    {
+      "at": "2026-11-07T06:51:53.500Z",
+      "kind": "preexisting-profile-stream-error",
+      "data": {
+        "code": "permission-denied"
+      }
+    },
+    {
+      "at": "2026-11-07T06:52:17.218Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "requested"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:19.673Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "requested"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:19.723Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "cleaning"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:25.050Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "cleaning"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:26.005Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "data_verified"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:26.055Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "data_verified"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:27.896Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "data_verified"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:28.319Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "auth_deleting"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:29.644Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "awaiting_retirement"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:29.694Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "awaiting_retirement"
+      }
+    },
+    {
+      "at": "2026-11-07T06:54:29.775Z",
+      "kind": "job-server-state",
+      "data": {
+        "state": "awaiting_retirement"
+      }
+    },
+    {
+      "at": "2026-11-07T06:55:20.801Z",
+      "kind": "online-reinitialization-rejected",
+      "data": {
+        "code": "permission-denied"
+      }
+    },
+    {
+      "at": "2026-11-07T06:55:31.655Z",
+      "kind": "reinitialization-queued-after-removal",
+      "data": {}
+    },
+    {
+      "at": "2026-11-07T06:55:36.480Z",
+      "kind": "offline-client-reconnected",
+      "data": {}
+    },
+    {
+      "at": "2026-11-07T06:55:36.583Z",
+      "kind": "queued-write-rejected",
+      "data": {
+        "code": "permission-denied"
+      }
+    },
+    {
+      "at": "2026-11-07T06:55:45.636Z",
+      "kind": "captured-token-server-read",
+      "data": {
+        "uid": "s0SIcYWa7CaO9vUqT38SoxyzM7P2",
+        "tokenExpiry": "2026-11-07T07:50:30.000Z",
+        "httpStatus": 403,
+        "status": "PERMISSION_DENIED",
+        "localClockAfterTokenExpiry": false
+      }
+    },
+    {
+      "at": "2026-11-07T06:55:47.666Z",
+      "kind": "refresh-rejected-after-removal",
+      "data": {
+        "code": "auth/user-token-expired"
+      }
+    },
+    {
+      "at": "2026-11-07T06:55:47.749Z",
+      "kind": "job-stream-error",
+      "data": {
+        "code": "permission-denied"
+      }
+    }
+  ]
+}

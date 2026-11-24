@@ -1,0 +1,15 @@
+{
+  "target": {
+    "project": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "uid": "NI96NtWbYzSyepQE9cdP5PnbbEq1",
+    "jobId": "0c7f0ff6-47b6-4b8d-884f-caffe9da9a0d"
+  },
+  "scope": "workspace-cleanup-only",
+  "inspection": {
+    "state": "data_verified",
+    "counts": {},
+    "authPresent": true,
+    "authMatches": true
+  }
+}

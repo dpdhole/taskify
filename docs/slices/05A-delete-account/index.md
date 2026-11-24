@@ -1,6 +1,24 @@
 # Slice 5A — Delete Account
 
-Status: **ready and awaiting user verification, 5 November 2026; deployed to dev
+Status **accepted and closed on 24 November 2026 for supervised test-account reuse**.
+The [closure record](closure.md) defines accepted delivery and explicit follow-up
+work. General cloud retirement remains gated. The final recovery review is
+complete for this scope, with a broader deployed rehearsal carried forward.
+Slice 6 navigation is next. The dated checkpoints below preserve historical
+implementation and verification context.
+
+## Verification assessment, 24 November 2026
+
+The live post-retirement read and write canaries passed, with independent old
+namespace absence and comparison workspace preservation. The [T7 assessment](t7-verification.md#current-gap-assessment-24-november-2026)
+keeps general retirement acceptance open for fully delivered in-flight operation
+ordering and the operational quiescence assumption. The [release recovery review](release-verification.md#recovery-review-24-november-2026)
+pins the current QC recovery artifact and prepares the bounded rehearsal.
+Current-host provider/device checks and a deployed recovery rehearsal are
+follow-up work under the accepted supervised testing closure. The following
+checkpoints are historical context.
+
+Historical status: **ready and awaiting user verification, 5 November 2026; deployed to dev
 as app 0.3.0 with shared DA1 Rules and policy revision 3; slice unaccepted**.
 The owner confirmed the revision 3 dev deployment. The supplied screenshot shows
 a signed-in session, verified compatibility, Workspace ready and Delete Account

@@ -1,0 +1,58 @@
+{
+  "target": {
+    "project": "taskify-dev-dpdhole",
+    "projectNumber": "243252492098",
+    "uid": "NI96NtWbYzSyepQE9cdP5PnbbEq1",
+    "jobId": "0c7f0ff6-47b6-4b8d-884f-caffe9da9a0d"
+  },
+  "cloud": {
+    "revision": 3,
+    "serverRelease": 3,
+    "ruleset": "projects/taskify-dev-dpdhole/rulesets/564f5136-8a2f-4016-b851-36c1df0707ef",
+    "rulesSha256": "6bea05acb65fd66f39f71964b7e4356d15057fb8b903dad2792cb7bbe6ff8536"
+  },
+  "inspection": {
+    "state": "awaiting_retirement",
+    "counts": {},
+    "authPresent": false,
+    "authMatches": false
+  },
+  "serverReadTime": {
+    "seconds": 1795496704,
+    "nanoseconds": 153424000
+  },
+  "authAbsentObservedAt": {
+    "seconds": 1795491757,
+    "nanoseconds": 697000000
+  },
+  "retireNotBefore": {
+    "seconds": 1795495957,
+    "nanoseconds": 697000000
+  },
+  "captureEndsAt": "2026-11-24T06:28:50.000Z",
+  "preRetirementProbe": {
+    "at": "2026-11-24T04:59:40.598Z",
+    "tokenExpiry": "2026-11-24T04:28:50.000Z",
+    "httpStatus": 401,
+    "status": "UNAUTHENTICATED"
+  },
+  "comparisonBefore": {
+    "uid": "3C5SInr1sYYtjyHNy5Qvh9r8UrZ2",
+    "documents": 78,
+    "workspaceSha256": "8397412f693a2fdb274ec92d2d581ab564800bd880d4c2a2b8ab5cbf38ef2dd2",
+    "authSha256": "f8283a6dfc121db19b827abc326155f07ac816115f2bc3f5abf4a15a51df14e3",
+    "fencePresent": false
+  },
+  "state": "control_retired",
+  "accountRemoved": true,
+  "controlRetired": true,
+  "emulator": false,
+  "comparisonAfter": {
+    "uid": "3C5SInr1sYYtjyHNy5Qvh9r8UrZ2",
+    "documents": 78,
+    "workspaceSha256": "8397412f693a2fdb274ec92d2d581ab564800bd880d4c2a2b8ab5cbf38ef2dd2",
+    "authSha256": "f8283a6dfc121db19b827abc326155f07ac816115f2bc3f5abf4a15a51df14e3",
+    "fencePresent": false
+  },
+  "comparisonUnchanged": true
+}

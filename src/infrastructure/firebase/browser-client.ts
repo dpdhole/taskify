@@ -6,6 +6,7 @@ export const canonicalAuthDomain = 'taskify-dev-dpdhole.firebaseapp.com';
 export const previewAuthDomains = [
   'taskify-dev-dpdhole--dev-por3atkf.web.app',
   'taskify-dev-dpdhole--qc-xnxat620.web.app',
+  'taskify-dev-dpdhole--qc-6130iy0v.web.app',
   'taskify-dev-dpdhole--uat-hzsuai7v.web.app',
 ] as const;
 const hostingDomains: readonly string[] = [

@@ -1,0 +1,23 @@
+{
+  "project": "taskify-dev-dpdhole",
+  "uid": "XHAEHgdMnqhoq8NHi0Sdks8KSee2",
+  "jobId": "cac7d65a-0edd-40fe-bfa3-6c70b0420fdf",
+  "evidenceSource": "Owner-supplied live relay events and independent operator inspection",
+  "partialCommitOpenedAt": "2026-11-07T12:06:10.557Z",
+  "intentDispatchedAt": "2026-11-07T12:06:10.561Z",
+  "initialIntentAcknowledgement": "unverified",
+  "listenerState": "requested",
+  "relay": {
+    "fenceUpdateTime": "2026-11-07T12:06:11.009740Z",
+    "fullBodySent": true,
+    "httpStatus": 403,
+    "status": "PERMISSION_DENIED"
+  },
+  "operatorInspection": {
+    "state": "requested",
+    "counts": {},
+    "authPresent": true,
+    "authMatches": true
+  },
+  "scope": "Partial request started before fence admission. The relay completed its body after reading the matching requested fence."
+}

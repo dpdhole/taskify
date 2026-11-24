@@ -1,5 +1,108 @@
 # Slice 5A — Cloud preflight and release verification checkpoint
 
+The final review is complete for the owner-accepted supervised testing scope.
+The [closure record](closure.md) carries the distinct deployed recovery rehearsal
+and broader rollout checks as follow-up work. The dated review below supplies
+artifact identity, evidence and the prepared rehearsal procedure.
+
+## Recovery review, 24 November 2026
+
+This review supersedes the release-readiness statements in the historical
+5 November checkpoint below. T7 live post-retirement write evidence is recorded,
+while general retirement acceptance remains open. This checkpoint performed
+read-only cloud inspection and local validation.
+
+### Current recoverable artifact
+
+| Item | Reviewed value |
+|---|---|
+| Target | Existing QC channel at taskify-dev-dpdhole--qc-6130iy0v.web.app |
+| Hosting version | c11eb2d24b38e44e |
+| Current release | 1795490723572000 |
+| App/build | 0.3.0 / 3acadd26609f-41b33b3697e4eddb |
+| Source | Clean commit 3acadd26609ff03988db99689e0c0fac4b17b296 |
+| Local source and artifact | Sibling worktree taskify-qc-host-renewal, branch fix/qc-host-renewal-20261124, dist-auth |
+| Retained files | index.html, release.json, JS and CSS; all four hashes match HTTPS |
+| QC expiry | 24 December 2026, 08:41:40 IST |
+| Backend compatibility | DA1 Rules, revision 3/serverRelease 3, app minimum/maximum 0.3.0 |
+| Auth hostname | New QC hostname independently confirmed authorized |
+
+[Read-only recovery evidence](recovery-review-evidence.json) contains current
+channel identities, clean release metadata and file hashes. The existing dev
+version 16f946a5cd6a587a is app 0.3.0 but lacks the new QC hostname. Its restoration
+already produced the Auth/compatibility configuration error. App version equality
+alone therefore cannot select a recovery artifact for the recreated QC channel.
+The subsequent hostname fix demonstrated forward recovery to the sign-in screen.
+It did not exercise a distinct deployed rollback and restoration sequence.
+
+### Remaining release gates
+
+| Gate | Assessment | Completion evidence |
+|---|---|---|
+| Recovery artifact provenance | Current clean artifact verified | Preserve exact files/hash manifest and version availability before a future release |
+| Hosting recovery rehearsal | Pending | Approved QC switch to a distinct compatible candidate, restoration of saved version and independent browser/cloud read-back |
+| Shared policy/Rules safety | DA1 and revision 3 independently read during the live write check | Capture exact before/after identity around the rehearsal; retain all supported accountDeletion fields/fence checks |
+| Pending deletion recovery UI | Local controller and component tests pass; prior live second-tab/status recovery recorded | Show current recovery build on an already-requested disposable job, with workspace hidden and refresh/logout functional |
+| Current provider/device matrix | Earlier evidence spans older build/hostname | Current QC Google and Microsoft personal popup and real mobile redirect, including proof cancellation and same UID return |
+| Build/operator provenance | QC fixed source is clean; T7 operator/harness/evidence changes remain uncommitted in verification checkout | Review and commit the final operator/harness changes and preserve exact lockfile/toolchain identity before release acceptance |
+| Operator permissions and environment | Prior live actions succeeded | Recheck the selected operator principal's permissions, endpoint identity, billing/resource baseline before rehearsal execution |
+| Final owner acceptance | Pending | Explicit acceptance of the remaining T7 assumptions and completed T8 evidence |
+
+### Reviewable QC recovery sequence
+
+1. Record the existing QC release/version and expiry, exact active Rules hash and
+   compatibility content/revision. Capture bounded job state/count metadata and
+   comparison hashes for the selected fixtures. Select the exact operator source.
+2. Verify the saved c11eb2d24b38e44e version is still finalized and the retained
+   artifact hashes match. Confirm its current-host support and app 0.3.0 capability
+   families. Verify provider callbacks, allowed Auth domain and API-key restrictions
+   without retrieving secret values. Record source and destination before changes.
+3. Select a distinct reviewed clean compatible rehearsal candidate. Approve QC for
+   both the candidate switch and restoration to the saved version in one bounded
+   instruction. A same-version clone is a no-op and cannot prove recovery.
+4. Switch only QC Hosting to the approved candidate. Verify its expected identity
+   and UI, then restore the saved version with the command below. Inspect any
+   ambiguous response before retrying. Preserve the before/after release identities.
+5. Verify restored HTTPS hashes, headers, bare-root refresh and 390px/desktop layout.
+   Check compatibility readiness, normal sign-in and a pending deletion status UI.
+   Use an existing requested fixture if available. Creation or processing of another
+   deletion request requires the normal explicit target workflow.
+6. Independently compare policy, Rules, fixtures and unrelated channel identities.
+   Record any expiry adjustment by the Hosting service. Resolve each discrepancy
+   before acceptance. Application restoration preserves the DA1 backend contract
+   and the original deletion jobs' monotonic states.
+
+The following restoration template targets the reviewed version and QC only. It
+is prepared for the approved rehearsal and was not executed by this review.
+
+```powershell
+node node_modules/firebase-tools/lib/bin/firebase.js hosting:clone taskify-dev-dpdhole:taskify-dev-dpdhole@c11eb2d24b38e44e taskify-dev-dpdhole:taskify-dev-dpdhole:qc --project taskify-dev-dpdhole --config firebase.hosting.json --non-interactive --json
+```
+
+Require the existing QC channel before this command. CLI cloning into an absent
+channel can create it and synchronize an Auth domain. Expired channels therefore
+need separate recreation review. The current candidate's same-site version can
+be reused by a new release without rebuilding. [Hosting version cloning](https://firebase.google.com/docs/hosting/manage-hosting-resources).
+
+For backend incidents, hold retirement and preserve existing fences. Prepare a
+corrected Rules/policy pair with DA1 semantics and monotonic compatibility revision,
+using the publisher's expected-revision transaction guard. Never use a stale
+revision-3 candidate to overwrite a later revision. Restore a compatible client
+before resuming operator work. Lost Auth outcomes require exact-job reconciliation
+with the prior-run-stopped attestation. Unexpected recreated old Auth/data requires
+incident investigation and separately authorized correction.
+
+### Local review checks
+
+Seventy-five focused domain, operator, controller, canary and compatibility
+publication tests passed. Five deletion UI component tests passed. Operator
+typechecks and revision-3 candidate validation passed. These checks substantiate
+the local recovery behavior and publication guards. The historical Rules/operator
+emulator results and live tests retain their recorded scope. A deployed rollback
+rehearsal and the current provider/device matrix remain outstanding.
+
+## Historical preflight, 5 November 2026
+
 5 November 2026. Owner instructed proceeding to real-provider, cloud, T7 safety and
 release verification. Non-destructive checks completed first. This record does not
 authorize publication or deletion of an unspecified account. Slice 5A is unaccepted.

@@ -1,5 +1,42 @@
 # Slice 5A — QC promotion, 5 November 2026
 
+Slice 5A is [accepted and closed for supervised test-account reuse](closure.md)
+as of24 November. The current QC publication is described below. Earlier UAT
+checkpoints retain their historical scope and dates.
+
+## QC channel recreated on 24 November 2026
+
+The owner requested renewal after expiry. Firebase had removed the old QC
+channel. QC was recreated for 30 days at
+https://taskify-dev-dpdhole--qc-6130iy0v.web.app and the existing finalized
+version 16f946a5cd6a587a was restored. The release is
+1795489918535000 and expires 24 December 2026 at 08:41:40 IST.
+HTTPS verification returned the Taskify HTML and its expected asset references.
+
+The restored artifact initially rejected the new hostname, producing both Auth
+and compatibility configuration errors. A one-line allowlist fix was committed
+in isolated worktree taskify-qc-host-renewal on branch
+fix/qc-host-renewal-20261124, local commit
+3acadd26609ff03988db99689e0c0fac4b17b296. It derives from the deployed source
+78e59ef and contains only the added QC hostname. Auth-mode build
+3acadd26609f-41b33b3697e4eddb reports sourceDirty=false. Four configuration tests
+and typechecks passed. QC Hosting version c11eb2d24b38e44e was published with
+authorized-domain synchronization disabled, retaining the channel expiry.
+All four public artifact file hashes match HTTPS. Browser verification at the
+bare QC root shows the signed-out screen and Google/Microsoft sign-in controls.
+
+The owner subsequently explicitly authorized the new QC hostname in Firebase
+Auth. The update added only taskify-dev-dpdhole--qc-6130iy0v.web.app. Read-back
+confirmed that hostname authorized and every previous entry preserved.
+Provider sign-in and redirect configuration still require verification.
+
+The subsequent owner-created deletion request for UID NI96NtWbYzSyepQE9cdP5PnbbEq1
+reached the operator and completed the live write canary. This supplies a current
+Google workflow observation. It does not establish the full Microsoft/mobile
+matrix. Broader provider/device checks are recorded in the closure follow-ups.
+
+## Historical promotion and UAT checkpoints
+
 Owner requested app 0.3.0/revision 3 on qc, then awaiting user UAT verification.
 The exact dev Hosting version `16f946a5cd6a587a` was promoted without rebuilding.
 

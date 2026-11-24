@@ -1,6 +1,86 @@
 # Taskify — Project Status
 
+## 2026-11-24 — Slice 5A accepted and closed for supervised testing
+
+The owner accepted bounded closure after the final safety/recovery assessment.
+Verified workspace/Auth deletion and fresh-UID registration support reuse of
+limited test identities. [Closure](slices/05A-delete-account/closure.md) records
+evidence, retained-fence handling and deferred general retirement/release work.
+General cloud retirement stays gated. Next is Slice 6 navigation. Pending source
+and evidence changes await repository review and commit.
+
+## 2026-11-24 — Slice 5A safety and release recovery assessed
+
+[T7 assessment](slices/05A-delete-account/t7-verification.md#current-gap-assessment-24-november-2026)
+records the passed scoped probes and remaining in-flight/quiescence assumptions.
+[Recovery review](slices/05A-delete-account/release-verification.md#recovery-review-24-november-2026)
+pins verified QC version c11eb2d24b38e44e and its clean source/hashes. A distinct
+deployed restoration rehearsal, current-host provider/device matrix and owner
+acceptance remain pending. General retirement stays disabled.
+
+## 2026-11-24 — Slice 5A live post-retirement write probe verified
+
+The original captured token's four-record write returned HTTP 401 after the
+separately authorized fence retirement. Independent inspection confirmed zero
+recreated records, absent old Auth/control and matching comparison workspace
+fingerprints. [Evidence](slices/05A-delete-account/live-write-canary-post-write-evidence.json).
+Final T7 assessment of requests already processing at Firestore and the
+cross-service quiescence assumption, release recovery and owner acceptance
+remain pending.
+
 > **Controlling revision (2026-10-19):** Owner-agreed major redesign is documented in **docs/product_spec.md §17**. Its three-state lifecycle, independent pause, unified All Tasks/Saved Views and Home Dashboard supersede contradictory earlier Issue 11–18 sections below. Earlier sections remain historical context. No revised code, deployment or beta/production migration is claimed; old environments will be abandoned. Implementation-design details deferred to vertical slices are enumerated in §17.10; the approved Reference and Global Search amendment is §17.8. **§18 records the Firebase Spark PoC/beta architectural baseline and corrected Task/Discussion/Todo/Activity Log ownership.** The legacy specification remains immutable.
+
+## 2026-11-07 — Slice 5A transaction ordering and fence-absent model verified locally
+
+- The production Rules emulator suite passed 107 cases. A transaction that starts
+  before admission is denied when its commit follows the fence. A write that wins
+  the order remains discoverable to cleanup.
+- A fence-absent synthetic fixture denies old-namespace writes without old Auth.
+  A still-authenticated old UID can recreate data, demonstrating the required
+  token-safety prerequisite. Fresh-UID data remained independent.
+- [Verification and canary gates](slices/05A-delete-account/t7-verification.md)
+  distinguish local evidence from live in-flight and post-retirement coverage.
+  Cloud retirement remains disabled.
+
+## 2026-11-07 — Slice 5A pre-fence offline replay denied
+
+- Disposable job `147eb917-a539-48bf-bdc7-ad5c64312eeb` observed a valid base batch
+  pending offline before the fence and a permission-denied replay after removal.
+- Independent read-back after reconnect confirmed empty inventory, Auth absent and
+  the retained awaiting_retirement fence. [Evidence](slices/05A-delete-account/pre-fence-queue-evidence.json).
+- The local production Rules suite passed 104 cases. In-flight requests and
+  post-retirement behavior remain open. Retirement is disabled.
+
+## 2026-11-07 — Slice 5A recovered token rejected after the safety window
+
+- Instrumented run for job `77815785-032e-4cd8-a06b-780b6b590f5e` verified the
+  live initialization baseline, stream denial, online/queued recreation denial,
+  forced Auth refresh rejection and original-token 403 before expiry.
+- Same-tab reload recovered the process-held token. The after-window probe returned
+  401 UNAUTHENTICATED. Independent read-back confirmed empty inventory, Auth absence,
+  retained awaiting_retirement fence and unchanged trusted timestamps.
+- [T7 evidence](slices/05A-delete-account/t7-verification.md) records the scope.
+  Pre-fence in-flight writes and retirement canary remain open. Retirement disabled.
+
+## 2026-11-06 — Slice 5A live fresh-UID cross-account read denial passed
+
+- Owner confirmed authentication as fresh UID 3C5SInr1sYYtjyHNy5Qvh9r8UrZ2.
+- Own profile/initialization server reads passed; all nine old-UID job/profile/
+  initialization reads were permission-denied across the three deleted accounts.
+- [Live client evidence](slices/05A-delete-account/client-isolation-evidence.json)
+  complements the separately verified cloud old-job resume isolation check.
+- Scoped read/resume isolation passes. Cross-UID writes and remaining stale-token,
+  offline/queued-write, stream and retirement/T7 gates are not established.
+
+## 2026-11-06 — Slice 5A cloud old-job resume isolation verified
+
+- Fresh UID `3C5SInr1sYYtjyHNy5Qvh9r8UrZ2` was provided by the owner.
+- Resuming old job `62abaeaf-af43-461e-9365-17e6fab81e66` preserved all 78 fresh
+  workspace documents and the Auth UID/creation-time fingerprint; fresh fence absent.
+- Old job remains awaiting_retirement, empty and Auth-absent. No fence retirement.
+- Production Rules emulator suite passes 102 cases; operator units pass 28 cases.
+  Live browser cross-UID access denial and remaining T7 evidence are still pending.
+- [Evidence and limits](slices/05A-delete-account/t7-verification.md).
 
 ## 2026-11-06 — Slice 5A untouched desktop tab updates live
 
