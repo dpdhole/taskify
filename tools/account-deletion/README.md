@@ -197,23 +197,23 @@ The owner subsequently reported both UAT jobs complete with fences retained; see
 
 ## Command and option reference
 
-| Command | Behavior |
-|---|---|
-| inspect | Read-only target, inventory and Auth identity inspection |
-| execute | Starts only from requested; cleans data, removes Auth last, retains fence |
-| resume | Reconciles unfinished work; auth_deleting needs both recovery flags |
-| retire | Cloud disabled before connecting. Synthetic retirement is available only with --emulator and both checked loopback endpoints |
+| Command | Behavior                                                                                                                     |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| inspect | Read-only target, inventory and Auth identity inspection                                                                     |
+| execute | Starts only from requested; cleans data, removes Auth last, retains fence                                                    |
+| resume  | Reconciles unfinished work; auth_deleting needs both recovery flags                                                          |
+| retire  | Cloud disabled before connecting. Synthetic retirement is available only with --emulator and both checked loopback endpoints |
 
-| Option | Requirement |
-|---|---|
-| --project | Required; taskify-dev-dpdhole only |
-| --project-number | Required; 243252492098 only |
-| --uid | Required; exact original request UID, never email or fresh replacement UID |
-| --job-id | Required; persisted job UUID for that UID |
-| --confirm-job | Every command except inspect; exactly equals --job-id |
-| --reconcile-auth | resume only, paired with --prior-run-stopped for interrupted Auth work |
-| --prior-run-stopped | Attests prior process stopped and external call settled/reconciled; not a force flag |
-| --emulator | Synthetic loopback testing only; requires Auth 127.0.0.1:9099 and Firestore 127.0.0.1:8080 |
+| Option              | Requirement                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| --project           | Required; taskify-dev-dpdhole only                                                         |
+| --project-number    | Required; 243252492098 only                                                                |
+| --uid               | Required; exact original request UID, never email or fresh replacement UID                 |
+| --job-id            | Required; persisted job UUID for that UID                                                  |
+| --confirm-job       | Every command except inspect; exactly equals --job-id                                      |
+| --reconcile-auth    | resume only, paired with --prior-run-stopped for interrupted Auth work                     |
+| --prior-run-stopped | Attests prior process stopped and external call settled/reconciled; not a force flag       |
+| --emulator          | Synthetic loopback testing only; requires Auth 127.0.0.1:9099 and Firestore 127.0.0.1:8080 |
 
 Exactly one command is accepted; unknown options are rejected. There is no help flag,
 email lookup, bulk execution or force override. Running --help returns invalid-target.
@@ -250,15 +250,15 @@ it is not read-only. Normal success reports awaiting_retirement, accountRemoved=
 controlRetired=false, retirementEnabled=false and retireNotBefore. The deadline alone
 never enables retirement. Inspect should then show empty counts and authPresent=false.
 
-| Outcome | Next step |
-|---|---|
-| job-mismatch | Check exact persisted jobId and matching --confirm-job; never edit job controls |
-| validation-or-infrastructure-failure plus metadata warning | Configure ADC; CLI login alone is insufficient |
-| stage-pending | Inspect durable state; use appropriate resume instead of repeat execute |
-| busy / lease-lost | Confirm other processes stopped; wait/reinspect, never force takeover |
-| auth-uncertain | Inspect Auth presence; diagnose credentials/HTTP status before explicit reconciliation |
-| 403 SERVICE_DISABLED | Check credential consumer/project and Desktop ADC configuration; do not enable unrelated services |
-| auth-changed / unsupported inventory | Stop for investigation; never substitute another UID or bypass validation |
+| Outcome                                                    | Next step                                                                                         |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| job-mismatch                                               | Check exact persisted jobId and matching --confirm-job; never edit job controls                   |
+| validation-or-infrastructure-failure plus metadata warning | Configure ADC; CLI login alone is insufficient                                                    |
+| stage-pending                                              | Inspect durable state; use appropriate resume instead of repeat execute                           |
+| busy / lease-lost                                          | Confirm other processes stopped; wait/reinspect, never force takeover                             |
+| auth-uncertain                                             | Inspect Auth presence; diagnose credentials/HTTP status before explicit reconciliation            |
+| 403 SERVICE_DISABLED                                       | Check credential consumer/project and Desktop ADC configuration; do not enable unrelated services |
+| auth-changed / unsupported inventory                       | Stop for investigation; never substitute another UID or bypass validation                         |
 
 Do not assume a failed command rolled back prior cleanup. Lost Auth acknowledgements
 are reconciled by lookup. Sanitized diagnostics never establish successful deletion

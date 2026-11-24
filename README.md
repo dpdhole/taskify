@@ -1,5 +1,20 @@
 # Taskify
 
+**24 November 2026:** Updated to main `ab4ce18`. Slice5A is
+[accepted and closed for supervised test-account reuse](docs/slices/05A-delete-account/closure.md).
+The Slice6 commit-hold condition is satisfied and the owner authorized commit/push
+of the navigation implementation. Next is real signed-in workspace verification
+and the remaining manual device/accessibility checks.
+See the [current readiness assessment](docs/slices/06-responsive-navigation/readiness.md).
+Earlier dated preparation and deployment notes below retain their historical scope.
+
+**Slice6 preparation — 6 November 2026:** [Readiness reconciliation](docs/slices/06-responsive-navigation/readiness.md)
+confirms Slice5/5A implementations are present on main. Slice5 is closed; Slice5A
+has recorded UAT removal/registration/recovery passes, with safety and final
+acceptance evidence pending. Owner authorized parallel local Slice6 implementation;
+T1–T8 remain acceptance/release gates and all commits are held until Slice5A is
+completed. [Local implementation](docs/slices/06-responsive-navigation/implementation.md).
+
 **Slice10 detailing — 5 November 2026:** [Q1–Q10](docs/slices/10-complete-query-engine/index.md)
 are owner-accepted; [engineering contracts](docs/slices/10-complete-query-engine/query-engineering.md)
 and [typed interfaces](docs/slices/10-complete-query-engine/query-contract.ts) are documented.
@@ -43,14 +58,17 @@ leases and cleanup. [Auth finalization](docs/slices/05A-delete-account/auth-fina
 now reaches awaiting_retirement with explicit reconciliation and a retained fence;
 the [browser checkpoint](docs/slices/05A-delete-account/browser.md) adds provider
 proof, request recovery and UI in the 0.3.0/revision3 candidate, now published to dev.
-Complete T1–T8 before Slice 6 navigation. See the
+Complete T1–T8 before Slice6 acceptance/release; parallel local implementation is
+owner-authorized with all commits held until Slice5A completion. See the
 [preparation checkpoint](docs/slices/05A-delete-account/index.md#accepted-implementation-preparation--5-november-2026).
 The [renewal checkpoint](docs/slices/05A-delete-account/lease-renewal.md) adds
 long-discovery lease renewal locally; real provider/cloud and retirement-safety
 acceptance remain pending. The [cloud preflight](docs/slices/05A-delete-account/release-verification.md)
 records successful read-only cloud checks, candidate Rules compilation and isolated
-Hosting verification. Publication is complete; operator ADC setup, real-provider execution and
-the [T7 procedure](docs/slices/05A-delete-account/t7-verification.md) remain pending;
+Hosting verification. Publication is complete; later owner-executed provider/operator
+flows and recovery passes are recorded in the [QC handoff](docs/slices/05A-delete-account/qc-promotion.md).
+Remaining isolation, retirement and release checks in the
+[T7 procedure](docs/slices/05A-delete-account/t7-verification.md) remain pending;
 retirement stays disabled.
 Later accepted slice designs remain implementation work. Task workflows are not
 yet implemented or deployed. Live promotion still requires explicit owner approval.
@@ -75,7 +93,7 @@ Overall platform feasibility remains INCONCLUSIVE; diagnostics remain during dev
 - [Slice4 identity-linking detailing](docs/slices/04-identity-linking/index.md) — accepted Google/Microsoft linking; provider status and popup/redirect current-account verification and explicit linking implemented locally; linking validation is unit-only, with full regression held.
 - [Slice5 workspace-provisioning detailing](docs/slices/05-workspace-provisioning/index.md) — approved catalogues/icons, default Views, safe initialization and recovery; implemented and deployed to dev as 0.2.0; owner-accepted and closed.
 - [Slice5A Delete Account detailing](docs/slices/05A-delete-account/index.md) — approved deletion scope and Option 3 operator-run trusted finalizer; concrete safety contracts require implementation validation.
-- [Slice6 responsive-navigation detailing](docs/slices/06-responsive-navigation/index.md) — accepted mobile drawer, desktop rail/sidebar, contextual routing, accessibility and feature-availability boundaries; implementation pending.
+- [Slice6 responsive navigation](docs/slices/06-responsive-navigation/index.md) — parallel local shell implementation and verification; final acceptance/release pending, all commits held until Slice5A completion.
 - [Slice7 Quick Create/basic list detailing](docs/slices/07-quick-create-basic-list/index.md) — accepted Draft capture, Title validation, cloud-confirmed recovery and minimal Category-grouped All Tasks; implementation pending.
 - [Slice8 Task Detail/metadata detailing](docs/slices/08-task-detail-metadata/index.md) — accepted explicit editors, tri-state preferences, plain-text GFM editing/rendering, Refresh/Stay conflict recovery and Back protection; implementation pending.
 - [Slice8A Advanced Create detailing](docs/slices/08A-advanced-create/index.md) — accepted one-way More Details expansion, optional metadata/GFM source, atomic creation and recovery; implementation pending.

@@ -7,6 +7,7 @@ import { attachCompatibilityLifecycle } from '../infrastructure/browser/compatib
 import { createSignInMethodsController } from '../application/sign-in-methods-controller';
 import { createSignInMethodsStore } from '../state/sign-in-methods-store';
 import { StrictMode } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import {
   createSessionController,
   SessionError,
@@ -95,6 +96,21 @@ const session = authMode
     )
   : undefined;
 const sessionProjection = session ? createSessionStore(session) : undefined;
+let navigationOwner: string | undefined;
+const stopNavigationRetention = session?.subscribe((state) => {
+  const uid = state.identity?.uid;
+  if (
+    navigationOwner &&
+    (uid !== navigationOwner || state.status === 'signing-out')
+  ) {
+    try {
+      sessionStorage.removeItem('taskify.navigation.' + navigationOwner);
+    } catch {
+      /* storage is optional */
+    }
+  }
+  navigationOwner = uid;
+});
 if (session && runtime)
   workspaceController = createWorkspaceController(
     runtime.workspace,
@@ -148,6 +164,7 @@ const stopLifecycle = attachCompatibilityLifecycle(gate);
 if (import.meta.hot)
   import.meta.hot.dispose(() => {
     stopLifecycle();
+    stopNavigationRetention?.();
     deletionController?.dispose();
     deletionProjection?.dispose();
     workspaceController?.dispose();
@@ -163,10 +180,11 @@ if (import.meta.hot)
   });
 const root = document.getElementById('root');
 if (!root) throw Error('Missing root');
-createRoot(root).render(
+const application = (
   <StrictMode>
     {session && sessionProjection ? (
       <SessionView
+        navigation={runtime?.navigation}
         deletion={
           deletionController && deletionProjection
             ? {
@@ -273,5 +291,8 @@ createRoot(root).render(
         buildId={client.buildId}
       />
     )}
-  </StrictMode>,
+  </StrictMode>
 );
+const router = createBrowserRouter([{ path: '*', element: application }]);
+if (import.meta.hot) import.meta.hot.dispose(() => router.dispose());
+createRoot(root).render(<RouterProvider router={router} />);

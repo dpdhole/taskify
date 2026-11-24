@@ -416,6 +416,15 @@ contracts require validation. Documentation remains staged for review; no script
 execution, account deletion, commit or push is performed.
 
 
+## Slice 6 local implementation authorization — 6 November 2026
+
+Owner authorized parallel local implementation while Slice5A verification continues,
+with all commits held until Slice5A is completed. This supersedes the earlier
+T1–T8 start-work restriction; dependency acceptance/release gates remain.
+See [local implementation and evidence](slices/06-responsive-navigation/implementation.md)
+and the [readiness checklist](slices/06-responsive-navigation/readiness.md).
+No publication or cloud mutation is authorized by this local instruction.
+
 ## Slice 6 detailing checkpoint — 2 November 2026
 
 Owner accepted [responsive-navigation detailing](slices/06-responsive-navigation/index.md)

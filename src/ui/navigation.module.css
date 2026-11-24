@@ -1,0 +1,221 @@
+:global(body) {
+  margin: 0;
+}
+.shell {
+  min-height: 100svh;
+  background: #f5f8f8;
+  color: #1c3044;
+  font-family: system-ui, sans-serif;
+}
+.shell button,
+.shell a {
+  -webkit-tap-highlight-color: transparent;
+}
+.shell button {
+  min-height: 44px;
+  cursor: pointer;
+  border: 1px solid #c9d8da;
+  border-radius: 8px;
+  background: white;
+  color: inherit;
+  padding: 0.5rem 0.8rem;
+  font: inherit;
+}
+.shell :focus-visible {
+  outline: 3px solid #197877;
+  outline-offset: 3px;
+}
+.navigation {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(320px, 88vw);
+  z-index: 30;
+  background: #fff;
+  border-right: 1px solid #d7e1e7;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.navigation[hidden] {
+  display: none;
+}
+.navTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.link,
+.section {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 44px;
+  padding: 0.5rem 0.8rem;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+.link:hover {
+  background: #edf4f3;
+}
+.link[aria-current='page'] {
+  background: #dfefeb;
+  color: #155d57;
+  font-weight: 650;
+}
+.shell .section {
+  border: 0;
+  width: 100%;
+  text-align: left;
+  margin-top: 1rem;
+  font-weight: 650;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  text-align: center;
+  font-size: 1.4rem;
+}
+.unavailable {
+  padding: 0.4rem 0.8rem;
+  margin: 0.5rem 0;
+  color: #647582;
+  overflow-wrap: anywhere;
+}
+.unavailable small {
+  display: block;
+  font-size: 0.75rem;
+}
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: #102e4666;
+  z-index: 29;
+}
+.header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 72px;
+  padding: 0.6rem 1.2rem;
+  border-bottom: 1px solid #d7e1e7;
+  background: white;
+  box-sizing: border-box;
+}
+.headerTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+}
+.main {
+  padding: clamp(1.2rem, 4vw, 3rem);
+  max-width: 1100px;
+  margin: auto;
+  overflow-wrap: anywhere;
+}
+.main h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: -0.04em;
+}
+.main p {
+  line-height: 1.65;
+}
+.accountProfile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.accountProfile p {
+  margin: 0.25rem 0 0;
+}
+.profilePhoto,
+.profilePlaceholder {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  object-fit: cover;
+  background: #e6eeee;
+}
+.profilePlaceholder {
+  padding: 12px;
+}
+.viewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.viewGrid .link {
+  min-height: 88px;
+  border: 1px solid #d7e1e7;
+  background: white;
+}
+.note {
+  color: #647582;
+}
+.railContents {
+  visibility: hidden;
+}
+.skip,
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.skip:focus {
+  width: auto;
+  height: auto;
+  clip-path: none;
+  z-index: 40;
+  padding: 1rem;
+  background: white;
+}
+@media (min-width: 960px) {
+  .navigation {
+    width: 76px;
+    padding: 1rem 0.5rem;
+  }
+  .workspace {
+    margin-left: 76px;
+  }
+  .shell[data-expanded='true'] .workspace {
+    margin-left: 320px;
+  }
+  .shell[data-visible='true'] .navigation {
+    width: 320px;
+  }
+  .shell[data-visible='false'] .navigation .label {
+    display: none;
+  }
+  .shell[data-visible='false'] .navTop {
+    justify-content: center;
+  }
+  .shell[data-visible='false'] .navTop::before {
+    content: 'T';
+    color: #265f61;
+    font-size: 1.5rem;
+  }
+  .shell[data-visible='true'][data-expanded='false'] .navigation {
+    box-shadow: 12px 0 30px #193b4d22;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell * {
+    scroll-behavior: auto;
+  }
+}

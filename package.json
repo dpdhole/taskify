@@ -51,6 +51,7 @@
     "test:unit": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:e2e": "playwright test",
+    "test:navigation:local": "playwright test --config playwright.navigation.config.ts",
     "verify": "npm run typecheck && npm run check:boundaries && npm run check:workspace-rules && npm run check:workspace-icons && npm run lint && npm run format:check && npm run test:unit && npm run build && npm run build:proof && npm run build:compatibility && npm run build:auth && node tools/check-bundles.mjs",
     "verify:all": "npm run verify && node tools/run-emulators.mjs",
     "setup:browsers": "node tools/install-browser.mjs",

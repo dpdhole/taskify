@@ -304,7 +304,12 @@ shared metadata subscriptions rather than listeners per visual component. Shared
 routing/navigation guards provide future feature integration without pretending
 future forms, Search, creation or query execution already work. Home/View shells
 and unavailable entries must communicate current availability honestly. This is
-accepted design, not an implemented or validated application shell.
+accepted design. The [6 November local implementation](slices/06-responsive-navigation/implementation.md)
+adds the shell and one shared confirmed View read under existing admission gates.
+The owner authorized parallel local work with commits held until Slice5A completion.
+Its 24 November supervised-test closure satisfies that condition, followed by owner
+authorization to commit/push Slice6. Real-workspace and manual acceptance checks
+remain tracked in the Slice6 readiness record.
 
 ## Task capture — Slice7 accepted detailing
 

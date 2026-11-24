@@ -1,0 +1,34 @@
+{
+  "family": "Material Symbols Rounded",
+  "weight": 400,
+  "grade": 0,
+  "fill": 0,
+  "opticalSize": 24,
+  "icons": [
+    {
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/settings/materialsymbolsrounded/settings_24px.svg",
+      "name": "settings",
+      "file": "public/icons/material-symbols-rounded/settings.svg",
+      "sha256": "6cd47de90647ece6b00922f497f8c4ea9c1649548cf15828d1df9d78d5bdf30d"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/view_list/materialsymbolsrounded/view_list_24px.svg",
+      "name": "view_list",
+      "file": "public/icons/material-symbols-rounded/view_list.svg",
+      "sha256": "a5625312a42a6c7cd67265c4324ed8ce8037baa65d88a0fe76d5b236a1404081"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/menu/materialsymbolsrounded/menu_24px.svg",
+      "name": "menu",
+      "file": "public/icons/material-symbols-rounded/menu.svg",
+      "sha256": "440bf7bd76d77ddbd704f6fb9f5b6022acb25c5fa6de1e4d8a224ea25e1b5b3c"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/google/material-design-icons/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/close/materialsymbolsrounded/close_24px.svg",
+      "name": "close",
+      "file": "public/icons/material-symbols-rounded/close.svg",
+      "sha256": "fabc7e16160e93ed11d6d72b87f5c67092d04abfcc1fc2410fab1abe075cd8fc"
+    }
+  ],
+  "revision": "10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7"
+}

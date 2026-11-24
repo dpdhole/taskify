@@ -66,6 +66,16 @@ export default defineConfig(({ mode }) => {
         configureServer(server) {
           server.middlewares.use((req, res, next) => {
             const url = req.url?.split('?')[0] ?? '';
+            if (
+              mode === 'navigation-test' &&
+              !url.startsWith('/src/') &&
+              !url.startsWith('/tests/') &&
+              !url.startsWith('/@') &&
+              !url.startsWith('/node_modules/') &&
+              !url.startsWith('/icons/')
+            ) {
+              req.url = '/tests/support/navigation.html';
+            }
             // Port5177 is the isolated workspace fixture, not the cloud-backed entry.
             if (
               mode === 'session-test' &&
@@ -80,7 +90,11 @@ export default defineConfig(({ mode }) => {
               res.end();
               return;
             }
-            if (url.startsWith('/tests/') && mode !== 'session-test') {
+            if (
+              url.startsWith('/tests/') &&
+              mode !== 'session-test' &&
+              mode !== 'navigation-test'
+            ) {
               res.statusCode = 404;
               res.end('Not available');
               return;

@@ -3,6 +3,20 @@ import { createHash } from 'node:crypto';
 const manifest = JSON.parse(
   fs.readFileSync('config/workspace-icons-source.json', 'utf8'),
 );
+const navigation = JSON.parse(
+  fs.readFileSync('config/navigation-icons-source.json', 'utf8'),
+);
+if (
+  navigation.family !== manifest.family ||
+  navigation.revision !== manifest.revision ||
+  navigation.fill !== 0 ||
+  navigation.weight !== 400 ||
+  navigation.grade !== 0 ||
+  navigation.opticalSize !== 24 ||
+  JSON.stringify(navigation.icons.map((icon) => icon.name).sort()) !==
+    JSON.stringify(['close', 'menu', 'settings', 'view_list'])
+)
+  throw Error('Unexpected navigation icon source/style');
 const source = fs.readFileSync('src/domain/workspace-seeds.ts', 'utf8');
 const names = [...source.matchAll(/\['[^']+', '[^']+', '([^']+)'\]/g)]
   .map((match) => match[1])
@@ -22,7 +36,7 @@ if (
     JSON.stringify(manifest.icons.map((icon) => icon.name).sort())
 )
   throw Error('Starter icon coverage mismatch');
-for (const icon of manifest.icons) {
+for (const icon of [...manifest.icons, ...navigation.icons]) {
   const file = `public/icons/material-symbols-rounded/${icon.name}.svg`;
   if (!/^[a-z_]+$/.test(icon.name) || icon.file !== file)
     throw Error('Unexpected icon path');
@@ -49,5 +63,5 @@ if (
 )
   throw Error('Missing icon license');
 console.log(
-  '22 pinned self-hosted Rounded icons verified; unfilled/400/grade0/24px; two documented semantic aliases',
+  '22 workspace and 4 navigation pinned self-hosted Rounded icons verified; unfilled/400/grade0/24px; two documented semantic aliases',
 );

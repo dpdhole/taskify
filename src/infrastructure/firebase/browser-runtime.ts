@@ -1,4 +1,5 @@
 import { createWorkspaceAdapter } from './workspace-adapter';
+import { createNavigationReader } from './navigation-reader';
 import { createDeletionRequestAdapter } from './deletion-request-adapter';
 import { createDeletionProofAdapter } from './deletion-proof-adapter';
 import { deleteApp } from 'firebase/app';
@@ -23,6 +24,7 @@ export function createBrowserRuntime(raw: unknown, hostname: string) {
     contracts,
     auth,
     workspace,
+    navigation: createNavigationReader(db),
     deletionRequests,
     deletionProof,
     async dispose() {

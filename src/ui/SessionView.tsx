@@ -1,4 +1,7 @@
 import { WorkspaceView } from './WorkspaceView';
+import { NavigationShell } from './NavigationShell';
+import { AccountProfile } from './AccountProfile';
+import type { NavigationReader } from '../application/navigation-port';
 import { AccountDeletionView } from './AccountDeletionView';
 import type { AccountDeletionPresentation } from './AccountDeletionView';
 import type { WorkspacePresentation } from './WorkspaceView';
@@ -24,12 +27,14 @@ export function SessionView({
   methods,
   workspace,
   deletion,
+  navigation,
 }: {
   projection: ReturnType<typeof createSessionStore>;
   compatibility: ReturnType<typeof createCompatibilityStore>;
   retrySession: () => void;
   logout: () => void;
-  signIn?: (provider: SignInProvider, transport?: 'redirect') => void;
+  signIn?:
+    ((provider: SignInProvider, transport?: 'redirect') => void) | undefined;
   retryCompatibility: () => void;
   reload: () => void;
   appVersion: string;
@@ -37,6 +42,7 @@ export function SessionView({
   methods?: SignInMethodsPresentation | undefined;
   workspace?: WorkspacePresentation | undefined;
   deletion?: AccountDeletionPresentation | undefined;
+  navigation?: NavigationReader | undefined;
 }) {
   const state = useStore(projection.store, (s) => s.state);
   const gate = useStore(compatibility.store, (s) => s.state);
@@ -90,6 +96,61 @@ export function SessionView({
               : state.protectedReady
                 ? 'Your session and compatibility are verified.'
                 : 'Your identity is restored. Compatibility verification is required.';
+  if (
+    navigation &&
+    workspace &&
+    deletion &&
+    state.status === 'signed-in' &&
+    state.identity &&
+    state.protectedReady
+  ) {
+    return (
+      <AdmittedNavigation
+        key={state.identity.uid + ':' + state.generation}
+        uid={state.identity.uid}
+        reader={navigation}
+        workspace={workspace}
+        deletion={deletion}
+        logout={logout}
+        account={
+          <>
+            <AccountProfile identity={state.identity} />
+            <WorkspaceMethods
+              workspace={workspace}
+              methods={methods}
+              identity={state.identity}
+              ready={state.protectedReady}
+            />
+            <AccountDeletionView
+              deletion={deletion}
+              ready={state.protectedReady}
+              account={
+                state.identity.displayName ||
+                state.identity.email ||
+                'Signed-in account'
+              }
+            />
+          </>
+        }
+        fallback={
+          <SessionView
+            projection={projection}
+            compatibility={compatibility}
+            retrySession={retrySession}
+            logout={logout}
+            signIn={signIn}
+            retryCompatibility={retryCompatibility}
+            reload={reload}
+            appVersion={appVersion}
+            buildId={buildId}
+            methods={methods}
+            workspace={workspace}
+            deletion={deletion}
+          />
+        }
+      />
+    );
+  }
   return (
     <main className={styles.shell}>
       <header className={styles.hero}>
@@ -270,6 +331,36 @@ export function SessionView({
   );
 }
 
+function AdmittedNavigation({
+  uid,
+  reader,
+  workspace,
+  deletion,
+  account,
+  logout,
+  fallback,
+}: {
+  uid: string;
+  reader: NavigationReader;
+  workspace: WorkspacePresentation;
+  deletion: AccountDeletionPresentation;
+  account: React.ReactNode;
+  logout: () => void;
+  fallback: React.ReactNode;
+}) {
+  const state = useStore(workspace.projection.store, (s) => s.state);
+  const removal = useStore(deletion.projection.store, (s) => s.state);
+  if (state.status !== 'ready' || removal.status !== 'idle') return fallback;
+  return (
+    <NavigationShell
+      uid={uid}
+      reader={reader}
+      account={account}
+      logout={logout}
+    />
+  );
+}
+
 function DeletionAccountContent({
   deletion,
   workspace,
@@ -323,12 +414,12 @@ function WorkspaceMethods({
   ready,
 }: {
   workspace: WorkspacePresentation;
-  methods: SignInMethodsPresentation;
+  methods: SignInMethodsPresentation | undefined;
   identity: import('../application/session-controller').SessionIdentity | null;
   ready: boolean;
 }) {
   const state = useStore(workspace.projection.store, (value) => value.state);
-  if (state.status !== 'ready' || !ready) return null;
+  if (state.status !== 'ready' || !ready || !methods) return null;
   return (
     <SignInMethodsView
       methods={methods}

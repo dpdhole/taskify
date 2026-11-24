@@ -1,10 +1,19 @@
 # Slice 6 — Responsive navigation
 
-Status: **detailing accepted by owner on 2 November 2026; implementation pending**.
+**24 November update:** Main `ab4ce18` records Slice5A accepted and closed for
+supervised test-account reuse. This satisfies the earlier Slice6 commit-hold
+condition. Continue with combined validation and real signed-in workspace checks
+under the [current readiness assessment](readiness.md). Earlier dated restrictions
+below describe the parallel-work period before dependency closure.
+
+Status: **detailing accepted 2 November 2026; parallel local implementation
+authorized 6 November 2026; local implementation under verification**.
 The owner accepted the proposed scope and all twelve detailing recommendations,
-then authorized documentation updates. This records design agreement, not coded,
-tested or deployed navigation. No executable changes, dependencies, staging,
-commit, push, cloud configuration or deployment are performed by this checkpoint.
+then authorized documentation updates. On 6 November the owner authorized parallel
+local implementation and required holding all commits until Slice5A is completed.
+This supersedes the start-work prerequisite only: Slice5A acceptance/release gates
+remain outstanding. See [local implementation](implementation.md); no deployment
+or final Slice6 acceptance is claimed.
 
 Authority: [product specification §§19–21](../../product_spec.md),
 [architecture](../../architecture.md), [slice plan](../../implementation_plan.md),
@@ -18,11 +27,17 @@ headers and safe routing between available destinations. Use authenticated
 workspace readiness and provisioned global View ordering; do not implement query
 execution, Dashboard charts, Task editing/creation, Search or management forms.
 
-The current checkout contains Slice5/5A detailing, not their implementations.
-End-to-end navigation depends on implemented and validated session, provisioning,
-workspace metadata and deletion-state boundaries. Slice4 linking remains separate;
-make its account entry available when actually implemented. No synthetic workspace
-fixture may be shipped as a real provisioned account.
+The reconciled main baseline `d48470e` contains Slice5 provisioning and Slice5A
+account-deletion implementations. Slice5 is owner-accepted and closed; Slice5A
+is deployed to dev and promoted to qc. UAT now records removal, distinct-UID
+registration and live blocking/reload recovery; safety evidence and final
+acceptance remain pending. Implementation presence does not establish acceptance. The
+T1–T8 requirement now gates Slice6 acceptance/release rather than local work,
+under the owner's explicit parallel implementation authorization.
+See [implementation readiness](readiness.md) for evidence and integration gaps.
+Slice4 linking remains open/on hold; preserve its existing surface and limitations
+without claiming acceptance. No synthetic workspace fixture may be shipped as a
+real provisioned account.
 
 ## Destination availability
 
@@ -195,12 +210,15 @@ and authorization under [Hosting policy](../../hosting_channels.md).
 Update current feature guidance without teaching unavailable features or inventing
 manual URLs. There are no provisioning-template changes beyond consuming approved
 View metadata. Record listener/request costs for initial shell load and repeated
-navigation; no speculative performance/account limit. No new passing tests,
-implementation or release readiness is claimed by this document.
+navigation; no speculative performance/account limit. See the
+[implementation checkpoint](implementation.md) for local passing checks and their
+limits; no hosted release readiness or final acceptance is claimed.
 
 ## Next checkpoint
 
-Detailing is accepted and documented. Review the document, then authorize
-implementation separately. Dependency implementations remain pending in this
-checkout. Frozen experiments/legacy specification remain unchanged; overall
-platform feasibility remains INCONCLUSIVE.
+Continue local validation under the [readiness checklist](readiness.md).
+Slice5A's 24 November supervised-test closure satisfies the commit-hold condition.
+Prepare the implementation commit with its local evidence. Acceptance/release still require
+dependency evidence and the appropriate owner authorization. Frozen experiments/
+legacy specification remain unchanged; overall platform feasibility remains
+INCONCLUSIVE.
